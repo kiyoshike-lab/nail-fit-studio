@@ -663,6 +663,9 @@ input[type="range"] {
 .preview-card {
   border-radius: 28px;
   overflow: hidden;
+  position: sticky;
+  top: 16px;
+  z-index: 5;
 }
 
 .preview-header {
@@ -1552,18 +1555,40 @@ input[type="range"] {
 
   .panel {
     order: 2;
+    border-radius: 22px;
+    margin-top: 8px;
   }
 
   .preview-card {
     order: 1;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-radius: 0 0 22px 22px;
   }
 
   .canvas {
-    min-height: 480px;
+    height: 54vh;
+    min-height: 360px;
+    max-height: 560px;
   }
 
   .preview-header {
-    display: grid;
+    display: flex;
+    padding: 10px 12px;
+    font-size: 0.82rem;
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(14px);
+  }
+
+  .preview-header span {
+    font-size: 0.72rem;
+  }
+
+  .image-stage,
+  #handImage,
+  #cameraFeed {
+    max-height: calc(54vh - 44px);
   }
 }
 
@@ -1573,7 +1598,23 @@ input[type="range"] {
   }
 
   .canvas {
-    min-height: 390px;
+    height: 46vh;
+    min-height: 300px;
+    max-height: 430px;
+  }
+
+  .image-stage,
+  #handImage,
+  #cameraFeed {
+    max-height: calc(46vh - 42px);
+  }
+
+  .preview-header {
+    gap: 8px;
+  }
+
+  .preview-header span {
+    display: none;
   }
 
   .reference-texture-preview {

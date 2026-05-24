@@ -1,6 +1,7 @@
 const photoInput = document.querySelector("#photoInput");
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
+const switchCameraButton = document.querySelector("#switchCameraButton");
 const stopCameraButton = document.querySelector("#stopCameraButton");
 const trackingStatus = document.querySelector("#trackingStatus");
 const qualityStatus = document.querySelector("#qualityStatus");
@@ -114,6 +115,7 @@ let nails = structuredClone(defaultNails);
 let selectedIndex = 2;
 let currentImageUrl = "";
 let cameraStream = null;
+let cameraFacingMode = "user";
 let currentMode = "empty";
 let autoTracking = false;
 let designPresets = [];
@@ -1656,11 +1658,25 @@ sampleButton.addEventListener("click", () => {
 });
 
 cameraButton.addEventListener("click", async () => {
+  await startCamera(cameraFacingMode);
+});
+
+switchCameraButton?.addEventListener("click", async () => {
+  cameraFacingMode = cameraFacingMode === "user" ? "environment" : "user";
+  await startCamera(cameraFacingMode);
+});
+
+async function startCamera(facingMode = "user") {
   try {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach((track) => track.stop());
+      cameraStream = null;
+    }
     cameraStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user" },
+      video: { facingMode: { ideal: facingMode } },
       audio: false,
     });
+    cameraFacingMode = facingMode;
     currentMode = "camera";
     currentImageUrl = "";
     cameraFeed.srcObject = cameraStream;
@@ -1670,9 +1686,15 @@ cameraButton.addEventListener("click", async () => {
     imageStage.style.display = "block";
     emptyState.style.display = "none";
     cameraButton.classList.add("is-hidden");
+    switchCameraButton?.classList.remove("is-hidden");
+    if (switchCameraButton) {
+      switchCameraButton.textContent = cameraFacingMode === "user" ? "外カメラに切り替え" : "内カメラに切り替え";
+    }
     stopCameraButton.classList.remove("is-hidden");
     trackingStatus.textContent =
-      "手を映してください。指先と爪らしい領域を見てネイルを追従します。";
+      cameraFacingMode === "user"
+        ? "内カメラです。手を映してください。指先と爪らしい領域を見てネイルを追従します。"
+        : "外カメラです。手を映してください。指先と爪らしい領域を見てネイルを追従します。";
     if (window.startHandTracking) {
       autoTracking = await window.startHandTracking(cameraFeed, updateTrackedNails);
       if (!autoTracking) {
@@ -1681,9 +1703,15 @@ cameraButton.addEventListener("click", async () => {
       }
     }
   } catch (error) {
+    if (facingMode === "environment") {
+      cameraFacingMode = "user";
+      trackingStatus.textContent = "外カメラに切り替えられませんでした。内カメラに戻します。";
+      await startCamera("user");
+      return;
+    }
     alert("カメラを使えませんでした。ブラウザのカメラ許可を確認してください。");
   }
-});
+}
 
 stopCameraButton.addEventListener("click", () => {
   stopCamera();
@@ -2326,6 +2354,7 @@ function stopCamera() {
   cameraFeed.style.display = "none";
   liveCanvas.style.display = "none";
   cameraButton.classList.remove("is-hidden");
+  switchCameraButton?.classList.add("is-hidden");
   stopCameraButton.classList.add("is-hidden");
   trackingStatus.textContent = "カメラを起動すると、指先の自動追従を準備します。";
   autoTracking = false;

@@ -1064,7 +1064,7 @@ function renderPresetGallery() {
     button.className = "preset-card";
     button.dataset.presetId = preset.id;
     button.style.setProperty("--preset-card-color", preset.colorHint ?? "#d9829b");
-    const previewImage = preset.textureImage ?? preset.exampleImage;
+    const previewImage = preset.previewImage ?? preset.textureImage ?? preset.exampleImage;
     button.innerHTML = `
       <span class="preset-card-fallback"></span>
       ${previewImage ? `<img src="${previewImage}" alt="${preset.name}" loading="lazy" />` : ""}

@@ -907,7 +907,7 @@ input[type="range"] {
     0 1px 2px rgba(47, 18, 26, 0.1),
     0 calc(2px + var(--nail-thickness) * 5px) calc(5px + var(--nail-thickness) * 14px)
       rgba(54, 24, 35, calc((0.06 + var(--nail-thickness) * 0.1) * var(--render-shadow)));
-  opacity: 0.92;
+  opacity: 0.965;
   isolation: isolate;
   cursor: grab;
 }
@@ -921,7 +921,7 @@ input[type="range"] {
     linear-gradient(100deg, transparent 0 16%, rgba(255, 255, 255, 0.56) 30%, transparent 46%),
     linear-gradient(78deg, transparent 48%, rgba(255, 255, 255, 0.22) 55%, transparent 70%),
     radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.78), transparent 22%);
-  opacity: 0.72;
+  opacity: 0.84;
   mix-blend-mode: screen;
 }
 
@@ -1154,6 +1154,29 @@ input[type="range"] {
     linear-gradient(180deg, var(--texture-color-a), var(--texture-color-b) 58%, var(--texture-color-c));
 }
 
+.nail[data-texture-style="photo"][data-has-texture="true"] .nail-photo-texture {
+  opacity: var(--texture-opacity);
+  background:
+    linear-gradient(102deg, transparent 0 24%, rgba(255,255,255,0.18) 34%, transparent 52%),
+    linear-gradient(90deg, rgba(28, 8, 18, 0.12), transparent 18% 84%, rgba(255,255,255,0.12)),
+    var(--texture-image) var(--texture-position) / var(--texture-size) no-repeat;
+  background-blend-mode: screen, soft-light, normal;
+  mix-blend-mode: normal;
+  filter:
+    saturate(calc(1.08 + var(--texture-clarity) * 0.12))
+    contrast(calc(1.03 + var(--texture-clarity) * 0.1))
+    brightness(1.02)
+    blur(0px);
+}
+
+.nail[data-texture-style="photo"][data-has-texture="true"]::before {
+  background:
+    linear-gradient(102deg, transparent 0 20%, rgba(255,255,255,0.42) 32%, transparent 48%),
+    linear-gradient(90deg, rgba(30, 8, 18, 0.14), transparent 18% 84%, rgba(255,255,255,0.14));
+  opacity: 0.28;
+  mix-blend-mode: screen;
+}
+
 .nail[data-reference-texture="true"] .nail-photo-texture {
   opacity: var(--photo-layer-opacity);
   background:
@@ -1317,7 +1340,7 @@ input[type="range"] {
 }
 
 .nail[data-pro-mode="true"] .nail-motif {
-  opacity: 0.24;
+  opacity: 0.18;
   mix-blend-mode: soft-light;
 }
 

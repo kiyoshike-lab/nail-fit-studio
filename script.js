@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260525-1135";
+const APP_ASSET_VERSION = "20260525-1205";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -93,6 +93,9 @@ const texturePlacements = [
 
 function presetTextureStyle(preset) {
   if (!preset) return "clean";
+  if (preset.textureImage) {
+    return "photo";
+  }
   if (preset.mood === "korean" || preset.material === "jelly" || preset.material === "sheer") {
     return "korean";
   }
@@ -110,31 +113,7 @@ function versionedAssetUrl(url) {
   return `${url}${url.includes("?") ? "&" : "?"}v=${APP_ASSET_VERSION}`;
 }
 
-function assetFallbackUrls(url) {
-  if (!url) return [];
-  const urls = [url];
-  if (!url.startsWith("data:") && !/^https?:\/\//.test(url)) {
-    const fileName = url.split("/").pop();
-    if (fileName && fileName !== url) urls.push(`./${fileName}`);
-    if (fileName && url.includes("preset-previews")) urls.push(`./assets/${fileName}`);
-  }
-  return [...new Set(urls)].map(versionedAssetUrl);
-}
-
-function tryImageFallback(img, urls, onFail) {
-  let index = 0;
-  img.addEventListener("error", () => {
-    index += 1;
-    if (index < urls.length) {
-      img.src = urls[index];
-      return;
-    }
-    onFail?.();
-  });
-  img.src = urls[0];
-}
-
-const fingerNames = ["親指", "人差し指", "中指", "薬指", "小指"];
+const fingerNames = ["親", "人", "中", "薬", "小"];
 const defaultNails = [
   { x: 32, y: 47, scale: 0.88, rotation: -18, widthScale: 1, heightScale: 1 },
   { x: 42, y: 35, scale: 1, rotation: -7, widthScale: 1, heightScale: 1 },
@@ -153,7 +132,6 @@ let autoTracking = false;
 let designPresets = [];
 let activePreset = null;
 let activePresetTextureImage = null;
-let activePresetTextureUrl = null;
 let activeReferenceTextures = [];
 let activeReferenceTextureImages = [];
 let activeReferenceAverageColor = null;
@@ -259,44 +237,42 @@ async function loadDesignPresets() {
 function applyDesignPreset(preset) {
   activePreset = preset;
   activePresetTextureImage = null;
-  activePresetTextureUrl = null;
   activeReferenceTextures = [];
   activeReferenceTextureImages = [];
   activeReferenceAverageColor = null;
     if (referenceNailInput) referenceNailInput.value = "";
     if (referenceNailStatus) referenceNailStatus.textContent = "実写プリセットを使用中です。参考写真を入れると上書きできます。";
   if (referenceTexturePreview) referenceTexturePreview.innerHTML = "";
-  const presetTextureUrls = assetFallbackUrls(preset.textureImage ?? preset.previewImage ?? preset.exampleImage);
-  if (presetTextureUrls.length) {
+  const presetTexture = versionedAssetUrl(preset.textureImage);
+  if (presetTexture) {
     activePresetTextureImage = new Image();
     activePresetTextureImage.onload = () => {
-      activePresetTextureUrl = activePresetTextureImage.src;
       renderNails();
       drawLiveNails();
     };
-    tryImageFallback(activePresetTextureImage, presetTextureUrls, () => {
+    activePresetTextureImage.onerror = () => {
       activePresetTextureImage = null;
-      activePresetTextureUrl = null;
       if (referenceNailStatus) {
         referenceNailStatus.textContent = "実写プリセットの写真が読み込めませんでした。色と質感のプリセットで表示します。";
       }
       renderNails();
       drawLiveNails();
-    });
+    };
+    activePresetTextureImage.src = presetTexture;
   }
   colorInput.value = proModeInput.checked
     ? softenPresetColor(preset.colorHint ?? colorInput.value, preset.material)
     : preset.colorHint ?? colorInput.value;
   materialInput.value = preset.material;
-  designInput.value = patternToDesign[preset.pattern] ?? "solid";
+  designInput.value = preset.pattern === "french" ? "french" : "solid";
   finishInput.value = finishToInput[preset.finish] ?? "glossy";
-  motifInput.value = preset.textureImage || preset.previewImage ? "none" : preset.motif ?? inferPresetMotif(preset);
+  motifInput.value = preset.pattern === "french" || preset.mood === "korean" ? "tip_gradient" : preset.genre === "sparkle" ? "tip_glitter" : "none";
   motifColorInput.value = preset.motifColor ?? inferPresetMotifColor(preset);
   tipColorInput.value = preset.tipColor ?? inferPresetTipColor(preset);
   tipAmountInput.value = preset.tipAmount ?? inferPresetTipAmount(preset);
   motifDensityInput.value = preset.motifDensity ?? inferPresetMotifDensity(preset);
   if (proModeInput.checked) {
-    motifDensityInput.value = Math.min(Number(motifDensityInput.value), activePresetTextureImage ? 0.35 : 0.9);
+    motifDensityInput.value = Math.min(Number(motifDensityInput.value), 0.5);
     thicknessInput.value = Math.min(Number(thicknessInput.value), nailTypeInput.value === "natural" ? 0.24 : 0.62);
   }
   renderNails();
@@ -1097,22 +1073,17 @@ function renderPresetGallery() {
     button.className = "preset-card";
     button.dataset.presetId = preset.id;
     button.style.setProperty("--preset-card-color", preset.colorHint ?? "#d9829b");
-    const previewUrls = assetFallbackUrls(preset.previewImage ?? preset.textureImage ?? preset.exampleImage);
+    const previewImage = versionedAssetUrl(preset.previewImage ?? preset.textureImage ?? preset.exampleImage);
     button.innerHTML = `
       <span class="preset-card-fallback"></span>
-      ${previewUrls.length ? `<img alt="${preset.name}" loading="lazy" />` : ""}
+      ${previewImage ? `<img src="${previewImage}" alt="${preset.name}" loading="lazy" />` : ""}
       <span>${preset.name}</span>
     `;
     const img = button.querySelector("img");
     if (img) {
-      button.dataset.imageState = "loading";
-      img.addEventListener("load", () => {
-        button.dataset.imageState = "loaded";
-      });
-      tryImageFallback(img, previewUrls, () => {
+      img.addEventListener("error", () => {
         img.remove();
         button.dataset.imageFailed = "true";
-        button.dataset.imageState = "failed";
       });
     }
     button.addEventListener("click", () => {
@@ -1278,7 +1249,7 @@ function renderNails() {
         ? activeReferenceTextures[0]
         : activeReferenceTextures[index % activeReferenceTextures.length];
     el.dataset.textureStyle = activeReferenceTextures.length ? "photo" : activePreset ? presetTextureStyle(activePreset) : "clean";
-    const presetTexture = activePresetTextureUrl ?? assetFallbackUrls(activePreset?.textureImage ?? activePreset?.previewImage ?? activePreset?.exampleImage)[0];
+    const presetTexture = versionedAssetUrl(activePreset?.textureImage);
     el.dataset.hasTexture = presetTexture || referenceTexture ? "true" : "false";
     el.dataset.referenceTexture = referenceTexture ? "true" : "false";
     el.style.setProperty("--x", nail.x);
@@ -1336,7 +1307,7 @@ function renderNails() {
       el.style.setProperty("--texture-color-b", textureBase);
       el.style.setProperty("--texture-color-c", shade(textureBase, proModeInput.checked ? 0.06 : 0.14));
       el.style.setProperty("--texture-accent", activePreset.material === "glitter" ? "#fff4c7" : motifColorInput.value);
-      el.style.setProperty("--texture-opacity", proModeInput.checked ? 0.76 : 0.92);
+      el.style.setProperty("--texture-opacity", proModeInput.checked ? 0.9 : 0.96);
       const placement = texturePlacements[index % texturePlacements.length];
       el.style.setProperty("--texture-position", placement.position);
       el.style.setProperty("--texture-size", placement.size);

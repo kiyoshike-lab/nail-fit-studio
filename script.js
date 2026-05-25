@@ -1,5 +1,5 @@
-﻿const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260525-1105";
+const photoInput = document.querySelector("#photoInput");
+const APP_ASSET_VERSION = "20260525-1115";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -123,19 +123,18 @@ function assetFallbackUrls(url) {
 
 function tryImageFallback(img, urls, onFail) {
   let index = 0;
-  const tryNext = () => {
+  img.addEventListener("error", () => {
     index += 1;
-    if (index >= urls.length) {
-      onFail?.();
+    if (index < urls.length) {
+      img.src = urls[index];
       return;
     }
-    img.src = urls[index];
-  };
-  img.addEventListener("error", tryNext);
+    onFail?.();
+  });
   img.src = urls[0];
 }
 
-const fingerNames = ["隕ｪ", "莠ｺ", "荳ｭ", "阮ｬ", "蟆・];
+const fingerNames = ["親指", "人差し指", "中指", "薬指", "小指"];
 const defaultNails = [
   { x: 32, y: 47, scale: 0.88, rotation: -18, widthScale: 1, heightScale: 1 },
   { x: 42, y: 35, scale: 1, rotation: -7, widthScale: 1, heightScale: 1 },
@@ -190,32 +189,33 @@ function setupPresetControl() {
 
   const label = document.createElement("label");
   label.className = "preset-picker";
-  label.textContent = "螳溷・繝励Μ繧ｻ繝・ヨ";
+  label.textContent = "実写プリセット";
   presetInput = document.createElement("select");
   presetInput.id = "presetInput";
-  presetInput.innerHTML = '<option value="">謇句虚縺ｧ驕ｸ縺ｶ</option>';
+  presetInput.innerHTML = '<option value="">手動で選ぶ</option>';
   label.append(presetInput);
   materialInput.closest("label").insertAdjacentElement("afterend", label);
 
   const genreLabel = document.createElement("label");
   genreLabel.className = "preset-genre-picker";
-  genreLabel.textContent = "繧ｸ繝｣繝ｳ繝ｫ";
+  genreLabel.textContent = "ジャンル";
   presetGenreInput = document.createElement("select");
   presetGenreInput.id = "presetGenreInput";
   presetGenreInput.innerHTML = `
-    <option value="all">蜈ｨ驛ｨ</option>
-    <option value="natural">閾ｪ辟ｶ繝ｻ繧ｪ繝輔ぅ繧ｹ</option>
-    <option value="korean">髻灘嵜/繝ｯ繝ｳ繝帙Φ邉ｻ</option>
-    <option value="flashy">豢ｾ謇九・讓｡讒伜､壹ａ</option>
-    <option value="sparkle">繝ｩ繝｡繝ｻ繧ｭ繝ｩ繧ｭ繝ｩ</option>
-    <option value="simple">繧ｷ繝ｳ繝励Ν</option>
+    <option value="all">全部</option>
+    <option value="natural">自然・オフィス</option>
+    <option value="korean">韓国/ワンホン系</option>
+    <option value="flashy">派手・模様多め</option>
+    <option value="sparkle">ラメ・キラキラ</option>
+    <option value="simple">シンプル</option>
   `;
   genreLabel.append(presetGenreInput);
   label.insertAdjacentElement("afterend", genreLabel);
 
   presetGallery = document.createElement("div");
   presetGallery.className = "preset-gallery";
-  genreLabel.insertAdjacentElement("afterend", presetGallery);`r`n
+  genreLabel.insertAdjacentElement("afterend", presetGallery);
+
   presetInput.addEventListener("input", () => {
     const preset = designPresets.find((item) => item.id === presetInput.value);
     if (preset) {
@@ -264,7 +264,7 @@ function applyDesignPreset(preset) {
   activeReferenceTextureImages = [];
   activeReferenceAverageColor = null;
     if (referenceNailInput) referenceNailInput.value = "";
-    if (referenceNailStatus) referenceNailStatus.textContent = "螳溷・繝励Μ繧ｻ繝・ヨ繧剃ｽｿ逕ｨ荳ｭ縺ｧ縺吶ょ盾閠・・逵溘ｒ蜈･繧後ｋ縺ｨ荳頑嶌縺阪〒縺阪∪縺吶・;
+    if (referenceNailStatus) referenceNailStatus.textContent = "実写プリセットを使用中です。参考写真を入れると上書きできます。";
   if (referenceTexturePreview) referenceTexturePreview.innerHTML = "";
   const presetTextureUrls = assetFallbackUrls(preset.textureImage ?? preset.previewImage ?? preset.exampleImage);
   if (presetTextureUrls.length) {
@@ -278,7 +278,7 @@ function applyDesignPreset(preset) {
       activePresetTextureImage = null;
       activePresetTextureUrl = null;
       if (referenceNailStatus) {
-        referenceNailStatus.textContent = "螳溷・繝励Μ繧ｻ繝・ヨ縺ｮ蜀咏悄縺瑚ｪｭ縺ｿ霎ｼ繧√∪縺帙ｓ縺ｧ縺励◆縲り牡縺ｨ雉ｪ諢溘・繝励Μ繧ｻ繝・ヨ縺ｧ陦ｨ遉ｺ縺励∪縺吶・;
+        referenceNailStatus.textContent = "実写プリセットの写真が読み込めませんでした。色と質感のプリセットで表示します。";
       }
       renderNails();
       drawLiveNails();
@@ -307,7 +307,7 @@ async function handleReferenceNailPhoto(event) {
   const [file] = event.target.files;
   if (!file) return;
 
-  referenceNailStatus.textContent = "蜀咏悄縺九ｉ繝阪う繝ｫ縺｣縺ｽ縺・Κ蛻・□縺代ｒ謗｢縺励※縺・∪縺・..";
+  referenceNailStatus.textContent = "写真からネイルっぽい部分だけを探しています...";
   try {
     const url = URL.createObjectURL(file);
     const image = await loadImageElement(url);
@@ -344,20 +344,20 @@ async function handleReferenceNailPhoto(event) {
     proModeInput.checked = true;
 
     referenceNailStatus.textContent = aiResult
-      ? `AI縺ｧ蜿り・・逵溘・辷ｪ縺縺代ｒ讀懷・縺励・{activeReferenceTextures.length} 蛟九・螳溷・繝阪う繝ｫ邏譚舌ｒ菴懊ｊ縺ｾ縺励◆縲Ａ
-      : `蜿り・・逵溘°繧・${activeReferenceTextures.length} 蛟九・螳溷・繝阪う繝ｫ邏譚舌ｒ菴懊ｊ縺ｾ縺励◆縲Ａ;
+      ? `AIで参考写真の爪だけを検出し、${activeReferenceTextures.length} 個の実写ネイル素材を作りました。`
+      : `参考写真から ${activeReferenceTextures.length} 個の実写ネイル素材を作りました。`;
     updateQualityStatus({
       level: result.componentCount >= 4 ? "high" : "medium",
       text:
         result.componentCount >= 4
-          ? "蜿り・・逵溘・辷ｪ蛟呵｣懊ｒ隍・焚讀懷・縲ょｮ溷・邏譚舌Δ繝ｼ繝峨〒蜀咲樟蠎ｦ繧貞━蜈医＠縺ｦ縺・∪縺吶・
-          : "蜿り・・逵溘°繧臥ｴ譚舌ｒ菴懈・縲ょ・逵溘↓繧医▲縺ｦ縺ｯ辷ｪ縺縺代・蛻・ｊ謚懊″邊ｾ蠎ｦ縺ｫ蟾ｮ縺後≠繧翫∪縺吶・,
+          ? "参考写真の爪候補を複数検出。実写素材モードで再現度を優先しています。"
+          : "参考写真から素材を作成。写真によっては爪だけの切り抜き精度に差があります。",
     });
     renderNails();
   } catch (error) {
     console.error(error);
-    referenceNailStatus.textContent = "蜀咏悄縺ｮ隱ｭ縺ｿ蜿悶ｊ縺ｫ螟ｱ謨励＠縺ｾ縺励◆縲ょ挨縺ｮ繝阪う繝ｫ蜀咏悄縺ｧ隧ｦ縺励※縺上□縺輔＞縲・;
-    updateQualityStatus({ level: "low", text: "蜿り・・逵溘・隱ｭ縺ｿ蜿悶ｊ縺ｫ螟ｱ謨励ょ挨縺ｮ蜀咏悄縺ｧ蜀崎ｩｦ陦後＠縺ｦ縺上□縺輔＞縲・ });
+    referenceNailStatus.textContent = "写真の読み取りに失敗しました。別のネイル写真で試してください。";
+    updateQualityStatus({ level: "low", text: "参考写真の読み取りに失敗。別の写真で再試行してください。" });
   }
 }
 
@@ -368,14 +368,14 @@ function renderReferenceTexturePreview() {
 
   const title = document.createElement("div");
   title.className = "reference-texture-title";
-  title.textContent = "蛻・ｊ蜃ｺ縺励◆螳溷・繝阪う繝ｫ邏譚撰ｼ医け繝ｪ繝・け縺ｧ蜈ｨ辷ｪ縺ｫ蠑ｷ縺丞渚譏・・;
+  title.textContent = "切り出した実写ネイル素材（クリックで全爪に強く反映）";
   referenceTexturePreview.append(title);
 
   activeReferenceTextures.forEach((texture, index) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `reference-texture-chip${index === selectedReferenceTextureIndex ? " active" : ""}`;
-    button.innerHTML = `<img src="${texture}" alt="螳溷・繝阪う繝ｫ邏譚・${index + 1}" />`;
+    button.innerHTML = `<img src="${texture}" alt="実写ネイル素材 ${index + 1}" />`;
     button.addEventListener("click", () => {
       selectedReferenceTextureIndex = index;
       activeReferenceTextures = [
@@ -1144,7 +1144,7 @@ function applyNailTypeDefaults() {
 function applyCustomDesign() {
   const text = (customDesignInput.value || "").trim();
   if (!text) {
-    alert("菴懊ｊ縺溘＞繝阪う繝ｫ繧呈嶌縺・※縺ｭ縲ゆｾ具ｼ夂穐蜈医□縺醍區繧ｰ繝ｩ繝・・乗・繝斐Φ繧ｯ縲∫ｴｰ縺九＞繝ｩ繝｡");
+    alert("作りたいネイルを書いてね。例：爪先だけ白グラデ、透明ピンク、細かいラメ");
     return;
   }
 
@@ -1156,86 +1156,86 @@ function applyCustomDesign() {
   finishInput.value = "glossy";
 
   const colorMap = [
-    [/繝斐Φ繧ｯ|譯ポpink/, "#e9a0b8"],
-    [/逋ｽ|繝帙Ρ繧､繝・white/, "#fff3ec"],
-    [/襍､|繝ｬ繝・ラ|red/, "#b92a37"],
-    [/髱竹繝悶Ν繝ｼ|blue/, "#355fc9"],
-    [/邏ｫ|繝代・繝励Ν|purple/, "#9b72c8"],
-    [/鮟竹繝悶Λ繝・け|black/, "#201820"],
-    [/繧ｴ繝ｼ繝ｫ繝榎驥掃gold/, "#d5aa45"],
-    [/繧ｷ繝ｫ繝舌・|驫|silver/, "#c8ccd4"],
-    [/繝吶・繧ｸ繝･|閧芸繝後・繝榎nude|beige/, "#d7ad9d"],
-    [/騾乗・|繧ｯ繝ｪ繧｢|clear/, "#f0b8c5"],
+    [/ピンク|桃|pink/, "#e9a0b8"],
+    [/白|ホワイト|white/, "#fff3ec"],
+    [/赤|レッド|red/, "#b92a37"],
+    [/青|ブルー|blue/, "#355fc9"],
+    [/紫|パープル|purple/, "#9b72c8"],
+    [/黒|ブラック|black/, "#201820"],
+    [/ゴールド|金|gold/, "#d5aa45"],
+    [/シルバー|銀|silver/, "#c8ccd4"],
+    [/ベージュ|肌|ヌード|nude|beige/, "#d7ad9d"],
+    [/透明|クリア|clear/, "#f0b8c5"],
   ];
 
   const pickedColor = colorMap.find(([pattern]) => pattern.test(normalized))?.[1];
   if (pickedColor) colorInput.value = pickedColor;
 
-  if (/髻灘嵜|繝ｯ繝ｳ繝帙Φ|縺｡繧・ｋ繧倒騾乗・|繧ｯ繝ｪ繧｢|繧ｷ繧｢繝ｼ|sheer|jelly/.test(normalized)) {
-    materialInput.value = /騾乗・|繧ｯ繝ｪ繧｢|繧ｷ繧｢繝ｼ/.test(normalized) ? "sheer" : "jelly";
+  if (/韓国|ワンホン|ちゅるん|透明|クリア|シアー|sheer|jelly/.test(normalized)) {
+    materialInput.value = /透明|クリア|シアー/.test(normalized) ? "sheer" : "jelly";
     finishInput.value = "glossy";
     thicknessInput.value = "0.2";
     motifDensityInput.value = "0.72";
   }
 
-  if (/繝槭ャ繝・matte/.test(normalized)) finishInput.value = "matte";
-  if (/繝代・繝ｫ|逵溽匠|pearl/.test(normalized)) {
+  if (/マット|matte/.test(normalized)) finishInput.value = "matte";
+  if (/パール|真珠|pearl/.test(normalized)) {
     finishInput.value = "pearl";
     materialInput.value = "pearl";
   }
-  if (/繝溘Λ繝ｼ|繧ｯ繝ｭ繝|chrome|繝｡繧ｿ繝ｪ繝・け/.test(normalized)) {
+  if (/ミラー|クロム|chrome|メタリック/.test(normalized)) {
     designInput.value = "chrome";
     materialInput.value = "metallic";
   }
 
-  if (/辷ｪ蜈・蜈育ｫｯ|繝輔Ξ繝ｳ繝－french|繧ｰ繝ｩ繝・繧ｰ繝ｩ繝・・繧ｷ繝ｧ繝ｳ/.test(normalized)) {
-    motifInput.value = /繝ｩ繝｡|繧ｭ繝ｩ|glitter/.test(normalized) ? "tip_glitter" : "tip_gradient";
-    designInput.value = /繝輔Ξ繝ｳ繝－french/.test(normalized) ? "french" : "gradient";
-    tipColorInput.value = /逋ｽ|繝帙Ρ繧､繝・繝輔Ξ繝ｳ繝・.test(normalized)
+  if (/爪先|先端|フレンチ|french|グラデ|グラデーション/.test(normalized)) {
+    motifInput.value = /ラメ|キラ|glitter/.test(normalized) ? "tip_glitter" : "tip_gradient";
+    designInput.value = /フレンチ|french/.test(normalized) ? "french" : "gradient";
+    tipColorInput.value = /白|ホワイト|フレンチ/.test(normalized)
       ? "#fff8ef"
       : pickedColor
         ? tint(pickedColor, 0.42)
         : "#fff4ee";
     motifColorInput.value = tipColorInput.value;
-    tipAmountInput.value = /邏ｰ|蟆代＠|豬・.test(normalized) ? "0.22" : /豺ｱ|螟ｧ縺鋼螟・.test(normalized) ? "0.46" : "0.33";
+    tipAmountInput.value = /細|少し|浅/.test(normalized) ? "0.22" : /深|大き|多/.test(normalized) ? "0.46" : "0.33";
   }
 
-  if (/繝ｩ繝｡|繧ｭ繝ｩ|繧ｰ繝ｪ繝・ち繝ｼ|glitter|sparkle/.test(normalized)) {
+  if (/ラメ|キラ|グリッター|glitter|sparkle/.test(normalized)) {
     materialInput.value = "glitter";
-    motifInput.value = /辷ｪ蜈・蜈育ｫｯ/.test(normalized) ? "tip_glitter" : "dots";
-    motifColorInput.value = /驥掃繧ｴ繝ｼ繝ｫ繝・.test(normalized) ? "#fff0a8" : "#ffffff";
+    motifInput.value = /爪先|先端/.test(normalized) ? "tip_glitter" : "dots";
+    motifColorInput.value = /金|ゴールド/.test(normalized) ? "#fff0a8" : "#ffffff";
     tipColorInput.value = motifColorInput.value;
-    motifDensityInput.value = /邏ｰ縺弓荳雁刀|蟆代＠/.test(normalized) ? "0.75" : "1.18";
+    motifDensityInput.value = /細か|上品|少し/.test(normalized) ? "0.75" : "1.18";
   }
 
-  if (/闃ｱ|繝輔Λ繝ｯ繝ｼ|flower/.test(normalized)) {
+  if (/花|フラワー|flower/.test(normalized)) {
     motifInput.value = "flowers";
     designInput.value = "floral";
     motifDensityInput.value = "0.78";
-  } else if (/繝上・繝・heart/.test(normalized)) {
+  } else if (/ハート|heart/.test(normalized)) {
     motifInput.value = "hearts";
     motifDensityInput.value = "0.86";
-  } else if (/譏毫繧ｹ繧ｿ繝ｼ|star/.test(normalized)) {
+  } else if (/星|スター|star/.test(normalized)) {
     motifInput.value = "stars";
     motifDensityInput.value = "0.86";
-  } else if (/繝√ぉ繝・け|checker/.test(normalized)) {
+  } else if (/チェック|checker/.test(normalized)) {
     motifInput.value = "checker";
     motifDensityInput.value = "1.1";
-  } else if (/邱嘶繧ｹ繝医Λ繧､繝慾stripe/.test(normalized)) {
+  } else if (/線|ストライプ|stripe/.test(normalized)) {
     motifInput.value = "stripes";
     motifDensityInput.value = "0.9";
   }
 
-  if (/豢ｾ謇弓螟壹ａ|縺斐※縺斐※|y2k/.test(normalized)) {
+  if (/派手|多め|ごてごて|y2k/.test(normalized)) {
     motifDensityInput.value = "1.35";
     thicknessInput.value = "0.52";
     materialInput.value = materialInput.value === "cream" ? "shimmer" : materialInput.value;
   }
 
-  if (/髟ｷ縺л繝ｭ繝ｳ繧ｰ|縺､縺醍穐|莉倥￠辷ｪ|繧ｹ繧ｫ繝ｫ繝慾繧｢繧ｯ繝ｪ繝ｫ/.test(normalized)) {
-    nailTypeInput.value = /縺､縺醍穐|莉倥￠辷ｪ/.test(normalized) ? "presson" : "acrylic";
-    shapeInput.value = /荳ｸ|繧ｪ繝ｼ繝舌Ν/.test(normalized) ? "oval" : "coffin";
-    lengthInput.value = /蟆代＠|遏ｭ繧・.test(normalized) ? "1.45" : "2.15";
+  if (/長い|ロング|つけ爪|付け爪|スカルプ|アクリル/.test(normalized)) {
+    nailTypeInput.value = /つけ爪|付け爪/.test(normalized) ? "presson" : "acrylic";
+    shapeInput.value = /丸|オーバル/.test(normalized) ? "oval" : "coffin";
+    lengthInput.value = /少し|短め/.test(normalized) ? "1.45" : "2.15";
     thicknessInput.value = Math.max(Number(thicknessInput.value), 0.58);
   }
 
@@ -1437,8 +1437,8 @@ function buildFitAdvice() {
   if (currentMode === "empty") {
     return {
       level: "medium",
-      title: "縺ｾ縺壽焔縺ｮ蜀咏悄縺九き繝｡繝ｩ繧貞・繧後※縺ｭ",
-      lines: ["閾ｪ蛻・・謇九・濶ｲ縺ｨ謖・・髟ｷ縺輔ｒ隕九※縺九ｉ縲∽ｼｼ蜷医＞繝√ぉ繝・け縺ｧ縺阪∪縺吶・],
+      title: "まず手の写真かカメラを入れてね",
+      lines: ["自分の手の色と指の長さを見てから、似合いチェックできます。"],
     };
   }
 
@@ -1454,76 +1454,76 @@ function buildFitAdvice() {
 
   if (colorDistance < 0.18 && nailHsl.saturation < 0.45) {
     score += 12;
-    lines.push("閧後↓縺ｪ縺倥・閾ｪ辟ｶ邉ｻ縲よ勸谿ｵ菴ｿ縺・・莉穂ｺ狗畑縺ｫ隕九○繧・☆縺・〒縺吶・);
+    lines.push("肌になじむ自然系。普段使い・仕事用に見せやすいです。");
   } else if (colorDistance > 0.55 || nailHsl.saturation > 0.72) {
     score += 4;
-    lines.push("濶ｲ縺ｮ蟄伜惠諢溘′蠑ｷ繧√ょ・逵滓丐縺医ｄ繧､繝吶Φ繝亥髄縺阪〒縺吶・);
+    lines.push("色の存在感が強め。写真映えやイベント向きです。");
   } else {
     score += 8;
-    lines.push("閧後°繧画ｵｮ縺阪☆縺弱★縲√■繧・ｓ縺ｨ繝阪う繝ｫ諢溘ｂ蜃ｺ繧九ヰ繝ｩ繝ｳ繧ｹ縺ｧ縺吶・);
+    lines.push("肌から浮きすぎず、ちゃんとネイル感も出るバランスです。");
   }
 
   if (skin.warmth > 0.55 && nailColor.b > nailColor.r + 20) {
     score -= 5;
-    lines.push("謇九′證冶牡蟇・ｊ縺ｪ縺ｮ縺ｧ縲・搨縺ｿ縺悟ｼｷ縺・牡縺ｯ蟆代＠繧ｯ繝ｼ繝ｫ縺ｫ隕九∴縺ｾ縺吶・);
+    lines.push("手が暖色寄りなので、青みが強い色は少しクールに見えます。");
   } else if (skin.warmth < 0.48 && nailColor.r > nailColor.b + 35) {
     score -= 4;
-    lines.push("謇九′繧ｯ繝ｼ繝ｫ蟇・ｊ縺ｪ縺ｮ縺ｧ縲∬ｵ､縺ｿ縺悟ｼｷ縺・牡縺ｯ蟆代＠闖ｯ繧・°縺ｫ蜃ｺ縺ｾ縺吶・);
+    lines.push("手がクール寄りなので、赤みが強い色は少し華やかに出ます。");
   }
 
   if (length <= 1.25) {
     score += 8;
-    lines.push("髟ｷ縺輔・逕滓ｴｻ縺励ｄ縺吶＞遽・峇縲ょ・繧√※縺ｧ繧りｩｦ縺励ｄ縺吶＞縺ｧ縺吶・);
+    lines.push("長さは生活しやすい範囲。初めてでも試しやすいです。");
   } else if (length <= 1.9) {
     score += 5;
-    lines.push("蟆代＠髟ｷ繧√〒謖・′縺阪ｌ縺・↓隕九∴繧・☆縺・聞縺輔〒縺吶・);
+    lines.push("少し長めで指がきれいに見えやすい長さです。");
   } else {
     score -= 3;
-    lines.push("縺九↑繧企聞繧√ょ・逵滓丐縺医・縺励∪縺吶′縲∵律蟶ｸ菴ｿ縺・↑繧牙ｰ代＠遏ｭ縺上＠縺ｦ繧り憶縺輔◎縺・〒縺吶・);
+    lines.push("かなり長め。写真映えはしますが、日常使いなら少し短くしても良さそうです。");
   }
 
   if (hasArt && density > 1.25) {
     score -= 2;
-    lines.push("讓｡讒倥・螟壹ａ縲ゅし繝ｭ繝ｳ縺ｫ隕九○繧区凾縺ｯ縺薙・逕ｻ蜒上ｒ菫晏ｭ倥☆繧九→莨昴ｏ繧翫ｄ縺吶＞縺ｧ縺吶・);
+    lines.push("模様は多め。サロンに見せる時はこの画像を保存すると伝わりやすいです。");
   } else if (hasArt) {
     score += 4;
-    lines.push("繝・じ繧､繝ｳ蜈･繧翫〒繧ゆｸｻ蠑ｵ縺悟ｼｷ縺吶℃縺壹・∈縺ｳ繧・☆縺・峅蝗ｲ豌励〒縺吶・);
+    lines.push("デザイン入りでも主張が強すぎず、選びやすい雰囲気です。");
   }
 
   if (nailTypeInput.value !== "natural" && Number(thicknessInput.value) > 0.5) {
-    lines.push("莉倥￠辷ｪ繝ｻ繝√ャ繝玲─繧貞・縺呵ｨｭ螳壹↑縺ｮ縺ｧ縲∝字縺ｿ縺ｨ讓ｪ蟷・・隕九∴譁ｹ繧堤｢ｺ隱阪☆繧九→螳牙ｿ・〒縺吶・);
+    lines.push("付け爪・チップ感を出す設定なので、厚みと横幅の見え方を確認すると安心です。");
   }
 
   score = Math.max(0, Math.min(100, Math.round(score)));
   const level = score >= 82 ? "high" : score >= 66 ? "medium" : "low";
-  const title = score >= 82 ? `莨ｼ蜷医＞蠎ｦ ${score}・壹°縺ｪ繧願憶縺Я : score >= 66 ? `莨ｼ蜷医＞蠎ｦ ${score}・夊ｪｿ謨ｴ縺吶ｌ縺ｰ濶ｯ縺Я : `莨ｼ蜷医＞蠎ｦ ${score}・壼ｰ代＠隕狗峩縺輿;
+  const title = score >= 82 ? `似合い度 ${score}：かなり良い` : score >= 66 ? `似合い度 ${score}：調整すれば良い` : `似合い度 ${score}：少し見直し`;
   return { level, title, lines };
 }
 
 function renderFitAdvice() {
   const advice = buildFitAdvice();
   if (fitAdviceResult) {
-    fitAdviceResult.innerHTML = `<strong>${advice.title}</strong><br>${advice.lines.map((line) => `繝ｻ${line}`).join("<br>")}`;
+    fitAdviceResult.innerHTML = `<strong>${advice.title}</strong><br>${advice.lines.map((line) => `・${line}`).join("<br>")}`;
   }
   updateQualityStatus({
     level: advice.level,
-    text: `${advice.title}縲・{advice.lines[0] ?? ""}`,
+    text: `${advice.title}。${advice.lines[0] ?? ""}`,
   });
 }
 
 function candidateSummary() {
   const typeLabel = nailTypeInput.options[nailTypeInput.selectedIndex]?.textContent ?? "";
   const shapeLabel = shapeInput.options[shapeInput.selectedIndex]?.textContent ?? "";
-  const lengthLabel = Number(lengthInput.value) <= 1.25 ? "遏ｭ繧・ : Number(lengthInput.value) <= 1.9 ? "荳ｭ縲憺聞繧・ : "繝ｭ繝ｳ繧ｰ";
+  const lengthLabel = Number(lengthInput.value) <= 1.25 ? "短め" : Number(lengthInput.value) <= 1.9 ? "中〜長め" : "ロング";
   const designLabel = activeReferenceTextures.length
-    ? "蜿り・・逵溘ロ繧､繝ｫ"
+    ? "参考写真ネイル"
     : designInput.options[designInput.selectedIndex]?.textContent ?? "";
   return `${designLabel} / ${shapeLabel} / ${typeLabel} / ${lengthLabel}`;
 }
 
 async function saveCandidate() {
   if (currentMode === "empty") {
-    alert("蜈医↓蜀咏悄縺九き繝｡繝ｩ繧貞・繧後※縺上□縺輔＞縲・);
+    alert("先に写真かカメラを入れてください。");
     return;
   }
   await renderCompositeToCanvas(exportCanvas);
@@ -1544,16 +1544,16 @@ function buildSalonMemo(advice = buildFitAdvice()) {
   const shapeLabel = shapeInput.options[shapeInput.selectedIndex]?.textContent ?? "";
   const typeLabel = nailTypeInput.options[nailTypeInput.selectedIndex]?.textContent ?? "";
   const designLabel = activeReferenceTextures.length
-    ? "蜿り・・逵溘・髮ｰ蝗ｲ豌励ｒ蜀咲樟"
+    ? "参考写真の雰囲気を再現"
     : designInput.options[designInput.selectedIndex]?.textContent ?? "";
-  const lengthLabel = Number(lengthInput.value) <= 1.25 ? "遏ｭ繧√・逕滓ｴｻ縺励ｄ縺吶＞" : Number(lengthInput.value) <= 1.9 ? "蟆代＠髟ｷ繧・ : "繝ｭ繝ｳ繧ｰ";
+  const lengthLabel = Number(lengthInput.value) <= 1.25 ? "短め・生活しやすい" : Number(lengthInput.value) <= 1.9 ? "少し長め" : "ロング";
   return [
-    `濶ｲ: ${color}`,
-    `蠖｢: ${shapeLabel}`,
-    `繧ｿ繧､繝・ ${typeLabel}`,
-    `髟ｷ縺・ ${lengthLabel}`,
-    `繝・じ繧､繝ｳ: ${designLabel}`,
-    `莨ｼ蜷医＞繝｡繝｢: ${advice.title}`,
+    `色: ${color}`,
+    `形: ${shapeLabel}`,
+    `タイプ: ${typeLabel}`,
+    `長さ: ${lengthLabel}`,
+    `デザイン: ${designLabel}`,
+    `似合いメモ: ${advice.title}`,
   ].join(" / ");
 }
 
@@ -1561,16 +1561,16 @@ function renderComparisonList() {
   if (!comparisonList) return;
   comparisonList.innerHTML = "";
   if (!savedCandidates.length) {
-    comparisonList.innerHTML = "<p>豌励↓縺ｪ繧九ロ繧､繝ｫ繧剃ｿ晏ｭ倥☆繧九→縲√％縺薙〒豈斐∋繧峨ｌ縺ｾ縺吶・/p>";
+    comparisonList.innerHTML = "<p>気になるネイルを保存すると、ここで比べられます。</p>";
     return;
   }
   savedCandidates.forEach((candidate, index) => {
     const card = document.createElement("div");
     card.className = "candidate-card";
     card.innerHTML = `
-      <img src="${candidate.imageDataUrl}" alt="蛟呵｣・${index + 1}" />
+      <img src="${candidate.imageDataUrl}" alt="候補 ${index + 1}" />
       <div>
-        <strong>蛟呵｣・${index + 1}</strong>
+        <strong>候補 ${index + 1}</strong>
         <span>${candidate.summary}</span>
         <span>${candidate.title}</span>
         <span>${candidate.memo}</span>
@@ -1582,7 +1582,7 @@ function renderComparisonList() {
 
 async function downloadSalonSheet() {
   if (!savedCandidates.length) {
-    alert("縺ｾ縺壼呵｣懊→縺励※菫晏ｭ倥＠縺ｦ縺上□縺輔＞縲・);
+    alert("まず候補として保存してください。");
     return;
   }
 
@@ -1595,14 +1595,14 @@ async function downloadSalonSheet() {
 
   ctx.fillStyle = "#2f2725";
   ctx.font = "bold 54px sans-serif";
-  ctx.fillText("Nail Fit Studio 豈碑ｼ・す繝ｼ繝・, 80, 100);
+  ctx.fillText("Nail Fit Studio 比較シート", 80, 100);
   ctx.font = "28px sans-serif";
   ctx.fillStyle = "#756965";
-  ctx.fillText("繧ｵ繝ｭ繝ｳ縺ｧ逶ｸ隲・☆繧九→縺阪↓縲√％縺ｮ逕ｻ蜒上ｒ隕九○縺ｦ縺上□縺輔＞縲・, 82, 148);
+  ctx.fillText("サロンで相談するときに、この画像を見せてください。", 82, 148);
 
   const now = new Date();
   ctx.font = "22px sans-serif";
-  ctx.fillText(`菴懈・譌･: ${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`, 82, 188);
+  ctx.fillText(`作成日: ${now.getFullYear()}/${now.getMonth() + 1}/${now.getDate()}`, 82, 188);
 
   const slots = savedCandidates.slice(0, 4);
   const cardW = 600;
@@ -1635,7 +1635,7 @@ async function downloadSalonSheet() {
 
     ctx.fillStyle = "#9a5368";
     ctx.font = "bold 30px sans-serif";
-    ctx.fillText(`蛟呵｣・${i + 1}`, x + 30, y + 505);
+    ctx.fillText(`候補 ${i + 1}`, x + 30, y + 505);
 
     ctx.fillStyle = "#2f2725";
     ctx.font = "bold 24px sans-serif";
@@ -1648,7 +1648,7 @@ async function downloadSalonSheet() {
 
   ctx.fillStyle = "#9a5368";
   ctx.font = "24px sans-serif";
-  ctx.fillText("縺企｡倥＞繝｡繝｢: 螳滄圀縺ｮ辷ｪ縺ｮ迥ｶ諷九・逕滓ｴｻ繧ｹ繧ｿ繧､繝ｫ縺ｫ蜷医ｏ縺帙※縲・聞縺輔→蜴壹∩縺ｯ繧ｵ繝ｭ繝ｳ縺ｧ隱ｿ謨ｴ縺励※縺上□縺輔＞縲・, 80, 1830);
+  ctx.fillText("お願いメモ: 実際の爪の状態・生活スタイルに合わせて、長さと厚みはサロンで調整してください。", 80, 1830);
 
   downloadCanvas(sheet, "nail-salon-comparison-sheet.png");
 }
@@ -1694,8 +1694,8 @@ function loadImage(src) {
   updateQualityStatus({
     level: activeReferenceTextures.length ? "medium" : "low",
     text: activeReferenceTextures.length
-      ? "蜀咏悄邏譚舌Δ繝ｼ繝峨〒縺吶ょ盾閠・ロ繧､繝ｫ縺ｮ雉ｪ諢溘ｒ蜆ｪ蜈医＠縺ｦ陦ｨ遉ｺ縺励∪縺吶・
-      : "謇九・蜀咏悄繧定ｪｭ縺ｿ霎ｼ縺ｿ縺ｾ縺励◆縲ょ盾閠・ロ繧､繝ｫ蜀咏悄繧定ｿｽ蜉縺吶ｋ縺ｨ蜀咲樟蠎ｦ縺御ｸ翫′繧翫∪縺吶・,
+      ? "写真素材モードです。参考ネイルの質感を優先して表示します。"
+      : "手の写真を読み込みました。参考ネイル写真を追加すると再現度が上がります。",
   });
 }
 
@@ -1749,7 +1749,7 @@ captureAiFinishButton?.addEventListener("click", async () => {
 
 async function captureCameraPhoto() {
   if (currentMode !== "camera" || !cameraFeed.videoWidth || !cameraFeed.videoHeight) {
-    alert("蜈医↓繧ｫ繝｡繝ｩ繧定ｵｷ蜍輔＠縺ｦ縺上□縺輔＞縲・);
+    alert("先にカメラを起動してください。");
     return false;
   }
 
@@ -1764,10 +1764,10 @@ async function captureCameraPhoto() {
   ctx.drawImage(cameraFeed, 0, 0, captureCanvas.width, captureCanvas.height);
   const imageUrl = captureCanvas.toDataURL("image/jpeg", 0.94);
   loadImage(imageUrl);
-  trackingStatus.textContent = "蜀咏悄繧呈聴繧翫∪縺励◆縲ゅ％縺ｮ髱呎ｭ｢逕ｻ縺ｧ菴咲ｽｮ隱ｿ謨ｴ繧БI蜀咏悄莉穂ｸ翫￡縺後〒縺阪∪縺吶・;
+  trackingStatus.textContent = "写真を撮りました。この静止画で位置調整やAI写真仕上げができます。";
   updateQualityStatus({
     level: "high",
-    text: "繧ｫ繝｡繝ｩ蜀咏悄繧貞崋螳壹＠縺ｾ縺励◆縲ょｿ・ｦ√↑繧我ｽ咲ｽｮ繧貞ｾｮ隱ｿ謨ｴ縺励※縲、I蜀咏悄莉穂ｸ翫￡繧定ｩｦ縺帙∪縺吶・,
+    text: "カメラ写真を固定しました。必要なら位置を微調整して、AI写真仕上げを試せます。",
   });
   return true;
 }
@@ -1798,28 +1798,28 @@ async function startCamera(facingMode = "user") {
     capturePhotoButton?.classList.remove("is-hidden");
     captureAiFinishButton?.classList.remove("is-hidden");
     if (switchCameraButton) {
-      switchCameraButton.textContent = cameraFacingMode === "user" ? "螟悶き繝｡繝ｩ縺ｫ蛻・ｊ譖ｿ縺・ : "蜀・き繝｡繝ｩ縺ｫ蛻・ｊ譖ｿ縺・;
+      switchCameraButton.textContent = cameraFacingMode === "user" ? "外カメラに切り替え" : "内カメラに切り替え";
     }
     stopCameraButton.classList.remove("is-hidden");
     trackingStatus.textContent =
       cameraFacingMode === "user"
-        ? "蜀・き繝｡繝ｩ縺ｧ縺吶よ焔繧呈丐縺励※縺上□縺輔＞縲よ欠蜈医→辷ｪ繧峨＠縺・伜沺繧定ｦ九※繝阪う繝ｫ繧定ｿｽ蠕薙＠縺ｾ縺吶・
-        : "螟悶き繝｡繝ｩ縺ｧ縺吶よ焔繧呈丐縺励※縺上□縺輔＞縲よ欠蜈医→辷ｪ繧峨＠縺・伜沺繧定ｦ九※繝阪う繝ｫ繧定ｿｽ蠕薙＠縺ｾ縺吶・;
+        ? "内カメラです。手を映してください。指先と爪らしい領域を見てネイルを追従します。"
+        : "外カメラです。手を映してください。指先と爪らしい領域を見てネイルを追従します。";
     if (window.startHandTracking) {
       autoTracking = await window.startHandTracking(cameraFeed, updateTrackedNails);
       if (!autoTracking) {
         trackingStatus.textContent =
-          "閾ｪ蜍戊ｿｽ蠕薙ｒ襍ｷ蜍輔〒縺阪∪縺帙ｓ縺ｧ縺励◆縲る壻ｿ｡迥ｶ諷九ｒ遒ｺ隱阪＠縺ｦ蜀崎ｪｭ縺ｿ霎ｼ縺ｿ縺励※縺上□縺輔＞縲・;
+          "自動追従を起動できませんでした。通信状態を確認して再読み込みしてください。";
       }
     }
   } catch (error) {
     if (facingMode === "environment") {
       cameraFacingMode = "user";
-      trackingStatus.textContent = "螟悶き繝｡繝ｩ縺ｫ蛻・ｊ譖ｿ縺医ｉ繧後∪縺帙ｓ縺ｧ縺励◆縲ょ・繧ｫ繝｡繝ｩ縺ｫ謌ｻ縺励∪縺吶・;
+      trackingStatus.textContent = "外カメラに切り替えられませんでした。内カメラに戻します。";
       await startCamera("user");
       return;
     }
-    alert("繧ｫ繝｡繝ｩ繧剃ｽｿ縺医∪縺帙ｓ縺ｧ縺励◆縲ゅヶ繝ｩ繧ｦ繧ｶ縺ｮ繧ｫ繝｡繝ｩ險ｱ蜿ｯ繧堤｢ｺ隱阪＠縺ｦ縺上□縺輔＞縲・);
+    alert("カメラを使えませんでした。ブラウザのカメラ許可を確認してください。");
   }
 }
 
@@ -1849,33 +1849,33 @@ stopCameraButton.addEventListener("click", () => {
 
 salonCheckButton?.addEventListener("click", () => {
   const checks = [];
-  if (currentMode === "empty") checks.push("謇九・蜀咏悄縺九き繝｡繝ｩ繧貞・繧後※縺上□縺輔＞縲・);
-  if (!proModeInput.checked) checks.push("繝励Ο繝｢繝ｼ繝峨ｒ繧ｪ繝ｳ縺ｫ縺吶ｋ縺ｨ閾ｪ辟ｶ縺ｫ隕九∴縺ｾ縺吶・);
-  if (!realismBoostInput.checked) checks.push("繝ｪ繧｢繝ｫ蠑ｷ蛹悶ｒ繧ｪ繝ｳ縺ｫ縺吶ｋ縺ｨ譬ｹ蜈・→濶ｶ縺後↑縺倥∩縺ｾ縺吶・);
+  if (currentMode === "empty") checks.push("手の写真かカメラを入れてください。");
+  if (!proModeInput.checked) checks.push("プロモードをオンにすると自然に見えます。");
+  if (!realismBoostInput.checked) checks.push("リアル強化をオンにすると根元と艶がなじみます。");
   if (activeReferenceTextures.length && !referenceExtractorSession && referenceExtractorTried) {
-    checks.push("蜿り・・逵蘗I繝｢繝・Ν縺梧悴隱ｭ霎ｼ縺ｧ縺吶ゅΔ繝・Ν繧呈嶌縺榊・縺吶→譟・・蛻・ｊ謚懊″縺悟ｮ牙ｮ壹＠縺ｾ縺吶・);
+    checks.push("参考写真AIモデルが未読込です。モデルを書き出すと柄の切り抜きが安定します。");
   }
   if (Number(lengthInput.value) > 2.25 && nailTypeInput.value === "natural") {
-    checks.push("髟ｷ繧√・辷ｪ縺ｯ縲御ｻ倥￠辷ｪ/繝√ャ繝励阪°縲後い繧ｯ繝ｪ繝ｫ髟ｷ繧√阪↓縺吶ｋ縺ｨ閾ｪ辟ｶ縺ｧ縺吶・);
+    checks.push("長めの爪は「付け爪/チップ」か「アクリル長め」にすると自然です。");
   }
   if (Number(photoFidelityInput.value) < 0.82 && activeReferenceTextures.length) {
-    checks.push("蜿り・・逵溘ｒ蠑ｷ縺丈ｼｼ縺帙◆縺・凾縺ｯ縲∝・逵溘∈縺ｮ莨ｼ縺帛・蜷医ｒ荳翫￡縺ｦ縺上□縺輔＞縲・);
+    checks.push("参考写真を強く似せたい時は、写真への似せ具合を上げてください。");
   }
   if (Number(rootBlendInput?.value ?? 0.72) < 0.42) {
-    checks.push("譬ｹ蜈・・縺ｪ縺倥∩縺悟ｼｱ縺・・縺ｧ縲∝ｰ代＠荳翫￡繧九→豬ｮ縺阪↓縺上＞縺ｧ縺吶・);
+    checks.push("根元のなじみが弱いので、少し上げると浮きにくいです。");
   }
 
   if (!checks.length) {
     updateQualityStatus({
       level: "high",
-      text: "繧ｵ繝ｭ繝ｳ遒ｺ隱弘K縲よｹ蜈・・濶ｶ繝ｻ蠖ｱ繝ｻ蜀咏悄邏譚舌・迥ｶ諷九・莉穂ｺ狗畑縺ｨ縺励※隕九○繧・☆縺・ｨｭ螳壹〒縺吶・,
+      text: "サロン確認OK。根元・艶・影・写真素材の状態は仕事用として見せやすい設定です。",
     });
     return;
   }
 
   updateQualityStatus({
     level: checks.length <= 2 ? "medium" : "low",
-    text: `繧ｵ繝ｭ繝ｳ遒ｺ隱・ ${checks.join(" ")}`,
+    text: `サロン確認: ${checks.join(" ")}`,
   });
 });
 
@@ -1930,7 +1930,7 @@ function startDrag(event) {
 
 downloadButton.addEventListener("click", async () => {
   if (currentMode === "empty") {
-    alert("蜈医↓蜀咏悄繧帝∈繧薙〒縺上□縺輔＞縲・);
+    alert("先に写真を選んでください。");
     return;
   }
 
@@ -1940,12 +1940,12 @@ downloadButton.addEventListener("click", async () => {
 
 aiFinishButton?.addEventListener("click", async () => {
   if (currentMode === "empty") {
-    alert("蜈医↓蜀咏悄縺九き繝｡繝ｩ繧貞・繧後※縲√ロ繧､繝ｫ繧貞粋繧上○縺ｦ縺上□縺輔＞縲・);
+    alert("先に写真かカメラを入れて、ネイルを合わせてください。");
     return;
   }
 
   aiFinishButton.disabled = true;
-  aiFinishStatus.textContent = "蜀咏悄莉穂ｸ翫￡繧剃ｽ懊▲縺ｦ縺・∪縺吶・PI繧ｭ繝ｼ縺後≠繧句ｴ蜷医・逕ｻ蜒冗函謌植I縲√↑縺・ｴ蜷医・繝ｭ繝ｼ繧ｫ繝ｫ陬懈ｭ｣縺ｧ莉穂ｸ翫￡縺ｾ縺・..";
+  aiFinishStatus.textContent = "写真仕上げを作っています。APIキーがある場合は画像生成AI、ない場合はローカル補正で仕上げます...";
 
   try {
     await renderCompositeToCanvas(exportCanvas);
@@ -1976,8 +1976,8 @@ aiFinishButton?.addEventListener("click", async () => {
 
     showAiFinishResult(imageDataUrl);
     aiFinishStatus.textContent = result.provider === "openai"
-      ? "逕ｻ蜒冗函謌植I縺ｧ蜀咏悄莉穂ｸ翫￡縺励∪縺励◆縲よ焔繧・レ譎ｯ縺ｯ縺ｪ繧九∋縺丈ｿ晄戟縺励√ロ繧､繝ｫ驛ｨ蛻・ｒ閾ｪ辟ｶ縺ｫ陬懈ｭ｣縺励※縺・∪縺吶・
-      : "API繧ｭ繝ｼ縺後↑縺・菴ｿ縺医↑縺・◆繧√√し繧､繝亥・縺ｮ繝ｭ繝ｼ繧ｫ繝ｫ蜀咏悄鬚ｨ陬懈ｭ｣縺ｧ莉穂ｸ翫￡縺ｾ縺励◆縲・PI繧ｭ繝ｼ繧貞・繧後ｋ縺ｨ逕滓・AI陬懈ｭ｣縺ｾ縺ｧ騾ｲ繧√∪縺吶・;
+      ? "画像生成AIで写真仕上げしました。手や背景はなるべく保持し、ネイル部分を自然に補正しています。"
+      : "APIキーがない/使えないため、サイト内のローカル写真風補正で仕上げました。APIキーを入れると生成AI補正まで進めます。";
   } catch (error) {
     console.error(error);
     try {
@@ -1987,9 +1987,9 @@ aiFinishButton?.addEventListener("click", async () => {
       drawAiFinishMask(maskCanvas);
       const imageDataUrl = await createLocalPhotoFinish(exportCanvas, maskCanvas);
       showAiFinishResult(imageDataUrl);
-      aiFinishStatus.textContent = "逕ｻ蜒冗函謌植I縺ｫ縺ｯ謗･邯壹〒縺阪∪縺帙ｓ縺ｧ縺励◆縺後√Ο繝ｼ繧ｫ繝ｫ蜀咏悄鬚ｨ陬懈ｭ｣縺ｧ莉穂ｸ翫￡縺ｾ縺励◆縲・;
+      aiFinishStatus.textContent = "画像生成AIには接続できませんでしたが、ローカル写真風補正で仕上げました。";
     } catch {
-      aiFinishStatus.textContent = "蜀咏悄莉穂ｸ翫￡縺ｫ螟ｱ謨励＠縺ｾ縺励◆縲ょ・逵溘°繧ｫ繝｡繝ｩ繧貞・繧檎峩縺励※繧ゅ≧荳蠎ｦ隧ｦ縺励※縺上□縺輔＞縲・;
+      aiFinishStatus.textContent = "写真仕上げに失敗しました。写真かカメラを入れ直してもう一度試してください。";
     }
   } finally {
     aiFinishButton.disabled = false;
@@ -2112,28 +2112,28 @@ function drawNailMaskShape(ctx, nail, width, height) {
 
 function buildAiFinishPrompt() {
   const referenceMode = activeReferenceTextureImages.length
-    ? "蜿り・・逵溘°繧牙・繧雁・縺励◆繝阪う繝ｫ譟・ｒ菴ｿ縺｣縺ｦ縺・∪縺吶・
-    : "繧ｵ繧､繝井ｸ翫〒菴懊▲縺溘ロ繧､繝ｫ濶ｲ縺ｨ讓｡讒倥ｒ菴ｿ縺｣縺ｦ縺・∪縺吶・;
+    ? "参考写真から切り出したネイル柄を使っています。"
+    : "サイト上で作ったネイル色と模様を使っています。";
   const designNote = customDesignInput.value.trim()
-    ? `繝ｦ繝ｼ繧ｶ繝ｼ謖・ｮ壹ョ繧ｶ繧､繝ｳ: ${customDesignInput.value.trim()}`
-    : `繝・じ繧､繝ｳ: ${designInput.value}, 邏譚先─: ${materialInput.value}, 讓｡讒・ ${motifInput.value}`;
+    ? `ユーザー指定デザイン: ${customDesignInput.value.trim()}`
+    : `デザイン: ${designInput.value}, 素材感: ${materialInput.value}, 模様: ${motifInput.value}`;
 
   return [
-    "逶ｮ逧・ 繝舌・繝√Ε繝ｫ繝阪う繝ｫ隧ｦ逹逕ｻ蜒上ｒ縲∝ｮ溷・蜀咏悄縺ｮ繧医≧縺ｫ閾ｪ辟ｶ縺ｫ陬懈ｭ｣縺励※縺上□縺輔＞縲・,
+    "目的: バーチャルネイル試着画像を、実写写真のように自然に補正してください。",
     "",
-    "驥崎ｦ√Ν繝ｼ繝ｫ:",
-    "1. 謇九∵欠縲∬ｌ縲∬レ譎ｯ縲∵ｧ句峙縲∵欠縺ｮ螟ｪ縺輔∵欠霈ｪ繧・ｰ冗黄縺ｯ螟峨∴縺ｪ縺・・,
-    "2. 繝槭せ繧ｯ逕ｻ蜒上・逋ｽ縺・Κ蛻・□縺代ｒ邱ｨ髮・＠縲・ｻ偵＞驛ｨ蛻・・縺ｧ縺阪ｋ縺縺台ｿ晄戟縺吶ｋ縲・,
-    "3. 繝阪う繝ｫ縺ｮ菴咲ｽｮ縲∵ｹ蜈・・聞縺輔∝ｽ｢縺ｯ螟ｧ縺阪￥螟峨∴縺ｪ縺・・,
-    "4. 繝阪う繝ｫ縺縺代ｒ譛ｬ迚ｩ縺ｮ繧ｸ繧ｧ繝ｫ/繝√ャ繝励・繧医≧縺ｫ縲∝・豐｢繝ｻ蜴壹∩繝ｻ蛛ｴ髱｢縺ｮ蠖ｱ繝ｻ譬ｹ蜈・・縺ｪ縺倥∩繧定・辟ｶ縺ｫ縺吶ｋ縲・,
-    "5. 蜿り・・逵溘・譟・′縺ゅｋ蝣ｴ蜷医・縲∫穐縺ｮ荳ｭ縺縺代↓譟・ｒ蜈･繧後∵焔繧・レ譎ｯ縺ｮ蜀咏悄謌仙・繧呈ｷｷ縺懊↑縺・・,
-    "6. 辷ｪ蜈医□縺題牡縺碁＆縺・ョ繧ｶ繧､繝ｳ繧・げ繝ｩ繝・・繧ｷ繝ｧ繝ｳ縺ｯ縲∝｢・岼繧呈沐繧峨°縺上＠縺ｦ螳溷・縺｣縺ｽ縺上☆繧九・,
-    "7. 螳峨▲縺ｽ縺ГG諢溘∝ｼｷ縺吶℃繧狗區繝上う繝ｩ繧､繝医∵ｵｮ縺・◆霈ｪ驛ｭ縲∬ｌ縺ｸ縺ｮ縺ｯ縺ｿ蜃ｺ縺励ｒ驕ｿ縺代ｋ縲・,
+    "重要ルール:",
+    "1. 手、指、肌、背景、構図、指の太さ、指輪や小物は変えない。",
+    "2. マスク画像の白い部分だけを編集し、黒い部分はできるだけ保持する。",
+    "3. ネイルの位置、根元、長さ、形は大きく変えない。",
+    "4. ネイルだけを本物のジェル/チップのように、光沢・厚み・側面の影・根元のなじみを自然にする。",
+    "5. 参考写真の柄がある場合は、爪の中だけに柄を入れ、手や背景の写真成分を混ぜない。",
+    "6. 爪先だけ色が違うデザインやグラデーションは、境目を柔らかくして実写っぽくする。",
+    "7. 安っぽいCG感、強すぎる白ハイライト、浮いた輪郭、肌へのはみ出しを避ける。",
     "",
     referenceMode,
     designNote,
     "",
-    "蜃ｺ蜉・ 蜈・・逵溘→蜷後§豈皮紫繝ｻ蜷後§讒句峙縺ｧ縲√ロ繧､繝ｫ縺縺代ｒ鬮伜刀雉ｪ縺ｪ螳溷・鬚ｨ縺ｫ陬懈ｭ｣縺励◆逕ｻ蜒上・,
+    "出力: 元写真と同じ比率・同じ構図で、ネイルだけを高品質な実写風に補正した画像。",
   ].join("\n");
 }
 
@@ -2513,7 +2513,7 @@ function stopCamera() {
   capturePhotoButton?.classList.add("is-hidden");
   captureAiFinishButton?.classList.add("is-hidden");
   stopCameraButton.classList.add("is-hidden");
-  trackingStatus.textContent = "繧ｫ繝｡繝ｩ繧定ｵｷ蜍輔☆繧九→縲∵欠蜈医・閾ｪ蜍戊ｿｽ蠕薙ｒ貅門ｙ縺励∪縺吶・;
+  trackingStatus.textContent = "カメラを起動すると、指先の自動追従を準備します。";
   autoTracking = false;
   if (window.stopHandTracking) {
     window.stopHandTracking();
@@ -2527,11 +2527,11 @@ function updateTrackedNails(nextNails, handDetected) {
     lostHandFrames += 1;
     trackingStatus.textContent =
       lostHandFrames < 12
-        ? "荳迸ｬ謇九ｒ隕句､ｱ縺・∪縺励◆縲よ怙蠕後・菴咲ｽｮ繧剃ｿ昴■縺ｪ縺後ｉ蠕ｩ蟶ｰ繧貞ｾ・▲縺ｦ縺・∪縺吶・
-        : "謇九′隕九∴縺ｾ縺帙ｓ縲よ焔繧偵き繝｡繝ｩ荳ｭ螟ｮ縺ｫ謌ｻ縺励※縺上□縺輔＞縲・;
+        ? "一瞬手を見失いました。最後の位置を保ちながら復帰を待っています。"
+        : "手が見えません。手をカメラ中央に戻してください。";
     updateQualityStatus({
       level: lostHandFrames < 12 ? "medium" : "low",
-      text: lostHandFrames < 12 ? "霑ｽ蠕薙ｒ荳譎ゆｿ晄戟荳ｭ縲ょ､ｧ縺阪￥蜍輔°縺吶→繧ｺ繝ｬ繧句庄閭ｽ諤ｧ縺後≠繧翫∪縺吶・ : "謇九ｒ蜀肴､懷・縺吶ｋ縺ｾ縺ｧ蜩∬ｳｪ縺ｯ荳九′繧翫∪縺吶・,
+      text: lostHandFrames < 12 ? "追従を一時保持中。大きく動かすとズレる可能性があります。" : "手を再検出するまで品質は下がります。",
     });
     if (lastGoodNails.length === 5) {
       nails = structuredClone(lastGoodNails);
@@ -2542,7 +2542,7 @@ function updateTrackedNails(nextNails, handDetected) {
 
   lostHandFrames = 0;
   trackingStatus.textContent =
-    "謖・・縺ｨ辷ｪ繧峨＠縺・伜沺繧定ｪ崎ｭ倅ｸｭ縲ゅロ繧､繝ｫ縺瑚・蜍輔〒霑ｽ蠕薙＠縺ｦ縺・∪縺吶・;
+    "指先と爪らしい領域を認識中。ネイルが自動で追従しています。";
   updateLightingProbe();
   const avgConfidence =
     nextNails.reduce((sum, nail) => sum + (nail.aiConfidence ?? 0), 0) / Math.max(1, nextNails.length);
@@ -2562,8 +2562,8 @@ function updateTrackedNails(nextNails, handDetected) {
   updateQualityStatus({
     level: hasAi && avgConfidence > 0.01 ? "high" : hasAi ? "medium" : "low",
     text: hasAi
-      ? `AI辷ｪ霈ｪ驛ｭ縺ｧ霑ｽ蠕謎ｸｭ縲ょｮ牙ｮ壼ｺｦ ${Math.round(Math.min(1, avgConfidence * 42) * 100)}%縲Ａ
-      : "謖・・謗ｨ螳壹〒霑ｽ蠕謎ｸｭ縲・I辷ｪ繝｢繝・Ν縺瑚ｪｭ縺ｿ霎ｼ繧√ｋ縺ｨ邊ｾ蠎ｦ縺御ｸ翫′繧翫∪縺吶・,
+      ? `AI爪輪郭で追従中。安定度 ${Math.round(Math.min(1, avgConfidence * 42) * 100)}%。`
+      : "指先推定で追従中。AI爪モデルが読み込めると精度が上がります。",
   });
   syncControls();
   renderNails();
@@ -3177,4 +3177,3 @@ function drawStar(ctx, x, y, size, color) {
 syncControls();
 renderNails();
 loadDesignPresets();
-

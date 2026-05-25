@@ -186,6 +186,20 @@ button {
   margin-top: 8px;
 }
 
+#capturePhotoButton {
+  background: #fff8f2;
+  color: var(--accent);
+  border-color: rgba(154, 83, 104, 0.2);
+  font-weight: 700;
+}
+
+#captureAiFinishButton {
+  background: linear-gradient(135deg, #2f2725, #9a5368);
+  color: white;
+  border-color: transparent;
+  font-weight: 700;
+}
+
 .tracking-status {
   margin: 8px 0 0;
   color: var(--muted);

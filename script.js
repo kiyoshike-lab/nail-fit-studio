@@ -2,6 +2,8 @@ const photoInput = document.querySelector("#photoInput");
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
+const capturePhotoButton = document.querySelector("#capturePhotoButton");
+const captureAiFinishButton = document.querySelector("#captureAiFinishButton");
 const stopCameraButton = document.querySelector("#stopCameraButton");
 const trackingStatus = document.querySelector("#trackingStatus");
 const qualityStatus = document.querySelector("#qualityStatus");
@@ -1666,6 +1668,39 @@ switchCameraButton?.addEventListener("click", async () => {
   await startCamera(cameraFacingMode);
 });
 
+capturePhotoButton?.addEventListener("click", async () => {
+  await captureCameraPhoto();
+});
+
+captureAiFinishButton?.addEventListener("click", async () => {
+  const captured = await captureCameraPhoto();
+  if (!captured) return;
+  setTimeout(() => aiFinishButton?.click(), 160);
+});
+
+async function captureCameraPhoto() {
+  if (currentMode !== "camera" || !cameraFeed.videoWidth || !cameraFeed.videoHeight) {
+    alert("先にカメラを起動してください。");
+    return false;
+  }
+
+  const captureCanvas = document.createElement("canvas");
+  captureCanvas.width = cameraFeed.videoWidth;
+  captureCanvas.height = cameraFeed.videoHeight;
+  const ctx = captureCanvas.getContext("2d");
+  ctx.translate(captureCanvas.width, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(cameraFeed, 0, 0, captureCanvas.width, captureCanvas.height);
+  const imageUrl = captureCanvas.toDataURL("image/jpeg", 0.94);
+  loadImage(imageUrl);
+  trackingStatus.textContent = "写真を撮りました。この静止画で位置調整やAI写真仕上げができます。";
+  updateQualityStatus({
+    level: "high",
+    text: "カメラ写真を固定しました。必要なら位置を微調整して、AI写真仕上げを試せます。",
+  });
+  return true;
+}
+
 async function startCamera(facingMode = "user") {
   try {
     if (cameraStream) {
@@ -1687,6 +1722,8 @@ async function startCamera(facingMode = "user") {
     emptyState.style.display = "none";
     cameraButton.classList.add("is-hidden");
     switchCameraButton?.classList.remove("is-hidden");
+    capturePhotoButton?.classList.remove("is-hidden");
+    captureAiFinishButton?.classList.remove("is-hidden");
     if (switchCameraButton) {
       switchCameraButton.textContent = cameraFacingMode === "user" ? "外カメラに切り替え" : "内カメラに切り替え";
     }
@@ -2355,6 +2392,8 @@ function stopCamera() {
   liveCanvas.style.display = "none";
   cameraButton.classList.remove("is-hidden");
   switchCameraButton?.classList.add("is-hidden");
+  capturePhotoButton?.classList.add("is-hidden");
+  captureAiFinishButton?.classList.add("is-hidden");
   stopCameraButton.classList.add("is-hidden");
   trackingStatus.textContent = "カメラを起動すると、指先の自動追従を準備します。";
   autoTracking = false;

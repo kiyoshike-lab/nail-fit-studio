@@ -191,6 +191,11 @@ function setupPresetControl() {
   presetGallery.className = "preset-gallery";
   genreLabel.insertAdjacentElement("afterend", presetGallery);
 
+  const presetHelp = document.createElement("p");
+  presetHelp.className = "preset-help";
+  presetHelp.textContent = "写真が見えない時は、assets/preset-previews が公開先に上がっているか確認してください。";
+  presetGallery.insertAdjacentElement("afterend", presetHelp);
+
   presetInput.addEventListener("input", () => {
     const preset = designPresets.find((item) => item.id === presetInput.value);
     if (preset) {
@@ -1078,9 +1083,14 @@ function renderPresetGallery() {
     `;
     const img = button.querySelector("img");
     if (img) {
+      button.dataset.imageState = "loading";
+      img.addEventListener("load", () => {
+        button.dataset.imageState = "loaded";
+      });
       img.addEventListener("error", () => {
         img.remove();
         button.dataset.imageFailed = "true";
+        button.dataset.imageState = "failed";
       });
     }
     button.addEventListener("click", () => {

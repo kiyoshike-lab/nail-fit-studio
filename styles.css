@@ -330,6 +330,13 @@ label + label {
   background: rgba(255,255,255,0.62);
 }
 
+.preset-help {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.45;
+}
+
 .preset-genre-picker {
   margin-top: 10px;
 }
@@ -385,6 +392,27 @@ label + label {
     radial-gradient(circle at 28% 24%, rgba(255,255,255,0.95), transparent 18%),
     linear-gradient(135deg, rgba(255,255,255,0.35), transparent 42%),
     linear-gradient(180deg, color-mix(in srgb, var(--preset-card-color, #d9829b) 70%, white), var(--preset-card-color, #d9829b));
+}
+
+.preset-card-fallback::after {
+  content: "写真読込中";
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: rgba(47, 39, 37, 0.48);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.preset-card[data-image-state="loaded"] .preset-card-fallback::after {
+  content: "";
+}
+
+.preset-card[data-image-state="failed"] .preset-card-fallback::after,
+.preset-card[data-image-failed="true"] .preset-card-fallback::after {
+  content: "見本写真未読込";
+  color: rgba(154, 83, 104, 0.72);
 }
 
 .preset-card img + span,

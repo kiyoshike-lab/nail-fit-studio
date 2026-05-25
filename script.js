@@ -241,6 +241,14 @@ function applyDesignPreset(preset) {
       renderNails();
       drawLiveNails();
     };
+    activePresetTextureImage.onerror = () => {
+      activePresetTextureImage = null;
+      if (referenceNailStatus) {
+        referenceNailStatus.textContent = "実写プリセットの写真が読み込めませんでした。色と質感のプリセットで表示します。";
+      }
+      renderNails();
+      drawLiveNails();
+    };
     activePresetTextureImage.src = presetTexture;
   }
   colorInput.value = proModeInput.checked
@@ -1055,10 +1063,20 @@ function renderPresetGallery() {
     button.type = "button";
     button.className = "preset-card";
     button.dataset.presetId = preset.id;
+    button.style.setProperty("--preset-card-color", preset.colorHint ?? "#d9829b");
+    const previewImage = preset.textureImage ?? preset.exampleImage;
     button.innerHTML = `
-      <img src="${preset.textureImage ?? preset.exampleImage}" alt="${preset.name}" loading="lazy" />
+      <span class="preset-card-fallback"></span>
+      ${previewImage ? `<img src="${previewImage}" alt="${preset.name}" loading="lazy" />` : ""}
       <span>${preset.name}</span>
     `;
+    const img = button.querySelector("img");
+    if (img) {
+      img.addEventListener("error", () => {
+        img.remove();
+        button.dataset.imageFailed = "true";
+      });
+    }
     button.addEventListener("click", () => {
       presetInput.value = preset.id;
       applyDesignPreset(preset);

@@ -335,6 +335,7 @@ label + label {
 }
 
 .preset-card {
+  position: relative;
   display: grid;
   gap: 5px;
   padding: 5px;
@@ -344,6 +345,7 @@ label + label {
   color: var(--muted);
   font-size: 0.68rem;
   text-align: left;
+  overflow: hidden;
 }
 
 .preset-card.active {
@@ -353,6 +355,8 @@ label + label {
 }
 
 .preset-card img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
@@ -361,12 +365,45 @@ label + label {
 }
 
 .preset-card span {
+  position: relative;
+  z-index: 1;
   display: -webkit-box;
   min-height: 2.4em;
   overflow: hidden;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   line-height: 1.2;
+}
+
+.preset-card-fallback {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: 0;
+  border-radius: 9px;
+  background:
+    radial-gradient(circle at 28% 24%, rgba(255,255,255,0.95), transparent 18%),
+    linear-gradient(135deg, rgba(255,255,255,0.35), transparent 42%),
+    linear-gradient(180deg, color-mix(in srgb, var(--preset-card-color, #d9829b) 70%, white), var(--preset-card-color, #d9829b));
+}
+
+.preset-card img + span,
+.preset-card-fallback + img + span {
+  min-height: 2.4em;
+}
+
+.preset-card img {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.preset-card-fallback {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.preset-card[data-image-failed="true"] .preset-card-fallback {
+  box-shadow: inset 0 0 0 1px rgba(154,83,104,0.18);
 }
 
 .preset-card.active img {

@@ -122,6 +122,7 @@ let currentMode = "empty";
 let autoTracking = false;
 let designPresets = [];
 let activePreset = null;
+let activePresetTextureImage = null;
 let activeReferenceTextures = [];
 let activeReferenceTextureImages = [];
 let activeReferenceAverageColor = null;
@@ -226,12 +227,22 @@ async function loadDesignPresets() {
 
 function applyDesignPreset(preset) {
   activePreset = preset;
+  activePresetTextureImage = null;
   activeReferenceTextures = [];
   activeReferenceTextureImages = [];
   activeReferenceAverageColor = null;
     if (referenceNailInput) referenceNailInput.value = "";
     if (referenceNailStatus) referenceNailStatus.textContent = "実写プリセットを使用中です。参考写真を入れると上書きできます。";
   if (referenceTexturePreview) referenceTexturePreview.innerHTML = "";
+  const presetTexture = preset.textureImage ?? preset.exampleImage;
+  if (presetTexture) {
+    activePresetTextureImage = new Image();
+    activePresetTextureImage.onload = () => {
+      renderNails();
+      drawLiveNails();
+    };
+    activePresetTextureImage.src = presetTexture;
+  }
   colorInput.value = proModeInput.checked
     ? softenPresetColor(preset.colorHint ?? colorInput.value, preset.material)
     : preset.colorHint ?? colorInput.value;
@@ -1045,7 +1056,7 @@ function renderPresetGallery() {
     button.className = "preset-card";
     button.dataset.presetId = preset.id;
     button.innerHTML = `
-      <img src="${preset.exampleImage}" alt="${preset.name}" loading="lazy" />
+      <img src="${preset.textureImage ?? preset.exampleImage}" alt="${preset.name}" loading="lazy" />
       <span>${preset.name}</span>
     `;
     button.addEventListener("click", () => {
@@ -1211,7 +1222,8 @@ function renderNails() {
         ? activeReferenceTextures[0]
         : activeReferenceTextures[index % activeReferenceTextures.length];
     el.dataset.textureStyle = activeReferenceTextures.length ? "photo" : activePreset ? presetTextureStyle(activePreset) : "clean";
-    el.dataset.hasTexture = activePreset?.exampleImage || referenceTexture ? "true" : "false";
+    const presetTexture = activePreset?.textureImage ?? activePreset?.exampleImage;
+    el.dataset.hasTexture = presetTexture || referenceTexture ? "true" : "false";
     el.dataset.referenceTexture = referenceTexture ? "true" : "false";
     el.style.setProperty("--x", nail.x);
     el.style.setProperty("--y", nail.y);
@@ -1261,8 +1273,9 @@ function renderNails() {
       );
       el.style.setProperty("--texture-position", "50% 50%");
       el.style.setProperty("--texture-size", "cover");
-    } else if (activePreset?.exampleImage) {
+    } else if (presetTexture) {
       const textureBase = activePreset.colorHint ?? colorInput.value;
+      el.style.setProperty("--texture-image", `url("${presetTexture}")`);
       el.style.setProperty("--texture-color-a", tint(textureBase, proModeInput.checked ? 0.42 : 0.28));
       el.style.setProperty("--texture-color-b", textureBase);
       el.style.setProperty("--texture-color-c", shade(textureBase, proModeInput.checked ? 0.06 : 0.14));
@@ -1986,14 +1999,22 @@ function drawOpenAiEditMask(canvas) {
 function drawNailMaskShape(ctx, nail, width, height) {
   const x = (nail.x / 100) * width;
   const y = (nail.y / 100) * height;
-  const nailWidth = 54 * nail.scale * (width / nailLayer.clientWidth);
-  const nailHeight = 94 * nail.scale * (height / nailLayer.clientHeight);
+  const nailWidth =
+    (nail.widthPct ? (nail.widthPct / 100) * width : 54 * (width / nailLayer.clientWidth)) *
+    nail.scale;
+  const nailHeightBase =
+    (nail.heightPct ? (nail.heightPct / 100) * height : 94 * (height / nailLayer.clientHeight)) *
+    nail.scale;
+  const length = Number(lengthInput.value);
+  const nailHeight = nailHeightBase * length;
+  const rootLockOffset = Math.max(0, nailHeight * (1 - 1 / Math.max(1, length)) * 0.52);
   const widthScale = nail.widthScale ?? 1;
   const heightScale = nail.heightScale ?? 1;
 
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate((nail.rotation * Math.PI) / 180);
+  ctx.translate(0, -rootLockOffset);
   ctx.beginPath();
 
   if (shapeInput.value === "square") {
@@ -2204,14 +2225,22 @@ function createAlphaMaskCanvas(maskCanvas) {
 function drawNail(ctx, nail, width, height, index = 0) {
   const x = (nail.x / 100) * width;
   const y = (nail.y / 100) * height;
-  const nailWidth = 54 * nail.scale * (width / nailLayer.clientWidth);
-  const nailHeight = 94 * nail.scale * (height / nailLayer.clientHeight);
+  const nailWidth =
+    (nail.widthPct ? (nail.widthPct / 100) * width : 54 * (width / nailLayer.clientWidth)) *
+    nail.scale;
+  const nailHeightBase =
+    (nail.heightPct ? (nail.heightPct / 100) * height : 94 * (height / nailLayer.clientHeight)) *
+    nail.scale;
+  const length = Number(lengthInput.value);
+  const nailHeight = nailHeightBase * length;
+  const rootLockOffset = Math.max(0, nailHeight * (1 - 1 / Math.max(1, length)) * 0.52);
   const widthScale = nail.widthScale ?? 1;
   const heightScale = nail.heightScale ?? 1;
 
   ctx.save();
   ctx.translate(x, y);
   ctx.rotate((nail.rotation * Math.PI) / 180);
+  ctx.translate(0, -rootLockOffset);
   const gradient = ctx.createLinearGradient(
     0,
     (-nailHeight * heightScale) / 2,
@@ -2260,6 +2289,12 @@ function drawNail(ctx, nail, width, height, index = 0) {
     ctx.clip();
     drawReferenceTexture(ctx, nailWidth * widthScale, nailHeight * heightScale, index, 1);
     drawReferenceRealismLayers(ctx, nailWidth * widthScale, nailHeight * heightScale, Number(thicknessInput.value), 0.62);
+    ctx.restore();
+  } else if (activePresetTextureImage?.complete && activePresetTextureImage.naturalWidth) {
+    ctx.save();
+    ctx.clip();
+    drawPresetTextureOnCanvas(ctx, nailWidth * widthScale, nailHeight * heightScale, index, 0.62);
+    drawReferenceRealismLayers(ctx, nailWidth * widthScale, nailHeight * heightScale, Number(thicknessInput.value) * 0.75, 0.62);
     ctx.restore();
   }
 
@@ -2352,6 +2387,27 @@ function drawReferenceRealismLayers(ctx, nailWidth, nailHeight, thickness, scene
   ctx.fillStyle = freeEdge;
   ctx.fillRect(-nailWidth * 0.42, nailHeight * 0.32, nailWidth * 0.84, nailHeight * 0.18);
 
+  ctx.restore();
+}
+
+function drawPresetTextureOnCanvas(ctx, nailWidth, nailHeight, index, alpha = 0.58) {
+  if (!activePresetTextureImage?.complete || !activePresetTextureImage.naturalWidth) return;
+  const clarity = Number(textureClarityInput?.value ?? 1.04);
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.globalCompositeOperation = "source-atop";
+  ctx.filter = `saturate(${0.98 + clarity * 0.18}) contrast(${0.98 + clarity * 0.12}) brightness(1.02)`;
+  ctx.drawImage(activePresetTextureImage, -nailWidth * 0.5, -nailHeight * 0.5, nailWidth, nailHeight);
+  ctx.filter = "none";
+  ctx.globalCompositeOperation = "soft-light";
+  ctx.globalAlpha = 0.12;
+  const contour = ctx.createLinearGradient(-nailWidth * 0.5, 0, nailWidth * 0.5, 0);
+  contour.addColorStop(0, "rgba(0,0,0,0.34)");
+  contour.addColorStop(0.22, "rgba(255,255,255,0.04)");
+  contour.addColorStop(0.78, "rgba(255,255,255,0.03)");
+  contour.addColorStop(1, "rgba(255,255,255,0.28)");
+  ctx.fillStyle = contour;
+  ctx.fillRect(-nailWidth * 0.5, -nailHeight * 0.5, nailWidth, nailHeight);
   ctx.restore();
 }
 

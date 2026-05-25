@@ -1,5 +1,5 @@
 ﻿const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260525-1045";
+const APP_ASSET_VERSION = "20260525-1105";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -110,6 +110,31 @@ function versionedAssetUrl(url) {
   return `${url}${url.includes("?") ? "&" : "?"}v=${APP_ASSET_VERSION}`;
 }
 
+function assetFallbackUrls(url) {
+  if (!url) return [];
+  const urls = [url];
+  if (!url.startsWith("data:") && !/^https?:\/\//.test(url)) {
+    const fileName = url.split("/").pop();
+    if (fileName && fileName !== url) urls.push(`./${fileName}`);
+    if (fileName && url.includes("preset-previews")) urls.push(`./assets/${fileName}`);
+  }
+  return [...new Set(urls)].map(versionedAssetUrl);
+}
+
+function tryImageFallback(img, urls, onFail) {
+  let index = 0;
+  const tryNext = () => {
+    index += 1;
+    if (index >= urls.length) {
+      onFail?.();
+      return;
+    }
+    img.src = urls[index];
+  };
+  img.addEventListener("error", tryNext);
+  img.src = urls[0];
+}
+
 const fingerNames = ["隕ｪ", "莠ｺ", "荳ｭ", "阮ｬ", "蟆・];
 const defaultNails = [
   { x: 32, y: 47, scale: 0.88, rotation: -18, widthScale: 1, heightScale: 1 },
@@ -129,6 +154,7 @@ let autoTracking = false;
 let designPresets = [];
 let activePreset = null;
 let activePresetTextureImage = null;
+let activePresetTextureUrl = null;
 let activeReferenceTextures = [];
 let activeReferenceTextureImages = [];
 let activeReferenceAverageColor = null;
@@ -233,28 +259,30 @@ async function loadDesignPresets() {
 function applyDesignPreset(preset) {
   activePreset = preset;
   activePresetTextureImage = null;
+  activePresetTextureUrl = null;
   activeReferenceTextures = [];
   activeReferenceTextureImages = [];
   activeReferenceAverageColor = null;
     if (referenceNailInput) referenceNailInput.value = "";
     if (referenceNailStatus) referenceNailStatus.textContent = "螳溷・繝励Μ繧ｻ繝・ヨ繧剃ｽｿ逕ｨ荳ｭ縺ｧ縺吶ょ盾閠・・逵溘ｒ蜈･繧後ｋ縺ｨ荳頑嶌縺阪〒縺阪∪縺吶・;
   if (referenceTexturePreview) referenceTexturePreview.innerHTML = "";
-  const presetTexture = versionedAssetUrl(preset.textureImage ?? preset.previewImage ?? preset.exampleImage);
-  if (presetTexture) {
+  const presetTextureUrls = assetFallbackUrls(preset.textureImage ?? preset.previewImage ?? preset.exampleImage);
+  if (presetTextureUrls.length) {
     activePresetTextureImage = new Image();
     activePresetTextureImage.onload = () => {
+      activePresetTextureUrl = activePresetTextureImage.src;
       renderNails();
       drawLiveNails();
     };
-    activePresetTextureImage.onerror = () => {
+    tryImageFallback(activePresetTextureImage, presetTextureUrls, () => {
       activePresetTextureImage = null;
+      activePresetTextureUrl = null;
       if (referenceNailStatus) {
         referenceNailStatus.textContent = "螳溷・繝励Μ繧ｻ繝・ヨ縺ｮ蜀咏悄縺瑚ｪｭ縺ｿ霎ｼ繧√∪縺帙ｓ縺ｧ縺励◆縲り牡縺ｨ雉ｪ諢溘・繝励Μ繧ｻ繝・ヨ縺ｧ陦ｨ遉ｺ縺励∪縺吶・;
       }
       renderNails();
       drawLiveNails();
-    };
-    activePresetTextureImage.src = presetTexture;
+    });
   }
   colorInput.value = proModeInput.checked
     ? softenPresetColor(preset.colorHint ?? colorInput.value, preset.material)
@@ -1069,10 +1097,10 @@ function renderPresetGallery() {
     button.className = "preset-card";
     button.dataset.presetId = preset.id;
     button.style.setProperty("--preset-card-color", preset.colorHint ?? "#d9829b");
-    const previewImage = versionedAssetUrl(preset.previewImage ?? preset.textureImage ?? preset.exampleImage);
+    const previewUrls = assetFallbackUrls(preset.previewImage ?? preset.textureImage ?? preset.exampleImage);
     button.innerHTML = `
       <span class="preset-card-fallback"></span>
-      ${previewImage ? `<img src="${previewImage}" alt="${preset.name}" loading="lazy" />` : ""}
+      ${previewUrls.length ? `<img alt="${preset.name}" loading="lazy" />` : ""}
       <span>${preset.name}</span>
     `;
     const img = button.querySelector("img");
@@ -1081,7 +1109,7 @@ function renderPresetGallery() {
       img.addEventListener("load", () => {
         button.dataset.imageState = "loaded";
       });
-      img.addEventListener("error", () => {
+      tryImageFallback(img, previewUrls, () => {
         img.remove();
         button.dataset.imageFailed = "true";
         button.dataset.imageState = "failed";
@@ -1250,7 +1278,7 @@ function renderNails() {
         ? activeReferenceTextures[0]
         : activeReferenceTextures[index % activeReferenceTextures.length];
     el.dataset.textureStyle = activeReferenceTextures.length ? "photo" : activePreset ? presetTextureStyle(activePreset) : "clean";
-    const presetTexture = versionedAssetUrl(activePreset?.textureImage ?? activePreset?.previewImage ?? activePreset?.exampleImage);
+    const presetTexture = activePresetTextureUrl ?? assetFallbackUrls(activePreset?.textureImage ?? activePreset?.previewImage ?? activePreset?.exampleImage)[0];
     el.dataset.hasTexture = presetTexture || referenceTexture ? "true" : "false";
     el.dataset.referenceTexture = referenceTexture ? "true" : "false";
     el.style.setProperty("--x", nail.x);

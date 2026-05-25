@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260525-1115";
+const APP_ASSET_VERSION = "20260525-1135";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -290,13 +290,13 @@ function applyDesignPreset(preset) {
   materialInput.value = preset.material;
   designInput.value = patternToDesign[preset.pattern] ?? "solid";
   finishInput.value = finishToInput[preset.finish] ?? "glossy";
-  motifInput.value = preset.motif ?? inferPresetMotif(preset);
+  motifInput.value = preset.textureImage || preset.previewImage ? "none" : preset.motif ?? inferPresetMotif(preset);
   motifColorInput.value = preset.motifColor ?? inferPresetMotifColor(preset);
   tipColorInput.value = preset.tipColor ?? inferPresetTipColor(preset);
   tipAmountInput.value = preset.tipAmount ?? inferPresetTipAmount(preset);
   motifDensityInput.value = preset.motifDensity ?? inferPresetMotifDensity(preset);
   if (proModeInput.checked) {
-    motifDensityInput.value = Math.min(Number(motifDensityInput.value), 0.9);
+    motifDensityInput.value = Math.min(Number(motifDensityInput.value), activePresetTextureImage ? 0.35 : 0.9);
     thicknessInput.value = Math.min(Number(thicknessInput.value), nailTypeInput.value === "natural" ? 0.24 : 0.62);
   }
   renderNails();
@@ -1336,7 +1336,7 @@ function renderNails() {
       el.style.setProperty("--texture-color-b", textureBase);
       el.style.setProperty("--texture-color-c", shade(textureBase, proModeInput.checked ? 0.06 : 0.14));
       el.style.setProperty("--texture-accent", activePreset.material === "glitter" ? "#fff4c7" : motifColorInput.value);
-      el.style.setProperty("--texture-opacity", proModeInput.checked ? 0.54 : 0.78);
+      el.style.setProperty("--texture-opacity", proModeInput.checked ? 0.76 : 0.92);
       const placement = texturePlacements[index % texturePlacements.length];
       el.style.setProperty("--texture-position", placement.position);
       el.style.setProperty("--texture-size", placement.size);

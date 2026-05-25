@@ -1097,6 +1097,21 @@ input[type="range"] {
     radial-gradient(ellipse at 50% 50%, #000 0 64%, transparent 86%);
 }
 
+.nail[data-has-texture="true"]:not([data-reference-texture="true"]) .nail-photo-texture {
+  background:
+    linear-gradient(100deg, transparent 0 22%, rgba(255,255,255,0.22) 34%, transparent 48%),
+    linear-gradient(90deg, rgba(28, 8, 18, 0.18), transparent 18% 84%, rgba(255,255,255,0.16)),
+    var(--texture-image) var(--texture-position) / var(--texture-size) no-repeat,
+    linear-gradient(180deg, color-mix(in srgb, var(--texture-color-a) 45%, transparent), transparent 42%),
+    linear-gradient(180deg, var(--texture-color-a), var(--texture-color-b) 58%, var(--texture-color-c));
+  background-blend-mode: screen, soft-light, normal, overlay, multiply;
+  filter:
+    saturate(calc(1.08 + var(--texture-clarity) * 0.18))
+    contrast(calc(1.02 + var(--texture-clarity) * 0.12))
+    brightness(1.02)
+    blur(0.05px);
+}
+
 .nail[data-texture-style="korean"] .nail-photo-texture {
   background:
     repeating-radial-gradient(circle at 40% 30%, rgba(255,255,255,0.1) 0 0.6px, transparent 0.8px 6px),
@@ -1307,12 +1322,12 @@ input[type="range"] {
 }
 
 .nail[data-has-texture="true"] .nail-motif {
-  opacity: 0.16;
+  opacity: 0;
   mix-blend-mode: soft-light;
 }
 
 .nail[data-has-texture="true"][data-pro-mode="false"] .nail-motif {
-  opacity: 0.18;
+  opacity: 0;
 }
 
 .nail[data-pro-mode="true"] .nail-surface {

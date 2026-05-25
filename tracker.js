@@ -153,7 +153,7 @@ function estimateFingerWidth(landmarks, index) {
 }
 
 function mirror(point) {
-  return { x: 1 - point.x, y: point.y };
+  return window.nailCameraMirrored === false ? { x: point.x, y: point.y } : { x: 1 - point.x, y: point.y };
 }
 
 function clamp(value, min, max) {

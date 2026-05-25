@@ -808,6 +808,14 @@ input[type="range"] {
   transform: scaleX(-1);
 }
 
+#cameraFeed[data-facing="environment"] {
+  transform: scaleX(1);
+}
+
+#cameraFeed[data-facing="user"] {
+  transform: scaleX(-1);
+}
+
 #liveCanvas {
   position: absolute;
   inset: 0;

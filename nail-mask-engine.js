@@ -96,7 +96,7 @@ export class NailMaskEngine {
 
       return {
         ...fallback,
-        x: (1 - centerX / video.videoWidth) * 100,
+        x: (window.nailCameraMirrored !== false ? 1 - centerX / video.videoWidth : centerX / video.videoWidth) * 100,
         y: (centerY / video.videoHeight) * 100,
         widthPct: clamp((maskWidth / video.videoWidth) * 100 * 1.02, 1.6, 8.4),
         heightPct: clamp((maskHeight / video.videoHeight) * 100 * 1.06, 2.4, 12.0),
@@ -109,7 +109,8 @@ export class NailMaskEngine {
   }
 
   cropAroundFallback(video, fallback) {
-    const rawCenterX = (1 - fallback.x / 100) * video.videoWidth;
+    const mirrored = window.nailCameraMirrored !== false;
+    const rawCenterX = (mirrored ? 1 - fallback.x / 100 : fallback.x / 100) * video.videoWidth;
     const rawCenterY = (fallback.y / 100) * video.videoHeight;
     const baseW = ((fallback.widthPct ?? 5) / 100) * video.videoWidth;
     const baseH = ((fallback.heightPct ?? 8) / 100) * video.videoHeight;
@@ -201,7 +202,7 @@ export class NailMaskEngine {
 
     return {
       ...fallback,
-      x: (1 - refinedCenter.x) * 100,
+      x: (window.nailCameraMirrored !== false ? 1 - refinedCenter.x : refinedCenter.x) * 100,
       y: refinedCenter.y * 100,
       widthPct: clamp((maxAcross - minAcross) * fingerLength * 100 * 0.88, 2.0, 8.4),
       heightPct: clamp((maxAlong - minAlong) * fingerLength * 100 * 1.18, 3.0, 11.2),

@@ -1,4 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
+const APP_ASSET_VERSION = "20260525-1025";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -104,6 +105,11 @@ function presetTextureStyle(preset) {
   return "clean";
 }
 
+function versionedAssetUrl(url) {
+  if (!url || url.startsWith("data:") || /^https?:\/\//.test(url)) return url;
+  return `${url}${url.includes("?") ? "&" : "?"}v=${APP_ASSET_VERSION}`;
+}
+
 const fingerNames = ["親", "人", "中", "薬", "小"];
 const defaultNails = [
   { x: 32, y: 47, scale: 0.88, rotation: -18, widthScale: 1, heightScale: 1 },
@@ -201,7 +207,7 @@ function setupPresetControl() {
 async function loadDesignPresets() {
   setupPresetControl();
   try {
-    const response = await fetch("./assets/design-presets.json", { cache: "no-store" });
+    const response = await fetch(`./assets/design-presets.json?v=${APP_ASSET_VERSION}`, { cache: "no-store" });
     if (!response.ok) throw new Error(`preset load failed: ${response.status}`);
     const data = await response.json();
     designPresets = data.presets ?? [];
@@ -234,7 +240,7 @@ function applyDesignPreset(preset) {
     if (referenceNailInput) referenceNailInput.value = "";
     if (referenceNailStatus) referenceNailStatus.textContent = "実写プリセットを使用中です。参考写真を入れると上書きできます。";
   if (referenceTexturePreview) referenceTexturePreview.innerHTML = "";
-  const presetTexture = preset.textureImage ?? preset.exampleImage;
+  const presetTexture = versionedAssetUrl(preset.textureImage ?? preset.previewImage ?? preset.exampleImage);
   if (presetTexture) {
     activePresetTextureImage = new Image();
     activePresetTextureImage.onload = () => {
@@ -1064,7 +1070,7 @@ function renderPresetGallery() {
     button.className = "preset-card";
     button.dataset.presetId = preset.id;
     button.style.setProperty("--preset-card-color", preset.colorHint ?? "#d9829b");
-    const previewImage = preset.previewImage ?? preset.textureImage ?? preset.exampleImage;
+    const previewImage = versionedAssetUrl(preset.previewImage ?? preset.textureImage ?? preset.exampleImage);
     button.innerHTML = `
       <span class="preset-card-fallback"></span>
       ${previewImage ? `<img src="${previewImage}" alt="${preset.name}" loading="lazy" />` : ""}
@@ -1240,7 +1246,7 @@ function renderNails() {
         ? activeReferenceTextures[0]
         : activeReferenceTextures[index % activeReferenceTextures.length];
     el.dataset.textureStyle = activeReferenceTextures.length ? "photo" : activePreset ? presetTextureStyle(activePreset) : "clean";
-    const presetTexture = activePreset?.textureImage ?? activePreset?.exampleImage;
+    const presetTexture = versionedAssetUrl(activePreset?.textureImage ?? activePreset?.previewImage ?? activePreset?.exampleImage);
     el.dataset.hasTexture = presetTexture || referenceTexture ? "true" : "false";
     el.dataset.referenceTexture = referenceTexture ? "true" : "false";
     el.style.setProperty("--x", nail.x);
@@ -1719,8 +1725,10 @@ async function captureCameraPhoto() {
   captureCanvas.width = cameraFeed.videoWidth;
   captureCanvas.height = cameraFeed.videoHeight;
   const ctx = captureCanvas.getContext("2d");
-  ctx.translate(captureCanvas.width, 0);
-  ctx.scale(-1, 1);
+  if (cameraFacingMode === "user") {
+    ctx.translate(captureCanvas.width, 0);
+    ctx.scale(-1, 1);
+  }
   ctx.drawImage(cameraFeed, 0, 0, captureCanvas.width, captureCanvas.height);
   const imageUrl = captureCanvas.toDataURL("image/jpeg", 0.94);
   loadImage(imageUrl);
@@ -1746,6 +1754,8 @@ async function startCamera(facingMode = "user") {
     currentMode = "camera";
     currentImageUrl = "";
     cameraFeed.srcObject = cameraStream;
+    cameraFeed.dataset.facing = cameraFacingMode;
+    window.nailCameraMirrored = cameraFacingMode === "user";
     handImage.style.display = "none";
     cameraFeed.style.display = "block";
     liveCanvas.style.display = "block";
@@ -1974,12 +1984,12 @@ async function renderCompositeToCanvas(canvas) {
   canvas.height = height;
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.clearRect(0, 0, width, height);
-  if (currentMode === "camera") {
+  if (currentMode === "camera" && cameraFacingMode === "user") {
     ctx.translate(width, 0);
     ctx.scale(-1, 1);
   }
   ctx.drawImage(source, 0, 0, width, height);
-  if (currentMode === "camera") {
+  if (currentMode === "camera" && cameraFacingMode === "user") {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
   }
 
@@ -2462,6 +2472,8 @@ function stopCamera() {
   cameraStream.getTracks().forEach((track) => track.stop());
   cameraStream = null;
   cameraFeed.srcObject = null;
+  cameraFeed.dataset.facing = "user";
+  window.nailCameraMirrored = true;
   cameraFeed.style.display = "none";
   liveCanvas.style.display = "none";
   cameraButton.classList.remove("is-hidden");
@@ -2571,7 +2583,9 @@ function sampleLocalNailLighting(x, y, width, height, nailWidth, nailHeight) {
   }
 
   const sampleSize = 18;
-  const sourceX = Math.max(0, Math.min(width - 1, x - nailWidth * 0.38));
+  const mirrored = window.nailCameraMirrored !== false;
+  const rawX = mirrored ? width - x : x;
+  const sourceX = Math.max(0, Math.min(width - 1, rawX - nailWidth * 0.38));
   const sourceY = Math.max(0, Math.min(height - 1, y + nailHeight * 0.18));
   const box = Math.max(10, Math.min(44, nailWidth * 0.82));
   localLightCanvas.width = sampleSize;

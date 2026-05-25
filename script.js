@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260525-1205";
+const APP_ASSET_VERSION = "20260525-1235";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -93,9 +93,6 @@ const texturePlacements = [
 
 function presetTextureStyle(preset) {
   if (!preset) return "clean";
-  if (preset.textureImage) {
-    return "photo";
-  }
   if (preset.mood === "korean" || preset.material === "jelly" || preset.material === "sheer") {
     return "korean";
   }
@@ -243,7 +240,7 @@ function applyDesignPreset(preset) {
     if (referenceNailInput) referenceNailInput.value = "";
     if (referenceNailStatus) referenceNailStatus.textContent = "実写プリセットを使用中です。参考写真を入れると上書きできます。";
   if (referenceTexturePreview) referenceTexturePreview.innerHTML = "";
-  const presetTexture = versionedAssetUrl(preset.textureImage);
+  const presetTexture = null;
   if (presetTexture) {
     activePresetTextureImage = new Image();
     activePresetTextureImage.onload = () => {
@@ -264,15 +261,15 @@ function applyDesignPreset(preset) {
     ? softenPresetColor(preset.colorHint ?? colorInput.value, preset.material)
     : preset.colorHint ?? colorInput.value;
   materialInput.value = preset.material;
-  designInput.value = preset.pattern === "french" ? "french" : "solid";
+  designInput.value = "solid";
   finishInput.value = finishToInput[preset.finish] ?? "glossy";
-  motifInput.value = preset.pattern === "french" || preset.mood === "korean" ? "tip_gradient" : preset.genre === "sparkle" ? "tip_glitter" : "none";
+  motifInput.value = "none";
   motifColorInput.value = preset.motifColor ?? inferPresetMotifColor(preset);
   tipColorInput.value = preset.tipColor ?? inferPresetTipColor(preset);
   tipAmountInput.value = preset.tipAmount ?? inferPresetTipAmount(preset);
   motifDensityInput.value = preset.motifDensity ?? inferPresetMotifDensity(preset);
   if (proModeInput.checked) {
-    motifDensityInput.value = Math.min(Number(motifDensityInput.value), 0.5);
+    motifDensityInput.value = Math.min(Number(motifDensityInput.value), 0.9);
     thicknessInput.value = Math.min(Number(thicknessInput.value), nailTypeInput.value === "natural" ? 0.24 : 0.62);
   }
   renderNails();
@@ -1249,7 +1246,7 @@ function renderNails() {
         ? activeReferenceTextures[0]
         : activeReferenceTextures[index % activeReferenceTextures.length];
     el.dataset.textureStyle = activeReferenceTextures.length ? "photo" : activePreset ? presetTextureStyle(activePreset) : "clean";
-    const presetTexture = versionedAssetUrl(activePreset?.textureImage);
+    const presetTexture = null;
     el.dataset.hasTexture = presetTexture || referenceTexture ? "true" : "false";
     el.dataset.referenceTexture = referenceTexture ? "true" : "false";
     el.style.setProperty("--x", nail.x);
@@ -1307,7 +1304,7 @@ function renderNails() {
       el.style.setProperty("--texture-color-b", textureBase);
       el.style.setProperty("--texture-color-c", shade(textureBase, proModeInput.checked ? 0.06 : 0.14));
       el.style.setProperty("--texture-accent", activePreset.material === "glitter" ? "#fff4c7" : motifColorInput.value);
-      el.style.setProperty("--texture-opacity", proModeInput.checked ? 0.9 : 0.96);
+      el.style.setProperty("--texture-opacity", proModeInput.checked ? 0.54 : 0.78);
       const placement = texturePlacements[index % texturePlacements.length];
       el.style.setProperty("--texture-position", placement.position);
       el.style.setProperty("--texture-size", placement.size);

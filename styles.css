@@ -1450,6 +1450,26 @@ input[type="range"] {
     calc(20px / var(--motif-density)) calc(20px / var(--motif-density));
 }
 
+/* EMERGENCY CHECKER KILL:
+   Do not allow tiled/checker artificial patterns to appear on salon presets. */
+.nail[data-motif="checker"] .nail-motif,
+.nail[data-motif="dots"] .nail-motif,
+.nail[data-motif="tip_pattern"] .nail-motif,
+.nail[data-design="patterned"] .nail-motif,
+.nail[data-has-texture="true"] .nail-motif {
+  opacity: 0 !important;
+  background: none !important;
+}
+
+.nail[data-texture-style="art"] .nail-photo-texture,
+.nail[data-texture-style="sparkle"] .nail-photo-texture,
+.nail[data-texture-style="photo"] .nail-photo-texture {
+  background-image:
+    linear-gradient(104deg, transparent 0 24%, rgba(255,255,255,0.22) 34%, transparent 52%),
+    linear-gradient(180deg, var(--texture-color-a), var(--texture-color-b) 58%, var(--texture-color-c)) !important;
+  background-blend-mode: screen, normal !important;
+}
+
 .nail[data-motif="tip_glitter"] .nail-motif {
   opacity: 0.38;
   background:

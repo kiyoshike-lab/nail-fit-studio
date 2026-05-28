@@ -1,117 +1,339 @@
-<!doctype html>
+﻿<!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Earline | ピアス試着</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nail Fit Studio</title>
+    <link rel="stylesheet" href="./styles.css?v=20260528-1245" />
   </head>
   <body>
     <main class="app">
-      <section class="studio" aria-label="ピアス試着エリア">
-        <div class="brand">
-          <span class="mark" aria-hidden="true">E</span>
-          <div>
-            <h1>Earline</h1>
-            <p>写真に合わせてピアスを試せます</p>
-          </div>
+      <section class="hero">
+        <p class="eyebrow">Virtual Nail Try-On</p>
+        <h1>自分の指に合うネイルを、写真やカメラで試す。</h1>
+        <p class="hero-copy">
+          手の写真やライブ映像にネイルを重ねて、色・形・長さ・参考写真のデザインを試せます。
+          参考写真を入れると、実写ネイル素材を切り出して仮想ネイルに反映します。
+        </p>
+        <div class="quick-guide">
+          <div><strong>1</strong><span>手の写真かカメラを選ぶ</span></div>
+          <div><strong>2</strong><span>ネイル色・長さ・参考写真を選ぶ</span></div>
+          <div><strong>3</strong><span>位置を微調整して保存</span></div>
         </div>
-
-        <div class="tryon-shell">
-          <div class="tryon-stage" id="stage">
-            <video id="cameraVideo" autoplay playsinline muted></video>
-            <img id="facePhoto" alt="試着用の顔写真" draggable="false">
-            <div class="drop-hint" id="dropHint">
-              <strong>写真かカメラを追加</strong>
-              <span>顔や体に合わせて、ピアスを重ねて調整できます</span>
-            </div>
-            <button class="ear-anchor left" id="leftEar" type="button" aria-label="左のピアス位置">
-              <span class="earring" id="leftEarring"></span>
-            </button>
-            <button class="ear-anchor right" id="rightEar" type="button" aria-label="右のピアス位置">
-              <span class="earring" id="rightEarring"></span>
-            </button>
-            <button class="ear-anchor body" id="bodyPiercing" type="button" aria-label="ボディピアス位置">
-              <span class="earring" id="bodyEarring"></span>
-            </button>
-          </div>
-        </div>
-
-        <div class="quick-actions">
-          <label class="file-button">
-            <input id="photoInput" type="file" accept="image/*">
-            <span aria-hidden="true">+</span>
-            写真を選ぶ
-          </label>
-          <button id="cameraButton" type="button">● カメラ</button>
-          <button id="trackingButton" type="button">◎ 追尾</button>
-          <button id="favoriteButton" type="button">♡ 候補に追加</button>
-          <button id="resetButton" type="button">↺ リセット</button>
-          <button id="downloadButton" type="button">↓ 保存</button>
+        <p class="privacy-note">
+          写真とカメラ映像はこの端末の中で処理します。サーバーへアップロードする作りではありません。
+        </p>
+        <div class="first-use-guide">
+          <strong>はじめての人はこの順番でOK</strong>
+          <ol>
+            <li>手の写真かカメラを入れる</li>
+            <li>気になる色・長さ・参考写真を試す</li>
+            <li>似合いチェックを見る</li>
+            <li>候補として保存して比べる</li>
+            <li>サロン用比較シートを保存して見せる</li>
+          </ol>
         </div>
       </section>
 
-      <aside class="panel" aria-label="ピアス設定">
-        <div class="panel-section">
-          <h2>Placement</h2>
-          <div class="placement-grid" id="placementGrid"></div>
-        </div>
-
-        <div class="panel-section">
-          <h2>Style</h2>
-          <div class="style-grid" id="styleGrid"></div>
-        </div>
-
-        <div class="panel-section">
-          <h2>Color</h2>
-          <div class="swatches" id="swatches"></div>
-        </div>
-
-        <div class="panel-section controls">
-          <label>
-            <span>大きさ</span>
-            <input id="sizeControl" type="range" min="54" max="150" value="92">
+      <section class="workspace">
+        <aside class="panel">
+          <label class="upload">
+            <span>手の写真を選ぶ</span>
+            <input id="photoInput" type="file" accept="image/*" />
           </label>
-          <label>
-            <span>左右の間隔</span>
-            <input id="spreadControl" type="range" min="8" max="30" value="19">
-          </label>
-          <label>
-            <span>高さ</span>
-            <input id="heightControl" type="range" min="18" max="86" value="45">
-          </label>
-        </div>
 
-        <div class="panel-section">
-          <h2>Fit</h2>
-          <div class="fit-mode" id="fitMode" role="group" aria-label="調整する耳">
-            <button data-ear="both" type="button" aria-pressed="true">両耳</button>
-            <button data-ear="left" type="button" aria-pressed="false">左耳</button>
-            <button data-ear="right" type="button" aria-pressed="false">右耳</button>
-          </div>
-          <div class="fit-tools">
-            <button data-nudge="up" type="button" aria-label="上へ">↑</button>
-            <button data-nudge="left" type="button" aria-label="左へ">←</button>
-            <button data-nudge="down" type="button" aria-label="下へ">↓</button>
-            <button data-nudge="right" type="button" aria-label="右へ">→</button>
-          </div>
-        </div>
+          <button id="sampleButton" class="secondary-button" type="button">
+            サンプル写真で試す
+          </button>
 
-        <div class="panel-section">
-          <h2>Looks</h2>
-          <div class="lookbook" id="lookbook"></div>
-        </div>
+          <button id="cameraButton" class="secondary-button" type="button">
+            カメラで試す
+          </button>
 
-        <div class="panel-section">
-          <div class="section-title-row">
-            <h2>Compare</h2>
-            <button id="clearFavoritesButton" class="text-button" type="button">クリア</button>
+          <button id="switchCameraButton" class="secondary-button is-hidden" type="button">
+            外カメラに切り替え
+          </button>
+
+          <button id="capturePhotoButton" class="secondary-button is-hidden" type="button">
+            写真を撮る
+          </button>
+
+          <button id="captureAiFinishButton" class="secondary-button is-hidden" type="button">
+            写真を撮ってAI仕上げ
+          </button>
+
+          <button id="stopCameraButton" class="secondary-button is-hidden" type="button">
+            カメラを止める
+          </button>
+
+          <p id="trackingStatus" class="tracking-status">
+            カメラを起動すると、指先の自動追従を準備します。
+          </p>
+          <div id="qualityStatus" class="quality-status">
+            <strong>Salon quality</strong>
+            <span>写真かカメラを入れると品質チェックを表示します。</span>
           </div>
-          <div class="favorites" id="favorites"></div>
-        </div>
-      </aside>
+
+          <div class="simple-flow">
+            <strong>基本はこの3つ</strong>
+            <span>①参考写真 ②長さ/形 ③似合いチェック</span>
+          </div>
+
+          <div class="control-group">
+            <h2>デザイン <span>よく使う設定</span></h2>
+
+            <label class="pro-mode-toggle">
+              <input id="proModeInput" type="checkbox" checked />
+              プロモード（自然に見せる）
+            </label>
+
+            <label class="pro-mode-toggle realism-toggle">
+              <input id="realismBoostInput" type="checkbox" checked />
+              リアル強化（影・艶・なじみを強くする）
+            </label>
+
+            <label>
+              カラー
+              <input id="colorInput" type="color" value="#d9829b" />
+            </label>
+
+            <label>
+              形
+              <select id="shapeInput">
+                <option value="natural">ナチュラル</option>
+                <option value="almond">アーモンド</option>
+                <option value="oval">オーバル</option>
+                <option value="square">スクエア</option>
+                <option value="coffin">コフィン</option>
+              </select>
+            </label>
+
+            <label>
+              仕上げ
+              <select id="finishInput">
+                <option value="glossy">つや</option>
+                <option value="matte">マット</option>
+                <option value="pearl">パール</option>
+              </select>
+            </label>
+
+            <label>
+              デザイン
+              <select id="designInput">
+                <option value="solid">ワンカラー</option>
+                <option value="french">フレンチ</option>
+                <option value="gradient">グラデーション</option>
+                <option value="glitter">ラメ</option>
+                <option value="marble">マーブル</option>
+              </select>
+            </label>
+
+            <label>
+              素材感
+              <select id="materialInput">
+                <option value="cream">クリーム</option>
+                <option value="jelly">ジェリー</option>
+                <option value="sheer">シアー</option>
+                <option value="metallic">メタリック</option>
+                <option value="shimmer">シマー</option>
+              </select>
+            </label>
+
+            <label>
+              模様
+              <select id="motifInput">
+                <option value="none">なし</option>
+                <option value="dots">ドット</option>
+                <option value="flowers">花</option>
+                <option value="hearts">ハート</option>
+                <option value="stars">星</option>
+                <option value="stripes">ストライプ</option>
+                <option value="tip_glitter">爪先ラメ</option>
+                <option value="tip_pattern">爪先だけ模様</option>
+                <option value="vertical_gradient">縦グラデ</option>
+                <option value="tip_gradient">爪先グラデ</option>
+                <option value="base_gradient">根元グラデ</option>
+                <option value="checker">チェック</option>
+              </select>
+            </label>
+
+            <label>
+              模様の色
+              <input id="motifColorInput" type="color" value="#ffffff" />
+            </label>
+
+            <label>
+              爪先の色
+              <input id="tipColorInput" type="color" value="#fff4ee" />
+            </label>
+
+            <label>
+              爪先カラーの広さ
+              <input id="tipAmountInput" type="range" min="0.12" max="0.55" step="0.01" value="0.32" />
+            </label>
+
+            <label class="reference-upload">
+              参考写真のネイルを再現
+              <input id="referenceNailInput" type="file" accept="image/*" />
+              <span id="referenceNailStatus">写真を入れると、ネイルっぽい部分だけを切り出して使います。</span>
+            </label>
+            <div id="referenceTexturePreview" class="reference-texture-preview"></div>
+
+            <label>
+              写真への似せ具合
+              <input id="photoFidelityInput" type="range" min="0.45" max="1" step="0.01" value="0.96" />
+            </label>
+
+            <label>
+              模様の量
+              <input id="motifDensityInput" type="range" min="0.4" max="1.8" step="0.01" value="1" />
+            </label>
+
+            <label>
+              ネイルタイプ
+              <select id="nailTypeInput">
+                <option value="natural">自爪に塗る</option>
+                <option value="presson">付け爪 / チップ</option>
+                <option value="acrylic">アクリル長め</option>
+                <option value="gelx">ジェル延長</option>
+              </select>
+            </label>
+
+            <label>
+              長さ
+              <input id="lengthInput" type="range" min="0.75" max="2.8" step="0.01" value="1" />
+            </label>
+
+            <label>
+              厚み
+              <input id="thicknessInput" type="range" min="0" max="1" step="0.01" value="0.25" />
+            </label>
+
+            <div class="salon-finish-box">
+              <h3>プロ最終調整</h3>
+              <p>仕事で見せる前の、根元・艶・影・写真感の微調整です。</p>
+
+              <label>
+                根元のなじみ
+                <input id="rootBlendInput" type="range" min="0" max="1" step="0.01" value="0.72" />
+              </label>
+
+              <label>
+                艶の強さ
+                <input id="glossStrengthInput" type="range" min="0.2" max="1.45" step="0.01" value="0.92" />
+              </label>
+
+              <label>
+                影の自然さ
+                <input id="shadowStrengthInput" type="range" min="0.2" max="1.45" step="0.01" value="0.88" />
+              </label>
+
+              <label>
+                写真素材のくっきり感
+                <input id="textureClarityInput" type="range" min="0.55" max="1.45" step="0.01" value="1.04" />
+              </label>
+
+              <button id="salonCheckButton" class="secondary-button" type="button">サロン品質チェック</button>
+            </div>
+
+            <div class="fit-advice-box">
+              <h3>似合いチェック</h3>
+              <p>付ける前に、色・長さ・雰囲気が自分に合いそうか確認します。</p>
+              <button id="fitCheckButton" class="secondary-button" type="button">似合いチェックする</button>
+              <div id="fitAdviceResult" class="fit-advice-result">
+                写真かカメラを入れてからチェックできます。
+              </div>
+            </div>
+
+            <label class="custom-design-box">
+              自分でデザインを書く
+              <textarea id="customDesignInput" rows="4" placeholder="例：透明感あるピンク、爪先だけ白グラデ、細かいラメ、韓国っぽく"></textarea>
+              <button id="applyCustomDesignButton" class="secondary-button" type="button">このデザインを仮想ネイルにする</button>
+            </label>
+          </div>
+
+          <div class="control-group">
+            <h2>選択中の指 <span>ズレた時だけ調整</span></h2>
+            <div class="finger-tabs" id="fingerTabs"></div>
+
+            <label>
+              横位置
+              <input id="xInput" type="range" min="0" max="100" step="0.1" />
+            </label>
+
+            <label>
+              縦位置
+              <input id="yInput" type="range" min="0" max="100" step="0.1" />
+            </label>
+
+            <label>
+              大きさ
+              <input id="scaleInput" type="range" min="0.5" max="1.8" step="0.01" />
+            </label>
+
+            <label>
+              角度
+              <input id="rotationInput" type="range" min="-45" max="45" step="1" />
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="resetButton" type="button">位置をリセット</button>
+            <button id="downloadButton" type="button">画像を保存</button>
+            <button id="saveCandidateButton" type="button">候補として保存</button>
+            <div class="comparison-box">
+              <div class="comparison-header">
+                <strong>候補比較</strong>
+                <button id="clearCandidatesButton" type="button">クリア</button>
+              </div>
+              <div id="comparisonList" class="comparison-list">
+                <p>気になるネイルを保存すると、ここで比べられます。</p>
+              </div>
+              <button id="downloadSalonSheetButton" type="button">サロン用比較シートを保存</button>
+            </div>
+            <button id="aiFinishButton" type="button">AI写真仕上げ用に書き出す</button>
+            <p id="aiFinishStatus" class="ai-finish-status">
+              最後の1枚を画像生成AIで写真っぽく補正するための素材を書き出します。
+            </p>
+            <div id="aiFinishResult" class="ai-finish-result is-hidden">
+              <strong>AI写真仕上げプレビュー</strong>
+              <img id="aiFinishImage" alt="AI写真仕上げ結果" />
+              <button id="downloadAiFinishButton" type="button">仕上げ画像を保存</button>
+            </div>
+          </div>
+        </aside>
+
+        <section class="preview-card">
+          <div class="preview-header">
+            <strong>プレビュー</strong>
+            <span>ネイルをドラッグして微調整できます</span>
+          </div>
+
+          <div class="canvas" id="canvas">
+            <div class="empty-state" id="emptyState">
+              <div class="hand-icon">✋</div>
+              <p>写真をアップロードすると、ここで試着できます。</p>
+            </div>
+            <div class="image-stage" id="imageStage">
+              <img id="handImage" alt="手の写真" />
+              <video id="cameraFeed" autoplay playsinline muted></video>
+              <canvas id="liveCanvas"></canvas>
+              <div id="nailLayer" class="nail-layer"></div>
+            </div>
+          </div>
+        </section>
+      </section>
     </main>
 
-    <script src="app.js"></script>
+    <canvas id="exportCanvas" hidden></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js"></script>
+    <script type="module" src="./tracker.js?v=20260528-1245"></script>
+    <script src="./script.js?v=20260528-1245"></script>
   </body>
 </html>
+
+
+
+
+
+

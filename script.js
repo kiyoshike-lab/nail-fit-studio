@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260528-1310";
+const APP_ASSET_VERSION = "20260528-1335";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -146,6 +146,25 @@ const localLightCtx = localLightCanvas.getContext("2d", { willReadFrequently: tr
 let presetInput = null;
 let presetGallery = null;
 let presetGenreInput = null;
+
+function syncPreviewStageSize() {
+  if (!imageStage || currentMode === "empty") return;
+  const source = currentMode === "camera" ? cameraFeed : handImage;
+  if (!source || source.style.display === "none") return;
+  const rect = source.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  imageStage.style.width = `${Math.round(rect.width)}px`;
+  imageStage.style.height = `${Math.round(rect.height)}px`;
+  imageStage.style.maxWidth = "100%";
+}
+
+function refreshPreviewLayout() {
+  requestAnimationFrame(() => {
+    syncPreviewStageSize();
+    renderNails();
+    drawLiveNails();
+  });
+}
 
 function ensureOption(select, value, label) {
   if ([...select.options].some((option) => option.value === value)) return;
@@ -1654,10 +1673,12 @@ function loadImage(src) {
   currentMode = "image";
   currentImageUrl = src;
   handImage.src = src;
+  handImage.onload = refreshPreviewLayout;
   handImage.style.display = "block";
   cameraFeed.style.display = "none";
   liveCanvas.style.display = "none";
   imageStage.style.display = "block";
+  refreshPreviewLayout();
   emptyState.style.display = "none";
   updateQualityStatus({
     level: activeReferenceTextures.length ? "medium" : "low",
@@ -1754,12 +1775,15 @@ async function startCamera(facingMode = "user") {
     currentMode = "camera";
     currentImageUrl = "";
     cameraFeed.srcObject = cameraStream;
+    cameraFeed.onloadedmetadata = refreshPreviewLayout;
+    cameraFeed.onresize = refreshPreviewLayout;
     cameraFeed.dataset.facing = cameraFacingMode;
     window.nailCameraMirrored = cameraFacingMode === "user";
     handImage.style.display = "none";
     cameraFeed.style.display = "block";
     liveCanvas.style.display = "block";
     imageStage.style.display = "block";
+    refreshPreviewLayout();
     emptyState.style.display = "none";
     cameraButton.classList.add("is-hidden");
     switchCameraButton?.classList.remove("is-hidden");
@@ -3141,6 +3165,9 @@ function drawStar(ctx, x, y, size, color) {
   ctx.closePath();
   ctx.fill();
 }
+
+window.addEventListener("resize", refreshPreviewLayout);
+window.addEventListener("orientationchange", refreshPreviewLayout);
 
 syncControls();
 renderNails();

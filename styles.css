@@ -778,6 +778,8 @@ input[type="range"] {
 .preview-card {
   border-radius: 28px;
   overflow: hidden;
+  align-self: start;
+  position: -webkit-sticky;
   position: sticky;
   top: 16px;
   z-index: 5;
@@ -827,10 +829,11 @@ input[type="range"] {
 .image-stage {
   position: relative;
   display: none;
-  width: 100%;
+  width: fit-content;
   max-width: 100%;
   max-height: 76vh;
   min-width: 0;
+  margin: 0 auto;
 }
 
 #handImage,
@@ -1750,7 +1753,8 @@ input[type="range"] {
     grid-template-columns: 1fr;
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
+    overflow: visible;
+    padding-top: calc(min(54vh, 520px) + 58px);
   }
 
   .panel {
@@ -1764,12 +1768,16 @@ input[type="range"] {
 
   .preview-card {
     order: 1;
-    position: sticky;
+    left: 9px;
+    right: 9px;
+    margin: 0 auto;
+    position: -webkit-sticky;
+    position: fixed;
     top: 0;
-    z-index: 20;
+    z-index: 100;
     border-radius: 0 0 22px 22px;
-    width: 100%;
-    max-width: 100%;
+    width: auto;
+    max-width: none;
   }
 
   .canvas {
@@ -1811,11 +1819,15 @@ input[type="range"] {
     max-height: 390px;
   }
 
+  .workspace {
+    padding-top: calc(min(44vh, 390px) + 52px);
+  }
+
   .image-stage,
   #handImage,
   #cameraFeed {
     max-height: calc(44vh - 42px);
-    width: 100%;
+    width: auto;
     max-width: 100%;
   }
 
@@ -1825,10 +1837,12 @@ input[type="range"] {
   }
 
   .preview-card {
-    margin-left: -9px;
-    margin-right: -9px;
-    width: calc(100% + 18px);
-    max-width: calc(100% + 18px);
+    left: 0;
+    right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    width: auto;
+    max-width: none;
   }
 
   .panel,

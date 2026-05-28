@@ -16,8 +16,14 @@
   box-sizing: border-box;
 }
 
+html {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
+  width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
   color: var(--ink);
@@ -43,10 +49,12 @@ input {
   grid-template-columns: minmax(0, 1fr) 340px;
   gap: 18px;
   align-items: stretch;
+  overflow-x: hidden;
 }
 
 .studio,
 .panel {
+  min-width: 0;
   background: rgba(255, 254, 253, .78);
   border: 1px solid rgba(217, 210, 198, .82);
   box-shadow: var(--shadow);
@@ -96,6 +104,8 @@ h1 {
 }
 
 .tryon-shell {
+  width: 100%;
+  min-width: 0;
   min-height: 520px;
   display: grid;
   place-items: center;
@@ -104,6 +114,7 @@ h1 {
 .tryon-stage {
   position: relative;
   width: min(100%, 640px);
+  max-width: 100%;
   aspect-ratio: 4 / 5;
   overflow: hidden;
   border-radius: 8px;
@@ -596,10 +607,14 @@ input[type="range"] {
   .app {
     width: 100%;
     padding: 0;
+    overflow-x: clip;
   }
 
   .studio,
   .panel {
+    width: 100%;
+    min-width: 0;
+    overflow-x: clip;
     border-radius: 0;
     border-left: 0;
     border-right: 0;
@@ -629,8 +644,16 @@ input[type="range"] {
   }
 
   .tryon-stage {
-    width: 100%;
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    margin: 0 auto;
+    aspect-ratio: 3 / 4;
     border-radius: 8px;
+  }
+
+  .tryon-shell {
+    width: 100%;
+    display: block;
   }
 
   .quick-actions {
@@ -643,6 +666,7 @@ input[type="range"] {
     min-height: 42px;
     padding: 8px 6px;
     font-size: .88rem;
+    overflow-wrap: anywhere;
   }
 
   .panel-section + .panel-section {
@@ -662,6 +686,14 @@ input[type="range"] {
     gap: 8px;
     padding: 8px;
     font-size: .82rem;
+    overflow: hidden;
+  }
+
+  .style-option span,
+  .placement-option span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .mini {

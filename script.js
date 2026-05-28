@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260528-1245";
+const APP_ASSET_VERSION = "20260528-1310";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -240,7 +240,7 @@ function applyDesignPreset(preset) {
     if (referenceNailInput) referenceNailInput.value = "";
     if (referenceNailStatus) referenceNailStatus.textContent = "実写プリセットを使用中です。参考写真を入れると上書きできます。";
   if (referenceTexturePreview) referenceTexturePreview.innerHTML = "";
-  const presetTexture = versionedAssetUrl(preset.textureImage ?? preset.previewImage ?? preset.exampleImage);
+  const presetTexture = null;
   if (presetTexture) {
     activePresetTextureImage = new Image();
     activePresetTextureImage.onload = () => {
@@ -261,9 +261,9 @@ function applyDesignPreset(preset) {
     ? softenPresetColor(preset.colorHint ?? colorInput.value, preset.material)
     : preset.colorHint ?? colorInput.value;
   materialInput.value = preset.material;
-  designInput.value = patternToDesign[preset.pattern] ?? "solid";
+  designInput.value = "solid";
   finishInput.value = finishToInput[preset.finish] ?? "glossy";
-  motifInput.value = preset.motif ?? inferPresetMotif(preset);
+  motifInput.value = "none";
   motifColorInput.value = preset.motifColor ?? inferPresetMotifColor(preset);
   tipColorInput.value = preset.tipColor ?? inferPresetTipColor(preset);
   tipAmountInput.value = preset.tipAmount ?? inferPresetTipAmount(preset);
@@ -1246,7 +1246,7 @@ function renderNails() {
         ? activeReferenceTextures[0]
         : activeReferenceTextures[index % activeReferenceTextures.length];
     el.dataset.textureStyle = activeReferenceTextures.length ? "photo" : activePreset ? presetTextureStyle(activePreset) : "clean";
-    const presetTexture = versionedAssetUrl(activePreset?.textureImage ?? activePreset?.previewImage ?? activePreset?.exampleImage);
+    const presetTexture = null;
     el.dataset.hasTexture = presetTexture || referenceTexture ? "true" : "false";
     el.dataset.referenceTexture = referenceTexture ? "true" : "false";
     el.style.setProperty("--x", nail.x);

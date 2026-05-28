@@ -1,4 +1,4 @@
-import {
+﻿import {
   FilesetResolver,
   HandLandmarker,
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
@@ -39,9 +39,9 @@ window.startHandTracking = async function startHandTracking(video, update) {
         baseOptions: { modelAssetPath: modelUrl },
         runningMode: "VIDEO",
         numHands: 1,
-        minHandDetectionConfidence: 0.55,
-        minHandPresenceConfidence: 0.55,
-        minTrackingConfidence: 0.55,
+        minHandDetectionConfidence: 0.45,
+        minHandPresenceConfidence: 0.45,
+        minTrackingConfidence: 0.45,
       });
     }
     if (!nailMaskEngine) {
@@ -108,12 +108,12 @@ function buildNailsFromLandmarks(landmarks) {
     const proximalDx = dip.x - pip.x;
     const proximalDy = dip.y - pip.y;
 
-    const blendedDx = distalDx * 0.72 + proximalDx * 0.28;
-    const blendedDy = distalDy * 0.72 + proximalDy * 0.28;
+    const blendedDx = distalDx * 0.62 + proximalDx * 0.38;
+    const blendedDy = distalDy * 0.62 + proximalDy * 0.38;
     const fingerLength = Math.hypot(tip.x - pip.x, tip.y - pip.y);
     const rotation = (Math.atan2(blendedDy, blendedDx) * 180) / Math.PI + 90;
-    const nailCenterX = tip.x - blendedDx * 0.2;
-    const nailCenterY = tip.y - blendedDy * 0.2;
+    const nailCenterX = tip.x - blendedDx * 0.24;
+    const nailCenterY = tip.y - blendedDy * 0.24;
     const aspect = nailAspectMultipliers[index];
     const widthEstimate = estimateFingerWidth(landmarks, index) * fingerWidthMultipliers[index];
     const nailWidthPct = clamp(widthEstimate * 100 * 0.68 * aspect.width, 2.2, 8.2);
@@ -166,3 +166,5 @@ function waitForVideo(video) {
     video.addEventListener("loadeddata", resolve, { once: true });
   });
 }
+
+

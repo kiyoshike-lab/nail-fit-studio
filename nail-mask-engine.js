@@ -1,4 +1,4 @@
-export class NailMaskEngine {
+﻿export class NailMaskEngine {
   constructor() {
     this.mode = "pixel-roi-estimate";
     this.canvas = document.createElement("canvas");
@@ -83,7 +83,7 @@ export class NailMaskEngine {
     try {
       const outputs = await this.session.run({ image: input });
       const mask = outputs.mask;
-      const box = maskBoundingBox(mask.data, mask.dims.at(-1), mask.dims.at(-2), 0.62);
+      const box = maskBoundingBox(mask.data, mask.dims.at(-1), mask.dims.at(-2), 0.58) ?? maskBoundingBox(mask.data, mask.dims.at(-1), mask.dims.at(-2), 0.5);
       if (!box) return fallback;
 
       const centerX = crop.sx + ((box.minX + box.maxX) / 2 / 192) * crop.sw;
@@ -92,7 +92,7 @@ export class NailMaskEngine {
       const maskHeight = ((box.maxY - box.minY + 1) / 192) * crop.sh;
       const confidence = box.count / (192 * 192);
 
-      if (confidence < 0.004 || confidence > 0.38) return fallback;
+      if (confidence < 0.003 || confidence > 0.42) return fallback;
 
       return {
         ...fallback,
@@ -114,7 +114,7 @@ export class NailMaskEngine {
     const rawCenterY = (fallback.y / 100) * video.videoHeight;
     const baseW = ((fallback.widthPct ?? 5) / 100) * video.videoWidth;
     const baseH = ((fallback.heightPct ?? 8) / 100) * video.videoHeight;
-    const cropSize = clamp(Math.max(baseW * 2.7, baseH * 2.05, 64), 64, Math.min(video.videoWidth, video.videoHeight) * 0.46);
+    const cropSize = clamp(Math.max(baseW * 3.1, baseH * 2.35, 72), 72, Math.min(video.videoWidth, video.videoHeight) * 0.5);
     const sx = clamp(rawCenterX - cropSize / 2, 0, video.videoWidth - cropSize);
     const sy = clamp(rawCenterY - cropSize / 2, 0, video.videoHeight - cropSize);
     if (!Number.isFinite(sx) || !Number.isFinite(sy) || cropSize <= 0) return null;
@@ -274,3 +274,4 @@ function rgbToHsl(r, g, b) {
     delta === 0 ? 0 : delta / (1 - Math.abs(2 * lightness - 1));
   return { saturation, lightness };
 }
+

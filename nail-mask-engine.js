@@ -91,15 +91,26 @@
       const maskWidth = ((box.maxX - box.minX + 1) / 192) * crop.sw;
       const maskHeight = ((box.maxY - box.minY + 1) / 192) * crop.sh;
       const confidence = box.count / (192 * 192);
+      const displayCenterX = window.nailCameraMirrored !== false ? 1 - centerX / video.videoWidth : centerX / video.videoWidth;
+      const displayCenterY = centerY / video.videoHeight;
+      const widthPct = clamp((maskWidth / video.videoWidth) * 100 * 1.02, 1.6, 8.4);
+      const heightPct = clamp((maskHeight / video.videoHeight) * 100 * 1.06, 2.4, 12.0);
+      const axisLength = Math.hypot(fallback.axisX ?? 0, fallback.axisY ?? -1) || 1;
+      const axisX = (fallback.axisX ?? 0) / axisLength;
+      const axisY = (fallback.axisY ?? -1) / axisLength;
 
       if (confidence < 0.003 || confidence > 0.42) return fallback;
 
       return {
         ...fallback,
-        x: (window.nailCameraMirrored !== false ? 1 - centerX / video.videoWidth : centerX / video.videoWidth) * 100,
-        y: (centerY / video.videoHeight) * 100,
-        widthPct: clamp((maskWidth / video.videoWidth) * 100 * 1.02, 1.6, 8.4),
-        heightPct: clamp((maskHeight / video.videoHeight) * 100 * 1.06, 2.4, 12.0),
+        x: displayCenterX * 100,
+        y: displayCenterY * 100,
+        rootX: (displayCenterX - axisX * (heightPct / 100) * 0.44) * 100,
+        rootY: (displayCenterY - axisY * (heightPct / 100) * 0.44) * 100,
+        axisX,
+        axisY,
+        widthPct,
+        heightPct,
         aiConfidence: confidence,
       };
     } catch (error) {
@@ -199,13 +210,23 @@
         axis.y * fingerLength * centerAlong +
         normal.y * fingerLength * centerAcross,
     };
+    const displayCenterX = window.nailCameraMirrored !== false ? 1 - refinedCenter.x : refinedCenter.x;
+    const displayCenterY = refinedCenter.y;
+    const displayAxisX = window.nailCameraMirrored !== false ? -axis.x : axis.x;
+    const displayAxisY = axis.y;
+    const widthPct = clamp((maxAcross - minAcross) * fingerLength * 100 * 0.88, 2.0, 8.4);
+    const heightPct = clamp((maxAlong - minAlong) * fingerLength * 100 * 1.18, 3.0, 11.2);
 
     return {
       ...fallback,
-      x: (window.nailCameraMirrored !== false ? 1 - refinedCenter.x : refinedCenter.x) * 100,
-      y: refinedCenter.y * 100,
-      widthPct: clamp((maxAcross - minAcross) * fingerLength * 100 * 0.88, 2.0, 8.4),
-      heightPct: clamp((maxAlong - minAlong) * fingerLength * 100 * 1.18, 3.0, 11.2),
+      x: displayCenterX * 100,
+      y: displayCenterY * 100,
+      rootX: (displayCenterX - displayAxisX * (heightPct / 100) * 0.44) * 100,
+      rootY: (displayCenterY - displayAxisY * (heightPct / 100) * 0.44) * 100,
+      axisX: displayAxisX,
+      axisY: displayAxisY,
+      widthPct,
+      heightPct,
       widthScale: 1,
       heightScale: 1,
     };

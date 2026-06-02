@@ -2,7 +2,7 @@
   FilesetResolver,
   HandLandmarker,
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
-import { NailMaskEngine } from "./nail-mask-engine.js";
+import { NailMaskEngine } from "./nail-mask-engine.js?v=20260603-1010";
 
 const modelUrl =
   "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
@@ -118,10 +118,19 @@ function buildNailsFromLandmarks(landmarks) {
     const widthEstimate = estimateFingerWidth(landmarks, index) * fingerWidthMultipliers[index];
     const nailWidthPct = clamp(widthEstimate * 100 * 0.68 * aspect.width, 2.2, 8.2);
     const nailHeightPct = clamp(fingerLength * 100 * 0.34 * aspect.height, 3.2, 11.5);
+    const axisLength = Math.hypot(blendedDx, blendedDy) || 1;
+    const axisX = blendedDx / axisLength;
+    const axisY = blendedDy / axisLength;
+    const rootX = nailCenterX - axisX * (nailHeightPct / 100) * 0.44;
+    const rootY = nailCenterY - axisY * (nailHeightPct / 100) * 0.44;
 
     return {
       x: nailCenterX * 100,
       y: nailCenterY * 100,
+      rootX: rootX * 100,
+      rootY: rootY * 100,
+      axisX,
+      axisY,
       scale: 1,
       rotation,
       widthScale: 1,

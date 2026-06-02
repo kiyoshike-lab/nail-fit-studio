@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260528-1335";
+const APP_ASSET_VERSION = "20260603-1010";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -164,6 +164,28 @@ function refreshPreviewLayout() {
     renderNails();
     drawLiveNails();
   });
+}
+
+function getLengthLockedNailPose(nail) {
+  const length = Number(lengthInput?.value ?? 1);
+  const hasRootAnchor =
+    Number.isFinite(nail.rootX) &&
+    Number.isFinite(nail.rootY) &&
+    Number.isFinite(nail.axisX) &&
+    Number.isFinite(nail.axisY) &&
+    Number.isFinite(nail.heightPct);
+  if (!hasRootAnchor) {
+    return { x: nail.x, y: nail.y };
+  }
+
+  const axisLength = Math.hypot(nail.axisX, nail.axisY) || 1;
+  const axisX = nail.axisX / axisLength;
+  const axisY = nail.axisY / axisLength;
+  const centerShift = (nail.heightPct / 100) * length * 0.44;
+  return {
+    x: nail.rootX + axisX * centerShift * 100,
+    y: nail.rootY + axisY * centerShift * 100,
+  };
 }
 
 function ensureOption(select, value, label) {
@@ -1268,8 +1290,9 @@ function renderNails() {
     const presetTexture = null;
     el.dataset.hasTexture = presetTexture || referenceTexture ? "true" : "false";
     el.dataset.referenceTexture = referenceTexture ? "true" : "false";
-    el.style.setProperty("--x", nail.x);
-    el.style.setProperty("--y", nail.y);
+    const displayPose = getLengthLockedNailPose(nail);
+    el.style.setProperty("--x", displayPose.x);
+    el.style.setProperty("--y", displayPose.y);
     el.style.setProperty("--scale", nail.scale);
     el.style.setProperty("--rotation", nail.rotation);
     el.style.setProperty("--width-scale", nail.widthScale ?? 1);
@@ -1278,7 +1301,7 @@ function renderNails() {
       const length = Number(lengthInput.value);
       el.style.setProperty("--nail-width", `calc(${nail.widthPct} * 1%)`);
       el.style.setProperty("--nail-height", `calc(${nail.heightPct * length} * 1%)`);
-      el.style.setProperty("--length-offset", `calc(-1 * ${Math.max(0, length - 1)} * ${nail.heightPct * 0.52} * 1%)`);
+      el.style.setProperty("--length-offset", Number.isFinite(nail.rootX) ? "0px" : `calc(-1 * ${Math.max(0, length - 1)} * ${nail.heightPct * 0.52} * 1%)`);
     } else {
       el.style.removeProperty("--nail-width");
       el.style.removeProperty("--nail-height");
@@ -2049,8 +2072,9 @@ function drawOpenAiEditMask(canvas) {
 }
 
 function drawNailMaskShape(ctx, nail, width, height) {
-  const x = (nail.x / 100) * width;
-  const y = (nail.y / 100) * height;
+  const pose = getLengthLockedNailPose(nail);
+  const x = (pose.x / 100) * width;
+  const y = (pose.y / 100) * height;
   const nailWidth =
     (nail.widthPct ? (nail.widthPct / 100) * width : 54 * (width / nailLayer.clientWidth)) *
     nail.scale;
@@ -2059,7 +2083,9 @@ function drawNailMaskShape(ctx, nail, width, height) {
     nail.scale;
   const length = Number(lengthInput.value);
   const nailHeight = nailHeightBase * length;
-  const rootLockOffset = Math.max(0, nailHeight * (1 - 1 / Math.max(1, length)) * 0.52);
+  const rootLockOffset = Number.isFinite(nail.rootX)
+    ? 0
+    : Math.max(0, nailHeight * (1 - 1 / Math.max(1, length)) * 0.52);
   const widthScale = nail.widthScale ?? 1;
   const heightScale = nail.heightScale ?? 1;
 
@@ -2275,8 +2301,9 @@ function createAlphaMaskCanvas(maskCanvas) {
 }
 
 function drawNail(ctx, nail, width, height, index = 0) {
-  const x = (nail.x / 100) * width;
-  const y = (nail.y / 100) * height;
+  const pose = getLengthLockedNailPose(nail);
+  const x = (pose.x / 100) * width;
+  const y = (pose.y / 100) * height;
   const nailWidth =
     (nail.widthPct ? (nail.widthPct / 100) * width : 54 * (width / nailLayer.clientWidth)) *
     nail.scale;
@@ -2285,7 +2312,9 @@ function drawNail(ctx, nail, width, height, index = 0) {
     nail.scale;
   const length = Number(lengthInput.value);
   const nailHeight = nailHeightBase * length;
-  const rootLockOffset = Math.max(0, nailHeight * (1 - 1 / Math.max(1, length)) * 0.52);
+  const rootLockOffset = Number.isFinite(nail.rootX)
+    ? 0
+    : Math.max(0, nailHeight * (1 - 1 / Math.max(1, length)) * 0.52);
   const widthScale = nail.widthScale ?? 1;
   const heightScale = nail.heightScale ?? 1;
 
@@ -2548,6 +2577,18 @@ function updateTrackedNails(nextNails, handDetected) {
     heightScale: smooth(nails[index]?.heightScale ?? 1, nextNail.heightScale ?? 1, 0.22),
     widthPct: smooth(nails[index]?.widthPct ?? nextNail.widthPct, nextNail.widthPct, hasAi ? 0.42 : 0.28),
     heightPct: smooth(nails[index]?.heightPct ?? nextNail.heightPct, nextNail.heightPct, hasAi ? 0.42 : 0.28),
+    rootX: Number.isFinite(nextNail.rootX)
+      ? smooth(nails[index]?.rootX ?? nextNail.rootX, nextNail.rootX, hasAi ? 0.48 : 0.34)
+      : nails[index]?.rootX,
+    rootY: Number.isFinite(nextNail.rootY)
+      ? smooth(nails[index]?.rootY ?? nextNail.rootY, nextNail.rootY, hasAi ? 0.48 : 0.34)
+      : nails[index]?.rootY,
+    axisX: Number.isFinite(nextNail.axisX)
+      ? smooth(nails[index]?.axisX ?? nextNail.axisX, nextNail.axisX, 0.34)
+      : nails[index]?.axisX,
+    axisY: Number.isFinite(nextNail.axisY)
+      ? smooth(nails[index]?.axisY ?? nextNail.axisY, nextNail.axisY, 0.34)
+      : nails[index]?.axisY,
     aiConfidence: nextNail.aiConfidence ?? 0,
   }));
   lastGoodNails = structuredClone(nails);
@@ -2691,8 +2732,9 @@ function drawLiveNails() {
 }
 
 function drawRealisticLiveNail(ctx, nail, width, height, index = 0) {
-  const x = (nail.x / 100) * width;
-  const y = (nail.y / 100) * height;
+  const pose = getLengthLockedNailPose(nail);
+  const x = (pose.x / 100) * width;
+  const y = (pose.y / 100) * height;
   const nailWidth =
     (nail.widthPct ? (nail.widthPct / 100) * width : 54 * (width / nailLayer.clientWidth)) *
     nail.scale *
@@ -2704,7 +2746,9 @@ function drawRealisticLiveNail(ctx, nail, width, height, index = 0) {
     Number(lengthInput.value);
   const thickness = Number(thicknessInput.value) * (proModeInput.checked ? 0.82 : 1);
   const length = Number(lengthInput.value);
-  const rootLockOffset = Math.max(0, nailHeight * (1 - 1 / Math.max(1, length)) * 0.52);
+  const rootLockOffset = Number.isFinite(nail.rootX)
+    ? 0
+    : Math.max(0, nailHeight * (1 - 1 / Math.max(1, length)) * 0.52);
   const localLight = sampleLocalNailLighting(x, y, width, height, nailWidth, nailHeight);
   const proSoftness = proModeInput.checked ? 0.72 : 1;
   const sceneLight = currentMode === "camera" ? localLight.brightness : 0.62;

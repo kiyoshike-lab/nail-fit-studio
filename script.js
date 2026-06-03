@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260603-1020";
+const APP_ASSET_VERSION = "20260603-1035";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -156,6 +156,12 @@ function syncPreviewStageSize() {
   imageStage.style.width = `${Math.round(rect.width)}px`;
   imageStage.style.height = `${Math.round(rect.height)}px`;
   imageStage.style.maxWidth = "100%";
+  if (currentMode === "camera" && liveCanvas) {
+    liveCanvas.style.left = "0px";
+    liveCanvas.style.top = "0px";
+    liveCanvas.style.width = `${Math.round(rect.width)}px`;
+    liveCanvas.style.height = `${Math.round(rect.height)}px`;
+  }
 }
 
 function refreshPreviewLayout() {
@@ -2655,10 +2661,12 @@ function sampleLocalNailLighting(x, y, width, height, nailWidth, nailHeight) {
 
   const sampleSize = 18;
   const mirrored = window.nailCameraMirrored !== false;
+  const scaleX = cameraFeed.videoWidth / Math.max(1, width);
+  const scaleY = cameraFeed.videoHeight / Math.max(1, height);
   const rawX = mirrored ? width - x : x;
-  const sourceX = Math.max(0, Math.min(width - 1, rawX - nailWidth * 0.38));
-  const sourceY = Math.max(0, Math.min(height - 1, y + nailHeight * 0.18));
-  const box = Math.max(10, Math.min(44, nailWidth * 0.82));
+  const sourceX = Math.max(0, Math.min(cameraFeed.videoWidth - 1, rawX * scaleX - nailWidth * scaleX * 0.38));
+  const sourceY = Math.max(0, Math.min(cameraFeed.videoHeight - 1, y * scaleY + nailHeight * scaleY * 0.18));
+  const box = Math.max(10, Math.min(64, nailWidth * scaleX * 0.82));
   localLightCanvas.width = sampleSize;
   localLightCanvas.height = sampleSize;
   localLightCtx.clearRect(0, 0, sampleSize, sampleSize);
@@ -2666,8 +2674,8 @@ function sampleLocalNailLighting(x, y, width, height, nailWidth, nailHeight) {
     cameraFeed,
     Math.max(0, sourceX - box / 2),
     Math.max(0, sourceY - box / 2),
-    Math.min(width, box),
-    Math.min(height, box),
+    Math.min(cameraFeed.videoWidth, box),
+    Math.min(cameraFeed.videoHeight, box),
     0,
     0,
     sampleSize,
@@ -2727,13 +2735,20 @@ function drawLiveNails() {
     return;
   }
 
-  liveCanvas.width = cameraFeed.videoWidth;
-  liveCanvas.height = cameraFeed.videoHeight;
+  const rect = cameraFeed.getBoundingClientRect();
+  const cssWidth = Math.max(1, rect.width || cameraFeed.clientWidth || cameraFeed.videoWidth);
+  const cssHeight = Math.max(1, rect.height || cameraFeed.clientHeight || cameraFeed.videoHeight);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  liveCanvas.style.width = `${Math.round(cssWidth)}px`;
+  liveCanvas.style.height = `${Math.round(cssHeight)}px`;
+  liveCanvas.width = Math.round(cssWidth * dpr);
+  liveCanvas.height = Math.round(cssHeight * dpr);
   const ctx = liveCanvas.getContext("2d");
-  ctx.clearRect(0, 0, liveCanvas.width, liveCanvas.height);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, cssWidth, cssHeight);
 
   nails.forEach((nail, index) => {
-    drawRealisticLiveNail(ctx, nail, liveCanvas.width, liveCanvas.height, index);
+    drawRealisticLiveNail(ctx, nail, cssWidth, cssHeight, index);
   });
 }
 

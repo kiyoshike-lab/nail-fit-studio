@@ -91,13 +91,16 @@
       const maskWidth = ((box.maxX - box.minX + 1) / 192) * crop.sw;
       const maskHeight = ((box.maxY - box.minY + 1) / 192) * crop.sh;
       const confidence = box.count / (192 * 192);
-      const displayCenterX = window.nailCameraMirrored !== false ? 1 - centerX / video.videoWidth : centerX / video.videoWidth;
-      const displayCenterY = centerY / video.videoHeight;
+      let displayCenterX = window.nailCameraMirrored !== false ? 1 - centerX / video.videoWidth : centerX / video.videoWidth;
+      let displayCenterY = centerY / video.videoHeight;
       const widthPct = clamp((maskWidth / video.videoWidth) * 100 * 1.02, 1.6, 8.4);
       const heightPct = clamp((maskHeight / video.videoHeight) * 100 * 1.06, 2.4, 12.0);
       const axisLength = Math.hypot(fallback.axisX ?? 0, fallback.axisY ?? -1) || 1;
       const axisX = (fallback.axisX ?? 0) / axisLength;
       const axisY = (fallback.axisY ?? -1) / axisLength;
+      const mobileAttachNudge = window.matchMedia?.("(max-width: 900px)")?.matches ? 0.006 : 0.002;
+      displayCenterX -= axisX * mobileAttachNudge;
+      displayCenterY -= axisY * mobileAttachNudge;
 
       if (confidence < 0.003 || confidence > 0.42) return fallback;
 
@@ -210,12 +213,15 @@
         axis.y * fingerLength * centerAlong +
         normal.y * fingerLength * centerAcross,
     };
-    const displayCenterX = window.nailCameraMirrored !== false ? 1 - refinedCenter.x : refinedCenter.x;
-    const displayCenterY = refinedCenter.y;
+    let displayCenterX = window.nailCameraMirrored !== false ? 1 - refinedCenter.x : refinedCenter.x;
+    let displayCenterY = refinedCenter.y;
     const displayAxisX = window.nailCameraMirrored !== false ? -axis.x : axis.x;
     const displayAxisY = axis.y;
     const widthPct = clamp((maxAcross - minAcross) * fingerLength * 100 * 0.88, 2.0, 8.4);
     const heightPct = clamp((maxAlong - minAlong) * fingerLength * 100 * 1.18, 3.0, 11.2);
+    const mobileAttachNudge = window.matchMedia?.("(max-width: 900px)")?.matches ? 0.006 : 0.002;
+    displayCenterX -= displayAxisX * mobileAttachNudge;
+    displayCenterY -= displayAxisY * mobileAttachNudge;
 
     return {
       ...fallback,

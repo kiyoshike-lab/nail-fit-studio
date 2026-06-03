@@ -2,7 +2,7 @@
   FilesetResolver,
   HandLandmarker,
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
-import { NailMaskEngine } from "./nail-mask-engine.js?v=20260603-1020";
+import { NailMaskEngine } from "./nail-mask-engine.js?v=20260603-1035";
 
 const modelUrl =
   "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";

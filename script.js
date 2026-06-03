@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260603-1010";
+const APP_ASSET_VERSION = "20260603-1020";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -1269,6 +1269,9 @@ function buildTabs() {
 
 function renderNails() {
   nailLayer.innerHTML = "";
+  if (currentMode === "camera") {
+    return;
+  }
   lastGoodNails = nails.length === 5 ? structuredClone(nails) : lastGoodNails;
   nails.forEach((nail, index) => {
     const el = document.createElement("div");
@@ -1700,6 +1703,7 @@ function loadImage(src) {
   handImage.style.display = "block";
   cameraFeed.style.display = "none";
   liveCanvas.style.display = "none";
+  nailLayer.style.display = "block";
   imageStage.style.display = "block";
   refreshPreviewLayout();
   emptyState.style.display = "none";
@@ -1805,6 +1809,7 @@ async function startCamera(facingMode = "user") {
     handImage.style.display = "none";
     cameraFeed.style.display = "block";
     liveCanvas.style.display = "block";
+    nailLayer.style.display = "none";
     imageStage.style.display = "block";
     refreshPreviewLayout();
     emptyState.style.display = "none";
@@ -2529,6 +2534,7 @@ function stopCamera() {
   window.nailCameraMirrored = true;
   cameraFeed.style.display = "none";
   liveCanvas.style.display = "none";
+  nailLayer.style.display = "block";
   cameraButton.classList.remove("is-hidden");
   switchCameraButton?.classList.add("is-hidden");
   capturePhotoButton?.classList.add("is-hidden");

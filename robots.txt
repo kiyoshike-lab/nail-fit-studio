@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kiyoshike-lab.github.io/sitemap.xml
+Sitemap: https://kiyoshike-lab.github.io/nail-fit-studio/sitemap.xml

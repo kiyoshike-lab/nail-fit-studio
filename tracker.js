@@ -2,7 +2,7 @@
   FilesetResolver,
   HandLandmarker,
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
-import { NailMaskEngine } from "./nail-mask-engine.js?v=20260603-1035";
+import { NailMaskEngine } from "./nail-mask-engine.js?v=20260619-1030";
 
 const modelUrl =
   "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
@@ -112,17 +112,17 @@ function buildNailsFromLandmarks(landmarks) {
     const blendedDy = distalDy * 0.62 + proximalDy * 0.38;
     const fingerLength = Math.hypot(tip.x - pip.x, tip.y - pip.y);
     const rotation = (Math.atan2(blendedDy, blendedDx) * 180) / Math.PI + 90;
-    const nailCenterX = tip.x - blendedDx * 0.24;
-    const nailCenterY = tip.y - blendedDy * 0.24;
+    const nailCenterX = tip.x - blendedDx * 0.39;
+    const nailCenterY = tip.y - blendedDy * 0.39;
     const aspect = nailAspectMultipliers[index];
     const widthEstimate = estimateFingerWidth(landmarks, index) * fingerWidthMultipliers[index];
     const nailWidthPct = clamp(widthEstimate * 100 * 0.68 * aspect.width, 2.2, 8.2);
-    const nailHeightPct = clamp(fingerLength * 100 * 0.34 * aspect.height, 3.2, 11.5);
+    const nailHeightPct = clamp(fingerLength * 100 * 0.29 * aspect.height, 2.8, 9.6);
     const axisLength = Math.hypot(blendedDx, blendedDy) || 1;
     const axisX = blendedDx / axisLength;
     const axisY = blendedDy / axisLength;
-    const rootX = nailCenterX - axisX * (nailHeightPct / 100) * 0.44;
-    const rootY = nailCenterY - axisY * (nailHeightPct / 100) * 0.44;
+    const rootX = nailCenterX - axisX * (nailHeightPct / 100) * 0.31;
+    const rootY = nailCenterY - axisY * (nailHeightPct / 100) * 0.31;
 
     return {
       x: nailCenterX * 100,

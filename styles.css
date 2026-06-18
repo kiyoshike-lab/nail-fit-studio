@@ -1747,7 +1747,24 @@ input[type="range"] {
     max-width: 100%;
     padding-left: 9px;
     padding-right: 9px;
-    padding-top: 18px;
+    padding-top: 8px;
+  }
+
+  .hero {
+    padding: 12px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+  }
+
+  .hero h1 {
+    margin-bottom: 6px;
+  }
+
+  .hero-copy,
+  .quick-guide,
+  .privacy-note,
+  .first-use-guide {
+    display: none;
   }
 
   .quick-guide {
@@ -1766,9 +1783,22 @@ input[type="range"] {
     order: 2;
     border-radius: 22px;
     margin-top: 8px;
-    padding: 12px;
+    padding: 10px;
     width: 100%;
     max-width: 100%;
+    display: grid;
+    gap: 10px;
+  }
+
+  .panel > .upload,
+  .panel > button {
+    min-height: 46px;
+  }
+
+  .panel > .upload,
+  .panel > .secondary-button,
+  .panel > #stopCameraButton {
+    width: 100%;
   }
 
   .preview-card {
@@ -1788,9 +1818,9 @@ input[type="range"] {
   .canvas {
     width: 100%;
     max-width: 100%;
-    height: min(54vh, 520px);
-    min-height: 300px;
-    max-height: 520px;
+    height: min(50vh, 500px);
+    min-height: 280px;
+    max-height: 500px;
   }
 
   .preview-header {
@@ -1808,7 +1838,7 @@ input[type="range"] {
   .image-stage,
   #handImage,
   #cameraFeed {
-    max-height: calc(54vh - 44px);
+    max-height: calc(50vh - 44px);
     max-width: 100%;
   }
 
@@ -1822,23 +1852,28 @@ input[type="range"] {
 
 @media (max-width: 540px) {
   h1 {
-    font-size: 1.62rem;
+    font-size: 1.35rem;
+  }
+
+  .eyebrow {
+    font-size: 0.7rem;
+    margin-bottom: 4px;
   }
 
   .canvas {
-    height: min(44vh, 390px);
-    min-height: 255px;
-    max-height: 390px;
+    height: min(39vh, 340px);
+    min-height: 230px;
+    max-height: 340px;
   }
 
   .workspace {
-    padding-top: calc(min(44vh, 390px) + 52px);
+    padding-top: calc(min(39vh, 340px) + 46px);
   }
 
   .image-stage,
   #handImage,
   #cameraFeed {
-    max-height: calc(44vh - 42px);
+    max-height: calc(39vh - 40px);
     width: auto;
     max-width: 100%;
   }
@@ -1875,6 +1910,8 @@ input[type="range"] {
 
   .preview-header {
     gap: 8px;
+    padding: 8px 10px;
+    min-height: 42px;
   }
 
   .preview-header span {
@@ -1882,13 +1919,44 @@ input[type="range"] {
   }
 
   .control-group {
-    padding: 10px;
+    padding: 9px;
+    border-radius: 16px;
+    margin-bottom: 8px;
   }
 
   .control-group h2 {
     display: grid;
     gap: 2px;
-    font-size: 0.88rem;
+    font-size: 0.84rem;
+    margin-bottom: 8px;
+  }
+
+  .panel {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .panel > button,
+  .panel > .upload,
+  .actions button {
+    min-height: 44px;
+    border-radius: 14px;
+    font-size: 0.86rem;
+  }
+
+  .simple-flow,
+  .quality-status {
+    font-size: 0.74rem;
+    padding: 8px;
+  }
+
+  input[type="range"] {
+    height: 34px;
+  }
+
+  select,
+  textarea {
+    min-height: 42px;
   }
 
   .preset-gallery {
@@ -1914,7 +1982,8 @@ input[type="range"] {
   }
 
   label {
-    font-size: 0.78rem;
+    font-size: 0.76rem;
+    gap: 5px;
   }
 
   .salon-finish-box,

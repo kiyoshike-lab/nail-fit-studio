@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260619-1030";
+const APP_ASSET_VERSION = "20260619-1100";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -192,7 +192,7 @@ function getLengthLockedNailPose(nail) {
   const axisLength = Math.hypot(nail.axisX, nail.axisY) || 1;
   const axisX = nail.axisX / axisLength;
   const axisY = nail.axisY / axisLength;
-  const cameraAttachFactor = currentMode === "camera" ? 0.31 : 0.44;
+  const cameraAttachFactor = 0.44;
   const centerShift = (nail.heightPct / 100) * length * cameraAttachFactor;
   return {
     x: nail.rootX + axisX * centerShift * 100,

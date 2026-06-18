@@ -1,10 +1,11 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260619-1215";
+const APP_ASSET_VERSION = "20260619-1235";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
 const capturePhotoButton = document.querySelector("#capturePhotoButton");
 const captureAiFinishButton = document.querySelector("#captureAiFinishButton");
+const autoCameraFitButton = document.querySelector("#autoCameraFitButton");
 const stopCameraButton = document.querySelector("#stopCameraButton");
 const trackingStatus = document.querySelector("#trackingStatus");
 const qualityStatus = document.querySelector("#qualityStatus");
@@ -151,6 +152,45 @@ function applyCameraCalibration(nail, index) {
     scale: (nail.scale ?? 1) * calibration.scale,
     rotation: nail.rotation + calibration.rotation,
   };
+}
+
+function autoFitCameraNails() {
+  if (currentMode !== "camera" || !nails.length) return;
+  const rootwardStrength = [0.62, 0.48, 0.5, 0.46, 0.42];
+  const scaleStrength = [0.86, 0.9, 0.9, 0.91, 0.92];
+
+  nails.forEach((nail, index) => {
+    const axisLength = Math.hypot(nail.axisX ?? 0, nail.axisY ?? -1) || 1;
+    const axisX = (nail.axisX ?? 0) / axisLength;
+    const axisY = (nail.axisY ?? -1) / axisLength;
+    const normalX = -axisY;
+    const normalY = axisX;
+    const rootward = (nail.heightPct ?? 5) * rootwardStrength[index] * 0.34;
+    const thumbSide = index === 0 ? (cameraFacingMode === "user" ? -0.8 : 0.8) : 0;
+    const side = (nail.widthPct ?? 4) * thumbSide * 0.18;
+    const dx = -axisX * rootward + normalX * side;
+    const dy = -axisY * rootward + normalY * side;
+    const calibration = cameraCalibration[index] ?? { dx: 0, dy: 0, scale: 1, rotation: 0 };
+    calibration.dx += dx;
+    calibration.dy += dy;
+    calibration.scale = Math.min(1.15, Math.max(0.72, calibration.scale * scaleStrength[index]));
+    cameraCalibration[index] = calibration;
+    nails[index] = {
+      ...nail,
+      x: nail.x + dx,
+      y: nail.y + dy,
+      rootX: Number.isFinite(nail.rootX) ? nail.rootX + dx : nail.rootX,
+      rootY: Number.isFinite(nail.rootY) ? nail.rootY + dy : nail.rootY,
+      scale: (nail.scale ?? 1) * scaleStrength[index],
+    };
+  });
+
+  saveCameraCalibration();
+  syncControls();
+  drawLiveNails();
+  if (trackingStatus) {
+    trackingStatus.textContent = "自動補正しました。まだ少しズレる指は、指を選んで横位置・縦位置で合わせてください。";
+  }
 }
 
 const fingerNames = ["親", "人", "中", "薬", "小"];
@@ -1850,6 +1890,8 @@ captureAiFinishButton?.addEventListener("click", async () => {
   setTimeout(() => aiFinishButton?.click(), 160);
 });
 
+autoCameraFitButton?.addEventListener("click", autoFitCameraNails);
+
 async function captureCameraPhoto() {
   if (currentMode !== "camera" || !cameraFeed.videoWidth || !cameraFeed.videoHeight) {
     alert("先にカメラを起動してください。");
@@ -1904,6 +1946,7 @@ async function startCamera(facingMode = "user") {
     switchCameraButton?.classList.remove("is-hidden");
     capturePhotoButton?.classList.remove("is-hidden");
     captureAiFinishButton?.classList.remove("is-hidden");
+    autoCameraFitButton?.classList.remove("is-hidden");
     if (switchCameraButton) {
       switchCameraButton.textContent = cameraFacingMode === "user" ? "外カメラに切り替え" : "内カメラに切り替え";
     }
@@ -2632,6 +2675,7 @@ function stopCamera() {
   switchCameraButton?.classList.add("is-hidden");
   capturePhotoButton?.classList.add("is-hidden");
   captureAiFinishButton?.classList.add("is-hidden");
+  autoCameraFitButton?.classList.add("is-hidden");
   stopCameraButton.classList.add("is-hidden");
   trackingStatus.textContent = "カメラを起動すると、指先の自動追従を準備します。";
   autoTracking = false;

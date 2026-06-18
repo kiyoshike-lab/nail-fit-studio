@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260619-1125";
+const APP_ASSET_VERSION = "20260619-1150";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -110,6 +110,49 @@ function versionedAssetUrl(url) {
   return `${url}${url.includes("?") ? "&" : "?"}v=${APP_ASSET_VERSION}`;
 }
 
+function defaultCameraCalibration() {
+  return Array.from({ length: 5 }, () => ({ dx: 0, dy: 0, scale: 1, rotation: 0 }));
+}
+
+function loadCameraCalibration() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(cameraCalibrationStorageKey) || "null");
+    if (Array.isArray(saved) && saved.length === 5) {
+      return saved.map((item) => ({
+        dx: Number(item.dx) || 0,
+        dy: Number(item.dy) || 0,
+        scale: Number(item.scale) || 1,
+        rotation: Number(item.rotation) || 0,
+      }));
+    }
+  } catch {
+    // Ignore broken saved data and start clean.
+  }
+  return defaultCameraCalibration();
+}
+
+function saveCameraCalibration() {
+  try {
+    localStorage.setItem(cameraCalibrationStorageKey, JSON.stringify(cameraCalibration));
+  } catch {
+    // Storage can fail in private mode; the live correction still works for this session.
+  }
+}
+
+function applyCameraCalibration(nail, index) {
+  if (currentMode !== "camera") return nail;
+  const calibration = cameraCalibration[index] ?? { dx: 0, dy: 0, scale: 1, rotation: 0 };
+  return {
+    ...nail,
+    x: nail.x + calibration.dx,
+    y: nail.y + calibration.dy,
+    rootX: Number.isFinite(nail.rootX) ? nail.rootX + calibration.dx : nail.rootX,
+    rootY: Number.isFinite(nail.rootY) ? nail.rootY + calibration.dy : nail.rootY,
+    scale: (nail.scale ?? 1) * calibration.scale,
+    rotation: nail.rotation + calibration.rotation,
+  };
+}
+
 const fingerNames = ["親", "人", "中", "薬", "小"];
 const defaultNails = [
   { x: 32, y: 47, scale: 0.88, rotation: -18, widthScale: 1, heightScale: 1 },
@@ -138,6 +181,8 @@ let referenceExtractorTried = false;
 let savedCandidates = [];
 let lastGoodNails = structuredClone(defaultNails);
 let lostHandFrames = 0;
+const cameraCalibrationStorageKey = "nailFitStudio.cameraCalibration.v1";
+let cameraCalibration = loadCameraCalibration();
 let lightingProbe = { brightness: 0.62, contrast: 0.18, warmth: 0.5, updatedAt: 0 };
 const probeCanvas = document.createElement("canvas");
 const probeCtx = probeCanvas.getContext("2d", { willReadFrequently: true });
@@ -1404,6 +1449,36 @@ function syncControls() {
 }
 
 function updateSelectedNail() {
+  if (currentMode === "camera") {
+    const current = nails[selectedIndex];
+    if (!current) return;
+    const calibration = cameraCalibration[selectedIndex] ?? { dx: 0, dy: 0, scale: 1, rotation: 0 };
+    const nextX = Number(xInput.value);
+    const nextY = Number(yInput.value);
+    const nextScale = Number(scaleInput.value);
+    const nextRotation = Number(rotationInput.value);
+    calibration.dx += nextX - current.x;
+    calibration.dy += nextY - current.y;
+    if (Number.isFinite(nextScale) && current.scale) {
+      calibration.scale *= nextScale / current.scale;
+      calibration.scale = Math.min(1.8, Math.max(0.5, calibration.scale));
+    }
+    calibration.rotation += nextRotation - current.rotation;
+    calibration.rotation = Math.min(35, Math.max(-35, calibration.rotation));
+    cameraCalibration[selectedIndex] = calibration;
+    nails[selectedIndex] = {
+      ...current,
+      x: nextX,
+      y: nextY,
+      rootX: Number.isFinite(current.rootX) ? current.rootX + (nextX - current.x) : current.rootX,
+      rootY: Number.isFinite(current.rootY) ? current.rootY + (nextY - current.y) : current.rootY,
+      scale: nextScale,
+      rotation: nextRotation,
+    };
+    saveCameraCalibration();
+    drawLiveNails();
+    return;
+  }
   nails[selectedIndex] = {
     x: Number(xInput.value),
     y: Number(yInput.value),
@@ -1933,6 +2008,12 @@ nailTypeInput.addEventListener("input", () => {
 });
 
 resetButton.addEventListener("click", () => {
+  if (currentMode === "camera") {
+    cameraCalibration[selectedIndex] = { dx: 0, dy: 0, scale: 1, rotation: 0 };
+    saveCameraCalibration();
+    drawLiveNails();
+    return;
+  }
   nails = structuredClone(defaultNails);
   syncControls();
   renderNails();
@@ -2586,29 +2667,32 @@ function updateTrackedNails(nextNails, handDetected) {
   const avgConfidence =
     nextNails.reduce((sum, nail) => sum + (nail.aiConfidence ?? 0), 0) / Math.max(1, nextNails.length);
   const hasAi = window.nailAiStatus === "ready";
-  nails = nextNails.map((nextNail, index) => ({
-    x: smooth(nails[index]?.x ?? nextNail.x, nextNail.x, 0.44),
-    y: smooth(nails[index]?.y ?? nextNail.y, nextNail.y, 0.44),
-    scale: smooth(nails[index]?.scale ?? nextNail.scale, nextNail.scale, 0.18),
-    rotation: smoothAngle(nails[index]?.rotation ?? nextNail.rotation, nextNail.rotation, 0.26),
-    widthScale: smooth(nails[index]?.widthScale ?? 1, nextNail.widthScale ?? 1, 0.22),
-    heightScale: smooth(nails[index]?.heightScale ?? 1, nextNail.heightScale ?? 1, 0.22),
-    widthPct: smooth(nails[index]?.widthPct ?? nextNail.widthPct, nextNail.widthPct, hasAi ? 0.42 : 0.28),
-    heightPct: smooth(nails[index]?.heightPct ?? nextNail.heightPct, nextNail.heightPct, hasAi ? 0.42 : 0.28),
-    rootX: Number.isFinite(nextNail.rootX)
-      ? smooth(nails[index]?.rootX ?? nextNail.rootX, nextNail.rootX, hasAi ? 0.48 : 0.34)
-      : nails[index]?.rootX,
-    rootY: Number.isFinite(nextNail.rootY)
-      ? smooth(nails[index]?.rootY ?? nextNail.rootY, nextNail.rootY, hasAi ? 0.48 : 0.34)
-      : nails[index]?.rootY,
-    axisX: Number.isFinite(nextNail.axisX)
-      ? smooth(nails[index]?.axisX ?? nextNail.axisX, nextNail.axisX, 0.34)
-      : nails[index]?.axisX,
-    axisY: Number.isFinite(nextNail.axisY)
-      ? smooth(nails[index]?.axisY ?? nextNail.axisY, nextNail.axisY, 0.34)
-      : nails[index]?.axisY,
-    aiConfidence: nextNail.aiConfidence ?? 0,
-  }));
+  nails = nextNails.map((nextNail, index) => {
+    const adjustedNail = applyCameraCalibration(nextNail, index);
+    return {
+      x: smooth(nails[index]?.x ?? adjustedNail.x, adjustedNail.x, 0.44),
+      y: smooth(nails[index]?.y ?? adjustedNail.y, adjustedNail.y, 0.44),
+      scale: smooth(nails[index]?.scale ?? adjustedNail.scale, adjustedNail.scale, 0.18),
+      rotation: smoothAngle(nails[index]?.rotation ?? adjustedNail.rotation, adjustedNail.rotation, 0.26),
+      widthScale: smooth(nails[index]?.widthScale ?? 1, adjustedNail.widthScale ?? 1, 0.22),
+      heightScale: smooth(nails[index]?.heightScale ?? 1, adjustedNail.heightScale ?? 1, 0.22),
+      widthPct: smooth(nails[index]?.widthPct ?? adjustedNail.widthPct, adjustedNail.widthPct, hasAi ? 0.42 : 0.28),
+      heightPct: smooth(nails[index]?.heightPct ?? adjustedNail.heightPct, adjustedNail.heightPct, hasAi ? 0.42 : 0.28),
+      rootX: Number.isFinite(adjustedNail.rootX)
+        ? smooth(nails[index]?.rootX ?? adjustedNail.rootX, adjustedNail.rootX, hasAi ? 0.48 : 0.34)
+        : nails[index]?.rootX,
+      rootY: Number.isFinite(adjustedNail.rootY)
+        ? smooth(nails[index]?.rootY ?? adjustedNail.rootY, adjustedNail.rootY, hasAi ? 0.48 : 0.34)
+        : nails[index]?.rootY,
+      axisX: Number.isFinite(adjustedNail.axisX)
+        ? smooth(nails[index]?.axisX ?? adjustedNail.axisX, adjustedNail.axisX, 0.34)
+        : nails[index]?.axisX,
+      axisY: Number.isFinite(adjustedNail.axisY)
+        ? smooth(nails[index]?.axisY ?? adjustedNail.axisY, adjustedNail.axisY, 0.34)
+        : nails[index]?.axisY,
+      aiConfidence: adjustedNail.aiConfidence ?? 0,
+    };
+  });
   lastGoodNails = structuredClone(nails);
   updateQualityStatus({
     level: hasAi && avgConfidence > 0.01 ? "high" : hasAi ? "medium" : "low",

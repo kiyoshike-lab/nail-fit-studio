@@ -2,7 +2,7 @@
   FilesetResolver,
   HandLandmarker,
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
-import { NailMaskEngine } from "./nail-mask-engine.js?v=20260619-1125";
+import { NailMaskEngine } from "./nail-mask-engine.js?v=20260619-1215";
 
 const modelUrl =
   "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
@@ -28,11 +28,11 @@ const nailAspectMultipliers = [
   { width: 0.78, height: 0.84 },
 ];
 const nailPlacementTuning = [
-  { back: 0.72, height: 0.2, root: 0.5, side: 0.08 },
-  { back: 0.64, height: 0.235, root: 0.48, side: 0 },
-  { back: 0.66, height: 0.24, root: 0.48, side: 0 },
-  { back: 0.62, height: 0.23, root: 0.47, side: 0 },
-  { back: 0.58, height: 0.215, root: 0.46, side: 0 },
+  { back: 0.82, height: 0.18, root: 0.52, side: 0.06 },
+  { back: 0.74, height: 0.21, root: 0.52, side: 0 },
+  { back: 0.76, height: 0.215, root: 0.52, side: 0 },
+  { back: 0.72, height: 0.205, root: 0.5, side: 0 },
+  { back: 0.68, height: 0.19, root: 0.5, side: 0 },
 ];
 
 window.startHandTracking = async function startHandTracking(video, update) {

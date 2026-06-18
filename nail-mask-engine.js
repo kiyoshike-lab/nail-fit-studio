@@ -98,9 +98,19 @@
       const axisLength = Math.hypot(fallback.axisX ?? 0, fallback.axisY ?? -1) || 1;
       const axisX = (fallback.axisX ?? 0) / axisLength;
       const axisY = (fallback.axisY ?? -1) / axisLength;
-      const mobileAttachNudge = window.matchMedia?.("(max-width: 900px)")?.matches ? 0.038 : 0.03;
-      displayCenterX -= axisX * mobileAttachNudge;
-      displayCenterY -= axisY * mobileAttachNudge;
+      const landmarkCenterX = fallback.x / 100;
+      const landmarkCenterY = fallback.y / 100;
+      const maxCenterDrift = window.matchMedia?.("(max-width: 900px)")?.matches ? 0.026 : 0.02;
+      const driftX = displayCenterX - landmarkCenterX;
+      const driftY = displayCenterY - landmarkCenterY;
+      const drift = Math.hypot(driftX, driftY);
+      if (drift > maxCenterDrift) {
+        displayCenterX = landmarkCenterX + (driftX / drift) * maxCenterDrift;
+        displayCenterY = landmarkCenterY + (driftY / drift) * maxCenterDrift;
+      }
+      const landmarkWeight = window.matchMedia?.("(max-width: 900px)")?.matches ? 0.78 : 0.68;
+      displayCenterX = landmarkCenterX * landmarkWeight + displayCenterX * (1 - landmarkWeight);
+      displayCenterY = landmarkCenterY * landmarkWeight + displayCenterY * (1 - landmarkWeight);
 
       if (confidence < 0.003 || confidence > 0.42) return fallback;
 
@@ -108,8 +118,8 @@
         ...fallback,
         x: displayCenterX * 100,
         y: displayCenterY * 100,
-        rootX: (displayCenterX - axisX * (heightPct / 100) * 0.48) * 100,
-        rootY: (displayCenterY - axisY * (heightPct / 100) * 0.48) * 100,
+        rootX: (displayCenterX - axisX * (heightPct / 100) * 0.52) * 100,
+        rootY: (displayCenterY - axisY * (heightPct / 100) * 0.52) * 100,
         axisX,
         axisY,
         widthPct,
@@ -219,16 +229,26 @@
     const displayAxisY = axis.y;
     const widthPct = clamp((maxAcross - minAcross) * fingerLength * 100 * 0.88, 2.0, 8.4);
     const heightPct = clamp((maxAlong - minAlong) * fingerLength * 100 * 1.18, 3.0, 11.2);
-    const mobileAttachNudge = window.matchMedia?.("(max-width: 900px)")?.matches ? 0.038 : 0.03;
-    displayCenterX -= displayAxisX * mobileAttachNudge;
-    displayCenterY -= displayAxisY * mobileAttachNudge;
+    const landmarkCenterX = fallback.x / 100;
+    const landmarkCenterY = fallback.y / 100;
+    const maxCenterDrift = window.matchMedia?.("(max-width: 900px)")?.matches ? 0.026 : 0.02;
+    const driftX = displayCenterX - landmarkCenterX;
+    const driftY = displayCenterY - landmarkCenterY;
+    const drift = Math.hypot(driftX, driftY);
+    if (drift > maxCenterDrift) {
+      displayCenterX = landmarkCenterX + (driftX / drift) * maxCenterDrift;
+      displayCenterY = landmarkCenterY + (driftY / drift) * maxCenterDrift;
+    }
+    const landmarkWeight = window.matchMedia?.("(max-width: 900px)")?.matches ? 0.78 : 0.68;
+    displayCenterX = landmarkCenterX * landmarkWeight + displayCenterX * (1 - landmarkWeight);
+    displayCenterY = landmarkCenterY * landmarkWeight + displayCenterY * (1 - landmarkWeight);
 
     return {
       ...fallback,
       x: displayCenterX * 100,
       y: displayCenterY * 100,
-      rootX: (displayCenterX - displayAxisX * (heightPct / 100) * 0.48) * 100,
-      rootY: (displayCenterY - displayAxisY * (heightPct / 100) * 0.48) * 100,
+      rootX: (displayCenterX - displayAxisX * (heightPct / 100) * 0.52) * 100,
+      rootY: (displayCenterY - displayAxisY * (heightPct / 100) * 0.52) * 100,
       axisX: displayAxisX,
       axisY: displayAxisY,
       widthPct,

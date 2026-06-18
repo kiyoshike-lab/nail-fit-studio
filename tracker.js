@@ -2,7 +2,7 @@
   FilesetResolver,
   HandLandmarker,
 } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
-import { NailMaskEngine } from "./nail-mask-engine.js?v=20260619-1100";
+import { NailMaskEngine } from "./nail-mask-engine.js?v=20260619-1125";
 
 const modelUrl =
   "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task";
@@ -26,6 +26,13 @@ const nailAspectMultipliers = [
   { width: 0.96, height: 1 },
   { width: 0.92, height: 0.96 },
   { width: 0.78, height: 0.84 },
+];
+const nailPlacementTuning = [
+  { back: 0.72, height: 0.2, root: 0.5, side: 0.08 },
+  { back: 0.64, height: 0.235, root: 0.48, side: 0 },
+  { back: 0.66, height: 0.24, root: 0.48, side: 0 },
+  { back: 0.62, height: 0.23, root: 0.47, side: 0 },
+  { back: 0.58, height: 0.215, root: 0.46, side: 0 },
 ];
 
 window.startHandTracking = async function startHandTracking(video, update) {
@@ -108,21 +115,26 @@ function buildNailsFromLandmarks(landmarks) {
     const proximalDx = dip.x - pip.x;
     const proximalDy = dip.y - pip.y;
 
-    const blendedDx = distalDx * 0.62 + proximalDx * 0.38;
-    const blendedDy = distalDy * 0.62 + proximalDy * 0.38;
+    const blendedDx = index === 0 ? distalDx * 0.84 + proximalDx * 0.16 : distalDx * 0.62 + proximalDx * 0.38;
+    const blendedDy = index === 0 ? distalDy * 0.84 + proximalDy * 0.16 : distalDy * 0.62 + proximalDy * 0.38;
     const fingerLength = Math.hypot(tip.x - pip.x, tip.y - pip.y);
     const rotation = (Math.atan2(blendedDy, blendedDx) * 180) / Math.PI + 90;
-    const nailCenterX = tip.x - blendedDx * 0.54;
-    const nailCenterY = tip.y - blendedDy * 0.54;
-    const aspect = nailAspectMultipliers[index];
-    const widthEstimate = estimateFingerWidth(landmarks, index) * fingerWidthMultipliers[index];
-    const nailWidthPct = clamp(widthEstimate * 100 * 0.68 * aspect.width, 2.2, 8.2);
-    const nailHeightPct = clamp(fingerLength * 100 * 0.255 * aspect.height, 2.6, 8.8);
+    const tuning = nailPlacementTuning[index];
     const axisLength = Math.hypot(blendedDx, blendedDy) || 1;
     const axisX = blendedDx / axisLength;
     const axisY = blendedDy / axisLength;
-    const rootX = nailCenterX - axisX * (nailHeightPct / 100) * 0.44;
-    const rootY = nailCenterY - axisY * (nailHeightPct / 100) * 0.44;
+    const normalX = -axisY;
+    const normalY = axisX;
+    const thumbSideSign = index === 0 && landmarks[4].x < landmarks[8].x ? -1 : 1;
+    const sideOffset = (tuning.side ?? 0) * thumbSideSign * fingerLength;
+    const nailCenterX = tip.x - blendedDx * tuning.back + normalX * sideOffset;
+    const nailCenterY = tip.y - blendedDy * tuning.back + normalY * sideOffset;
+    const aspect = nailAspectMultipliers[index];
+    const widthEstimate = estimateFingerWidth(landmarks, index) * fingerWidthMultipliers[index];
+    const nailWidthPct = clamp(widthEstimate * 100 * 0.68 * aspect.width, 2.2, 8.2);
+    const nailHeightPct = clamp(fingerLength * 100 * tuning.height * aspect.height, 2.4, index === 0 ? 7.0 : 8.4);
+    const rootX = nailCenterX - axisX * (nailHeightPct / 100) * tuning.root;
+    const rootY = nailCenterY - axisY * (nailHeightPct / 100) * tuning.root;
 
     return {
       x: nailCenterX * 100,

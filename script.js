@@ -1,5 +1,5 @@
 const photoInput = document.querySelector("#photoInput");
-const APP_ASSET_VERSION = "20260603-1035";
+const APP_ASSET_VERSION = "20260619-1015";
 const sampleButton = document.querySelector("#sampleButton");
 const cameraButton = document.querySelector("#cameraButton");
 const switchCameraButton = document.querySelector("#switchCameraButton");
@@ -151,7 +151,12 @@ function syncPreviewStageSize() {
   if (!imageStage || currentMode === "empty") return;
   const source = currentMode === "camera" ? cameraFeed : handImage;
   if (!source || source.style.display === "none") return;
-  const rect = source.getBoundingClientRect();
+  const canvasBox = imageStage.closest(".canvas");
+  const canvasRect = canvasBox?.getBoundingClientRect();
+  const rect =
+    currentMode === "camera" && canvasRect?.width && canvasRect?.height
+      ? { width: Math.max(1, canvasRect.width - 24), height: Math.max(1, canvasRect.height - 24) }
+      : source.getBoundingClientRect();
   if (!rect.width || !rect.height) return;
   imageStage.style.width = `${Math.round(rect.width)}px`;
   imageStage.style.height = `${Math.round(rect.height)}px`;

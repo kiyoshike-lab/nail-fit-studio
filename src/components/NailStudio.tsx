@@ -1,0 +1,404 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { BeforeAfter } from "./BeforeAfter";
+import { BottomNavigation } from "./BottomNavigation";
+import { DesignSelector } from "./DesignSelector";
+import { NailPreview } from "./NailPreview";
+import { PhotoUploader } from "./PhotoUploader";
+import { SavePanel } from "./SavePanel";
+import { SettingsPanel } from "./SettingsPanel";
+import { defaultDesign, defaultPhotoNails } from "@/lib/defaults";
+import { drawNails } from "@/lib/nailRenderer";
+import { assetPath, loadDesignPresets } from "@/lib/presets";
+import { readJson, writeJson } from "@/lib/storage";
+import { startHandTracking, type HandTracker } from "@/lib/handTracking";
+import type { DesignPreset, NailDesign, NailPose, SourceMode } from "@/lib/types";
+
+const DESIGN_KEY = "nail-fit-studio-next.design.v1";
+const NAILS_KEY = "nail-fit-studio-next.nails.v1";
+
+export function NailStudio() {
+  const [mode, setMode] = useState<SourceMode>("empty");
+  const [photoUrl, setPhotoUrl] = useState<string | undefined>();
+  const [status, setStatus] = useState("写真かカメラを入れると、ここに試着が表示されます。");
+  const [design, setDesign] = useState<NailDesign>(() => readJson(DESIGN_KEY, defaultDesign));
+  const [nails, setNails] = useState<NailPose[]>(() => readJson(NAILS_KEY, defaultPhotoNails));
+  const [selectedFinger, setSelectedFinger] = useState(1);
+  const [presets, setPresets] = useState<DesignPreset[]>([]);
+  const [activePresetId, setActivePresetId] = useState<string | undefined>();
+  const [before, setBefore] = useState(false);
+  const [facingMode, setFacingMode] = useState<"user" | "environment">("environment");
+  const [toast, setToast] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const imageRef = useRef<HTMLImageElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const trackerRef = useRef<HandTracker | null>(null);
+  const objectUrlRef = useRef<string | null>(null);
+  const drawIdRef = useRef(0);
+  const lostFramesRef = useRef(0);
+
+  useEffect(() => {
+    loadDesignPresets().then(setPresets).catch(() => setPresets([]));
+  }, []);
+
+  useEffect(() => writeJson(DESIGN_KEY, design), [design]);
+  useEffect(() => writeJson(NAILS_KEY, nails), [nails]);
+
+  const notify = useCallback((message: string) => {
+    setToast(message);
+    window.setTimeout(() => setToast((current) => (current === message ? "" : current)), 2600);
+  }, []);
+
+  const drawPreview = useCallback(async () => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const rect = canvas.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    const width = Math.max(320, Math.round(rect.width * dpr));
+    const height = Math.max(240, Math.round(rect.height * dpr));
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width;
+      canvas.height = height;
+    }
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const drawId = ++drawIdRef.current;
+    ctx.clearRect(0, 0, width, height);
+    if (!before && mode !== "empty") {
+      await drawNails(ctx, width, height, nails, design);
+      if (drawId !== drawIdRef.current) return;
+    }
+  }, [before, design, mode, nails]);
+
+  useEffect(() => {
+    void drawPreview();
+  }, [drawPreview]);
+
+  useEffect(() => {
+    const onResize = () => void drawPreview();
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+    };
+  }, [drawPreview]);
+
+  const stopCamera = useCallback(() => {
+    trackerRef.current?.stop();
+    trackerRef.current = null;
+    streamRef.current?.getTracks().forEach((track) => track.stop());
+    streamRef.current = null;
+    if (videoRef.current) videoRef.current.srcObject = null;
+    if (mode === "camera") {
+      setMode("empty");
+      setStatus("カメラを停止しました。");
+    }
+  }, [mode]);
+
+  useEffect(() => {
+    return () => {
+      trackerRef.current?.stop();
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+    };
+  }, []);
+
+  const startCamera = useCallback(async () => {
+    if (mode === "camera") {
+      stopCamera();
+      return;
+    }
+    try {
+      if (!window.isSecureContext && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+        setStatus("この環境ではカメラを使えない可能性があります。写真をアップロードして試すこともできます。");
+      }
+      setLoading(true);
+      trackerRef.current?.stop();
+      streamRef.current?.getTracks().forEach((track) => track.stop());
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: facingMode }, width: { ideal: 1280 }, height: { ideal: 960 } },
+        audio: false,
+      });
+      streamRef.current = stream;
+      const video = videoRef.current;
+      if (!video) return;
+      video.srcObject = stream;
+      await video.play();
+      setMode("camera");
+      setPhotoUrl(undefined);
+      setBefore(false);
+      setStatus("手を画面中央に入れてください。爪位置を追従します。");
+      notify("カメラを起動しました");
+      trackerRef.current = await startHandTracking(
+        video,
+        (tracked, detected) => {
+          if (detected && tracked.length) {
+            lostFramesRef.current = 0;
+            setNails((current) => blendNails(current, tracked, 0.42));
+            setStatus("爪を追従中。ズレたら自動補正か指ごとの微調整を使えます。");
+          } else {
+            lostFramesRef.current += 1;
+            setStatus(
+              lostFramesRef.current > 18
+                ? "手全体が写るようにして、指を少し開き、明るい場所で撮影してください。"
+                : "手を認識しています…画面中央に手を入れてください。",
+            );
+          }
+        },
+        facingMode === "user",
+      );
+    } catch {
+      setMode("empty");
+      setStatus("カメラを利用できませんでした。写真をアップロードして試すこともできます。");
+      notify("カメラを利用できませんでした");
+    } finally {
+      setLoading(false);
+    }
+  }, [facingMode, mode, notify, stopCamera]);
+
+  const loadPhoto = useCallback(
+    (url: string) => {
+      stopCamera();
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+      if (url.startsWith("blob:")) objectUrlRef.current = url;
+      setPhotoUrl(url);
+      setMode("photo");
+      setBefore(false);
+      setNails(readJson(NAILS_KEY, defaultPhotoNails));
+      setStatus("写真を読み込みました。必要なら指ごとに微調整してください。");
+      notify("写真を準備しました");
+    },
+    [notify, stopCamera],
+  );
+
+  const loadSample = useCallback(() => {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100">
+      <rect width="900" height="1100" fill="#f7ede8"/>
+      <path fill="#efc1a6" d="M255 1010c-22-140-20-260 5-356 20-77 47-172 72-273 8-34 22-53 44-53 25 0 39 18 39 52V190c0-32 16-48 39-48 24 0 40 16 40 48v174-211c0-31 17-48 40-48 25 0 41 18 41 48v225-176c0-31 17-47 39-47 24 0 40 17 40 47v216-130c0-31 16-48 39-48 24 0 40 18 40 48v241c0 85-22 161-60 243-36 77-79 155-101 238H255Z"/>
+    </svg>`;
+    loadPhoto(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`);
+  }, [loadPhoto]);
+
+  const updateDesign = useCallback((patch: Partial<NailDesign>) => {
+    setActivePresetId(undefined);
+    setDesign((current) => ({ ...current, ...patch }));
+  }, []);
+
+  const selectPreset = useCallback((preset: DesignPreset) => {
+    setActivePresetId(preset.id);
+    setDesign((current) => ({
+      ...current,
+      color: preset.colorHint ?? current.color,
+      material: preset.material ?? current.material,
+      pattern: preset.pattern ?? current.pattern,
+      finish: normalizeFinish(preset.finish) ?? current.finish,
+      motif: preset.motif ?? current.motif,
+      motifColor: preset.motifColor ?? current.motifColor,
+      textureUrl: assetPath(preset.textureImage),
+      realism: Math.max(current.realism, 0.84),
+    }));
+  }, []);
+
+  const updateSelectedNail = useCallback(
+    (patch: Partial<NailPose>) => {
+      setNails((current) => current.map((nail, index) => (index === selectedFinger ? { ...nail, ...patch } : nail)));
+    },
+    [selectedFinger],
+  );
+
+  const autoFit = useCallback(() => {
+    if (mode === "empty") {
+      setStatus("先に写真かカメラを入れてください。");
+      notify("写真かカメラが必要です");
+      return;
+    }
+    setNails((current) =>
+      current.map((nail, index) => ({
+        ...nail,
+        y: Math.max(0, nail.y - (index === 0 ? 1.6 : 1.1)),
+        width: nail.width * (index === 0 ? 0.92 : 0.96),
+        height: nail.height * (index === 0 ? 0.96 : 0.98),
+      })),
+    );
+    setStatus("自動補正しました。長さを変えても根元が動かない描画にしています。");
+    notify("爪の位置を自動調整しました");
+  }, [mode, notify]);
+
+  const capturePhoto = useCallback(async () => {
+    const video = videoRef.current;
+    if (mode !== "camera" || !video?.videoWidth) {
+      notify("先にカメラを起動してください");
+      return;
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      notify("写真を作れませんでした");
+      return;
+    }
+    if (facingMode === "user") {
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+    }
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    loadPhoto(canvas.toDataURL("image/jpeg", 0.94));
+    notify("写真として固定しました");
+  }, [facingMode, loadPhoto, mode, notify]);
+
+  const saveImage = useCallback(async () => {
+    if (mode === "empty") {
+      notify("先に写真かカメラを入れてください");
+      return;
+    }
+    const source = mode === "camera" ? videoRef.current : imageRef.current;
+    if (!source) {
+      notify("保存できる画像がありません");
+      return;
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = mode === "camera" ? (source as HTMLVideoElement).videoWidth || 1280 : (source as HTMLImageElement).naturalWidth || 1080;
+    canvas.height = mode === "camera" ? (source as HTMLVideoElement).videoHeight || 960 : (source as HTMLImageElement).naturalHeight || 1350;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      notify("Canvasを作成できませんでした");
+      return;
+    }
+    if (mode === "camera" && facingMode === "user") {
+      ctx.translate(canvas.width, 0);
+      ctx.scale(-1, 1);
+    }
+    ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+    if (mode === "camera" && facingMode === "user") {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
+    await drawNails(ctx, canvas.width, canvas.height, nails, design);
+    canvas.toBlob(async (blob) => {
+      if (!blob) {
+        notify("画像保存に失敗しました");
+        return;
+      }
+      const file = new File([blob], "nail-fit-studio.png", { type: "image/png" });
+      const nav = navigator as Navigator & { canShare?: (data: ShareData) => boolean };
+      if (nav.canShare?.({ files: [file] })) {
+        try {
+          await navigator.share({ files: [file], title: "Nail Fit Studio" });
+          notify("画像を保存/共有しました");
+          return;
+        } catch {
+          // User may cancel sharing; fall back to download link.
+        }
+      }
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "nail-fit-studio.png";
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1200);
+      notify("画像を保存しました");
+    }, "image/png");
+  }, [design, facingMode, mode, nails, notify]);
+
+  const switchCamera = useCallback(() => {
+    setFacingMode((current) => (current === "user" ? "environment" : "user"));
+    setStatus("カメラ向きを切り替えました。カメラを起動し直してください。");
+    notify("カメラ向きを切り替えました");
+  }, [notify]);
+
+  const quality = useMemo(() => {
+    if (mode === "empty") return "準備中";
+    const avg = nails.reduce((sum, nail) => sum + (nail.confidence ?? 0.5), 0) / nails.length;
+    return avg > 0.7 ? "追従安定" : "微調整推奨";
+  }, [mode, nails]);
+
+  return (
+    <div className="studio-shell">
+      <header className="hero">
+        <p className="eyebrow">Nail Fit Studio</p>
+        <h1>気になるネイル、自分の手で試してみよう。</h1>
+        <p>サロンに行く前に、似合う色・形・デザインを自宅でチェック。</p>
+        <div className="quality-pill">{quality}</div>
+      </header>
+
+      <main className="studio-layout">
+        <div className="control-column">
+          <PhotoUploader onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} />
+          <DesignSelector presets={presets} activePresetId={activePresetId} onSelectPreset={selectPreset} design={design} onDesign={updateDesign} />
+          <SettingsPanel
+            design={design}
+            selectedFinger={selectedFinger}
+            nail={nails[selectedFinger]}
+            onDesign={updateDesign}
+            onSelectFinger={setSelectedFinger}
+            onNail={updateSelectedNail}
+          />
+          <BeforeAfter
+            enabled={!before}
+            onToggle={() => setBefore((value) => !value)}
+            onHoldStart={() => setBefore(true)}
+            onHoldEnd={() => setBefore(false)}
+          />
+          <SavePanel canSave={mode !== "empty"} onSave={saveImage} onCapture={capturePhoto} onAutoFit={autoFit} isCamera={mode === "camera"} />
+          <button type="button" className="secondary wide" onClick={switchCamera}>
+            {facingMode === "user" ? "外カメラ優先にする" : "内カメラ優先にする"}
+          </button>
+        </div>
+
+        <NailPreview
+          mode={mode}
+          photoUrl={photoUrl}
+          status={status}
+          loading={loading}
+          imageRef={imageRef}
+          videoRef={videoRef}
+          canvasRef={canvasRef}
+          onImageError={() => {
+            setMode("empty");
+            setStatus("画像を読み込めませんでした。別の写真を選んでください。");
+            notify("画像を読み込めませんでした");
+          }}
+        />
+      </main>
+
+      <BottomNavigation mode={mode} onCamera={startCamera} onAutoFit={autoFit} onSave={saveImage} onSettings={() => document.getElementById("settings-panel")?.scrollIntoView({ behavior: "smooth" })} />
+      {toast && <div className="toast" role="status">{toast}</div>}
+    </div>
+  );
+}
+
+function blendNails(current: NailPose[], next: NailPose[], amount: number) {
+  if (current.length !== next.length) return next;
+  return current.map((nail, index) => ({
+    ...nail,
+    x: smooth(nail.x, next[index].x, amount),
+    y: smooth(nail.y, next[index].y, amount),
+    width: smooth(nail.width, next[index].width, amount),
+    height: smooth(nail.height, next[index].height, amount),
+    rotation: smoothAngle(nail.rotation, next[index].rotation, amount),
+    confidence: next[index].confidence,
+  }));
+}
+
+function smooth(current: number, target: number, amount: number) {
+  return current + (target - current) * amount;
+}
+
+function smoothAngle(current: number, target: number, amount: number) {
+  let delta = target - current;
+  while (delta > 180) delta -= 360;
+  while (delta < -180) delta += 360;
+  return current + delta * amount;
+}
+
+function normalizeFinish(value?: string): NailDesign["finish"] | undefined {
+  if (value === "chrome" || value === "pearl" || value === "sparkle" || value === "sheer" || value === "gloss") return value;
+  if (value === "glossy") return "gloss";
+  if (value === "shimmer") return "pearl";
+  return undefined;
+}

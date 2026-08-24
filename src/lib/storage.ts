@@ -21,6 +21,7 @@ export const STORAGE_KEYS = {
   favorites: "nail-fit-studio-next.favorites.v1",
   history: "nail-fit-studio-next.history.v1",
   diagnosis: "nail-fit-studio-next.diagnosis.v1",
+  cameraDevice: "nail-fit-studio-next.camera-device.v1",
 } as const;
 
 export function createLocalId(prefix: string) {

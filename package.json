@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/check-content.mjs && node scripts/check-ad-placement.mjs"
+    "test": "node scripts/check-content.mjs && node scripts/check-ad-placement.mjs && node scripts/check-camera-support.mjs"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "latest",

@@ -27,7 +27,13 @@ npm run build
 npm audit
 ```
 
-`npm test` はガイド記事数・slug重複・必須項目と、試着・診断・保存ページへの広告誤配置を確認します。
+`npm test` はガイド記事数・slug重複・必須項目、試着・診断・保存ページへの広告誤配置、複数カメラ対応の必須処理を確認します。
+
+## カメラ
+
+初回はスマートフォンで外カメラを優先します。カメラ権限を許可したあと、利用可能なカメラが2台以上ある場合だけ「使用するカメラ」を表示します。PCではUSB Webカメラを選択でき、接続・取り外し時に一覧を自動更新します。
+
+選択したカメラは端末内のlocalStorageへ保存します。次回アクセス時に見つからなければ標準カメラへ戻ります。実機カメラの最終確認は、Secure ContextとなるVercelのHTTPS URLで行ってください。
 
 ## Vercel Deployment
 
@@ -107,6 +113,7 @@ Vercel公開後に本番URLのプロパティを確認し、`/sitemap.xml` を�
 - `nail-fit-studio-next.favorites.v1`
 - `nail-fit-studio-next.history.v1`
 - `nail-fit-studio-next.diagnosis.v1`
+- `nail-fit-studio-next.camera-device.v1`
 
 お気に入りは最大50件、履歴は最大20件です。画像そのものは保存せず、デザインと爪位置の設定だけを保存します。
 

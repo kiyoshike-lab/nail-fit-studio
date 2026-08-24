@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { BeforeAfter } from "./BeforeAfter";
 import { BottomNavigation } from "./BottomNavigation";
+import { CameraDeviceSelector } from "./CameraDeviceSelector";
 import { DesignSelector } from "./DesignSelector";
 import { NailPreview } from "./NailPreview";
 import { PhotoUploader } from "./PhotoUploader";
@@ -15,6 +16,15 @@ import { readJson, writeJson } from "@/lib/storage";
 import { detectHandNails, startHandTracking, type HandTracker } from "@/lib/handTracking";
 import { trackEvent } from "@/lib/analytics";
 import { createLocalId, STORAGE_KEYS } from "@/lib/storage";
+import {
+  buildVideoConstraints,
+  cameraErrorMessage,
+  includesCamera,
+  listVideoInputs,
+  shouldFallbackFromSelectedCamera,
+  shouldMirrorCamera,
+  type CameraInput,
+} from "@/lib/cameraDevices";
 import type { DesignPreset, NailDesign, NailPose, SavedNailLook, SourceMode, TryOnHistory } from "@/lib/types";
 
 const DESIGN_KEY = "nail-fit-studio-next.design.v1";
@@ -31,6 +41,9 @@ export function NailStudio() {
   const [activePresetId, setActivePresetId] = useState<string | undefined>();
   const [before, setBefore] = useState(false);
   const [facingMode, setFacingMode] = useState<"user" | "environment">("environment");
+  const [cameraMirrored, setCameraMirrored] = useState(false);
+  const [cameraDevices, setCameraDevices] = useState<CameraInput[]>([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState(() => readJson(STORAGE_KEYS.cameraDevice, ""));
   const [toast, setToast] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -42,6 +55,9 @@ export function NailStudio() {
   const objectUrlRef = useRef<string | null>(null);
   const drawIdRef = useRef(0);
   const lostFramesRef = useRef(0);
+  const selectedDeviceIdRef = useRef(selectedDeviceId);
+  const activeDeviceIdRef = useRef("");
+  const cameraRequestRef = useRef(0);
 
   useEffect(() => {
     loadDesignPresets().then(setPresets).catch(() => setPresets([]));
@@ -69,6 +85,7 @@ export function NailStudio() {
 
   useEffect(() => writeJson(DESIGN_KEY, design), [design]);
   useEffect(() => writeJson(NAILS_KEY, nails), [nails]);
+  useEffect(() => { selectedDeviceIdRef.current = selectedDeviceId; }, [selectedDeviceId]);
 
   const notify = useCallback((message: string) => {
     setToast(message);
@@ -110,54 +127,144 @@ export function NailStudio() {
     };
   }, [drawPreview]);
 
-  const stopCamera = useCallback(() => {
+  const releaseCamera = useCallback(() => {
     trackerRef.current?.stop();
     trackerRef.current = null;
     streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
+    activeDeviceIdRef.current = "";
     if (videoRef.current) videoRef.current.srcObject = null;
-    if (mode === "camera") {
-      setMode("empty");
-      setStatus("カメラを停止しました。");
-    }
-  }, [mode]);
-
-  useEffect(() => {
-    return () => {
-      trackerRef.current?.stop();
-      streamRef.current?.getTracks().forEach((track) => track.stop());
-      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
-    };
   }, []);
 
-  const startCamera = useCallback(async () => {
-    if (mode === "camera") {
-      stopCamera();
+  const stopCamera = useCallback((message = "カメラを停止しました。") => {
+    cameraRequestRef.current += 1;
+    releaseCamera();
+    setMode("empty");
+    setCameraMirrored(false);
+    setStatus(message);
+  }, [releaseCamera]);
+
+  const refreshCameraDevices = useCallback(async () => {
+    if (!navigator.mediaDevices?.enumerateDevices) return [];
+    try {
+      const inputs = listVideoInputs(await navigator.mediaDevices.enumerateDevices());
+      setCameraDevices(inputs);
+      return inputs;
+    } catch {
+      setCameraDevices([]);
+      return [];
+    }
+  }, []);
+
+  const openCamera = useCallback(async (
+    requestedDeviceId = selectedDeviceIdRef.current,
+    requestedFacingMode: "user" | "environment" = facingMode,
+  ) => {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      const message = "このブラウザではカメラを利用できません。写真をアップロードしてお試しください。";
+      setStatus(message);
+      notify(message);
       return;
     }
+
+    if (!window.isSecureContext && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+      const message = "カメラはHTTPSのページで利用できます。写真をアップロードして試すこともできます。";
+      setStatus(message);
+      notify(message);
+      return;
+    }
+
+    const requestId = ++cameraRequestRef.current;
+    setLoading(true);
+    releaseCamera();
+    let deviceId = requestedDeviceId;
+    let stream: MediaStream | null = null;
+
     try {
-      if (!window.isSecureContext && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
-        setStatus("この環境ではカメラを使えない可能性があります。写真をアップロードして試すこともできます。");
+      const availableBeforePermission = await refreshCameraDevices();
+      const hasKnownIds = availableBeforePermission.some((device) => Boolean(device.deviceId));
+      if (deviceId && hasKnownIds && !includesCamera(availableBeforePermission, deviceId)) {
+        deviceId = "";
+        selectedDeviceIdRef.current = "";
+        setSelectedDeviceId("");
+        writeJson(STORAGE_KEYS.cameraDevice, "");
       }
-      setLoading(true);
-      trackerRef.current?.stop();
-      streamRef.current?.getTracks().forEach((track) => track.stop());
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: { ideal: facingMode }, width: { ideal: 1280 }, height: { ideal: 960 } },
-        audio: false,
-      });
+
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: buildVideoConstraints(deviceId, requestedFacingMode),
+          audio: false,
+        });
+      } catch (error) {
+        if (!deviceId || !shouldFallbackFromSelectedCamera(error)) throw error;
+        deviceId = "";
+        selectedDeviceIdRef.current = "";
+        setSelectedDeviceId("");
+        writeJson(STORAGE_KEYS.cameraDevice, "");
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: buildVideoConstraints("", requestedFacingMode),
+          audio: false,
+        });
+      }
+
+      if (requestId !== cameraRequestRef.current) {
+        stream.getTracks().forEach((track) => track.stop());
+        return;
+      }
+
+      const videoTrack = stream.getVideoTracks()[0];
+      if (!videoTrack) throw new DOMException("Video track not found", "NotFoundError");
       streamRef.current = stream;
+      const activeDeviceId = videoTrack.getSettings().deviceId || deviceId;
+      activeDeviceIdRef.current = activeDeviceId;
+
+      const devicesAfterPermission = await refreshCameraDevices();
+      if (requestId !== cameraRequestRef.current) {
+        stream.getTracks().forEach((track) => track.stop());
+        if (streamRef.current === stream) streamRef.current = null;
+        return;
+      }
+      const activeCamera = devicesAfterPermission.find((device) => device.deviceId === activeDeviceId);
+      const activeLabel = activeCamera?.label || videoTrack.label || "使用中のカメラ";
+      const mirrored = shouldMirrorCamera(
+        activeLabel,
+        Boolean(deviceId),
+        requestedFacingMode,
+        videoTrack.getSettings().facingMode,
+      );
+      setCameraMirrored(mirrored);
+
+      if (activeDeviceId) {
+        selectedDeviceIdRef.current = activeDeviceId;
+        setSelectedDeviceId(activeDeviceId);
+        writeJson(STORAGE_KEYS.cameraDevice, activeDeviceId);
+      }
+
+      videoTrack.addEventListener("ended", () => {
+        if (streamRef.current !== stream) return;
+        cameraRequestRef.current += 1;
+        releaseCamera();
+        selectedDeviceIdRef.current = "";
+        setSelectedDeviceId("");
+        writeJson(STORAGE_KEYS.cameraDevice, "");
+        setMode("empty");
+        setCameraMirrored(false);
+        setStatus("カメラが切断されました。接続を確認して、使用するカメラを選び直してください。");
+        notify("カメラが切断されました");
+        void refreshCameraDevices();
+      }, { once: true });
+
       const video = videoRef.current;
-      if (!video) return;
+      if (!video) throw new Error("Video element is unavailable");
       video.srcObject = stream;
       await video.play();
       setMode("camera");
       setPhotoUrl(undefined);
       setBefore(false);
-      setStatus("手を画面中央に入れてください。爪位置を追従します。");
+      setStatus(`${activeLabel}を使用中。手を画面中央に入れてください。`);
       notify("カメラを起動しました");
       trackEvent("tryon_started", { source: "camera" });
-      trackerRef.current = await startHandTracking(
+      const tracker = await startHandTracking(
         video,
         (tracked, detected) => {
           if (detected && tracked.length) {
@@ -173,16 +280,74 @@ export function NailStudio() {
             );
           }
         },
-        facingMode === "user",
+        mirrored,
       );
-    } catch {
+      if (requestId !== cameraRequestRef.current || streamRef.current !== stream) {
+        tracker.stop();
+        return;
+      }
+      trackerRef.current = tracker;
+    } catch (error) {
+      if (requestId !== cameraRequestRef.current) return;
+      releaseCamera();
       setMode("empty");
-      setStatus("カメラを利用できませんでした。写真をアップロードして試すこともできます。");
-      notify("カメラを利用できませんでした");
+      setCameraMirrored(false);
+      const message = cameraErrorMessage(error, Boolean(deviceId));
+      setStatus(message);
+      notify(message);
     } finally {
-      setLoading(false);
+      if (requestId === cameraRequestRef.current) setLoading(false);
     }
-  }, [facingMode, mode, notify, stopCamera]);
+  }, [facingMode, notify, refreshCameraDevices, releaseCamera]);
+
+  useEffect(() => {
+    const mediaDevices = navigator.mediaDevices;
+    if (!mediaDevices) return;
+
+    const handleDeviceChange = async () => {
+      const devices = await refreshCameraDevices();
+      const hasKnownIds = devices.some((device) => Boolean(device.deviceId));
+      if (!hasKnownIds) return;
+      const selectedMissing = selectedDeviceIdRef.current && !includesCamera(devices, selectedDeviceIdRef.current);
+      const activeMissing = activeDeviceIdRef.current && !includesCamera(devices, activeDeviceIdRef.current);
+      if (!selectedMissing && !activeMissing) return;
+
+      selectedDeviceIdRef.current = "";
+      setSelectedDeviceId("");
+      writeJson(STORAGE_KEYS.cameraDevice, "");
+      if (streamRef.current || activeMissing) {
+        stopCamera("カメラが切断されました。接続を確認して、別のカメラを選択してください。");
+        notify("カメラが切断されました");
+      } else {
+        setStatus("前回選んだカメラが見つからないため、次回は標準カメラを使用します。");
+      }
+    };
+
+    const supportsDeviceEvents = typeof mediaDevices.addEventListener === "function";
+    if (supportsDeviceEvents) {
+      mediaDevices.addEventListener("devicechange", handleDeviceChange);
+    } else {
+      mediaDevices.ondevicechange = handleDeviceChange;
+    }
+    return () => {
+      if (supportsDeviceEvents) {
+        mediaDevices.removeEventListener("devicechange", handleDeviceChange);
+      } else if (mediaDevices.ondevicechange === handleDeviceChange) {
+        mediaDevices.ondevicechange = null;
+      }
+      cameraRequestRef.current += 1;
+      releaseCamera();
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+    };
+  }, [notify, refreshCameraDevices, releaseCamera, stopCamera]);
+
+  const startCamera = useCallback(async () => {
+    if (mode === "camera") {
+      stopCamera();
+      return;
+    }
+    await openCamera(selectedDeviceIdRef.current, facingMode);
+  }, [facingMode, mode, openCamera, stopCamera]);
 
   const loadPhoto = useCallback(
     (url: string) => {
@@ -305,14 +470,14 @@ export function NailStudio() {
       notify("写真を作れませんでした");
       return;
     }
-    if (facingMode === "user") {
+    if (cameraMirrored) {
       ctx.translate(canvas.width, 0);
       ctx.scale(-1, 1);
     }
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     loadPhoto(canvas.toDataURL("image/jpeg", 0.94));
     notify("写真として固定しました");
-  }, [facingMode, loadPhoto, mode, notify]);
+  }, [cameraMirrored, loadPhoto, mode, notify]);
 
   const saveImage = useCallback(async () => {
     if (mode === "empty") {
@@ -332,12 +497,12 @@ export function NailStudio() {
       notify("Canvasを作成できませんでした");
       return;
     }
-    if (mode === "camera" && facingMode === "user") {
+    if (mode === "camera" && cameraMirrored) {
       ctx.translate(canvas.width, 0);
       ctx.scale(-1, 1);
     }
     ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
-    if (mode === "camera" && facingMode === "user") {
+    if (mode === "camera" && cameraMirrored) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
     await drawNails(ctx, canvas.width, canvas.height, nails, design);
@@ -368,13 +533,40 @@ export function NailStudio() {
       notify("画像を保存しました");
       trackEvent("tryon_saved");
     }, "image/png");
-  }, [addHistory, design, facingMode, mode, nails, notify]);
+  }, [addHistory, cameraMirrored, design, mode, nails, notify]);
+
+  const selectCamera = useCallback(async (deviceId: string) => {
+    selectedDeviceIdRef.current = deviceId;
+    setSelectedDeviceId(deviceId);
+    writeJson(STORAGE_KEYS.cameraDevice, deviceId);
+    const label = cameraDevices.find((device) => device.deviceId === deviceId)?.label ?? "選択したカメラ";
+
+    if (mode === "camera") {
+      setStatus(`${label}へ切り替えています…`);
+      await openCamera(deviceId, facingMode);
+      return;
+    }
+
+    setStatus(`${label}を選択しました。カメラを起動すると使用します。`);
+    notify(`${label}を選択しました`);
+  }, [cameraDevices, facingMode, mode, notify, openCamera]);
 
   const switchCamera = useCallback(() => {
-    setFacingMode((current) => (current === "user" ? "environment" : "user"));
-    setStatus("カメラ向きを切り替えました。カメラを起動し直してください。");
+    const nextFacingMode = facingMode === "user" ? "environment" : "user";
+    setFacingMode(nextFacingMode);
+    selectedDeviceIdRef.current = "";
+    setSelectedDeviceId("");
+    writeJson(STORAGE_KEYS.cameraDevice, "");
+
+    if (mode === "camera") {
+      setStatus(`${nextFacingMode === "environment" ? "外" : "内"}カメラへ切り替えています…`);
+      void openCamera("", nextFacingMode);
+      return;
+    }
+
+    setStatus(`${nextFacingMode === "environment" ? "外" : "内"}カメラを優先する設定にしました。`);
     notify("カメラ向きを切り替えました");
-  }, [notify]);
+  }, [facingMode, mode, notify, openCamera]);
 
   const quality = useMemo(() => {
     if (mode === "empty") return "準備中";
@@ -394,6 +586,12 @@ export function NailStudio() {
       <main className="studio-layout">
         <div className="control-column">
           <PhotoUploader onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} onError={(message) => { setStatus(message); notify(message); }} />
+          <CameraDeviceSelector
+            devices={cameraDevices}
+            selectedDeviceId={selectedDeviceId}
+            disabled={loading}
+            onChange={(deviceId) => { void selectCamera(deviceId); }}
+          />
           <DesignSelector presets={presets} activePresetId={activePresetId} onSelectPreset={selectPreset} design={design} onDesign={updateDesign} />
           <SettingsPanel
             design={design}
@@ -423,7 +621,7 @@ export function NailStudio() {
           imageRef={imageRef}
           videoRef={videoRef}
           canvasRef={canvasRef}
-          mirrored={mode === "camera" && facingMode === "user"}
+          mirrored={mode === "camera" && cameraMirrored}
           nails={nails}
           onSelectNail={setSelectedFinger}
           onMoveNail={(index, x, y) => setNails((current) => current.map((nail, nailIndex) => nailIndex === index ? { ...nail, x, y } : nail))}

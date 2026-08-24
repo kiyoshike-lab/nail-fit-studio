@@ -71,6 +71,15 @@ export function shouldTryNextCameraConstraint(error: unknown) {
   return ["OverconstrainedError", "ConstraintNotSatisfiedError", "NotReadableError", "AbortError"].includes(name);
 }
 
+export function shouldDeferDeviceChange(cameraStarting: boolean, protectionUntil: number, now = Date.now()) {
+  return cameraStarting || now < protectionUntil;
+}
+
+export function isLiveCameraStream(stream: Pick<MediaStream, "active" | "getVideoTracks"> | null) {
+  const track = stream?.getVideoTracks()[0];
+  return Boolean(stream?.active && track?.readyState === "live");
+}
+
 export function waitForVideoReady(video: HTMLVideoElement, timeoutMs = 5000) {
   if (video.readyState >= 1 && video.videoWidth > 0 && video.videoHeight > 0) return Promise.resolve();
 

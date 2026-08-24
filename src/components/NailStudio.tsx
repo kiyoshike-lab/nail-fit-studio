@@ -21,7 +21,9 @@ import {
   cameraErrorMessage,
   getCameraStreamWithFallback,
   includesCamera,
+  isLiveCameraStream,
   listVideoInputs,
+  shouldDeferDeviceChange,
   shouldFallbackFromSelectedCamera,
   shouldMirrorCamera,
   waitForVideoReady,
@@ -62,6 +64,9 @@ export function NailStudio() {
   const activeDeviceIdRef = useRef("");
   const cameraRequestRef = useRef(0);
   const trackingRequestRef = useRef(0);
+  const cameraStartingRef = useRef(false);
+  const cameraProtectionUntilRef = useRef(0);
+  const deviceChangeTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     loadDesignPresets().then(setPresets).catch(() => setPresets([]));
@@ -131,19 +136,33 @@ export function NailStudio() {
     };
   }, [drawPreview]);
 
-  const releaseCamera = useCallback(() => {
+  const releaseCamera = useCallback((reason = "release-camera") => {
+    const stream = streamRef.current;
+    const currentTrack = stream?.getVideoTracks()[0];
+    debugCamera("Releasing camera", {
+      reason,
+      streamActive: streamRef.current?.active ?? false,
+      trackReadyState: currentTrack?.readyState ?? "none",
+      activeDeviceId: activeDeviceIdRef.current,
+    });
     trackingRequestRef.current += 1;
     trackerRef.current?.stop();
     trackerRef.current = null;
-    streamRef.current?.getTracks().forEach((track) => track.stop());
     streamRef.current = null;
     activeDeviceIdRef.current = "";
     if (videoRef.current) videoRef.current.srcObject = null;
+    stream?.getTracks().forEach((track) => track.stop());
   }, []);
 
-  const stopCamera = useCallback((message = "カメラを停止しました。") => {
+  const stopCamera = useCallback((message = "カメラを停止しました。", reason = "user-stop") => {
+    cameraStartingRef.current = false;
+    cameraProtectionUntilRef.current = 0;
+    if (deviceChangeTimerRef.current !== null) {
+      window.clearTimeout(deviceChangeTimerRef.current);
+      deviceChangeTimerRef.current = null;
+    }
     cameraRequestRef.current += 1;
-    releaseCamera();
+    releaseCamera(reason);
     setMode("empty");
     setCameraMirrored(false);
     setTrackingState("idle");
@@ -240,8 +259,14 @@ export function NailStudio() {
     }
 
     const requestId = ++cameraRequestRef.current;
+    cameraStartingRef.current = true;
+    cameraProtectionUntilRef.current = Number.POSITIVE_INFINITY;
+    if (deviceChangeTimerRef.current !== null) {
+      window.clearTimeout(deviceChangeTimerRef.current);
+      deviceChangeTimerRef.current = null;
+    }
     setLoading(true);
-    releaseCamera();
+    releaseCamera("switching-camera");
     setTrackingState("idle");
     let deviceId = requestedDeviceId;
     let trackingVideo: HTMLVideoElement | null = null;
@@ -305,8 +330,14 @@ export function NailStudio() {
 
       videoTrack.addEventListener("ended", () => {
         if (streamRef.current !== stream) return;
+        cameraStartingRef.current = false;
+        cameraProtectionUntilRef.current = 0;
+        if (deviceChangeTimerRef.current !== null) {
+          window.clearTimeout(deviceChangeTimerRef.current);
+          deviceChangeTimerRef.current = null;
+        }
         cameraRequestRef.current += 1;
-        releaseCamera();
+        releaseCamera("track-ended");
         selectedDeviceIdRef.current = "";
         setSelectedDeviceId("");
         writeJson(STORAGE_KEYS.cameraDevice, "");
@@ -331,6 +362,8 @@ export function NailStudio() {
         return;
       }
 
+      cameraStartingRef.current = false;
+      cameraProtectionUntilRef.current = Date.now() + 2000;
       setMode("camera");
       setPhotoUrl(undefined);
       setBefore(false);
@@ -349,7 +382,9 @@ export function NailStudio() {
       trackingMirrored = mirrored;
     } catch (error) {
       if (requestId !== cameraRequestRef.current) return;
-      releaseCamera();
+      cameraStartingRef.current = false;
+      cameraProtectionUntilRef.current = 0;
+      releaseCamera("camera-start-failed");
       setMode("empty");
       setCameraMirrored(false);
       setTrackingState("idle");
@@ -357,7 +392,13 @@ export function NailStudio() {
       setStatus(message);
       notify(message);
     } finally {
-      if (requestId === cameraRequestRef.current) setLoading(false);
+      if (requestId === cameraRequestRef.current) {
+        if (cameraStartingRef.current) {
+          cameraStartingRef.current = false;
+          cameraProtectionUntilRef.current = 0;
+        }
+        setLoading(false);
+      }
     }
 
     if (trackingVideo && trackingStream && requestId === cameraRequestRef.current) {
@@ -369,23 +410,78 @@ export function NailStudio() {
     const mediaDevices = navigator.mediaDevices;
     if (!mediaDevices) return;
 
-    const handleDeviceChange = async () => {
+    const inspectDevicesAfterChange = async () => {
       const devices = await refreshCameraDevices();
       const hasKnownIds = devices.some((device) => Boolean(device.deviceId));
-      if (!hasKnownIds) return;
+      const stream = streamRef.current;
+      const track = stream?.getVideoTracks()[0];
+      const streamIsLive = isLiveCameraStream(stream);
       const selectedMissing = selectedDeviceIdRef.current && !includesCamera(devices, selectedDeviceIdRef.current);
       const activeMissing = activeDeviceIdRef.current && !includesCamera(devices, activeDeviceIdRef.current);
-      if (!selectedMissing && !activeMissing) return;
 
-      selectedDeviceIdRef.current = "";
-      setSelectedDeviceId("");
-      writeJson(STORAGE_KEYS.cameraDevice, "");
-      if (streamRef.current || activeMissing) {
-        stopCamera("カメラが切断されました。接続を確認して、別のカメラを選択してください。");
-        notify("カメラが切断されました");
-      } else {
+      debugCamera("devicechange evaluated", {
+        cameraStarting: cameraStartingRef.current,
+        protectionUntil: cameraProtectionUntilRef.current,
+        streamActive: stream?.active ?? false,
+        trackReadyState: track?.readyState ?? "none",
+        selectedDeviceId: selectedDeviceIdRef.current,
+        activeDeviceId: activeDeviceIdRef.current,
+        selectedMissing: Boolean(selectedMissing),
+        activeMissing: Boolean(activeMissing),
+        enumeratedDeviceIds: devices.map((device) => device.deviceId),
+      });
+
+      if (shouldDeferDeviceChange(cameraStartingRef.current, cameraProtectionUntilRef.current)) return;
+      if (!hasKnownIds) return;
+
+      if (selectedMissing) {
+        selectedDeviceIdRef.current = "";
+        setSelectedDeviceId("");
+        writeJson(STORAGE_KEYS.cameraDevice, "");
+      }
+
+      if (streamIsLive) {
+        debugCamera("devicechange ignored because active track is live");
+        return;
+      }
+
+      if (selectedMissing && !stream) {
         setStatus("前回選んだカメラが見つからないため、次回は標準カメラを使用します。");
       }
+
+      // Device IDs can change after permission or USB re-enumeration. The track's
+      // ended event is the authoritative disconnect signal and owns stream cleanup.
+      debugCamera("devicechange did not stop camera; waiting for track-ended", {
+        streamActive: stream?.active ?? false,
+        trackReadyState: track?.readyState ?? "none",
+      });
+    };
+
+    const handleDeviceChange = () => {
+      const stream = streamRef.current;
+      const track = stream?.getVideoTracks()[0];
+      debugCamera("devicechange fired", {
+        cameraStarting: cameraStartingRef.current,
+        streamActive: stream?.active ?? false,
+        trackReadyState: track?.readyState ?? "none",
+        selectedDeviceId: selectedDeviceIdRef.current,
+        activeDeviceId: activeDeviceIdRef.current,
+      });
+
+      if (cameraStartingRef.current) {
+        void refreshCameraDevices().then((devices) => {
+          debugCamera("devicechange ignored while camera is starting", {
+            enumeratedDeviceIds: devices.map((device) => device.deviceId),
+          });
+        });
+        return;
+      }
+
+      if (deviceChangeTimerRef.current !== null) window.clearTimeout(deviceChangeTimerRef.current);
+      deviceChangeTimerRef.current = window.setTimeout(() => {
+        deviceChangeTimerRef.current = null;
+        void inspectDevicesAfterChange();
+      }, 500);
     };
 
     const supportsDeviceEvents = typeof mediaDevices.addEventListener === "function";
@@ -400,15 +496,26 @@ export function NailStudio() {
       } else if (mediaDevices.ondevicechange === handleDeviceChange) {
         mediaDevices.ondevicechange = null;
       }
+      if (deviceChangeTimerRef.current !== null) {
+        window.clearTimeout(deviceChangeTimerRef.current);
+        deviceChangeTimerRef.current = null;
+      }
+    };
+  }, [refreshCameraDevices]);
+
+  useEffect(() => {
+    return () => {
+      cameraStartingRef.current = false;
+      cameraProtectionUntilRef.current = 0;
       cameraRequestRef.current += 1;
-      releaseCamera();
+      releaseCamera("component-unmount");
       if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
     };
-  }, [notify, refreshCameraDevices, releaseCamera, stopCamera]);
+  }, [releaseCamera]);
 
   const startCamera = useCallback(async () => {
     if (mode === "camera") {
-      stopCamera();
+      stopCamera("カメラを停止しました。", "user-stop");
       return;
     }
     await openCamera(selectedDeviceIdRef.current, facingMode);
@@ -430,7 +537,7 @@ export function NailStudio() {
 
   const loadPhoto = useCallback(
     (url: string) => {
-      stopCamera();
+      stopCamera("カメラを停止しました。", "photo-upload");
       if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
       if (url.startsWith("blob:")) objectUrlRef.current = url;
       setPhotoUrl(url);

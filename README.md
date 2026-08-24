@@ -35,6 +35,8 @@ npm audit
 
 選択したカメラは端末内のlocalStorageへ保存します。次回アクセス時に見つからなければ標準カメラへ戻ります。実機カメラの最終確認は、Secure ContextとなるVercelのHTTPS URLで行ってください。
 
+`devicechange`は500ms待ってカメラ一覧を更新する用途に限定し、動作中trackの停止判断には使いません。カメラ起動中と起動成功後2秒間を保護し、物理切断はMediaStreamTrackの`ended`イベントで判定します。
+
 MediaPipeはGPU初期化に失敗するとCPUへ自動的に切り替わります。両方で自動認識を開始できない場合もカメラ映像、手動調整、撮影、保存は維持され、「自動認識を再試行」からカメラを止めずに再初期化できます。
 
 ## Vercel Deployment

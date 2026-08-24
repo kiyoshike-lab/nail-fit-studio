@@ -59,8 +59,8 @@ GitHubの `kiyoshike-lab/nail-fit-studio` をVercelへImportします。
 `.env.example` を参照し、VercelのSettings → Environment Variablesへ設定します。
 
 - `NEXT_PUBLIC_SITE_URL`: 本番Vercel URL。canonical、robots、sitemapに使用
-- `NEXT_PUBLIC_GA_ID`: GA4 Measurement ID
-- `NEXT_PUBLIC_ADSENSE_PUBLISHER_ID`: `ca-pub-...` 形式。未設定なら広告もAdSense metaも出さない
+- `NEXT_PUBLIC_GA_ID`: GA4 Measurement ID。既定値は `G-CLEJWK7RF3`
+- `NEXT_PUBLIC_ADSENSE_PUBLISHER_ID`: `ca-pub-...` 形式。既定値は `ca-pub-6994120027205290`
 - `NEXT_PUBLIC_ADSENSE_GUIDE_SLOT`: ガイド用広告slot。未設定なら広告を出さない
 
 環境変数を変更したら再デプロイしてください。

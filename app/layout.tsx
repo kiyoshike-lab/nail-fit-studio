@@ -4,6 +4,7 @@ import { MobileSiteNavigation } from "@/components/MobileSiteNavigation";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { ADSENSE_PUBLISHER_ID } from "@/lib/googleConfig";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,9 +23,7 @@ export const metadata: Metadata = {
     images: ["/assets/preset-previews/design_005.jpg"],
   },
   twitter: { card: "summary_large_image", title: `${SITE_NAME} 2.0`, description: SITE_DESCRIPTION, images: ["/assets/preset-previews/design_005.jpg"] },
-  other: process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID
-    ? { "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID }
-    : undefined,
+  other: { "google-adsense-account": ADSENSE_PUBLISHER_ID },
 };
 
 export const viewport: Viewport = {

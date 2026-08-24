@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/check-content.mjs && node scripts/check-ad-placement.mjs && node scripts/check-camera-support.mjs && node scripts/check-tracking-resilience.mjs && node scripts/check-devicechange-resilience.mjs && node scripts/check-hand-detection.mjs && node scripts/check-nail-fit.mjs"
+    "test": "node scripts/check-content.mjs && node scripts/check-ad-placement.mjs && node scripts/check-camera-support.mjs && node scripts/check-tracking-resilience.mjs && node scripts/check-devicechange-resilience.mjs && node scripts/check-hand-detection.mjs && node scripts/check-nail-fit.mjs && node scripts/check-google-integrations.mjs"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "1.0.1",

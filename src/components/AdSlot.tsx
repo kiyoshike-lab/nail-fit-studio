@@ -2,11 +2,12 @@
 
 import { useEffect } from "react";
 import Script from "next/script";
+import { ADSENSE_PUBLISHER_ID } from "@/lib/googleConfig";
 
 type Props = { label?: string };
 
 export function AdSlot({ label = "広告" }: Props) {
-  const publisher = process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID;
+  const publisher = ADSENSE_PUBLISHER_ID;
   const slot = process.env.NEXT_PUBLIC_ADSENSE_GUIDE_SLOT;
 
   useEffect(() => {

@@ -63,6 +63,18 @@ export async function startHandTracking(
   };
 }
 
+export async function detectHandNails(image: HTMLImageElement): Promise<NailPose[]> {
+  const landmarker = await getLandmarker();
+  await landmarker.setOptions({ runningMode: "IMAGE" });
+  try {
+    const result = landmarker.detect(image);
+    const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
+    return landmarks?.length ? buildNailsFromLandmarks(landmarks, false) : [];
+  } finally {
+    await landmarker.setOptions({ runningMode: "VIDEO" });
+  }
+}
+
 async function getLandmarker() {
   if (!landmarkerPromise) {
     landmarkerPromise = (async () => {

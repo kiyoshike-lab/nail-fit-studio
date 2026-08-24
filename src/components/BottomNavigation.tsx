@@ -17,7 +17,7 @@ export function BottomNavigation({ mode, onCamera, onAutoFit, onSave, onSettings
       <button type="button" className={isCamera ? "is-active" : ""} onClick={onCamera}>
         {isCamera ? "止める" : "カメラ"}
       </button>
-      <button type="button" onClick={onAutoFit} disabled={!isCamera}>
+      <button type="button" onClick={onAutoFit} disabled={mode === "empty"}>
         自動補正
       </button>
       <button type="button" onClick={onSave} disabled={mode === "empty"}>

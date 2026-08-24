@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { assetPath } from "@/lib/presets";
 import type { DesignPreset, NailDesign } from "@/lib/types";
 
@@ -25,10 +26,13 @@ export function DesignSelector({ presets, activePresetId, onSelectPreset, design
             形
             <select value={design.shape} onChange={(event) => onDesign({ shape: event.target.value as NailDesign["shape"] })}>
               <option value="natural">ナチュラル</option>
+              <option value="round">ラウンド</option>
               <option value="oval">オーバル</option>
+              <option value="squoval">スクオバル</option>
               <option value="almond">アーモンド</option>
               <option value="coffin">バレリーナ</option>
               <option value="square">スクエア</option>
+              <option value="stiletto">スティレット</option>
             </select>
           </label>
           <label>
@@ -83,8 +87,9 @@ export function DesignSelector({ presets, activePresetId, onSelectPreset, design
               key={preset.id}
               className={`preset-card ${activePresetId === preset.id ? "is-selected" : ""}`}
               onClick={() => onSelectPreset(preset)}
+              aria-label={`${preset.name}を選ぶ`}
             >
-              {preset.previewImage ? <img src={assetPath(preset.previewImage)} alt="" loading="lazy" /> : <span />}
+              {preset.previewImage ? <Image src={assetPath(preset.previewImage)!} alt={`${preset.name}の見本`} width={180} height={220} loading="lazy" /> : <span />}
               <small>{preset.genre ?? preset.pattern}</small>
             </button>
           ))}

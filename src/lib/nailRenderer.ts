@@ -40,7 +40,7 @@ export async function drawNail(
 ) {
   const baseWidth = (nail.width / 100) * canvasWidth;
   const baseHeight = (nail.height / 100) * canvasHeight;
-  const width = baseWidth * (design.shape === "square" ? 1.05 : design.shape === "coffin" ? 1.1 : 1);
+  const width = baseWidth * (design.shape === "square" || design.shape === "squoval" ? 1.05 : design.shape === "coffin" ? 1.1 : 1);
   const height = baseHeight * design.length;
 
   // Keep the cuticle/root visually locked and grow toward the fingertip.
@@ -87,24 +87,35 @@ export async function drawNail(
 }
 
 function buildNailPath(ctx: CanvasRenderingContext2D, width: number, height: number, shape: NailDesign["shape"]) {
-  const topRound = shape === "square" ? width * 0.16 : shape === "coffin" ? width * 0.24 : width * 0.48;
-  const waist = shape === "coffin" ? 0.84 : shape === "almond" ? 0.72 : 0.92;
-  const rootRound = width * 0.42;
+  if (shape === "square" || shape === "squoval") {
+    ctx.beginPath();
+    roundRect(ctx, -width * .47, -height * .5, width * .94, height, shape === "squoval" ? width * .28 : width * .1);
+    return;
+  }
+
+  if (shape === "stiletto") {
+    ctx.beginPath();
+    ctx.moveTo(0, -height * .54);
+    ctx.bezierCurveTo(-width * .18, -height * .4, -width * .46, height * .08, -width * .44, height * .3);
+    ctx.quadraticCurveTo(-width * .4, height * .5, 0, height * .5);
+    ctx.quadraticCurveTo(width * .4, height * .5, width * .44, height * .3);
+    ctx.bezierCurveTo(width * .46, height * .08, width * .18, -height * .4, 0, -height * .54);
+    ctx.closePath();
+    return;
+  }
+
+  const isRound = shape === "round" || shape === "natural";
+  const waist = shape === "coffin" ? .76 : shape === "almond" ? .62 : isRound ? .88 : .76;
+  const tipY = shape === "almond" ? -.54 : -.5;
   ctx.beginPath();
   ctx.moveTo(-width * waist * 0.5, -height * 0.36);
   ctx.quadraticCurveTo(-width * 0.5, -height * 0.15, -width * 0.47, height * 0.24);
   ctx.quadraticCurveTo(-width * 0.43, height * 0.49, 0, height * 0.5);
   ctx.quadraticCurveTo(width * 0.43, height * 0.49, width * 0.47, height * 0.24);
   ctx.quadraticCurveTo(width * 0.5, -height * 0.15, width * waist * 0.5, -height * 0.36);
-  ctx.quadraticCurveTo(width * 0.32, -height * 0.53, topRound * 0.18, -height * 0.5);
-  ctx.quadraticCurveTo(0, -height * 0.55, -topRound * 0.18, -height * 0.5);
-  ctx.quadraticCurveTo(-width * 0.32, -height * 0.53, -width * waist * 0.5, -height * 0.36);
+  ctx.quadraticCurveTo(width * (isRound ? .4 : .27), tipY * height, 0, tipY * height);
+  ctx.quadraticCurveTo(-width * (isRound ? .4 : .27), tipY * height, -width * waist * .5, -height * .36);
   ctx.closePath();
-
-  if (shape === "square") {
-    ctx.beginPath();
-    roundRect(ctx, -width * 0.47, -height * 0.5, width * 0.94, height, width * 0.16);
-  }
 }
 
 function drawPattern(ctx: CanvasRenderingContext2D, width: number, height: number, design: NailDesign) {

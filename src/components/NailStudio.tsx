@@ -12,8 +12,10 @@ import { defaultDesign, defaultPhotoNails } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
 import { assetPath, loadDesignPresets } from "@/lib/presets";
 import { readJson, writeJson } from "@/lib/storage";
-import { startHandTracking, type HandTracker } from "@/lib/handTracking";
-import type { DesignPreset, NailDesign, NailPose, SourceMode } from "@/lib/types";
+import { detectHandNails, startHandTracking, type HandTracker } from "@/lib/handTracking";
+import { trackEvent } from "@/lib/analytics";
+import { createLocalId, STORAGE_KEYS } from "@/lib/storage";
+import type { DesignPreset, NailDesign, NailPose, SavedNailLook, SourceMode, TryOnHistory } from "@/lib/types";
 
 const DESIGN_KEY = "nail-fit-studio-next.design.v1";
 const NAILS_KEY = "nail-fit-studio-next.nails.v1";
@@ -43,6 +45,26 @@ export function NailStudio() {
 
   useEffect(() => {
     loadDesignPresets().then(setPresets).catch(() => setPresets([]));
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const shape = params.get("shape") as NailDesign["shape"] | null;
+    const pattern = params.get("pattern") as NailDesign["pattern"] | null;
+    const color = params.get("color");
+    const length = params.get("length");
+    if (!shape && !pattern && !color && !length) return;
+    const timer = window.setTimeout(() => {
+      setDesign((current) => ({
+        ...current,
+        ...(shape ? { shape } : {}),
+        ...(pattern ? { pattern } : {}),
+        ...(color && /^#[0-9a-f]{6}$/i.test(color) ? { color } : {}),
+        ...(length ? { length: length === "short" ? .84 : length === "long" ? 1.55 : 1.08 } : {}),
+      }));
+      setStatus("診断・保存した条件を試着画面へ反映しました。写真を選んで確認してください。");
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => writeJson(DESIGN_KEY, design), [design]);
@@ -134,6 +156,7 @@ export function NailStudio() {
       setBefore(false);
       setStatus("手を画面中央に入れてください。爪位置を追従します。");
       notify("カメラを起動しました");
+      trackEvent("tryon_started", { source: "camera" });
       trackerRef.current = await startHandTracking(
         video,
         (tracked, detected) => {
@@ -172,6 +195,28 @@ export function NailStudio() {
       setNails(readJson(NAILS_KEY, defaultPhotoNails));
       setStatus("写真を読み込みました。必要なら指ごとに微調整してください。");
       notify("写真を準備しました");
+      trackEvent("photo_uploaded");
+      setLoading(true);
+      setStatus("写真の手と爪位置を認識しています…");
+      const detectionImage = new Image();
+      detectionImage.onload = async () => {
+        try {
+          const detected = await detectHandNails(detectionImage);
+          if (detected.length) {
+            setNails(detected);
+            setStatus("写真から手を認識し、爪位置を自動配置しました。必要なら細かく調整できます。");
+            notify("爪の位置を自動調整しました");
+          } else {
+            setStatus("手を認識できませんでした。手全体が写り、指を少し開いた写真をお試しください。");
+          }
+        } catch {
+          setStatus("自動認識を利用できませんでした。手動調整で試着できます。");
+        } finally {
+          setLoading(false);
+        }
+      };
+      detectionImage.onerror = () => setLoading(false);
+      detectionImage.src = url;
     },
     [notify, stopCamera],
   );
@@ -202,7 +247,24 @@ export function NailStudio() {
       textureUrl: assetPath(preset.textureImage),
       realism: Math.max(current.realism, 0.84),
     }));
+    trackEvent("nail_design_selected", { design_id: preset.id });
   }, []);
+
+  const saveFavorite = useCallback(() => {
+    if (mode === "empty") { notify("先に写真かカメラを入れてください"); return; }
+    const favorite: SavedNailLook = { id: createLocalId("favorite"), designId: activePresetId, design, nails, savedAt: new Date().toISOString() };
+    const current = readJson<SavedNailLook[]>(STORAGE_KEYS.favorites, []);
+    writeJson(STORAGE_KEYS.favorites, [favorite, ...current].slice(0, 50));
+    notify("お気に入りに追加しました");
+    trackEvent("favorite_added", { shape: design.shape, pattern: design.pattern });
+  }, [activePresetId, design, mode, nails, notify]);
+
+  const addHistory = useCallback(() => {
+    const now = new Date().toISOString();
+    const item: TryOnHistory = { id: createLocalId("history"), designId: activePresetId, design, nails, savedAt: now, createdAt: now };
+    const current = readJson<TryOnHistory[]>(STORAGE_KEYS.history, []);
+    writeJson(STORAGE_KEYS.history, [item, ...current].slice(0, 20));
+  }, [activePresetId, design, nails]);
 
   const updateSelectedNail = useCallback(
     (patch: Partial<NailPose>) => {
@@ -285,11 +347,13 @@ export function NailStudio() {
         return;
       }
       const file = new File([blob], "nail-fit-studio.png", { type: "image/png" });
+      addHistory();
       const nav = navigator as Navigator & { canShare?: (data: ShareData) => boolean };
       if (nav.canShare?.({ files: [file] })) {
         try {
           await navigator.share({ files: [file], title: "Nail Fit Studio" });
           notify("画像を保存/共有しました");
+          trackEvent("tryon_shared");
           return;
         } catch {
           // User may cancel sharing; fall back to download link.
@@ -302,8 +366,9 @@ export function NailStudio() {
       link.click();
       window.setTimeout(() => URL.revokeObjectURL(url), 1200);
       notify("画像を保存しました");
+      trackEvent("tryon_saved");
     }, "image/png");
-  }, [design, facingMode, mode, nails, notify]);
+  }, [addHistory, design, facingMode, mode, nails, notify]);
 
   const switchCamera = useCallback(() => {
     setFacingMode((current) => (current === "user" ? "environment" : "user"));
@@ -328,7 +393,7 @@ export function NailStudio() {
 
       <main className="studio-layout">
         <div className="control-column">
-          <PhotoUploader onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} />
+          <PhotoUploader onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} onError={(message) => { setStatus(message); notify(message); }} />
           <DesignSelector presets={presets} activePresetId={activePresetId} onSelectPreset={selectPreset} design={design} onDesign={updateDesign} />
           <SettingsPanel
             design={design}
@@ -344,7 +409,7 @@ export function NailStudio() {
             onHoldStart={() => setBefore(true)}
             onHoldEnd={() => setBefore(false)}
           />
-          <SavePanel canSave={mode !== "empty"} onSave={saveImage} onCapture={capturePhoto} onAutoFit={autoFit} isCamera={mode === "camera"} />
+          <SavePanel canSave={mode !== "empty"} onSave={saveImage} onCapture={capturePhoto} onAutoFit={autoFit} onFavorite={saveFavorite} isCamera={mode === "camera"} />
           <button type="button" className="secondary wide" onClick={switchCamera}>
             {facingMode === "user" ? "外カメラ優先にする" : "内カメラ優先にする"}
           </button>
@@ -358,6 +423,10 @@ export function NailStudio() {
           imageRef={imageRef}
           videoRef={videoRef}
           canvasRef={canvasRef}
+          mirrored={mode === "camera" && facingMode === "user"}
+          nails={nails}
+          onSelectNail={setSelectedFinger}
+          onMoveNail={(index, x, y) => setNails((current) => current.map((nail, nailIndex) => nailIndex === index ? { ...nail, x, y } : nail))}
           onImageError={() => {
             setMode("empty");
             setStatus("画像を読み込めませんでした。別の写真を選んでください。");

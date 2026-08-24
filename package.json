@@ -1,12 +1,14 @@
 {
   "private": true,
-  "name": "nail-fit-studio-next",
-  "version": "0.1.0",
+  "name": "nail-fit-studio",
+  "version": "2.0.0",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/check-content.mjs && node scripts/check-ad-placement.mjs"
   },
   "dependencies": {
     "@mediapipe/tasks-vision": "latest",
@@ -19,6 +21,8 @@
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "eslint": "latest",
+    "eslint-config-next": "latest",
     "typescript": "latest"
   }
 }

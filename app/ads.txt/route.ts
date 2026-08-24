@@ -1,0 +1,1 @@
+export function GET(){const publisher=process.env.NEXT_PUBLIC_ADSENSE_PUBLISHER_ID;const body=publisher?`google.com, ${publisher}, DIRECT, f08c47fec0942fa0\n`:"# AdSense publisher ID is not configured.\n";return new Response(body,{headers:{"content-type":"text/plain; charset=utf-8","cache-control":"public, max-age=3600"}})}

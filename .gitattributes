@@ -1,0 +1,3 @@
+public/mediapipe/*.js -diff
+public/mediapipe/*.wasm binary
+public/mediapipe/*.task binary

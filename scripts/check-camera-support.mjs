@@ -62,23 +62,27 @@ assert.match(camera.cameraErrorMessage({ name: "NotAllowedError" }), /許可/);
 assert.match(camera.cameraErrorMessage({ name: "NotReadableError" }), /別のアプリ/);
 assert.match(camera.cameraErrorMessage({ name: "NotFoundError" }), /見つかりません/);
 assert.equal(camera.shouldFallbackFromSelectedCamera({ name: "OverconstrainedError" }), true);
-assert.equal(camera.shouldMirrorCamera("External Camera", true, "environment", "user"), true);
-assert.equal(camera.shouldMirrorCamera("Logitech Webcam", true, "user", "environment"), false);
+assert.equal(camera.shouldMirrorCamera("External Camera", true, "environment", "user"), false);
+assert.equal(camera.shouldMirrorCamera("Logitech Webcam", true, "user", "user"), false);
 
 const requestedConstraints = [];
 const fallbackStream = { active: true };
 const fallbackMediaDevices = {
   async getUserMedia(constraints) {
     requestedConstraints.push(constraints.video);
-    if (requestedConstraints.length < 3) throw { name: "OverconstrainedError" };
+    if (requestedConstraints.length < 5) throw { name: "OverconstrainedError" };
     return fallbackStream;
   },
 };
 assert.equal(await camera.getCameraStreamWithFallback(fallbackMediaDevices, "usb", "environment"), fallbackStream);
-assert.equal(requestedConstraints.length, 3);
+assert.equal(requestedConstraints.length, 5);
 assert.equal(requestedConstraints[0].height.ideal, 960);
 assert.equal(requestedConstraints[1].height.ideal, 720);
-assert.deepEqual(requestedConstraints[2], { deviceId: { exact: "usb" } });
+assert.equal(requestedConstraints[2].width.ideal, 960);
+assert.equal(requestedConstraints[2].height.ideal, 720);
+assert.equal(requestedConstraints[3].width.ideal, 640);
+assert.equal(requestedConstraints[3].height.ideal, 480);
+assert.deepEqual(requestedConstraints[4], { deviceId: { exact: "usb" } });
 
 let permissionAttempts = 0;
 await assert.rejects(
@@ -92,4 +96,4 @@ await assert.rejects(
 );
 assert.equal(permissionAttempts, 1, "権限拒否時に不要な再試行をしています");
 
-console.log(`camera-support contracts=${contracts.length + 1} scenarios=16 passed`);
+console.log(`camera-support contracts=${contracts.length + 1} scenarios=20 passed`);

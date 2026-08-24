@@ -28,7 +28,7 @@ export function SavePanel({ canSave, onSave, onCapture, onAutoFit, onFavorite, i
             お気に入りに追加
           </button>
         </div>
-        <p className="hint">画像は端末へ保存します。お気に入りにはデザイン設定だけを保存し、手の写真は残しません。</p>
+        <p className="hint">動画で手を検出しにくい場合は「写真として固定」で静止画認識と比較できます。画像は端末内で処理します。</p>
       </details>
     </section>
   );

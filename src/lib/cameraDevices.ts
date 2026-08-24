@@ -42,6 +42,8 @@ export function buildVideoConstraintCandidates(
   return [
     { ...cameraConstraint, width: { ideal: 1280 }, height: { ideal: 960 } },
     { ...cameraConstraint, width: { ideal: 1280 }, height: { ideal: 720 } },
+    { ...cameraConstraint, width: { ideal: 960 }, height: { ideal: 720 } },
+    { ...cameraConstraint, width: { ideal: 640 }, height: { ideal: 480 } },
     cameraConstraint,
   ];
 }
@@ -150,10 +152,12 @@ export function shouldMirrorCamera(
   facingMode: "user" | "environment",
   detectedFacingMode?: string,
 ) {
+  if (explicitDevice && /external|usb|webcam|logitech|integrated|外付け/i.test(label)) return false;
+  if (explicitDevice && /front|facetime|前面|内側|インカメラ/i.test(label)) return true;
   if (detectedFacingMode === "user") return true;
   if (detectedFacingMode === "environment") return false;
   if (!explicitDevice) return facingMode === "user";
-  return /front|facetime|user|前面|内側|インカメラ/i.test(label);
+  return /user/i.test(label);
 }
 
 function getErrorName(error: unknown) {

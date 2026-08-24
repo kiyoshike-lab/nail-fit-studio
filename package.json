@@ -8,10 +8,10 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/check-content.mjs && node scripts/check-ad-placement.mjs && node scripts/check-camera-support.mjs && node scripts/check-tracking-resilience.mjs && node scripts/check-devicechange-resilience.mjs"
+    "test": "node scripts/check-content.mjs && node scripts/check-ad-placement.mjs && node scripts/check-camera-support.mjs && node scripts/check-tracking-resilience.mjs && node scripts/check-devicechange-resilience.mjs && node scripts/check-hand-detection.mjs"
   },
   "dependencies": {
-    "@mediapipe/tasks-vision": "latest",
+    "@mediapipe/tasks-vision": "1.0.1",
     "next": "latest",
     "onnxruntime-web": "latest",
     "react": "latest",

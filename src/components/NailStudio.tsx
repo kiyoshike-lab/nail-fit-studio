@@ -13,7 +13,7 @@ import { defaultDesign, defaultPhotoNails } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
 import { assetPath, loadDesignPresets } from "@/lib/presets";
 import { readJson, writeJson } from "@/lib/storage";
-import { detectHandNails, resetHandTrackingEngine, startHandTracking, type HandTracker } from "@/lib/handTracking";
+import { detectHandNails, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
 import { trackEvent } from "@/lib/analytics";
 import { initializeTrackerSafely } from "@/lib/trackingFallback";
 import { createLocalId, STORAGE_KEYS } from "@/lib/storage";
@@ -49,6 +49,7 @@ export function NailStudio() {
   const [cameraDevices, setCameraDevices] = useState<CameraInput[]>([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState(() => readJson(STORAGE_KEYS.cameraDevice, ""));
   const [trackingState, setTrackingState] = useState<"idle" | "starting" | "active" | "failed">("idle");
+  const [detectionState, setDetectionState] = useState<HandDetectionState>("searching");
   const [toast, setToast] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -166,6 +167,7 @@ export function NailStudio() {
     setMode("empty");
     setCameraMirrored(false);
     setTrackingState("idle");
+    setDetectionState("searching");
     setStatus(message);
   }, [releaseCamera]);
 
@@ -190,7 +192,9 @@ export function NailStudio() {
     trackerRef.current?.stop();
     trackerRef.current = null;
     const trackingRequestId = ++trackingRequestRef.current;
+    lostFramesRef.current = 0;
     setTrackingState("starting");
+    setDetectionState("searching");
     setStatus("カメラを使用中。自動認識を準備しています…");
     debugCamera("MediaPipe initialization start");
 
@@ -198,6 +202,7 @@ export function NailStudio() {
       if (trackingRequestId !== trackingRequestRef.current || streamRef.current !== stream) return;
       trackerRef.current = null;
       setTrackingState("failed");
+      setDetectionState("lost");
       setStatus("自動認識を利用できませんでした。爪を手動で調整できます。");
       notify("自動認識を利用できませんでした。手動調整を利用できます");
       debugCamera("Hand tracking stopped after repeated errors", error);
@@ -210,18 +215,25 @@ export function NailStudio() {
           if (detected && tracked.length) {
             lostFramesRef.current = 0;
             setNails((current) => blendNails(current, tracked, 0.42));
-            setStatus("爪を追従中。ズレたら自動補正か指ごとの微調整を使えます。");
           } else {
             lostFramesRef.current += 1;
-            setStatus(
-              lostFramesRef.current > 18
-                ? "手全体が写るようにして、指を少し開き、明るい場所で撮影してください。"
-                : "手を認識しています…画面中央に手を入れてください。",
-            );
+            if (lostFramesRef.current > 140) {
+              setStatus("手を検出できません。手の甲を向け、指を少し開いてください。");
+            }
           }
         },
         mirrored,
         trackingFailed,
+        (state) => {
+          setDetectionState(state);
+          if (state === "detected") {
+            setStatus("手を検出しました。爪を追従しています。");
+          } else if (state === "lost") {
+            setStatus("手を見失いました。手全体を枠の中へ戻してください。");
+          } else {
+            setStatus("手を探しています…手の甲を向けて、指を少し開いてください。");
+          }
+        },
       ),
       () => trackingRequestId === trackingRequestRef.current && streamRef.current === stream && stream.active,
     );
@@ -229,7 +241,7 @@ export function NailStudio() {
     if (result.status === "active") {
       trackerRef.current = result.tracker;
       setTrackingState("active");
-      setStatus("自動認識を開始しました。手を画面中央に入れてください。");
+      setStatus("手を探しています…手の甲を向けて、指を少し開いてください。");
       return true;
     }
 
@@ -268,6 +280,7 @@ export function NailStudio() {
     setLoading(true);
     releaseCamera("switching-camera");
     setTrackingState("idle");
+    setDetectionState("searching");
     let deviceId = requestedDeviceId;
     let trackingVideo: HTMLVideoElement | null = null;
     let trackingStream: MediaStream | null = null;
@@ -805,6 +818,7 @@ export function NailStudio() {
           status={status}
           loading={loading || trackingState === "starting"}
           trackingFailed={trackingState === "failed"}
+          detectionState={detectionState}
           onRetryTracking={() => { void retryHandTracking(); }}
           imageRef={imageRef}
           videoRef={videoRef}

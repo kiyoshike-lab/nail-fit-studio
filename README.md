@@ -39,6 +39,8 @@ npm audit
 
 MediaPipeはGPU初期化に失敗するとCPUへ自動的に切り替わります。両方で自動認識を開始できない場合もカメラ映像、手動調整、撮影、保存は維持され、「自動認識を再試行」からカメラを止めずに再初期化できます。
 
+MediaPipe 1.0.1のWASMとHandLandmarkerモデルは`public/mediapipe`から同一オリジン配信します。実行時に外部CDNのバージョン不一致やCORSへ依存しません。動画検出は20fpsに制限し、検出できない場合はstreamを止めずにvideo直接入力からCanvas入力（元解像度→960px→640px）へ段階的に切り替えます。
+
 ## Vercel Deployment
 
 GitHubの `kiyoshike-lab/nail-fit-studio` をVercelへImportします。

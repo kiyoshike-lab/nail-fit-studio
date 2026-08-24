@@ -3,6 +3,7 @@
 import { useRef, useState, type RefObject } from "react";
 import type { SourceMode } from "@/lib/types";
 import type { NailPose } from "@/lib/types";
+import type { HandDetectionState } from "@/lib/handTracking";
 
 type Props = {
   mode: SourceMode;
@@ -10,6 +11,7 @@ type Props = {
   status: string;
   loading?: boolean;
   trackingFailed?: boolean;
+  detectionState?: HandDetectionState;
   onRetryTracking?: () => void;
   imageRef: RefObject<HTMLImageElement | null>;
   videoRef: RefObject<HTMLVideoElement | null>;
@@ -21,7 +23,7 @@ type Props = {
   onMoveNail: (index: number, x: number, y: number) => void;
 };
 
-export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, onSelectNail, onMoveNail }: Props) {
+export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, detectionState = "searching", onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, onSelectNail, onMoveNail }: Props) {
   const [aspectRatio, setAspectRatio] = useState("4 / 3");
   const dragRef = useRef<{ pointerId: number; index: number } | null>(null);
 
@@ -99,6 +101,17 @@ export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, o
           }}
         />
         <canvas ref={canvasRef} className="nail-canvas" />
+        {mode === "camera" && (
+          <>
+            <div className={`camera-guide ${detectionState === "detected" ? "is-detected" : ""}`} aria-hidden="true">
+              <div className="camera-guide-frame"><span>✋</span></div>
+              <p>手の甲を向け、手首と5本の指を枠内へ。指は少し開いてください。</p>
+            </div>
+            <div className={`detection-status is-${detectionState}`} role="status">
+              {detectionState === "detected" ? "手を検出しました" : detectionState === "lost" ? "手を見失いました" : "手を探しています…"}
+            </div>
+          </>
+        )}
         {loading && <div className="loading-badge">手を認識しています…</div>}
         {mode !== "empty" && <div className="drag-guide">爪をドラッグして微調整</div>}
       </div>

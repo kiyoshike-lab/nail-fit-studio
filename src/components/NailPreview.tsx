@@ -9,6 +9,8 @@ type Props = {
   photoUrl?: string;
   status: string;
   loading?: boolean;
+  trackingFailed?: boolean;
+  onRetryTracking?: () => void;
   imageRef: RefObject<HTMLImageElement | null>;
   videoRef: RefObject<HTMLVideoElement | null>;
   canvasRef: RefObject<HTMLCanvasElement | null>;
@@ -19,7 +21,7 @@ type Props = {
   onMoveNail: (index: number, x: number, y: number) => void;
 };
 
-export function NailPreview({ mode, photoUrl, status, loading, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, onSelectNail, onMoveNail }: Props) {
+export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, onSelectNail, onMoveNail }: Props) {
   const [aspectRatio, setAspectRatio] = useState("4 / 3");
   const dragRef = useRef<{ pointerId: number; index: number } | null>(null);
 
@@ -59,6 +61,12 @@ export function NailPreview({ mode, photoUrl, status, loading, imageRef, videoRe
         <strong>プレビュー</strong>
         <span>{status}</span>
       </div>
+      {mode === "camera" && trackingFailed && onRetryTracking && (
+        <div className="tracking-retry-row">
+          <button type="button" className="secondary" onClick={onRetryTracking}>自動認識を再試行</button>
+          <small>カメラ映像を止めずに、爪認識だけを再起動します。</small>
+        </div>
+      )}
       <div className="preview-stage" style={{ aspectRatio, touchAction: mode === "empty" ? "auto" : "none" }} onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={endDrag} onPointerCancel={endDrag}>
         {mode === "empty" && (
           <div className="empty-state">

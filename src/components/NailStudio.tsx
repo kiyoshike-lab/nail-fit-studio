@@ -13,16 +13,18 @@ import { defaultDesign, defaultPhotoNails } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
 import { assetPath, loadDesignPresets } from "@/lib/presets";
 import { readJson, writeJson } from "@/lib/storage";
-import { detectHandNails, startHandTracking, type HandTracker } from "@/lib/handTracking";
+import { detectHandNails, resetHandTrackingEngine, startHandTracking, type HandTracker } from "@/lib/handTracking";
 import { trackEvent } from "@/lib/analytics";
+import { initializeTrackerSafely } from "@/lib/trackingFallback";
 import { createLocalId, STORAGE_KEYS } from "@/lib/storage";
 import {
-  buildVideoConstraints,
   cameraErrorMessage,
+  getCameraStreamWithFallback,
   includesCamera,
   listVideoInputs,
   shouldFallbackFromSelectedCamera,
   shouldMirrorCamera,
+  waitForVideoReady,
   type CameraInput,
 } from "@/lib/cameraDevices";
 import type { DesignPreset, NailDesign, NailPose, SavedNailLook, SourceMode, TryOnHistory } from "@/lib/types";
@@ -44,6 +46,7 @@ export function NailStudio() {
   const [cameraMirrored, setCameraMirrored] = useState(false);
   const [cameraDevices, setCameraDevices] = useState<CameraInput[]>([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState(() => readJson(STORAGE_KEYS.cameraDevice, ""));
+  const [trackingState, setTrackingState] = useState<"idle" | "starting" | "active" | "failed">("idle");
   const [toast, setToast] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -58,6 +61,7 @@ export function NailStudio() {
   const selectedDeviceIdRef = useRef(selectedDeviceId);
   const activeDeviceIdRef = useRef("");
   const cameraRequestRef = useRef(0);
+  const trackingRequestRef = useRef(0);
 
   useEffect(() => {
     loadDesignPresets().then(setPresets).catch(() => setPresets([]));
@@ -128,6 +132,7 @@ export function NailStudio() {
   }, [drawPreview]);
 
   const releaseCamera = useCallback(() => {
+    trackingRequestRef.current += 1;
     trackerRef.current?.stop();
     trackerRef.current = null;
     streamRef.current?.getTracks().forEach((track) => track.stop());
@@ -141,6 +146,7 @@ export function NailStudio() {
     releaseCamera();
     setMode("empty");
     setCameraMirrored(false);
+    setTrackingState("idle");
     setStatus(message);
   }, [releaseCamera]);
 
@@ -155,6 +161,65 @@ export function NailStudio() {
       return [];
     }
   }, []);
+
+  const startTrackingForCamera = useCallback(async (
+    video: HTMLVideoElement,
+    stream: MediaStream,
+    mirrored: boolean,
+  ) => {
+    if (streamRef.current !== stream || !stream.active) return false;
+    trackerRef.current?.stop();
+    trackerRef.current = null;
+    const trackingRequestId = ++trackingRequestRef.current;
+    setTrackingState("starting");
+    setStatus("カメラを使用中。自動認識を準備しています…");
+    debugCamera("MediaPipe initialization start");
+
+    const trackingFailed = (error: unknown) => {
+      if (trackingRequestId !== trackingRequestRef.current || streamRef.current !== stream) return;
+      trackerRef.current = null;
+      setTrackingState("failed");
+      setStatus("自動認識を利用できませんでした。爪を手動で調整できます。");
+      notify("自動認識を利用できませんでした。手動調整を利用できます");
+      debugCamera("Hand tracking stopped after repeated errors", error);
+    };
+
+    const result = await initializeTrackerSafely(
+      () => startHandTracking(
+        video,
+        (tracked, detected) => {
+          if (detected && tracked.length) {
+            lostFramesRef.current = 0;
+            setNails((current) => blendNails(current, tracked, 0.42));
+            setStatus("爪を追従中。ズレたら自動補正か指ごとの微調整を使えます。");
+          } else {
+            lostFramesRef.current += 1;
+            setStatus(
+              lostFramesRef.current > 18
+                ? "手全体が写るようにして、指を少し開き、明るい場所で撮影してください。"
+                : "手を認識しています…画面中央に手を入れてください。",
+            );
+          }
+        },
+        mirrored,
+        trackingFailed,
+      ),
+      () => trackingRequestId === trackingRequestRef.current && streamRef.current === stream && stream.active,
+    );
+
+    if (result.status === "active") {
+      trackerRef.current = result.tracker;
+      setTrackingState("active");
+      setStatus("自動認識を開始しました。手を画面中央に入れてください。");
+      return true;
+    }
+
+    if (result.status === "failed" && trackingRequestId === trackingRequestRef.current && streamRef.current === stream) {
+      trackingFailed(result.error);
+      debugCamera("Hand tracking initialization failed", result.error);
+    }
+    return false;
+  }, [notify]);
 
   const openCamera = useCallback(async (
     requestedDeviceId = selectedDeviceIdRef.current,
@@ -177,8 +242,11 @@ export function NailStudio() {
     const requestId = ++cameraRequestRef.current;
     setLoading(true);
     releaseCamera();
+    setTrackingState("idle");
     let deviceId = requestedDeviceId;
-    let stream: MediaStream | null = null;
+    let trackingVideo: HTMLVideoElement | null = null;
+    let trackingStream: MediaStream | null = null;
+    let trackingMirrored = false;
 
     try {
       const availableBeforePermission = await refreshCameraDevices();
@@ -190,21 +258,16 @@ export function NailStudio() {
         writeJson(STORAGE_KEYS.cameraDevice, "");
       }
 
+      let stream: MediaStream;
       try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: buildVideoConstraints(deviceId, requestedFacingMode),
-          audio: false,
-        });
+        stream = await getCameraStreamWithFallback(navigator.mediaDevices, deviceId, requestedFacingMode);
       } catch (error) {
         if (!deviceId || !shouldFallbackFromSelectedCamera(error)) throw error;
         deviceId = "";
         selectedDeviceIdRef.current = "";
         setSelectedDeviceId("");
         writeJson(STORAGE_KEYS.cameraDevice, "");
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: buildVideoConstraints("", requestedFacingMode),
-          audio: false,
-        });
+        stream = await getCameraStreamWithFallback(navigator.mediaDevices, "", requestedFacingMode);
       }
 
       if (requestId !== cameraRequestRef.current) {
@@ -249,6 +312,7 @@ export function NailStudio() {
         writeJson(STORAGE_KEYS.cameraDevice, "");
         setMode("empty");
         setCameraMirrored(false);
+        setTrackingState("idle");
         setStatus("カメラが切断されました。接続を確認して、使用するカメラを選び直してください。");
         notify("カメラが切断されました");
         void refreshCameraDevices();
@@ -257,48 +321,49 @@ export function NailStudio() {
       const video = videoRef.current;
       if (!video) throw new Error("Video element is unavailable");
       video.srcObject = stream;
+      await waitForVideoReady(video);
       await video.play();
+      if (!video.videoWidth || !video.videoHeight) {
+        throw new DOMException("Video dimensions are unavailable", "AbortError");
+      }
+      if (requestId !== cameraRequestRef.current || streamRef.current !== stream) {
+        stream.getTracks().forEach((track) => track.stop());
+        return;
+      }
+
       setMode("camera");
       setPhotoUrl(undefined);
       setBefore(false);
       setStatus(`${activeLabel}を使用中。手を画面中央に入れてください。`);
       notify("カメラを起動しました");
       trackEvent("tryon_started", { source: "camera" });
-      const tracker = await startHandTracking(
-        video,
-        (tracked, detected) => {
-          if (detected && tracked.length) {
-            lostFramesRef.current = 0;
-            setNails((current) => blendNails(current, tracked, 0.42));
-            setStatus("爪を追従中。ズレたら自動補正か指ごとの微調整を使えます。");
-          } else {
-            lostFramesRef.current += 1;
-            setStatus(
-              lostFramesRef.current > 18
-                ? "手全体が写るようにして、指を少し開き、明るい場所で撮影してください。"
-                : "手を認識しています…画面中央に手を入れてください。",
-            );
-          }
-        },
-        mirrored,
-      );
-      if (requestId !== cameraRequestRef.current || streamRef.current !== stream) {
-        tracker.stop();
-        return;
-      }
-      trackerRef.current = tracker;
+      debugCamera("Camera ready", {
+        activeLabel,
+        deviceId: activeDeviceId,
+        width: video.videoWidth,
+        height: video.videoHeight,
+        readyState: video.readyState,
+      });
+      trackingVideo = video;
+      trackingStream = stream;
+      trackingMirrored = mirrored;
     } catch (error) {
       if (requestId !== cameraRequestRef.current) return;
       releaseCamera();
       setMode("empty");
       setCameraMirrored(false);
+      setTrackingState("idle");
       const message = cameraErrorMessage(error, Boolean(deviceId));
       setStatus(message);
       notify(message);
     } finally {
       if (requestId === cameraRequestRef.current) setLoading(false);
     }
-  }, [facingMode, notify, refreshCameraDevices, releaseCamera]);
+
+    if (trackingVideo && trackingStream && requestId === cameraRequestRef.current) {
+      await startTrackingForCamera(trackingVideo, trackingStream, trackingMirrored);
+    }
+  }, [facingMode, notify, refreshCameraDevices, releaseCamera, startTrackingForCamera]);
 
   useEffect(() => {
     const mediaDevices = navigator.mediaDevices;
@@ -348,6 +413,20 @@ export function NailStudio() {
     }
     await openCamera(selectedDeviceIdRef.current, facingMode);
   }, [facingMode, mode, openCamera, stopCamera]);
+
+  const retryHandTracking = useCallback(async () => {
+    const video = videoRef.current;
+    const stream = streamRef.current;
+    if (mode !== "camera" || !video || !stream?.active) {
+      setStatus("カメラを起動してから、自動認識を再試行してください。");
+      notify("カメラが必要です");
+      return;
+    }
+
+    notify("自動認識を再試行します");
+    resetHandTrackingEngine();
+    await startTrackingForCamera(video, stream, cameraMirrored);
+  }, [cameraMirrored, mode, notify, startTrackingForCamera]);
 
   const loadPhoto = useCallback(
     (url: string) => {
@@ -617,7 +696,9 @@ export function NailStudio() {
           mode={mode}
           photoUrl={photoUrl}
           status={status}
-          loading={loading}
+          loading={loading || trackingState === "starting"}
+          trackingFailed={trackingState === "failed"}
+          onRetryTracking={() => { void retryHandTracking(); }}
           imageRef={imageRef}
           videoRef={videoRef}
           canvasRef={canvasRef}
@@ -668,4 +749,11 @@ function normalizeFinish(value?: string): NailDesign["finish"] | undefined {
   if (value === "glossy") return "gloss";
   if (value === "shimmer") return "pearl";
   return undefined;
+}
+
+function debugCamera(message: string, detail?: unknown) {
+  if (process.env.NODE_ENV !== "production") {
+    if (detail === undefined) console.debug(`[Nail Fit Studio] ${message}`);
+    else console.debug(`[Nail Fit Studio] ${message}`, detail);
+  }
 }

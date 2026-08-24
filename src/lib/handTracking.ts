@@ -1,5 +1,6 @@
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 import type { NailPose } from "./types";
+import { initializeWithDelegateFallback } from "./trackingFallback";
 
 type HandLandmarkerInstance = Awaited<ReturnType<typeof HandLandmarker.createFromOptions>>;
 type NormalizedLandmark = { x: number; y: number; z?: number };
@@ -27,28 +28,45 @@ export type HandTracker = {
   stop: () => void;
 };
 
+type TrackingErrorHandler = (error: unknown) => void;
+
+const maxConsecutiveDetectionErrors = 5;
 let landmarkerPromise: Promise<HandLandmarkerInstance> | null = null;
 
 export async function startHandTracking(
   video: HTMLVideoElement,
   onUpdate: (nails: NailPose[], detected: boolean) => void,
   mirrored: boolean,
+  onTrackingError?: TrackingErrorHandler,
 ): Promise<HandTracker> {
   const landmarker = await getLandmarker();
   let stopped = false;
   let raf = 0;
   let lastVideoTime = -1;
+  let consecutiveDetectionErrors = 0;
 
   const loop = () => {
     if (stopped) return;
     if (video.readyState >= 2 && video.currentTime !== lastVideoTime) {
       lastVideoTime = video.currentTime;
-      const result = landmarker.detectForVideo(video, performance.now());
-      const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
-      if (landmarks?.length) {
-        onUpdate(buildNailsFromLandmarks(landmarks, mirrored), true);
-      } else {
-        onUpdate([], false);
+      try {
+        const result = landmarker.detectForVideo(video, performance.now());
+        consecutiveDetectionErrors = 0;
+        const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
+        if (landmarks?.length) {
+          onUpdate(buildNailsFromLandmarks(landmarks, mirrored), true);
+        } else {
+          onUpdate([], false);
+        }
+      } catch (error) {
+        consecutiveDetectionErrors += 1;
+        debugTracking("detectForVideo error", error);
+        if (consecutiveDetectionErrors >= maxConsecutiveDetectionErrors) {
+          stopped = true;
+          resetHandTrackingEngine();
+          onTrackingError?.(error);
+          return;
+        }
       }
     }
     raf = requestAnimationFrame(loop);
@@ -61,6 +79,12 @@ export async function startHandTracking(
       cancelAnimationFrame(raf);
     },
   };
+}
+
+export function resetHandTrackingEngine() {
+  const previous = landmarkerPromise;
+  landmarkerPromise = null;
+  void previous?.then((landmarker) => landmarker.close()).catch(() => undefined);
 }
 
 export async function detectHandNails(image: HTMLImageElement): Promise<NailPose[]> {
@@ -77,15 +101,27 @@ export async function detectHandNails(image: HTMLImageElement): Promise<NailPose
 
 async function getLandmarker() {
   if (!landmarkerPromise) {
-    landmarkerPromise = (async () => {
-      const vision = await FilesetResolver.forVisionTasks(
-        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm",
-      );
-      return HandLandmarker.createFromOptions(vision, {
+    const pending = createLandmarkerWithFallback();
+    landmarkerPromise = pending;
+    pending.catch(() => {
+      if (landmarkerPromise === pending) landmarkerPromise = null;
+    });
+  }
+  return landmarkerPromise;
+}
+
+async function createLandmarkerWithFallback() {
+  debugTracking("MediaPipe initialization start");
+  const vision = await FilesetResolver.forVisionTasks(
+    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.22/wasm",
+  );
+
+  const create = (delegate: "GPU" | "CPU") =>
+    HandLandmarker.createFromOptions(vision, {
         baseOptions: {
           modelAssetPath:
             "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
-          delegate: "GPU",
+          delegate,
         },
         runningMode: "VIDEO",
         numHands: 1,
@@ -93,9 +129,15 @@ async function getLandmarker() {
         minHandPresenceConfidence: 0.55,
         minTrackingConfidence: 0.5,
       });
-    })();
+
+  return initializeWithDelegateFallback(create, debugTracking);
+}
+
+function debugTracking(message: string, detail?: unknown) {
+  if (process.env.NODE_ENV !== "production") {
+    if (detail === undefined) console.debug(`[Nail Fit Studio] ${message}`);
+    else console.debug(`[Nail Fit Studio] ${message}`, detail);
   }
-  return landmarkerPromise;
 }
 
 function buildNailsFromLandmarks(landmarks: NormalizedLandmark[], mirrored: boolean): NailPose[] {

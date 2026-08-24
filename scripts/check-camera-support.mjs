@@ -65,4 +65,31 @@ assert.equal(camera.shouldFallbackFromSelectedCamera({ name: "OverconstrainedErr
 assert.equal(camera.shouldMirrorCamera("External Camera", true, "environment", "user"), true);
 assert.equal(camera.shouldMirrorCamera("Logitech Webcam", true, "user", "environment"), false);
 
-console.log(`camera-support contracts=${contracts.length + 1} scenarios=10 passed`);
+const requestedConstraints = [];
+const fallbackStream = { active: true };
+const fallbackMediaDevices = {
+  async getUserMedia(constraints) {
+    requestedConstraints.push(constraints.video);
+    if (requestedConstraints.length < 3) throw { name: "OverconstrainedError" };
+    return fallbackStream;
+  },
+};
+assert.equal(await camera.getCameraStreamWithFallback(fallbackMediaDevices, "usb", "environment"), fallbackStream);
+assert.equal(requestedConstraints.length, 3);
+assert.equal(requestedConstraints[0].height.ideal, 960);
+assert.equal(requestedConstraints[1].height.ideal, 720);
+assert.deepEqual(requestedConstraints[2], { deviceId: { exact: "usb" } });
+
+let permissionAttempts = 0;
+await assert.rejects(
+  () => camera.getCameraStreamWithFallback({
+    async getUserMedia() {
+      permissionAttempts += 1;
+      throw { name: "NotAllowedError" };
+    },
+  }, "usb", "environment"),
+  (error) => error.name === "NotAllowedError",
+);
+assert.equal(permissionAttempts, 1, "権限拒否時に不要な再試行をしています");
+
+console.log(`camera-support contracts=${contracts.length + 1} scenarios=16 passed`);

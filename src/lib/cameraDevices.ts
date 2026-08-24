@@ -31,12 +31,78 @@ export function buildVideoConstraints(
   };
 }
 
+export function buildVideoConstraintCandidates(
+  selectedDeviceId: string,
+  facingMode: "user" | "environment",
+): MediaTrackConstraints[] {
+  const cameraConstraint = selectedDeviceId
+    ? { deviceId: { exact: selectedDeviceId } }
+    : { facingMode: { ideal: facingMode } };
+
+  return [
+    { ...cameraConstraint, width: { ideal: 1280 }, height: { ideal: 960 } },
+    { ...cameraConstraint, width: { ideal: 1280 }, height: { ideal: 720 } },
+    cameraConstraint,
+  ];
+}
+
+export async function getCameraStreamWithFallback(
+  mediaDevices: Pick<MediaDevices, "getUserMedia">,
+  selectedDeviceId: string,
+  facingMode: "user" | "environment",
+) {
+  const candidates = buildVideoConstraintCandidates(selectedDeviceId, facingMode);
+  let lastError: unknown;
+
+  for (let index = 0; index < candidates.length; index += 1) {
+    try {
+      return await mediaDevices.getUserMedia({ video: candidates[index], audio: false });
+    } catch (error) {
+      lastError = error;
+      if (index === candidates.length - 1 || !shouldTryNextCameraConstraint(error)) throw error;
+    }
+  }
+
+  throw lastError;
+}
+
+export function shouldTryNextCameraConstraint(error: unknown) {
+  const name = getErrorName(error);
+  return ["OverconstrainedError", "ConstraintNotSatisfiedError", "NotReadableError", "AbortError"].includes(name);
+}
+
+export function waitForVideoReady(video: HTMLVideoElement, timeoutMs = 5000) {
+  if (video.readyState >= 1 && video.videoWidth > 0 && video.videoHeight > 0) return Promise.resolve();
+
+  return new Promise<void>((resolve, reject) => {
+    const cleanup = () => {
+      window.clearTimeout(timer);
+      video.removeEventListener("loadedmetadata", onReady);
+      video.removeEventListener("canplay", onReady);
+      video.removeEventListener("error", onError);
+    };
+    const onReady = () => {
+      if (!video.videoWidth || !video.videoHeight) return;
+      cleanup();
+      resolve();
+    };
+    const onError = () => {
+      cleanup();
+      reject(new DOMException("Video metadata could not be loaded", "AbortError"));
+    };
+    const timer = window.setTimeout(() => {
+      cleanup();
+      reject(new DOMException("Video metadata timed out", "AbortError"));
+    }, timeoutMs);
+
+    video.addEventListener("loadedmetadata", onReady);
+    video.addEventListener("canplay", onReady);
+    video.addEventListener("error", onError, { once: true });
+  });
+}
+
 export function cameraErrorMessage(error: unknown, selectedCamera = false) {
-  const name = error instanceof DOMException
-    ? error.name
-    : typeof error === "object" && error && "name" in error
-      ? String(error.name)
-      : "";
+  const name = getErrorName(error);
 
   if (name === "NotAllowedError" || name === "SecurityError") {
     return "カメラの利用が許可されませんでした。ブラウザの設定でカメラを許可するか、写真をアップロードしてお試しください。";
@@ -65,11 +131,7 @@ export function includesCamera(devices: CameraInput[], deviceId: string) {
 }
 
 export function shouldFallbackFromSelectedCamera(error: unknown) {
-  const name = error instanceof DOMException
-    ? error.name
-    : typeof error === "object" && error && "name" in error
-      ? String(error.name)
-      : "";
+  const name = getErrorName(error);
   return ["NotFoundError", "DevicesNotFoundError", "OverconstrainedError", "ConstraintNotSatisfiedError"].includes(name);
 }
 
@@ -83,4 +145,12 @@ export function shouldMirrorCamera(
   if (detectedFacingMode === "environment") return false;
   if (!explicitDevice) return facingMode === "user";
   return /front|facetime|user|前面|内側|インカメラ/i.test(label);
+}
+
+function getErrorName(error: unknown) {
+  return error instanceof DOMException
+    ? error.name
+    : typeof error === "object" && error && "name" in error
+      ? String(error.name)
+      : "";
 }

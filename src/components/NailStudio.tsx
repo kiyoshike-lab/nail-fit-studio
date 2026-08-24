@@ -11,6 +11,7 @@ import { SavePanel } from "./SavePanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { defaultDesign, defaultPhotoNails } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
+import { smoothTrackedNails } from "@/lib/nailSmoothing";
 import { assetPath, loadDesignPresets } from "@/lib/presets";
 import { readJson, writeJson } from "@/lib/storage";
 import { detectHandNails, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
@@ -61,6 +62,7 @@ export function NailStudio() {
   const objectUrlRef = useRef<string | null>(null);
   const drawIdRef = useRef(0);
   const lostFramesRef = useRef(0);
+  const hasTrackingPoseRef = useRef(false);
   const selectedDeviceIdRef = useRef(selectedDeviceId);
   const activeDeviceIdRef = useRef("");
   const cameraRequestRef = useRef(0);
@@ -193,6 +195,7 @@ export function NailStudio() {
     trackerRef.current = null;
     const trackingRequestId = ++trackingRequestRef.current;
     lostFramesRef.current = 0;
+    hasTrackingPoseRef.current = false;
     setTrackingState("starting");
     setDetectionState("searching");
     setStatus("カメラを使用中。自動認識を準備しています…");
@@ -214,7 +217,13 @@ export function NailStudio() {
         (tracked, detected) => {
           if (detected && tracked.length) {
             lostFramesRef.current = 0;
-            setNails((current) => blendNails(current, tracked, 0.42));
+            setNails((current) => {
+              if (!hasTrackingPoseRef.current) {
+                hasTrackingPoseRef.current = true;
+                return tracked;
+              }
+              return smoothTrackedNails(current, tracked);
+            });
           } else {
             lostFramesRef.current += 1;
             if (lostFramesRef.current > 140) {
@@ -839,30 +848,6 @@ export function NailStudio() {
       {toast && <div className="toast" role="status">{toast}</div>}
     </div>
   );
-}
-
-function blendNails(current: NailPose[], next: NailPose[], amount: number) {
-  if (current.length !== next.length) return next;
-  return current.map((nail, index) => ({
-    ...nail,
-    x: smooth(nail.x, next[index].x, amount),
-    y: smooth(nail.y, next[index].y, amount),
-    width: smooth(nail.width, next[index].width, amount),
-    height: smooth(nail.height, next[index].height, amount),
-    rotation: smoothAngle(nail.rotation, next[index].rotation, amount),
-    confidence: next[index].confidence,
-  }));
-}
-
-function smooth(current: number, target: number, amount: number) {
-  return current + (target - current) * amount;
-}
-
-function smoothAngle(current: number, target: number, amount: number) {
-  let delta = target - current;
-  while (delta > 180) delta -= 360;
-  while (delta < -180) delta += 360;
-  return current + delta * amount;
 }
 
 function normalizeFinish(value?: string): NailDesign["finish"] | undefined {

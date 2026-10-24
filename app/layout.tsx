@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MobileSiteNavigation } from "@/components/MobileSiteNavigation";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -41,6 +42,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteFooter />
         <MobileSiteNavigation />
         <GoogleAnalytics />
+        <Script
+          id="google-adsense"
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_PUBLISHER_ID}`}
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

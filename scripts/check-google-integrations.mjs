@@ -8,9 +8,10 @@ const oldGaId = "G-ZP8CENKEDH";
 const expectedPublisher = "ca-pub-6994120027205290";
 const expectedAdsTxtLine = "google.com, pub-6994120027205290, DIRECT, f08c47fec0942fa0";
 
-const [layout, analytics, config, adsTxtRoute, envExample, events, adPlacement] = await Promise.all([
+const [layout, analytics, adSlot, config, adsTxtRoute, envExample, events, adPlacement] = await Promise.all([
   readFile("app/layout.tsx", "utf8"),
   readFile("src/components/GoogleAnalytics.tsx", "utf8"),
+  readFile("src/components/AdSlot.tsx", "utf8"),
   readFile("src/lib/googleConfig.ts", "utf8"),
   readFile("app/ads.txt/route.ts", "utf8"),
   readFile(".env.example", "utf8"),
@@ -29,6 +30,10 @@ assert.ok(adsTxtRoute.includes("`${ADSENSE_ADS_TXT_LINE}\\n`"));
 assert.ok(envExample.includes(`NEXT_PUBLIC_GA_ID=${expectedGaId}`));
 assert.ok(envExample.includes(`NEXT_PUBLIC_ADSENSE_PUBLISHER_ID=${expectedPublisher}`));
 assert.ok(layout.includes('other: { "google-adsense-account": ADSENSE_PUBLISHER_ID }'));
+assert.equal((layout.match(/pagead2\.googlesyndication\.com\/pagead\/js\/adsbygoogle\.js/g) ?? []).length, 1, "AdSense loader is not global or is duplicated");
+assert.ok(layout.includes('id="google-adsense"'));
+assert.ok(layout.includes('crossOrigin="anonymous"'));
+assert.equal(adSlot.includes("pagead2.googlesyndication.com"), false, "AdSlot still loads a duplicate AdSense script");
 assert.equal((layout.match(/<GoogleAnalytics\s*\/>/g) ?? []).length, 1, "GoogleAnalytics is rendered more than once");
 assert.equal((analytics.match(/googletagmanager\.com\/gtag\/js/g) ?? []).length, 1, "GA loader is duplicated");
 assert.ok(analytics.includes("gtag('js',new Date())"));

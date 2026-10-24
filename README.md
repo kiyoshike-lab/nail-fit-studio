@@ -97,7 +97,7 @@ GitHubの `kiyoshike-lab/nail-fit-studio` をVercelへImportします。
 - `/history`
 - 404、写真アップロード、保存操作
 
-`/ads.txt` はPublisher IDが設定された場合だけ正規のAdSense行を返します。承認前や未設定時にダミーIDは出しません。
+`/ads.txt` は `google.com, pub-6994120027205290, DIRECT, f08c47fec0942fa0` を返します。HTMLで使う `ca-pub-...` とは接頭辞が異なるため、共通設定から安全に変換しています。
 
 ## Search Console
 

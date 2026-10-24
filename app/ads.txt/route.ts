@@ -1,7 +1,7 @@
-import { ADSENSE_PUBLISHER_ID } from "@/lib/googleConfig";
+import { ADSENSE_ADS_TXT_LINE } from "@/lib/googleConfig";
 
 export function GET() {
-  const body = `google.com, ${ADSENSE_PUBLISHER_ID}, DIRECT, f08c47fec0942fa0\n`;
+  const body = `${ADSENSE_ADS_TXT_LINE}\n`;
   return new Response(body, {
     headers: {
       "content-type": "text/plain; charset=utf-8",

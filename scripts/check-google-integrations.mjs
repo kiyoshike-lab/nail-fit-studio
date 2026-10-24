@@ -1,15 +1,18 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
+import ts from "typescript";
 
 const expectedGaId = "G-CLEJWK7RF3";
 const oldGaId = "G-ZP8CENKEDH";
 const expectedPublisher = "ca-pub-6994120027205290";
+const expectedAdsTxtLine = "google.com, pub-6994120027205290, DIRECT, f08c47fec0942fa0";
 
-const [layout, analytics, config, envExample, events, adPlacement] = await Promise.all([
+const [layout, analytics, config, adsTxtRoute, envExample, events, adPlacement] = await Promise.all([
   readFile("app/layout.tsx", "utf8"),
   readFile("src/components/GoogleAnalytics.tsx", "utf8"),
   readFile("src/lib/googleConfig.ts", "utf8"),
+  readFile("app/ads.txt/route.ts", "utf8"),
   readFile(".env.example", "utf8"),
   readFile("src/lib/analytics.ts", "utf8"),
   readFile("scripts/check-ad-placement.mjs", "utf8"),
@@ -17,6 +20,12 @@ const [layout, analytics, config, envExample, events, adPlacement] = await Promi
 
 assert.ok(config.includes(`DEFAULT_GA_MEASUREMENT_ID = "${expectedGaId}"`));
 assert.ok(config.includes(`DEFAULT_ADSENSE_PUBLISHER_ID = "${expectedPublisher}"`));
+const compiledConfig = ts.transpileModule(config, {
+  compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 },
+}).outputText;
+const googleConfig = await import(`data:text/javascript;base64,${Buffer.from(compiledConfig).toString("base64")}`);
+assert.equal(googleConfig.ADSENSE_ADS_TXT_LINE, expectedAdsTxtLine);
+assert.ok(adsTxtRoute.includes("`${ADSENSE_ADS_TXT_LINE}\\n`"));
 assert.ok(envExample.includes(`NEXT_PUBLIC_GA_ID=${expectedGaId}`));
 assert.ok(envExample.includes(`NEXT_PUBLIC_ADSENSE_PUBLISHER_ID=${expectedPublisher}`));
 assert.ok(layout.includes('other: { "google-adsense-account": ADSENSE_PUBLISHER_ID }'));
@@ -44,7 +53,7 @@ for (const file of sourceFiles) {
 }
 assert.deepEqual(oldIdLocations, [], `Old GA ID remains in: ${oldIdLocations.join(", ")}`);
 
-console.log("google-integrations: AdSense meta, GA4 singleton, events and route exclusions passed");
+console.log("google-integrations: AdSense meta/ads.txt, GA4 singleton, events and route exclusions passed");
 
 async function listSourceFiles(directory) {
   const result = [];

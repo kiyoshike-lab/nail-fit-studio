@@ -1,6 +1,7 @@
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 import type { NailPose } from "./types";
 import { buildNailsFromLandmarks } from "./nailGeometry";
+import { NailTrackStabilizer, TrackingPerformance } from "./trackingQuality";
 import { initializeWithDelegateFallback } from "./trackingFallback";
 import {
   calculateProcessingSize,
@@ -25,6 +26,10 @@ type DetectionStateHandler = (state: HandDetectionState) => void;
 const maxConsecutiveDetectionErrors = 5;
 const detectionIntervalMs = 50;
 let landmarkerPromise: Promise<HandLandmarkerInstance> | null = null;
+let imageLandmarkerPromise: Promise<HandLandmarkerInstance> | null = null;
+let activeTracker: HandTracker | null = null;
+let videoSession = 0;
+let lastInferenceTimestamp = 0;
 
 export async function startHandTracking(
   video: HTMLVideoElement,
@@ -33,7 +38,10 @@ export async function startHandTracking(
   onTrackingError?: TrackingErrorHandler,
   onDetectionState?: DetectionStateHandler,
 ): Promise<HandTracker> {
+  const session = ++videoSession;
+  activeTracker?.stop();
   const landmarker = await getLandmarker();
+  if (session !== videoSession) return { stop() {} };
   let stopped = false;
   let raf = 0;
   let lastVideoTime = -1;
@@ -47,34 +55,59 @@ export async function startHandTracking(
   let previousState: HandDetectionState | null = null;
   let inputMode: DetectionInputMode = "video";
   let previousInputMode: DetectionInputMode = inputMode;
+  const stabilizer = new NailTrackStabilizer();
+  const metrics = new TrackingPerformance();
+  let videoFrameCallback = 0;
+  const observeVideoFrame: VideoFrameRequestCallback = (_now, metadata) => {
+    if (stopped) return;
+    metrics.recordCameraFrame(metadata.presentedFrames);
+    videoFrameCallback = video.requestVideoFrameCallback(observeVideoFrame);
+  };
+  if (typeof video.requestVideoFrameCallback === "function") {
+    videoFrameCallback = video.requestVideoFrameCallback(observeVideoFrame);
+  }
   const processingCanvas = document.createElement("canvas");
   const processingContext = processingCanvas.getContext("2d", { alpha: false });
 
   const loop = (frameTime: number) => {
     if (stopped) return;
+    metrics.frame(frameTime, video.currentTime);
     if (
-      frameTime - lastDetectionAt >= detectionIntervalMs
+      frameTime - lastDetectionAt >= Math.max(detectionIntervalMs, metrics.budget.intervalMs)
       && video.readyState >= 2
       && video.currentTime !== lastVideoTime
     ) {
       lastDetectionAt = frameTime;
       lastVideoTime = video.currentTime;
       try {
-        const input = prepareDetectionInput(video, processingCanvas, processingContext, inputMode);
-        const result = landmarker.detectForVideo(input, performance.now());
+        const startedAt = performance.now();
+        const effectiveMode = metrics.budget.maxSide === 640 ? "canvas-640" : inputMode;
+        const input = prepareDetectionInput(video, processingCanvas, processingContext, effectiveMode, metrics.budget.maxSide);
+        lastInferenceTimestamp = Math.max(performance.now(), lastInferenceTimestamp + 0.01);
+        const result = landmarker.detectForVideo(input, lastInferenceTimestamp);
+        const busyMs = performance.now() - startedAt;
+        metrics.recordInference(busyMs);
+        // Wait *after* a long inference too, leaving time for paint and input.
+        // Starting the interval before inference saturates slow CPUs/GPUs.
+        lastDetectionAt = frameTime + busyMs;
         consecutiveDetectionErrors = 0;
         const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
-        if (landmarks?.length) {
+        const identity = result.handedness?.[0]?.[0];
+        const rawNails = landmarks?.length
+          ? buildNailsFromLandmarks(landmarks, mirrored, video.videoWidth / video.videoHeight) : [];
+        const stableNails = stabilizer.update(rawNails, frameTime, identity
+          ? { label: identity.categoryName, score: identity.score } : undefined);
+        if (stableNails) {
           successfulDetections += 1;
           consecutiveMisses = 0;
           everDetected = true;
-          lastDetectedAt = frameTime;
+          lastDetectedAt = performance.now();
           previousState = publishDetectionState("detected", previousState, onDetectionState);
-          onUpdate(buildNailsFromLandmarks(landmarks, mirrored, video.videoWidth / video.videoHeight), true);
+          onUpdate(stableNails, true);
         } else {
           failedDetections += 1;
           consecutiveMisses += 1;
-          const missingForMs = frameTime - lastDetectedAt;
+          const missingForMs = performance.now() - lastDetectedAt;
           inputMode = selectDetectionInputMode(inputMode, missingForMs);
           const state = nextHandDetectionState(everDetected, consecutiveMisses, false);
           previousState = publishDetectionState(state, previousState, onDetectionState);
@@ -113,39 +146,61 @@ export async function startHandTracking(
         }
       }
     }
+    if (everDetected && performance.now() - lastDetectedAt > 450) {
+      previousState = publishDetectionState("lost", previousState, onDetectionState);
+    }
+    const measurement = metrics.snapshot(frameTime);
+    if (measurement) debugTracking("Tracking performance", measurement);
     raf = requestAnimationFrame(loop);
   };
 
   raf = requestAnimationFrame(loop);
-  return {
+  const tracker: HandTracker = {
     stop() {
       stopped = true;
       cancelAnimationFrame(raf);
+      if (videoFrameCallback && typeof video.cancelVideoFrameCallback === "function") {
+        video.cancelVideoFrameCallback(videoFrameCallback);
+      }
+      processingCanvas.width = processingCanvas.height = 1;
+      if (activeTracker === tracker) activeTracker = null;
     },
   };
+  activeTracker = tracker;
+  return tracker;
 }
 
 export function resetHandTrackingEngine() {
+  videoSession += 1;
+  activeTracker?.stop();
   const previous = landmarkerPromise;
+  const previousImage = imageLandmarkerPromise;
   landmarkerPromise = null;
+  imageLandmarkerPromise = null;
   void previous?.then((landmarker) => landmarker.close()).catch(() => undefined);
+  void previousImage?.then((landmarker) => landmarker.close()).catch(() => undefined);
 }
 
 export async function detectHandNails(image: HTMLImageElement): Promise<NailPose[]> {
-  const landmarker = await getLandmarker();
-  await landmarker.setOptions({ runningMode: "IMAGE" });
-  try {
-    const result = landmarker.detect(image);
-    const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
-    return landmarks?.length ? buildNailsFromLandmarks(landmarks, false, image.naturalWidth / image.naturalHeight) : [];
-  } finally {
-    await landmarker.setOptions({ runningMode: "VIDEO" });
-  }
+  const landmarker = await getLandmarker("IMAGE");
+  const result = landmarker.detect(image);
+  const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
+  return landmarks?.length ? buildNailsFromLandmarks(landmarks, false, image.naturalWidth / image.naturalHeight) : [];
 }
 
-async function getLandmarker() {
+async function getLandmarker(mode: "IMAGE" | "VIDEO" = "VIDEO") {
+  if (mode === "IMAGE") {
+    if (!imageLandmarkerPromise) {
+      const pending = createLandmarkerWithFallback(mode);
+      imageLandmarkerPromise = pending;
+      pending.catch(() => {
+        if (imageLandmarkerPromise === pending) imageLandmarkerPromise = null;
+      });
+    }
+    return imageLandmarkerPromise;
+  }
   if (!landmarkerPromise) {
-    const pending = createLandmarkerWithFallback();
+    const pending = createLandmarkerWithFallback(mode);
     landmarkerPromise = pending;
     pending.catch(() => {
       if (landmarkerPromise === pending) landmarkerPromise = null;
@@ -154,7 +209,7 @@ async function getLandmarker() {
   return landmarkerPromise;
 }
 
-async function createLandmarkerWithFallback() {
+async function createLandmarkerWithFallback(runningMode: "IMAGE" | "VIDEO") {
   debugTracking("MediaPipe initialization start");
   const vision = await FilesetResolver.forVisionTasks(
     "/mediapipe",
@@ -167,7 +222,7 @@ async function createLandmarkerWithFallback() {
             "/mediapipe/hand_landmarker.task",
           delegate,
         },
-        runningMode: "VIDEO",
+        runningMode,
         numHands: 1,
         minHandDetectionConfidence: 0.35,
         minHandPresenceConfidence: 0.35,
@@ -198,9 +253,11 @@ function prepareDetectionInput(
   canvas: HTMLCanvasElement,
   context: CanvasRenderingContext2D | null,
   mode: DetectionInputMode,
+  maxSide = 960,
 ) {
-  if (mode === "video" || !context) return video;
-  const maxWidth = mode === "canvas-960" ? 960 : mode === "canvas-640" ? 640 : undefined;
+  if (!context || (mode === "video" && Math.max(video.videoWidth, video.videoHeight) <= maxSide)) return video;
+  const sideLimit = mode === "canvas-640" ? 640 : maxSide;
+  const maxWidth = Math.round(video.videoWidth * Math.min(1, sideLimit / Math.max(video.videoWidth, video.videoHeight)));
   const size = calculateProcessingSize(video.videoWidth, video.videoHeight, maxWidth);
   if (canvas.width !== size.width) canvas.width = size.width;
   if (canvas.height !== size.height) canvas.height = size.height;

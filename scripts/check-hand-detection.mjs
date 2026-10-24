@@ -24,7 +24,7 @@ assert.ok(trackingSource.includes("landmarker.detect(image)"));
 assert.ok(trackingSource.includes('FilesetResolver.forVisionTasks(\n    "/mediapipe"'));
 assert.ok(trackingSource.includes('"/mediapipe/hand_landmarker.task"'));
 assert.ok(studio.includes("detectHandNails(detectionImage)"));
-assert.ok(studio.includes("smoothTrackedNails(current, tracked)"));
+assert.ok(trackingSource.includes("stabilizer.update(rawNails, frameTime"));
 assert.ok(preview.includes("手を探しています…"));
 assert.ok(preview.includes("手を検出しました"));
 assert.ok(preview.includes("手を見失いました"));

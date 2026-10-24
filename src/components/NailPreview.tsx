@@ -4,6 +4,7 @@ import { useRef, useState, type RefObject } from "react";
 import type { SourceMode } from "@/lib/types";
 import type { NailPose } from "@/lib/types";
 import type { HandDetectionState } from "@/lib/handTracking";
+import { containRect, pointInSource } from "@/lib/previewGeometry";
 
 type Props = {
   mode: SourceMode;
@@ -25,33 +26,36 @@ type Props = {
 
 export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, detectionState = "searching", onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, onSelectNail, onMoveNail }: Props) {
   const [aspectRatio, setAspectRatio] = useState("4 / 3");
-  const dragRef = useRef<{ pointerId: number; index: number } | null>(null);
+  const dragRef = useRef<{ pointerId: number; index: number; offsetX: number; offsetY: number } | null>(null);
 
   function pointerPosition(event: React.PointerEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
-    return { x: ((event.clientX - rect.left) / rect.width) * 100, y: ((event.clientY - rect.top) / rect.height) * 100 };
+    const width = mode === "camera" ? videoRef.current?.videoWidth : imageRef.current?.naturalWidth;
+    const height = mode === "camera" ? videoRef.current?.videoHeight : imageRef.current?.naturalHeight;
+    const viewport = containRect(width ?? 0, height ?? 0, rect.width, rect.height);
+    return pointInSource(event.clientX - rect.left, event.clientY - rect.top, viewport);
   }
 
   function startDrag(event: React.PointerEvent<HTMLDivElement>) {
     if (mode === "empty") return;
     const point = pointerPosition(event);
+    if (point.x < 0 || point.x > 100 || point.y < 0 || point.y > 100) return;
     const nearest = nails.reduce((best, nail, nailIndex) => {
       const distance = Math.hypot(nail.x - point.x, nail.y - point.y);
       return distance < best.distance ? { index: nailIndex, distance } : best;
     }, { index: 0, distance: Number.POSITIVE_INFINITY });
     if (nearest.distance > 12) return;
     const index = nearest.index;
-    dragRef.current = { pointerId: event.pointerId, index };
+    dragRef.current = { pointerId: event.pointerId, index, offsetX: nails[index].x - point.x, offsetY: nails[index].y - point.y };
     event.currentTarget.setPointerCapture(event.pointerId);
     onSelectNail(index);
-    onMoveNail(index, point.x, point.y);
   }
 
   function moveDrag(event: React.PointerEvent<HTMLDivElement>) {
     const drag = dragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
     const point = pointerPosition(event);
-    onMoveNail(drag.index, point.x, point.y);
+    onMoveNail(drag.index, Math.max(0, Math.min(100, point.x + drag.offsetX)), Math.max(0, Math.min(100, point.y + drag.offsetY)));
   }
 
   function endDrag(event: React.PointerEvent<HTMLDivElement>) {
@@ -100,7 +104,14 @@ export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, d
             if (video.videoWidth && video.videoHeight) setAspectRatio(`${video.videoWidth} / ${video.videoHeight}`);
           }}
         />
-        <canvas ref={canvasRef} className="nail-canvas" />
+        <canvas
+          ref={canvasRef}
+          className="nail-canvas"
+          style={{
+            opacity: mode === "camera" && !trackingFailed && detectionState !== "detected" ? 0 : 1,
+            transition: "opacity 300ms linear",
+          }}
+        />
         {mode === "camera" && (
           <>
             <div className={`camera-guide ${detectionState === "detected" ? "is-detected" : ""}`} aria-hidden="true">

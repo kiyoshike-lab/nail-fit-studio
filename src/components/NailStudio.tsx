@@ -11,7 +11,10 @@ import { SavePanel } from "./SavePanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { defaultDesign, defaultPhotoNails } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
-import { smoothTrackedNails } from "@/lib/nailSmoothing";
+import { trackingOpacity } from "@/lib/trackingQuality";
+import { applyCalibration, calibrateNail, defaultCalibration, sanitizeCalibration } from "@/lib/nailCalibration";
+import { neutralLighting, sampleSceneLighting } from "@/lib/sceneLighting";
+import { containRect } from "@/lib/previewGeometry";
 import { assetPath, loadDesignPresets } from "@/lib/presets";
 import { readJson, writeJson } from "@/lib/storage";
 import { detectHandNails, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
@@ -34,6 +37,7 @@ import type { DesignPreset, NailDesign, NailPose, SavedNailLook, SourceMode, Try
 
 const DESIGN_KEY = "nail-fit-studio-next.design.v1";
 const NAILS_KEY = "nail-fit-studio-next.nails.v1";
+const CALIBRATION_KEY = "nail-fit-studio-next.calibration.v1";
 
 export function NailStudio() {
   const [mode, setMode] = useState<SourceMode>("empty");
@@ -61,8 +65,20 @@ export function NailStudio() {
   const trackerRef = useRef<HandTracker | null>(null);
   const objectUrlRef = useRef<string | null>(null);
   const drawIdRef = useRef(0);
+  const paintedFramesRef = useRef(0);
   const lostFramesRef = useRef(0);
   const hasTrackingPoseRef = useRef(false);
+  const baseTrackedNailsRef = useRef<NailPose[]>([]);
+  const liveNailsRef = useRef<NailPose[] | null>(null);
+  const lastDetectedAtRef = useRef(-Infinity);
+  const lastTrackingUiAtRef = useRef(0);
+  const [initialCalibration] = useState(() => sanitizeCalibration(readJson(CALIBRATION_KEY, defaultCalibration())));
+  const calibrationRef = useRef(initialCalibration);
+  const photoRequestRef = useRef(0);
+  const lightingRef = useRef(neutralLighting);
+  const lightingCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const lastLightingAtRef = useRef(0);
+  const drawPreviewRef = useRef<() => Promise<boolean>>(async () => false);
   const selectedDeviceIdRef = useRef(selectedDeviceId);
   const activeDeviceIdRef = useRef("");
   const cameraRequestRef = useRef(0);
@@ -96,7 +112,11 @@ export function NailStudio() {
   }, []);
 
   useEffect(() => writeJson(DESIGN_KEY, design), [design]);
-  useEffect(() => writeJson(NAILS_KEY, nails), [nails]);
+  useEffect(() => {
+    if (mode !== "photo") return;
+    const timer = window.setTimeout(() => writeJson(NAILS_KEY, nails), 400);
+    return () => window.clearTimeout(timer);
+  }, [mode, nails]);
   useEffect(() => { selectedDeviceIdRef.current = selectedDeviceId; }, [selectedDeviceId]);
 
   const notify = useCallback((message: string) => {
@@ -106,38 +126,113 @@ export function NailStudio() {
 
   const drawPreview = useCallback(async () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return false;
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const width = Math.max(320, Math.round(rect.width * dpr));
-    const height = Math.max(240, Math.round(rect.height * dpr));
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const scale = Math.min(dpr, 1280 / Math.max(rect.width, rect.height, 1));
+    const width = Math.max(1, Math.round(rect.width * scale));
+    const height = Math.max(1, Math.round(rect.height * scale));
     if (canvas.width !== width || canvas.height !== height) {
       canvas.width = width;
       canvas.height = height;
     }
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) return false;
     const drawId = ++drawIdRef.current;
-    ctx.clearRect(0, 0, width, height);
-    if (!before && mode !== "empty") {
-      await drawNails(ctx, width, height, nails, design);
-      if (drawId !== drawIdRef.current) return;
+    const visibleNails = mode === "camera" ? liveNailsRef.current ?? nails : nails;
+    const now = performance.now();
+    if (now - lastLightingAtRef.current >= 250 && visibleNails.length) {
+      lastLightingAtRef.current = now;
+      const source = mode === "camera" ? videoRef.current : imageRef.current;
+      const sourceWidth = mode === "camera" ? videoRef.current?.videoWidth : imageRef.current?.naturalWidth;
+      const sourceHeight = mode === "camera" ? videoRef.current?.videoHeight : imageRef.current?.naturalHeight;
+      if (source && sourceWidth && sourceHeight) {
+        const lightingCanvas = lightingCanvasRef.current ?? document.createElement("canvas");
+        lightingCanvasRef.current = lightingCanvas;
+        lightingCanvas.width = lightingCanvas.height = 24;
+        const lightingContext = lightingCanvas.getContext("2d", { willReadFrequently: true });
+        const xs = visibleNails.map((nail) => mode === "camera" && cameraMirrored ? 100 - nail.x : nail.x);
+        const ys = visibleNails.map((nail) => nail.y);
+        const x = Math.max(0, Math.min(...xs) - 4) / 100 * sourceWidth;
+        const y = Math.max(0, Math.min(...ys) - 4) / 100 * sourceHeight;
+        if (lightingContext) lightingRef.current = sampleSceneLighting(lightingContext, source, {
+          x, y,
+          width: Math.max(1, Math.min(sourceWidth - x, (Math.max(...xs) - Math.min(...xs) + 8) / 100 * sourceWidth)),
+          height: Math.max(1, Math.min(sourceHeight - y, (Math.max(...ys) - Math.min(...ys) + 8) / 100 * sourceHeight)),
+        }, lightingRef.current);
+      }
     }
-  }, [before, design, mode, nails]);
+    if (!before && mode !== "empty") {
+      return drawNails(ctx, width, height, visibleNails, design, {
+        clear: true,
+        isCurrent: () => drawId === drawIdRef.current,
+        opacity: mode === "camera" && trackingState !== "failed"
+          ? (hasTrackingPoseRef.current ? trackingOpacity(now - lastDetectedAtRef.current) : 0) : 1,
+        lighting: lightingRef.current,
+        waitForTexture: mode !== "camera",
+        viewport: mode === "camera"
+          ? containRect(videoRef.current?.videoWidth ?? 0, videoRef.current?.videoHeight ?? 0, width, height)
+          : containRect(imageRef.current?.naturalWidth ?? 0, imageRef.current?.naturalHeight ?? 0, width, height),
+      }).then((didPaint) => {
+        if (didPaint && mode === "camera") paintedFramesRef.current += 1;
+        return didPaint;
+      });
+    } else {
+      ctx.clearRect(0, 0, width, height);
+      return true;
+    }
+  }, [before, cameraMirrored, design, mode, nails, trackingState]);
 
   useEffect(() => {
-    void drawPreview();
+    drawPreviewRef.current = drawPreview;
+    void drawPreview().catch((error) => debugCamera("Canvas drawing failed", error));
+    return () => { drawIdRef.current += 1; };
   }, [drawPreview]);
 
   useEffect(() => {
-    const onResize = () => void drawPreview();
+    if (mode !== "camera") return;
+    let frame = 0;
+    let lastDraw = -Infinity;
+    let pending = false;
+    let stopped = false;
+    let lastLog = performance.now();
+    let lastPainted = paintedFramesRef.current;
+    const paint = (now: number) => {
+      if (stopped) return;
+      if (!pending && now - lastDraw >= 1000 / 30) {
+        pending = true;
+        lastDraw = now;
+        void drawPreviewRef.current()
+          .catch((error) => debugCamera("Canvas drawing failed", error))
+          .finally(() => { pending = false; });
+      }
+      if (now - lastLog >= 2000) {
+        debugCamera("Canvas performance", { drawFps: (paintedFramesRef.current - lastPainted) * 1000 / (now - lastLog) });
+        lastPainted = paintedFramesRef.current;
+        lastLog = now;
+      }
+      frame = requestAnimationFrame(paint);
+    };
+    frame = requestAnimationFrame(paint);
+    return () => {
+      stopped = true;
+      cancelAnimationFrame(frame);
+      drawIdRef.current += 1;
+    };
+  }, [mode]);
+
+  useEffect(() => {
+    const onResize = () => void drawPreviewRef.current().catch((error) => debugCamera("Canvas drawing failed", error));
+    const observer = typeof ResizeObserver !== "undefined" ? new ResizeObserver(onResize) : null;
+    if (canvasRef.current) observer?.observe(canvasRef.current);
     window.addEventListener("resize", onResize);
     window.addEventListener("orientationchange", onResize);
     return () => {
+      observer?.disconnect();
       window.removeEventListener("resize", onResize);
       window.removeEventListener("orientationchange", onResize);
     };
-  }, [drawPreview]);
+  }, []);
 
   const releaseCamera = useCallback((reason = "release-camera") => {
     const stream = streamRef.current;
@@ -149,6 +244,7 @@ export function NailStudio() {
       activeDeviceId: activeDeviceIdRef.current,
     });
     trackingRequestRef.current += 1;
+    photoRequestRef.current += 1;
     trackerRef.current?.stop();
     trackerRef.current = null;
     streamRef.current = null;
@@ -196,6 +292,9 @@ export function NailStudio() {
     const trackingRequestId = ++trackingRequestRef.current;
     lostFramesRef.current = 0;
     hasTrackingPoseRef.current = false;
+    baseTrackedNailsRef.current = [];
+    liveNailsRef.current = null;
+    lastDetectedAtRef.current = -Infinity;
     setTrackingState("starting");
     setDetectionState("searching");
     setStatus("カメラを使用中。自動認識を準備しています…");
@@ -204,6 +303,7 @@ export function NailStudio() {
     const trackingFailed = (error: unknown) => {
       if (trackingRequestId !== trackingRequestRef.current || streamRef.current !== stream) return;
       trackerRef.current = null;
+      hasTrackingPoseRef.current = false;
       setTrackingState("failed");
       setDetectionState("lost");
       setStatus("自動認識を利用できませんでした。爪を手動で調整できます。");
@@ -215,15 +315,20 @@ export function NailStudio() {
       () => startHandTracking(
         video,
         (tracked, detected) => {
+          if (trackingRequestId !== trackingRequestRef.current || streamRef.current !== stream) return;
           if (detected && tracked.length) {
             lostFramesRef.current = 0;
-            setNails((current) => {
-              if (!hasTrackingPoseRef.current) {
-                hasTrackingPoseRef.current = true;
-                return tracked;
-              }
-              return smoothTrackedNails(current, tracked);
-            });
+            baseTrackedNailsRef.current = tracked;
+            const aspect = video.videoWidth / video.videoHeight || 1;
+            const adjusted = tracked.map((nail, index) => applyCalibration(nail, calibrationRef.current[index], aspect));
+            liveNailsRef.current = adjusted;
+            const now = performance.now();
+            lastDetectedAtRef.current = now;
+            if (!hasTrackingPoseRef.current || now - lastTrackingUiAtRef.current >= 150) {
+              hasTrackingPoseRef.current = true;
+              lastTrackingUiAtRef.current = now;
+              setNails(adjusted);
+            }
           } else {
             lostFramesRef.current += 1;
             if (lostFramesRef.current > 140) {
@@ -234,6 +339,7 @@ export function NailStudio() {
         mirrored,
         trackingFailed,
         (state) => {
+          if (trackingRequestId !== trackingRequestRef.current || streamRef.current !== stream) return;
           setDetectionState(state);
           if (state === "detected") {
             setStatus("手を検出しました。爪を追従しています。");
@@ -531,6 +637,7 @@ export function NailStudio() {
       cameraProtectionUntilRef.current = 0;
       cameraRequestRef.current += 1;
       releaseCamera("component-unmount");
+      resetHandTrackingEngine();
       if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
     };
   }, [releaseCamera]);
@@ -558,8 +665,9 @@ export function NailStudio() {
   }, [cameraMirrored, mode, notify, startTrackingForCamera]);
 
   const loadPhoto = useCallback(
-    (url: string) => {
+    (url: string, fixedNails?: NailPose[]) => {
       stopCamera("カメラを停止しました。", "photo-upload");
+      const photoRequestId = ++photoRequestRef.current;
       if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
       if (url.startsWith("blob:")) objectUrlRef.current = url;
       setPhotoUrl(url);
@@ -569,12 +677,20 @@ export function NailStudio() {
       setStatus("写真を読み込みました。必要なら指ごとに微調整してください。");
       notify("写真を準備しました");
       trackEvent("photo_uploaded");
+      if (fixedNails?.length === 5) {
+        setNails(fixedNails);
+        setLoading(false);
+        setStatus("撮影時の爪位置と指別調整を引き継ぎました。自動補正で認識し直すこともできます。");
+        return;
+      }
       setLoading(true);
       setStatus("写真の手と爪位置を認識しています…");
       const detectionImage = new Image();
       detectionImage.onload = async () => {
         try {
+          if (photoRequestId !== photoRequestRef.current) return;
           const detected = await detectHandNails(detectionImage);
+          if (photoRequestId !== photoRequestRef.current) return;
           if (detected.length) {
             setNails(detected);
             setStatus("写真から手を認識し、爪位置を自動配置しました。必要なら細かく調整できます。");
@@ -583,12 +699,12 @@ export function NailStudio() {
             setStatus("手を認識できませんでした。手全体が写り、指を少し開いた写真をお試しください。");
           }
         } catch {
-          setStatus("自動認識を利用できませんでした。手動調整で試着できます。");
+          if (photoRequestId === photoRequestRef.current) setStatus("自動認識を利用できませんでした。手動調整で試着できます。");
         } finally {
-          setLoading(false);
+          if (photoRequestId === photoRequestRef.current) setLoading(false);
         }
       };
-      detectionImage.onerror = () => setLoading(false);
+      detectionImage.onerror = () => { if (photoRequestId === photoRequestRef.current) setLoading(false); };
       detectionImage.src = url;
     },
     [notify, stopCamera],
@@ -625,44 +741,81 @@ export function NailStudio() {
 
   const saveFavorite = useCallback(() => {
     if (mode === "empty") { notify("先に写真かカメラを入れてください"); return; }
-    const favorite: SavedNailLook = { id: createLocalId("favorite"), designId: activePresetId, design, nails, savedAt: new Date().toISOString() };
+    const favorite: SavedNailLook = { id: createLocalId("favorite"), designId: activePresetId, design, nails: mode === "camera" ? liveNailsRef.current ?? nails : nails, savedAt: new Date().toISOString() };
     const current = readJson<SavedNailLook[]>(STORAGE_KEYS.favorites, []);
     writeJson(STORAGE_KEYS.favorites, [favorite, ...current].slice(0, 50));
     notify("お気に入りに追加しました");
     trackEvent("favorite_added", { shape: design.shape, pattern: design.pattern });
   }, [activePresetId, design, mode, nails, notify]);
 
-  const addHistory = useCallback(() => {
+  const addHistory = useCallback((savedNails: NailPose[]) => {
     const now = new Date().toISOString();
-    const item: TryOnHistory = { id: createLocalId("history"), designId: activePresetId, design, nails, savedAt: now, createdAt: now };
+    const item: TryOnHistory = { id: createLocalId("history"), designId: activePresetId, design, nails: savedNails, savedAt: now, createdAt: now };
     const current = readJson<TryOnHistory[]>(STORAGE_KEYS.history, []);
     writeJson(STORAGE_KEYS.history, [item, ...current].slice(0, 20));
-  }, [activePresetId, design, nails]);
+  }, [activePresetId, design]);
 
-  const updateSelectedNail = useCallback(
-    (patch: Partial<NailPose>) => {
-      setNails((current) => current.map((nail, index) => (index === selectedFinger ? { ...nail, ...patch } : nail)));
-    },
-    [selectedFinger],
-  );
+  const updateNail = useCallback((index: number, patch: Partial<NailPose>) => {
+    if (mode === "camera" && baseTrackedNailsRef.current[index]) {
+      const current = liveNailsRef.current ?? nails;
+      const target = { ...current[index], ...patch };
+      const aspect = (videoRef.current?.videoWidth ?? 1) / (videoRef.current?.videoHeight || 1);
+      calibrationRef.current[index] = calibrateNail(baseTrackedNailsRef.current[index], target, aspect);
+      writeJson(CALIBRATION_KEY, calibrationRef.current);
+      const adjusted = baseTrackedNailsRef.current.map((nail, finger) => applyCalibration(nail, calibrationRef.current[finger], aspect));
+      liveNailsRef.current = adjusted;
+      setNails(adjusted);
+    } else {
+      // A deliberate manual adjustment also cancels a pending photo result.
+      photoRequestRef.current += 1;
+      setLoading(false);
+      setNails((current) => current.map((nail, finger) => finger === index ? { ...nail, ...patch } : nail));
+    }
+  }, [mode, nails]);
 
-  const autoFit = useCallback(() => {
+  const updateSelectedNail = useCallback((patch: Partial<NailPose>) => {
+    updateNail(selectedFinger, patch);
+  }, [selectedFinger, updateNail]);
+
+  const autoFit = useCallback(async () => {
     if (mode === "empty") {
       setStatus("先に写真かカメラを入れてください。");
       notify("写真かカメラが必要です");
       return;
     }
-    setNails((current) =>
-      current.map((nail, index) => ({
-        ...nail,
-        y: Math.max(0, nail.y - (index === 0 ? 1.6 : 1.1)),
-        width: nail.width * (index === 0 ? 0.92 : 0.96),
-        height: nail.height * (index === 0 ? 0.96 : 0.98),
-      })),
-    );
-    setStatus("自動補正しました。長さを変えても根元が動かない描画にしています。");
-    notify("爪の位置を自動調整しました");
-  }, [mode, notify]);
+    if (mode === "camera") {
+      if (!baseTrackedNailsRef.current.length || performance.now() - lastDetectedAtRef.current > 300) {
+        notify("手を認識できません。手全体を写し、指を少し開いてください。");
+        if (trackingState === "failed") await retryHandTracking();
+        return;
+      }
+      calibrationRef.current = defaultCalibration();
+      writeJson(CALIBRATION_KEY, calibrationRef.current);
+      liveNailsRef.current = baseTrackedNailsRef.current;
+      setNails(baseTrackedNailsRef.current);
+      setStatus("最新の手認識から爪位置を合わせ直しました。輪郭は推定のため、必要なら指ごとに調整してください。");
+      notify("爪の位置を自動調整しました");
+      return;
+    }
+    const image = imageRef.current;
+    if (!image?.naturalWidth) { notify("写真の読み込みをお待ちください"); return; }
+    const requestId = ++photoRequestRef.current;
+    setLoading(true);
+    try {
+      const detected = await detectHandNails(image);
+      if (requestId !== photoRequestRef.current) return;
+      if (!detected.length) {
+        notify("爪を認識できませんでした。手動調整をお試しください。");
+        return;
+      }
+      setNails(detected);
+      notify("爪の位置を自動調整しました");
+    } catch {
+      if (requestId === photoRequestRef.current) notify("自動認識を利用できません。手動で調整できます。");
+    } finally {
+      if (requestId === photoRequestRef.current) setLoading(false);
+    }
+  }, [mode, notify, retryHandTracking, trackingState]);
 
   const capturePhoto = useCallback(async () => {
     const video = videoRef.current;
@@ -683,7 +836,9 @@ export function NailStudio() {
       ctx.scale(-1, 1);
     }
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    loadPhoto(canvas.toDataURL("image/jpeg", 0.94));
+    const capturedNails = performance.now() - lastDetectedAtRef.current < 300
+      ? liveNailsRef.current ?? undefined : undefined;
+    loadPhoto(canvas.toDataURL("image/jpeg", 0.94), capturedNails);
     notify("写真として固定しました");
   }, [cameraMirrored, loadPhoto, mode, notify]);
 
@@ -713,14 +868,24 @@ export function NailStudio() {
     if (mode === "camera" && cameraMirrored) {
       ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
-    await drawNails(ctx, canvas.width, canvas.height, nails, design);
+    const savedNails = mode === "camera" ? liveNailsRef.current ?? nails : nails;
+    try {
+      await drawNails(ctx, canvas.width, canvas.height, savedNails, design, {
+        lighting: lightingRef.current,
+        opacity: mode === "camera" && trackingState !== "failed"
+          ? (hasTrackingPoseRef.current ? trackingOpacity(performance.now() - lastDetectedAtRef.current) : 0) : 1,
+      });
+    } catch {
+      notify("ネイル画像を作れませんでした。別のデザインで再試行してください。");
+      return;
+    }
     canvas.toBlob(async (blob) => {
       if (!blob) {
         notify("画像保存に失敗しました");
         return;
       }
       const file = new File([blob], "nail-fit-studio.png", { type: "image/png" });
-      addHistory();
+      addHistory(savedNails);
       const nav = navigator as Navigator & { canShare?: (data: ShareData) => boolean };
       if (nav.canShare?.({ files: [file] })) {
         try {
@@ -741,7 +906,7 @@ export function NailStudio() {
       notify("画像を保存しました");
       trackEvent("tryon_saved");
     }, "image/png");
-  }, [addHistory, cameraMirrored, design, mode, nails, notify]);
+  }, [addHistory, cameraMirrored, design, mode, nails, notify, trackingState]);
 
   const selectCamera = useCallback(async (deviceId: string) => {
     selectedDeviceIdRef.current = deviceId;
@@ -779,8 +944,9 @@ export function NailStudio() {
   const quality = useMemo(() => {
     if (mode === "empty") return "準備中";
     const avg = nails.reduce((sum, nail) => sum + (nail.confidence ?? 0.5), 0) / nails.length;
-    return avg > 0.7 ? "追従安定" : "微調整推奨";
-  }, [mode, nails]);
+    if (mode === "camera" && detectionState !== "detected") return "手全体を写してください";
+    return avg > 0.7 ? "爪位置を推定中・微調整できます" : "微調整推奨";
+  }, [detectionState, mode, nails]);
 
   return (
     <div className="studio-shell">
@@ -808,6 +974,7 @@ export function NailStudio() {
             onDesign={updateDesign}
             onSelectFinger={setSelectedFinger}
             onNail={updateSelectedNail}
+            onReset={() => { void autoFit(); }}
           />
           <BeforeAfter
             enabled={!before}
@@ -835,7 +1002,7 @@ export function NailStudio() {
           mirrored={mode === "camera" && cameraMirrored}
           nails={nails}
           onSelectNail={setSelectedFinger}
-          onMoveNail={(index, x, y) => setNails((current) => current.map((nail, nailIndex) => nailIndex === index ? { ...nail, x, y } : nail))}
+          onMoveNail={(index, x, y) => updateNail(index, { x, y })}
           onImageError={() => {
             setMode("empty");
             setStatus("画像を読み込めませんでした。別の写真を選んでください。");

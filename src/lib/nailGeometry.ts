@@ -37,8 +37,9 @@ export function buildNailsFromLandmarks(
   mirrored: boolean,
   frameAspect = 1,
 ): NailPose[] {
-  if (landmarks.length < 21) return [];
-  const aspect = clamp(frameAspect, 0.5, 2.5);
+  if (landmarks.length < 21 || !landmarks.every((point) =>
+    Number.isFinite(point.x) && Number.isFinite(point.y) && (point.z === undefined || Number.isFinite(point.z)))) return [];
+  const aspect = Number.isFinite(frameAspect) && frameAspect > 0 ? frameAspect : 1;
   const points = landmarks.map((point) => ({
     x: mirrored ? 1 - point.x : point.x,
     y: point.y,
@@ -53,6 +54,10 @@ export function buildNailsFromLandmarks(
     const distalVector = toPhysicalVector(dip, tip, aspect);
     const proximalVector = toPhysicalVector(pip, dip, aspect);
     const distalLength = vectorLength(distalVector);
+    // MediaPipe z is normalized like x. Use it only for conservative perspective
+    // correction, never as evidence that the actual nail contour was detected.
+    const depth = ((landmarks[tipIndex].z ?? 0) - (landmarks[dipIndexes[fingerIndex]].z ?? 0)) * aspect;
+    const projection = distalLength / Math.max(Math.hypot(distalLength, depth), 0.0001);
     const proximalLength = vectorLength(proximalVector);
     const distalAxis = normalize(distalVector);
     const proximalAxis = normalize(proximalVector);
@@ -68,18 +73,19 @@ export function buildNailsFromLandmarks(
     // Blend local finger scale with palm scale. The palm term prevents a nail
     // collapsing when a distal phalanx is foreshortened by an oblique view.
     const localScale = distalLength * 0.84 + proximalLength * 0.16 * 0.72;
-    const bedLength = clamp(
+    const estimatedBedLength = clamp(
       localScale * config.bedLength + palmScale * config.palmLength * 0.14,
       palmScale * config.palmLength * 0.72,
       palmScale * config.palmLength * 1.48,
     );
+    const bedLength = clamp(estimatedBedLength * (0.72 + 0.28 * projection), palmScale * config.palmLength * 0.72, 0.18);
     const bedWidthPhysical = clamp(
       localScale * config.bedWidth + palmScale * config.palmWidth * 0.16,
       palmScale * config.palmWidth * 0.72,
       palmScale * config.palmWidth * 1.42,
     );
 
-    let lateralOffset = bedWidthPhysical * config.lateralBias;
+    let lateralOffset = bedWidthPhysical * config.lateralBias * (mirrored ? -1 : 1);
     if (fingerIndex === 0) {
       // Thumb landmarks are often slightly off-centre. Move toward the index
       // finger in the thumb's perpendicular axis instead of using handedness
@@ -103,10 +109,10 @@ export function buildNailsFromLandmarks(
     return {
       x: clamp(root.x * 100, -3, 103),
       y: clamp(root.y * 100, -3, 103),
-      width: clamp((bedWidthPhysical / aspect) * 100, 0.8, fingerIndex === 0 ? 8 : 6.3),
-      height: clamp(bedLength * 100, 1.5, fingerIndex === 0 ? 10 : 11),
+      width: (bedWidthPhysical / aspect) * 100,
+      height: bedLength * 100,
       rotation: normalizeDegrees((Math.atan2(axis.y, axis.x) * 180) / Math.PI + 90),
-      confidence: 0.78,
+      confidence: 0.55 + 0.25 * projection * Math.max(0.3, (bend + 1) / 2),
     };
   });
 }

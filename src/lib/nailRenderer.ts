@@ -1,6 +1,8 @@
 import type { NailDesign, NailPose } from "./types";
+import { neutralLighting, type SceneLighting } from "./sceneLighting";
 
 const textureCache = new Map<string, Promise<HTMLImageElement>>();
+const readyTextures = new Map<string, HTMLImageElement>();
 
 function loadImage(url: string) {
   if (!textureCache.has(url)) {
@@ -9,11 +11,19 @@ function loadImage(url: string) {
       new Promise((resolve, reject) => {
         const image = new Image();
         image.crossOrigin = "anonymous";
-        image.onload = () => resolve(image);
-        image.onerror = reject;
+        const timer = window.setTimeout(() => reject(new Error("Texture timed out")), 8000);
+        image.onload = () => {
+          window.clearTimeout(timer);
+          readyTextures.set(url, image);
+          if (readyTextures.size > 16) readyTextures.delete(readyTextures.keys().next().value!);
+          resolve(image);
+        };
+        image.onerror = (error) => { window.clearTimeout(timer); reject(error); };
         image.src = url;
       }),
     );
+    // Keep the cache bounded when users browse many designs.
+    if (textureCache.size > 16) textureCache.delete(textureCache.keys().next().value!);
   }
   return textureCache.get(url)!;
 }
@@ -24,19 +34,43 @@ export async function drawNails(
   canvasHeight: number,
   nails: NailPose[],
   design: NailDesign,
+  options: { isCurrent?: () => boolean; clear?: boolean; opacity?: number; lighting?: SceneLighting; waitForTexture?: boolean; viewport?: { x: number; y: number; width: number; height: number } } = {},
 ) {
-  for (let index = 0; index < nails.length; index += 1) {
-    await drawNail(ctx, canvasWidth, canvasHeight, nails[index], design, index);
+  // Resolve I/O before touching the shared Canvas state. No await is allowed
+  // between save/clip/restore: an older texture frame must never overpaint a new one.
+  let texture: HTMLImageElement | undefined;
+  if (design.textureUrl) {
+    const pending = loadImage(design.textureUrl).catch(() => undefined);
+    texture = options.waitForTexture === false ? readyTextures.get(design.textureUrl) : await pending;
   }
+  if (options.isCurrent && !options.isCurrent()) return false;
+  if (options.clear) ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+  ctx.save();
+  ctx.globalAlpha *= options.opacity ?? 1;
+  try {
+    const viewport = options.viewport ?? { x: 0, y: 0, width: canvasWidth, height: canvasHeight };
+    ctx.beginPath();
+    ctx.rect(viewport.x, viewport.y, viewport.width, viewport.height);
+    ctx.clip();
+    ctx.translate(viewport.x, viewport.y);
+    for (let index = 0; index < nails.length; index += 1) {
+      drawNail(ctx, viewport.width, viewport.height, nails[index], design, index, texture, options.lighting);
+    }
+  } finally {
+    ctx.restore();
+  }
+  return true;
 }
 
-export async function drawNail(
+function drawNail(
   ctx: CanvasRenderingContext2D,
   canvasWidth: number,
   canvasHeight: number,
   nail: NailPose,
   design: NailDesign,
   index = 0,
+  texture?: HTMLImageElement,
+  lighting: SceneLighting = neutralLighting,
 ) {
   const baseWidth = (nail.width / 100) * canvasWidth;
   const baseHeight = (nail.height / 100) * canvasHeight;
@@ -50,40 +84,39 @@ export async function drawNail(
   const centerX = rootX + Math.cos(angle) * height * 0.5;
   const centerY = rootY + Math.sin(angle) * height * 0.5;
 
+  drawRootShadow(ctx, rootX, rootY, nail.rotation, width, design);
   ctx.save();
-  ctx.translate(centerX, centerY);
-  ctx.rotate((nail.rotation * Math.PI) / 180);
-  buildNailPath(ctx, width, height, design.shape);
-  ctx.clip();
+  try {
+    ctx.translate(centerX, centerY);
+    ctx.rotate((nail.rotation * Math.PI) / 180);
+    buildNailPath(ctx, width, height, design.shape);
+    ctx.clip();
 
-  const rootBlend = ctx.createLinearGradient(0, -height / 2, 0, height / 2);
-  rootBlend.addColorStop(0, withAlpha(design.color, design.material === "sheer" ? 0.32 : 0.66));
-  rootBlend.addColorStop(0.22, withAlpha(design.color, design.material === "sheer" ? 0.62 : 0.9));
-  rootBlend.addColorStop(1, design.color);
-  ctx.fillStyle = rootBlend;
-  ctx.fillRect(-width / 2, -height / 2, width, height);
+    const rootBlend = ctx.createLinearGradient(0, -height / 2, 0, height / 2);
+    const sheer = design.material === "sheer" || design.material === "jelly" || design.finish === "sheer";
+    rootBlend.addColorStop(0, withAlpha(design.color, sheer ? 0.5 : 0.94));
+    rootBlend.addColorStop(0.7, withAlpha(design.color, sheer ? 0.42 : 0.87));
+    rootBlend.addColorStop(1, withAlpha(design.color, sheer ? 0.16 : 0.4));
+    ctx.fillStyle = rootBlend;
+    ctx.fillRect(-width / 2, -height / 2, width, height);
 
-  if (design.textureUrl) {
-    try {
-      const texture = await loadImage(design.textureUrl);
+    if (texture) {
       const scale = Math.max(width / texture.width, height / texture.height) * 1.25;
       const tw = texture.width * scale;
       const th = texture.height * scale;
       const drift = ((index % 5) - 2) * width * 0.09;
-      ctx.globalAlpha = design.realism * 0.52;
+      const opacity = ctx.globalAlpha;
+      ctx.globalAlpha *= design.realism * 0.72;
       ctx.drawImage(texture, -tw / 2 + drift, -th / 2, tw, th);
-      ctx.globalAlpha = 1;
-    } catch {
-      // Missing texture should not break try-on.
+      ctx.globalAlpha = opacity;
     }
+
+    drawPattern(ctx, width, height, design);
+    drawMaterial(ctx, width, height, design);
+    drawDepth(ctx, width, height, design, lighting);
+  } finally {
+    ctx.restore();
   }
-
-  drawPattern(ctx, width, height, design);
-  drawMaterial(ctx, width, height, design);
-  drawDepth(ctx, width, height, design);
-  ctx.restore();
-
-  drawRootShadow(ctx, rootX, rootY, nail.rotation, width, design);
 }
 
 function buildNailPath(ctx: CanvasRenderingContext2D, width: number, height: number, shape: NailDesign["shape"]) {
@@ -121,9 +154,9 @@ function buildNailPath(ctx: CanvasRenderingContext2D, width: number, height: num
 function drawPattern(ctx: CanvasRenderingContext2D, width: number, height: number, design: NailDesign) {
   if (design.pattern === "gradient") {
     const gradient = ctx.createLinearGradient(0, -height / 2, 0, height / 2);
-    gradient.addColorStop(0, withAlpha("#ffffff", 0.5));
+    gradient.addColorStop(0, withAlpha(design.tipColor, 0.7));
     gradient.addColorStop(0.45, withAlpha(design.color, 0.2));
-    gradient.addColorStop(1, withAlpha(design.tipColor, 0.7));
+    gradient.addColorStop(1, withAlpha(design.color, 0.1));
     ctx.fillStyle = gradient;
     ctx.fillRect(-width / 2, -height / 2, width, height);
   }
@@ -172,19 +205,31 @@ function drawMaterial(ctx: CanvasRenderingContext2D, width: number, height: numb
   }
 }
 
-function drawDepth(ctx: CanvasRenderingContext2D, width: number, height: number, design: NailDesign) {
-  const alpha = 0.18 + design.thickness * 0.2 + design.realism * 0.08;
+function drawDepth(ctx: CanvasRenderingContext2D, width: number, height: number, design: NailDesign, lighting: SceneLighting) {
+  const alpha = 0.07 + design.thickness * 0.1 + design.realism * 0.04;
   const side = ctx.createLinearGradient(-width / 2, 0, width / 2, 0);
   side.addColorStop(0, `rgba(0,0,0,${alpha})`);
   side.addColorStop(0.28, "rgba(255,255,255,0.1)");
-  side.addColorStop(0.5, "rgba(255,255,255,0.22)");
+  side.addColorStop(0.5, "rgba(255,255,255,0.1)");
   side.addColorStop(0.74, "rgba(255,255,255,0.08)");
   side.addColorStop(1, `rgba(0,0,0,${alpha * 0.7})`);
   ctx.fillStyle = side;
   ctx.fillRect(-width / 2, -height / 2, width, height);
 
-  ctx.strokeStyle = `rgba(255,255,255,${0.38 + design.realism * 0.26})`;
-  ctx.lineWidth = Math.max(1, width * 0.05);
+  const gloss = (0.15 + design.realism * 0.35) * (0.45 + lighting.brightness * 0.55);
+  // A broad, soft reflection follows the nail's local curve, with a narrow
+  // highlight on top. Both rotate with the finger instead of the screen.
+  ctx.save();
+  ctx.scale(width, height);
+  const reflection = ctx.createRadialGradient(-0.14, -0.12, 0.01, -0.08, 0, 0.42);
+  reflection.addColorStop(0, `rgba(255,${Math.round(253 - lighting.warmth * 8)},${Math.round(250 - lighting.warmth * 15)},${gloss})`);
+  reflection.addColorStop(1, "rgba(255,255,255,0)");
+  ctx.fillStyle = reflection;
+  ctx.fillRect(-0.5, -0.5, 1, 1);
+  ctx.restore();
+  ctx.strokeStyle = `rgba(255,255,255,${gloss * 0.75})`;
+  ctx.lineWidth = Math.max(0.5, width * 0.035);
+  ctx.lineCap = "round";
   ctx.beginPath();
   ctx.moveTo(-width * 0.14, -height * 0.36);
   ctx.bezierCurveTo(width * 0.05, -height * 0.18, width * 0.12, height * 0.1, width * 0.02, height * 0.38);
@@ -202,9 +247,9 @@ function drawRootShadow(
   ctx.save();
   ctx.translate(rootX, rootY);
   ctx.rotate((rotation * Math.PI) / 180);
-  ctx.fillStyle = `rgba(95, 42, 51, ${0.08 + design.realism * 0.08})`;
+  ctx.fillStyle = `rgba(65, 40, 34, ${0.04 + design.realism * 0.05})`;
   ctx.beginPath();
-  ctx.ellipse(0, 0, width * 0.52, width * 0.18, 0, 0, Math.PI * 2);
+  ctx.ellipse(0, 0, width * 0.43, width * 0.055, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
 }

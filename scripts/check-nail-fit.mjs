@@ -67,7 +67,7 @@ const smoothed = smoothing.smoothTrackedNails(nails, next);
 assert.ok(smoothed[2].x > nails[2].x && smoothed[2].x < next[2].x, "EMA did not damp a small position jitter");
 
 assert.ok(studio.includes("hasTrackingPoseRef.current = true"), "first tracking pose is not applied immediately");
-assert.ok(studio.includes("smoothTrackedNails(current, tracked)"), "adaptive nail smoothing is not wired to realtime tracking");
+assert.ok(tracking.includes("stabilizer.update(rawNails, frameTime"), "adaptive nail smoothing is not wired to realtime tracking");
 assert.ok(tracking.includes("video.videoWidth / video.videoHeight"), "video aspect ratio is not used by nail geometry");
 assert.ok(tracking.includes("image.naturalWidth / image.naturalHeight"), "photo aspect ratio is not used by nail geometry");
 

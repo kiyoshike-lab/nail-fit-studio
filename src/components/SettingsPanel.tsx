@@ -9,11 +9,12 @@ type Props = {
   onDesign: (patch: Partial<NailDesign>) => void;
   onSelectFinger: (index: number) => void;
   onNail: (patch: Partial<NailPose>) => void;
+  onReset?: () => void;
 };
 
 const fingers = ["親指", "人差し指", "中指", "薬指", "小指"];
 
-export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelectFinger, onNail }: Props) {
+export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelectFinger, onNail, onReset }: Props) {
   return (
     <section className="panel-card settings-panel" id="settings-panel" aria-labelledby="settings-title">
       <h2 id="settings-title">設定</h2>
@@ -75,22 +76,28 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
               <input type="range" min="0" max="100" step="0.1" value={nail.y} onChange={(e) => onNail({ y: Number(e.target.value) })} />
             </label>
             <label>
-              大きさ
+              幅
               <input
                 type="range"
-                min="1"
-                max="9"
+                min="0.3"
+                max="14"
                 step="0.1"
                 value={nail.width}
-                onChange={(e) => onNail({ width: Number(e.target.value), height: Number(e.target.value) * 2.1 })}
+                onChange={(e) => onNail({ width: Number(e.target.value) })}
               />
             </label>
             <label>
+              この指の長さ
+              <input type="range" min="0.4" max="18" step="0.1" value={nail.height} onChange={(e) => onNail({ height: Number(e.target.value) })} />
+            </label>
+            <label>
               角度
-              <input type="range" min="-45" max="45" step="1" value={nail.rotation} onChange={(e) => onNail({ rotation: Number(e.target.value) })} />
+              <input type="range" min="-180" max="180" step="1" value={nail.rotation} onChange={(e) => onNail({ rotation: Number(e.target.value) })} />
             </label>
           </div>
         )}
+        <p className="hint">爪の輪郭は推定です。カメラでの指別調整はこの端末に保存され、手の向きや大きさに合わせて追従します。</p>
+        {onReset && <button type="button" className="secondary" onClick={onReset}>位置を自動で合わせ直す</button>}
       </details>
     </section>
   );

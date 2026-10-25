@@ -1,5 +1,6 @@
 import type { NailDesign, NailPose } from "./types";
 import { neutralLighting, type SceneLighting } from "./sceneLighting";
+import { nailCanvasGeometry } from "./nailPoseMetrics";
 
 const textureCache = new Map<string, Promise<HTMLImageElement>>();
 const readyTextures = new Map<string, HTMLImageElement>();
@@ -72,17 +73,11 @@ function drawNail(
   texture?: HTMLImageElement,
   lighting: SceneLighting = neutralLighting,
 ) {
-  const baseWidth = (nail.width / 100) * canvasWidth;
-  const baseHeight = (nail.height / 100) * canvasHeight;
-  const width = baseWidth * (design.shape === "square" || design.shape === "squoval" ? 1.05 : design.shape === "coffin" ? 1.1 : 1);
-  const height = baseHeight * design.length;
-
-  // Keep the cuticle/root visually locked and grow toward the fingertip.
-  const angle = ((nail.rotation - 90) * Math.PI) / 180;
-  const rootX = (nail.x / 100) * canvasWidth;
-  const rootY = (nail.y / 100) * canvasHeight;
-  const centerX = rootX + Math.cos(angle) * height * 0.5;
-  const centerY = rootY + Math.sin(angle) * height * 0.5;
+  const widthScale = design.shape === "square" || design.shape === "squoval" ? 1.05 : design.shape === "coffin" ? 1.1 : 1;
+  const geometry = nailCanvasGeometry(nail, canvasWidth, canvasHeight, design.length, widthScale);
+  const { width, height } = geometry;
+  const { x: rootX, y: rootY } = geometry.root;
+  const { x: centerX, y: centerY } = geometry.center;
 
   drawRootShadow(ctx, rootX, rootY, nail.rotation, width, design);
   ctx.save();
@@ -119,7 +114,7 @@ function drawNail(
   }
 }
 
-function buildNailPath(ctx: CanvasRenderingContext2D, width: number, height: number, shape: NailDesign["shape"]) {
+export function buildNailPath(ctx: CanvasRenderingContext2D, width: number, height: number, shape: NailDesign["shape"]) {
   if (shape === "square" || shape === "squoval") {
     ctx.beginPath();
     roundRect(ctx, -width * .47, -height * .5, width * .94, height, shape === "squoval" ? width * .28 : width * .1);

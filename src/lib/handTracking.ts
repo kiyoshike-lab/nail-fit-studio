@@ -2,6 +2,8 @@ import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 import type { NailPose } from "./types";
 import { buildNailsFromLandmarks } from "./nailGeometry";
 import { NailTrackStabilizer, TrackingPerformance } from "./trackingQuality";
+import { NailFrameRefiner } from "./nailFrameRefiner";
+import { publishNailAlignmentDebug } from "./nailAlignmentDebug";
 import { initializeWithDelegateFallback } from "./trackingFallback";
 import {
   calculateProcessingSize,
@@ -56,6 +58,7 @@ export async function startHandTracking(
   let inputMode: DetectionInputMode = "video";
   let previousInputMode: DetectionInputMode = inputMode;
   const stabilizer = new NailTrackStabilizer();
+  const refiner = new NailFrameRefiner();
   const metrics = new TrackingPerformance();
   let videoFrameCallback = 0;
   const observeVideoFrame: VideoFrameRequestCallback = (_now, metadata) => {
@@ -85,18 +88,22 @@ export async function startHandTracking(
         const input = prepareDetectionInput(video, processingCanvas, processingContext, effectiveMode, metrics.budget.maxSide);
         lastInferenceTimestamp = Math.max(performance.now(), lastInferenceTimestamp + 0.01);
         const result = landmarker.detectForVideo(input, lastInferenceTimestamp);
-        const busyMs = performance.now() - startedAt;
-        metrics.recordInference(busyMs);
-        // Wait *after* a long inference too, leaving time for paint and input.
-        // Starting the interval before inference saturates slow CPUs/GPUs.
-        lastDetectionAt = frameTime + busyMs;
         consecutiveDetectionErrors = 0;
         const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
         const identity = result.handedness?.[0]?.[0];
         const rawNails = landmarks?.length
           ? buildNailsFromLandmarks(landmarks, mirrored, video.videoWidth / video.videoHeight) : [];
-        const stableNails = stabilizer.update(rawNails, frameTime, identity
+        // The Canvas input is a snapshot: landmark inference and pixel fitting
+        // must inspect the same unpainted frame, never the nail overlay.
+        const fit = input instanceof HTMLCanvasElement
+          ? refiner.refine(input, input.width, input.height, rawNails, mirrored, performance.now())
+          : { nails: rawNails, diagnostics: rawNails.map(() => ({ accepted: false, confidence: 0, reason: "no-frame-snapshot" })) };
+        const stableNails = stabilizer.update(fit.nails, frameTime, identity
           ? { label: identity.categoryName, score: identity.score } : undefined);
+        const busyMs = performance.now() - startedAt;
+        metrics.recordInference(busyMs);
+        // Also leave main-thread time after inference and refinement complete.
+        lastDetectionAt = frameTime + busyMs;
         if (stableNails) {
           successfulDetections += 1;
           consecutiveMisses = 0;
@@ -104,6 +111,11 @@ export async function startHandTracking(
           lastDetectedAt = performance.now();
           previousState = publishDetectionState("detected", previousState, onDetectionState);
           onUpdate(stableNails, true);
+          if (process.env.NODE_ENV !== "production" && landmarks) publishNailAlignmentDebug({
+            landmarks, coarse: rawNails, refined: fit.nails, stable: stableNails, fits: fit.diagnostics,
+            sourceWidth: video.videoWidth, sourceHeight: video.videoHeight, mirrored, timestamp: performance.now(),
+            sourceMode: "camera",
+          });
         } else {
           failedDetections += 1;
           consecutiveMisses += 1;
@@ -163,6 +175,7 @@ export async function startHandTracking(
         video.cancelVideoFrameCallback(videoFrameCallback);
       }
       processingCanvas.width = processingCanvas.height = 1;
+      refiner.dispose();
       if (activeTracker === tracker) activeTracker = null;
     },
   };
@@ -185,7 +198,19 @@ export async function detectHandNails(image: HTMLImageElement): Promise<NailPose
   const landmarker = await getLandmarker("IMAGE");
   const result = landmarker.detect(image);
   const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
-  return landmarks?.length ? buildNailsFromLandmarks(landmarks, false, image.naturalWidth / image.naturalHeight) : [];
+  const coarse = landmarks?.length ? buildNailsFromLandmarks(landmarks, false, image.naturalWidth / image.naturalHeight) : [];
+  const refiner = new NailFrameRefiner();
+  try {
+    const fit = refiner.refine(image, image.naturalWidth, image.naturalHeight, coarse, false, performance.now());
+    if (process.env.NODE_ENV !== "production" && landmarks) publishNailAlignmentDebug({
+      landmarks, coarse, refined: fit.nails, stable: fit.nails, fits: fit.diagnostics,
+      sourceWidth: image.naturalWidth, sourceHeight: image.naturalHeight, mirrored: false, timestamp: performance.now(),
+      sourceMode: "photo",
+    });
+    return fit.nails;
+  } finally {
+    refiner.dispose();
+  }
 }
 
 async function getLandmarker(mode: "IMAGE" | "VIDEO" = "VIDEO") {
@@ -255,7 +280,7 @@ function prepareDetectionInput(
   mode: DetectionInputMode,
   maxSide = 960,
 ) {
-  if (!context || (mode === "video" && Math.max(video.videoWidth, video.videoHeight) <= maxSide)) return video;
+  if (!context) return video;
   const sideLimit = mode === "canvas-640" ? 640 : maxSide;
   const maxWidth = Math.round(video.videoWidth * Math.min(1, sideLimit / Math.max(video.videoWidth, video.videoHeight)));
   const size = calculateProcessingSize(video.videoWidth, video.videoHeight, maxWidth);

@@ -5,6 +5,8 @@ import type { SourceMode } from "@/lib/types";
 import type { NailPose } from "@/lib/types";
 import type { HandDetectionState } from "@/lib/handTracking";
 import { containRect, pointInSource } from "@/lib/previewGeometry";
+import { NailAlignmentDebug } from "./NailAlignmentDebug";
+import type { NailDesign } from "@/lib/types";
 
 type Props = {
   mode: SourceMode;
@@ -20,11 +22,13 @@ type Props = {
   onImageError?: () => void;
   mirrored?: boolean;
   nails: NailPose[];
+  design: NailDesign;
+  liveNailsRef?: RefObject<NailPose[] | null>;
   onSelectNail: (index: number) => void;
   onMoveNail: (index: number, x: number, y: number) => void;
 };
 
-export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, detectionState = "searching", onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, onSelectNail, onMoveNail }: Props) {
+export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, detectionState = "searching", onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, design, liveNailsRef, onSelectNail, onMoveNail }: Props) {
   const [aspectRatio, setAspectRatio] = useState("4 / 3");
   const dragRef = useRef<{ pointerId: number; index: number; offsetX: number; offsetY: number } | null>(null);
 
@@ -112,6 +116,7 @@ export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, d
             transition: "opacity 300ms linear",
           }}
         />
+        {process.env.NODE_ENV !== "production" && mode !== "empty" && <NailAlignmentDebug mode={mode} design={design} nails={nails} loading={loading} liveNailsRef={liveNailsRef} />}
         {mode === "camera" && (
           <>
             <div className={`camera-guide ${detectionState === "detected" ? "is-detected" : ""}`} aria-hidden="true">

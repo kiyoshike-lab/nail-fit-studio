@@ -1,0 +1,99 @@
+import { readFile, writeFile } from 'node:fs/promises';
+import { importTypescript } from './lib/import-typescript.mjs';
+
+const args = process.argv.slice(2);
+const option = (name) => args.includes(name) ? args[args.indexOf(name) + 1] : undefined;
+if (!args.includes('--input')) throw Error('--input local prepared evaluation JSON is required');
+const data = JSON.parse(await readFile(option('--input'), 'utf8'));
+const { buildNailsFromLandmarks } = await importTypescript(args.includes('--geometry') ? option('--geometry') : 'src/lib/nailGeometry.ts');
+const refine = args.includes('--refine') ? (await importTypescript('src/lib/nailImageRefinement.ts')).refineNailsFromPixels : null;
+const rows = [];
+for (const item of data.cases) {
+  const pixels = new Uint8ClampedArray(Buffer.from(item.pixels, 'base64'));
+  const mask = new Uint8Array(Buffer.from(item.mask, 'base64'));
+  const components = connectedComponents(mask, item.width, item.height);
+  const before = buildNailsFromLandmarks(item.landmarks, false, item.width / item.height);
+  const result = refine ? refine({ data: pixels, width: item.width, height: item.height }, before, false) : null;
+  const after = result?.nails ?? before;
+  // Lock assignments to the baseline before evaluating any refinement.
+  const candidates = before.flatMap((nail, finger) => components.map((component, index) => ({
+    finger, index, distance: Math.hypot(poseCenter(nail, item.width, item.height).x - component.x, poseCenter(nail, item.width, item.height).y - component.y),
+  }))).sort((a,b)=>a.distance-b.distance);
+  const assigned = new Set(), used = new Set();
+  for (const candidate of candidates) {
+    if (assigned.has(candidate.finger) || used.has(candidate.index)) continue;
+    const component = components[candidate.index];
+    if (candidate.distance > Math.max(item.width,item.height) * .2) continue;
+    assigned.add(candidate.finger); used.add(candidate.index);
+    const baseline = evaluate(before[candidate.finger], component, item.width, item.height);
+    const improved = evaluate(after[candidate.finger], component, item.width, item.height);
+    rows.push({ file:item.file, finger:candidate.finger, before:baseline, after:improved,
+      refined:result?.diagnostics[candidate.finger]?.accepted ?? false });
+  }
+}
+const summary = (key) => ({
+  meanCenterErrorPx: mean(rows.map(row=>row[key].centerErrorPx)),
+  meanCenterErrorNailWidths: mean(rows.map(row=>row[key].centerErrorNailWidths)),
+  meanEllipseIoU: mean(rows.map(row=>row[key].iou)),
+  meanAngleErrorDeg: mean(rows.map(row=>row[key].angleErrorDeg).filter(value=>value!==null)),
+  meanWidthRatio: mean(rows.map(row=>row[key].widthRatio)),
+  meanHeightRatio: mean(rows.map(row=>row[key].heightRatio)),
+});
+const report={source:data.source,license:data.license,images:data.cases.length,matchedNails:rows.length,
+  refinedNails:rows.filter(row=>row.refined).length,
+  landmarks:data.landmarks,
+  methodology:'Coarse geometry versus image refinement using the same landmarks; baseline-locked greedy component assignment; mask centroid/PCA; ellipse approximation, not rendered design IoU. Exploratory development set, not independent model validation.',
+  before:summary('before'),after:summary('after'),rows};
+console.log(JSON.stringify({...report,rows:undefined},null,2));
+if(args.includes('--output')) await writeFile(option('--output'),JSON.stringify(report,null,2)+'\n');
+
+function poseCenter(nail,width,height) {
+  const angle=(nail.rotation-90)*Math.PI/180;
+  return {x:nail.x/100*width+Math.cos(angle)*nail.height/100*height*.5,y:nail.y/100*height+Math.sin(angle)*nail.height/100*height*.5};
+}
+function evaluate(nail,component,width,height) {
+  const center=poseCenter(nail,width,height);
+  const angle=(nail.rotation-90)*Math.PI/180;
+  const cosine=Math.cos(angle),sine=Math.sin(angle);
+  const nw=nail.width/100*width,nh=nail.height/100*height;
+  let intersection=0,area=0;
+  const label=new Set(component.indices);
+  const radius=Math.max(nw,nh)*.55;
+  for(let y=Math.max(0,Math.floor(center.y-radius));y<Math.min(height,center.y+radius+1);y++) {
+    for(let x=Math.max(0,Math.floor(center.x-radius));x<Math.min(width,center.x+radius+1);x++) {
+      const dx=x-center.x,dy=y-center.y;
+      if(((-sine*dx+cosine*dy)/(nw/2))**2+((cosine*dx+sine*dy)/(nh/2))**2<=1) {
+        area++; if(label.has(y*width+x)) intersection++;
+      }
+    }
+  }
+  const delta=Math.abs(((angle-component.angle)*180/Math.PI+540)%180-90);
+  const centerErrorPx=Math.hypot(center.x-component.x,center.y-component.y);
+  return {centerErrorPx,centerErrorNailWidths:centerErrorPx/component.width,iou:intersection/Math.max(1,area+component.indices.length-intersection),
+    angleErrorDeg:component.elongation>1.35?90-delta:null,widthRatio:nw/component.width,heightRatio:nh/component.height};
+}
+function connectedComponents(mask,width,height) {
+  const visited=new Uint8Array(mask.length),components=[];
+  for(let seed=0;seed<mask.length;seed++) {
+    if(!mask[seed]||visited[seed]) continue;
+    const queue=[seed];visited[seed]=1;
+    for(let head=0;head<queue.length;head++) {
+      const index=queue[head],x=index%width,y=Math.floor(index/width);
+      for(const neighbor of [x>0?index-1:-1,x<width-1?index+1:-1,y>0?index-width:-1,y<height-1?index+width:-1]) {
+        if(neighbor>=0&&!visited[neighbor]&&mask[neighbor]) {visited[neighbor]=1;queue.push(neighbor);}
+      }
+    }
+    if(queue.length<30) continue;
+    const xs=queue.map(index=>index%width),ys=queue.map(index=>Math.floor(index/width));
+    const x=mean(xs),y=mean(ys);
+    const xx=mean(xs.map(value=>(value-x)**2)),yy=mean(ys.map(value=>(value-y)**2));
+    const xy=mean(xs.map((value,index)=>(value-x)*(ys[index]-y)));
+    const angle=.5*Math.atan2(2*xy,xx-yy),cosine=Math.cos(angle),sine=Math.sin(angle);
+    const along=xs.map((value,index)=>(value-x)*cosine+(ys[index]-y)*sine);
+    const side=xs.map((value,index)=>-(value-x)*sine+(ys[index]-y)*cosine);
+    const w=Math.max(...side)-Math.min(...side)+1,h=Math.max(...along)-Math.min(...along)+1;
+    components.push({x,y,width:w,height:h,angle,elongation:h/w,indices:queue});
+  }
+  return components;
+}
+function mean(values) {return values.length?values.reduce((sum,value)=>sum+value,0)/values.length:0;}

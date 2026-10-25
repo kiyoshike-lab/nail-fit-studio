@@ -37,7 +37,9 @@ import type { DesignPreset, NailDesign, NailPose, SavedNailLook, SourceMode, Try
 
 const DESIGN_KEY = "nail-fit-studio-next.design.v1";
 const NAILS_KEY = "nail-fit-studio-next.nails.v1";
-const CALIBRATION_KEY = "nail-fit-studio-next.calibration.v1";
+// Corrections tuned against the old geometry must not offset a newly fitted
+// image boundary. Keep the v1 data intact; new manual adjustments use v2.
+const CALIBRATION_KEY = "nail-fit-studio-next.calibration.v2";
 
 export function NailStudio() {
   const [mode, setMode] = useState<SourceMode>("empty");
@@ -1001,6 +1003,8 @@ export function NailStudio() {
           canvasRef={canvasRef}
           mirrored={mode === "camera" && cameraMirrored}
           nails={nails}
+          design={design}
+          liveNailsRef={liveNailsRef}
           onSelectNail={setSelectedFinger}
           onMoveNail={(index, x, y) => updateNail(index, { x, y })}
           onImageError={() => {

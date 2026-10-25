@@ -7,6 +7,8 @@ const frames=new Map();
 let frameId=0;
 const logs=[];
 let saveDepth=0;
+let pixelReads=0;
+let capturedVideoInput;
 const gradients={addColorStop(){}};
 const values={globalAlpha:1};
 const stack=[];
@@ -16,7 +18,10 @@ const context=new Proxy(values,{
     if(key==="save") return ()=>{stack.push({...target});saveDepth++;};
     if(key==="restore") return ()=>{Object.assign(target,stack.pop());saveDepth--;};
     if(String(key).startsWith("create")) return ()=>gradients;
-    if(key==="getImageData") return ()=>({data:new Uint8ClampedArray(24*24*4)});
+    if(key==="getImageData") return (_x,_y,width,height)=>{
+      pixelReads++;
+      return {data:new Uint8ClampedArray(width*height*4),width,height};
+    };
     return (...args)=>logs.push({method:key,args,alpha:target.globalAlpha});
   },
 });
@@ -45,6 +50,7 @@ globalThis.__nailTrackingMock={
     const instance={
       options,videoCalls:0,imageCalls:0,closed:0,timestamps:[],
       detectForVideo(_input,timestamp){
+        capturedVideoInput=_input;
         assert.equal(options.runningMode,"VIDEO");
         if(failure) throw Error("mock frame failure");
         this.videoCalls++;
@@ -76,16 +82,21 @@ function tick(timestamp){
 tick(50);
 assert.equal(updates.at(-1).nails.length,5);
 assert.equal(updates.at(-1).detected,true);
+assert.ok(capturedVideoInput instanceof TestCanvas,"inference did not inspect a frozen camera frame");
+assert.ok(logs.some(entry=>entry.method==="drawImage"&&entry.args[0]===capturedVideoInput),"pixel refinement read a different frame from MediaPipe");
+assert.ok(pixelReads>0,"realtime tracking skipped image-boundary refinement");
 handVisible=false;
 for(let timestamp=100;timestamp<=10000;timestamp+=50) tick(timestamp);
 assert.equal(frames.size,1,"10 seconds without a hand stopped tracking");
 handVisible=true;
-tick(10050);
+// Inference may be skipped by the adaptive budget; wait a bounded number of
+// scheduled frames instead of assuming the very next RAF performs detection.
+for(let timestamp=10050;timestamp<=10450;timestamp+=100) tick(timestamp);
 assert.equal(updates.at(-1).detected,true,"re-detection failed");
 
 const photoNails=await tracking.detectHandNails({naturalWidth:1280,naturalHeight:720});
 assert.equal(photoNails.length,5);
-tick(10100);
+tick(10550);
 assert.equal(instances.filter((instance)=>instance.options.runningMode==="VIDEO").length,1);
 assert.equal(instances.filter((instance)=>instance.options.runningMode==="IMAGE").length,1);
 const videoInstance=instances[0];
@@ -97,7 +108,7 @@ const nextTracker=await tracking.startHandTracking(video,()=>{},false,()=>failed
 assert.equal(frames.size,1,"switching cameras left multiple inference loops");
 tracker.stop();
 failure=true;
-for(let timestamp=10200;timestamp<10600;timestamp+=60) tick(timestamp);
+for(let timestamp=10700;timestamp<12200;timestamp+=150) tick(timestamp);
 assert.equal(failed,1);
 assert.equal(stream.active,true,"tracker failure stopped the independent stream");
 assert.equal(frames.size,0);

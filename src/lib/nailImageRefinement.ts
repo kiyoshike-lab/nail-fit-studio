@@ -4,14 +4,16 @@ type PixelImage = { width: number; height: number; data: Uint8ClampedArray };
 export type NailFitDiagnostic = { accepted: boolean; confidence: number; reason: string; outline?: { x: number; y: number }[] };
 export type NailRefinementResult = { nails: NailPose[]; diagnostics: NailFitDiagnostic[] };
 const patchWidth = 48;
-const patchHeight = 64;
 
 // An image-based proposal, not a trained nail segmentation model. Only a compact,
 // contrasting region supported by the finger prior is eligible to replace it.
 export function refineNailsFromPixels(image: PixelImage, nails: NailPose[], mirrored: boolean): NailRefinementResult {
   const diagnostics: NailFitDiagnostic[] = [];
   const refined = nails.map((nail, index) => {
-    const result = refineFinger(image, nail, mirrored, index);
+    // Preserve the validated standard fit. Search further toward the free edge
+    // only when it failed, and accept only clearly longer regions in that pass.
+    const standard = refineFinger(image, nail, mirrored, index, false);
+    const result = standard.diagnostic.accepted ? standard : refineFinger(image, nail, mirrored, index, true);
     diagnostics.push(result.diagnostic);
     return result.nail;
   });
@@ -20,7 +22,9 @@ export function refineNailsFromPixels(image: PixelImage, nails: NailPose[], mirr
 
 type Candidate = { nail: NailPose; score: number; contrast: number; threshold: number; outline: { x: number; y: number }[] };
 
-function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, finger: number) {
+function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, finger: number, extended: boolean) {
+  const patchHeight = extended ? 96 : 64;
+  const alongSpan = extended ? 4.5 : 3;
   const fallback = (reason: string) => ({ nail, diagnostic: { accepted: false, confidence: 0, reason } as NailFitDiagnostic });
   const width = nail.width / 100 * image.width;
   const height = nail.height / 100 * image.height;
@@ -32,7 +36,7 @@ function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, fing
   const valid = new Uint8Array(patchWidth * patchHeight);
   const point = (px: number, py: number) => {
     const side = (px / (patchWidth - 1) - 0.5) * width * 3;
-    const along = (py / (patchHeight - 1) * 3 - 1) * height;
+    const along = (py / (patchHeight - 1) * alongSpan - 1) * height;
     return { x: rootX + ax * along - ay * side, y: rootY + ay * along + ax * side };
   };
   for (let y = 0; y < patchHeight; y++) for (let x = 0; x < patchWidth; x++) {
@@ -45,11 +49,11 @@ function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, fing
     for (let channel = 0; channel < 3; channel++) rgb[index * 3 + channel] = image.data[offset + channel];
   }
   const candidates: Candidate[] = [];
-  const expectedArea = patchWidth * patchHeight / 9;
+  const expectedArea = patchWidth * patchHeight / (3 * alongSpan);
   const sideSeeds = finger === 0 ? [-0.4, 0, 0.4] : [-0.15, 0, 0.15];
-  for (const along of [0.1, 0.5, 0.9, 1.25]) for (const side of sideSeeds) {
+  for (const along of extended ? [0.5, 1.8, 2.5] : [0.1, 0.5, 0.9, 1.25]) for (const side of sideSeeds) {
     const seedX = Math.round((side / 3 + 0.5) * (patchWidth - 1));
-    const seedY = Math.round((along + 1) / 3 * (patchHeight - 1));
+    const seedY = Math.round((along + 1) / alongSpan * (patchHeight - 1));
     const seed = seedY * patchWidth + seedX;
     if (!valid[seed]) continue;
     const color = [0, 0, 0];
@@ -72,11 +76,11 @@ function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, fing
           if (neighbor < 0 || visited[neighbor]) continue;
           visited[neighbor] = 1;
           if (!valid[neighbor]) continue;
-          const distance = Math.sqrt(color.reduce((sum, value, channel) => sum + (value - rgb[neighbor * 3 + channel]) ** 2, 0) / 3);
-          if (distance <= threshold) queue[tail++] = neighbor;
+          const red = color[0] - rgb[neighbor * 3], green = color[1] - rgb[neighbor * 3 + 1], blue = color[2] - rgb[neighbor * 3 + 2];
+          if (red * red + green * green + blue * blue <= threshold * threshold * 3) queue[tail++] = neighbor;
         }
       }
-      if (tail < expectedArea * 0.3 || tail > expectedArea * 3.4) continue;
+      if (tail < expectedArea * 0.3 || tail > expectedArea * (extended ? 4.5 : 3.4)) continue;
       const members = queue.subarray(0, tail);
       let minX = patchWidth, maxX = 0, minY = patchHeight, maxY = 0, xSum = 0, ySum = 0;
       const inside = new Uint8Array(valid.length);
@@ -89,12 +93,18 @@ function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, fing
       const fill = tail / ((maxX - minX + 1) * (maxY - minY + 1));
       if (fill < 0.48 || fill > 0.96) continue;
       const centerSide = (xSum / tail / (patchWidth - 1) - 0.5) * 3;
-      const centerAlong = ySum / tail / (patchHeight - 1) * 3 - 1;
-      if (Math.abs(centerSide) > (finger === 0 ? 0.8 : 0.6) || Math.abs(centerAlong - 0.5) > 0.85) continue;
+      const centerAlong = ySum / tail / (patchHeight - 1) * alongSpan - 1;
       const candidateWidth = (maxX - minX + 1) / (patchWidth - 1) * width * 3;
-      const candidateHeight = (maxY - minY + 1) / (patchHeight - 1) * height * 3;
-      if (candidateWidth / width < 0.55 || candidateWidth / width > 2 || candidateHeight / height < 0.5 || candidateHeight / height > 2) continue;
-      if (candidateHeight / candidateWidth < 0.55 || candidateHeight / candidateWidth > 3.8) continue;
+      const candidateHeight = (maxY - minY + 1) / (patchHeight - 1) * height * alongSpan;
+      const longNail = candidateHeight / height > 1.7;
+      if (extended && !longNail) continue;
+      const rootAlong = minY / (patchHeight - 1) * alongSpan - 1;
+      // A long free edge must still begin near the predicted cuticle. Extending
+      // the ROI must not turn the finger shaft or neighbouring skin into a nail.
+      if (extended && (rootAlong < -0.45 || rootAlong > 0.65 || Math.abs(centerSide) > 0.45)) continue;
+      if (Math.abs(centerSide) > (finger === 0 ? 0.8 : 0.6) || centerAlong < -0.35 || centerAlong > (extended ? 1.95 : 1.35)) continue;
+      if (candidateWidth / width < 0.55 || candidateWidth / width > 2 || candidateHeight / height < 0.5 || candidateHeight / height > (extended ? 3.25 : 2)) continue;
+      if (candidateHeight / candidateWidth < 0.55 || candidateHeight / candidateWidth > (extended ? 6 : 3.8)) continue;
       const innerMean = [0, 0, 0], outerMean = [0, 0, 0];
       const border = new Set<number>();
       for (const index of members) {
@@ -106,7 +116,7 @@ function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, fing
       if (!border.size) continue;
       for (const index of border) for (let channel = 0; channel < 3; channel++) outerMean[channel] += rgb[index * 3 + channel] / border.size;
       const contrast = Math.sqrt(innerMean.reduce((sum, value, channel) => sum + (value - outerMean[channel]) ** 2, 0) / 3);
-      if (contrast < 13) continue;
+      if (contrast < (extended ? 18 : 13)) continue;
       // Pixel PCA rotation was evaluated, but worsened mean angle error on the
       // local real-image set. Preserve the distal-axis rotation until validated.
       const root = point((minX + maxX) / 2, minY - 0.5);

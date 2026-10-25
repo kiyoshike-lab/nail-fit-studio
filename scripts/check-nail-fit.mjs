@@ -1,15 +1,15 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import ts from "typescript";
+import { importTypescript } from "./lib/import-typescript.mjs";
 
-const [geometrySource, smoothingSource, studio, tracking] = await Promise.all([
-  readFile("src/lib/nailGeometry.ts", "utf8"),
+const [smoothingSource, studio, tracking] = await Promise.all([
   readFile("src/lib/nailSmoothing.ts", "utf8"),
   readFile("src/components/NailStudio.tsx", "utf8"),
   readFile("src/lib/handTracking.ts", "utf8"),
 ]);
 
-const geometry = await importModule(geometrySource);
+const geometry = await importTypescript("src/lib/nailGeometry.ts");
 const smoothing = await importModule(smoothingSource);
 
 const hand = createHand();

@@ -9,7 +9,7 @@ export function sanitizeCalibration(value: unknown): NailCalibration[] {
     side: finiteClamp(item?.side, -2, 2, 0),
     along: finiteClamp(item?.along, -2, 2, 0),
     width: finiteClamp(item?.width, 0.4, 2, 1),
-    height: finiteClamp(item?.height, 0.4, 2, 1),
+    height: finiteClamp(item?.height, 0.4, 4, 1),
     rotation: finiteClamp(item?.rotation, -180, 180, 0),
   }));
 }
@@ -19,7 +19,7 @@ export function sanitizeCalibration(value: unknown): NailCalibration[] {
 export function applyCalibration(nail: NailPose, calibration: NailCalibration, aspect: number): NailPose {
   const angle = (nail.rotation - 90) * Math.PI / 180;
   const side = calibration.side * nail.width * aspect;
-  const along = calibration.along * nail.height;
+  const along = calibration.along * (nail.anchorHeight ?? nail.height);
   return {
     ...nail,
     x: nail.x + (Math.cos(angle) * along - Math.sin(angle) * side) / aspect,
@@ -36,7 +36,7 @@ export function calibrateNail(base: NailPose, target: NailPose, aspect: number):
   const dy = target.y - base.y;
   return sanitizeCalibration([{
     side: (-Math.sin(angle) * dx + Math.cos(angle) * dy) / (base.width * aspect),
-    along: (Math.cos(angle) * dx + Math.sin(angle) * dy) / base.height,
+    along: (Math.cos(angle) * dx + Math.sin(angle) * dy) / (base.anchorHeight ?? base.height),
     width: target.width / base.width,
     height: target.height / base.height,
     rotation: ((target.rotation - base.rotation + 540) % 360) - 180,

@@ -72,7 +72,8 @@ const video={videoWidth:1280,videoHeight:720,readyState:4,currentTime:0};
 const updates=[];
 let failed=0;
 const stream={active:true};
-const tracker=await tracking.startHandTracking(video,(nails,detected)=>updates.push({nails,detected}),false,()=>failed++);
+let naturalLength="auto";
+const tracker=await tracking.startHandTracking(video,(nails,detected)=>updates.push({nails,detected}),false,()=>failed++,undefined,()=>naturalLength);
 function tick(timestamp){
   video.currentTime+=.05;
   const callbacks=[...frames.values()];
@@ -96,7 +97,23 @@ assert.equal(updates.at(-1).detected,true,"re-detection failed");
 
 const photoNails=await tracking.detectHandNails({naturalWidth:1280,naturalHeight:720});
 assert.equal(photoNails.length,5);
+const longPhotoNails=await tracking.detectHandNails({naturalWidth:1280,naturalHeight:720},"long");
+longPhotoNails.forEach((nail,index)=>{
+  assert.equal(nail.x,photoNails[index].x);
+  assert.equal(nail.y,photoNails[index].y);
+  assert.ok(Math.abs(nail.height/photoNails[index].height-1.45)<.001);
+});
 tick(10550);
+const beforeModeChange=updates.at(-1).nails;
+naturalLength="long";
+tick(10800);
+updates.at(-1).nails.forEach((nail,index)=>{
+  assert.ok(Math.abs(nail.height/beforeModeChange[index].height-1.45)<.001);
+  assert.ok(Math.abs(nail.x-beforeModeChange[index].x)<.001);
+  assert.ok(Math.abs(nail.y-beforeModeChange[index].y)<.001);
+});
+assert.equal(stream.active,true,"changing natural nail length stopped the camera");
+assert.equal(frames.size,1,"changing natural nail length duplicated tracking");
 assert.equal(instances.filter((instance)=>instance.options.runningMode==="VIDEO").length,1);
 assert.equal(instances.filter((instance)=>instance.options.runningMode==="IMAGE").length,1);
 const videoInstance=instances[0];
@@ -108,7 +125,7 @@ const nextTracker=await tracking.startHandTracking(video,()=>{},false,()=>failed
 assert.equal(frames.size,1,"switching cameras left multiple inference loops");
 tracker.stop();
 failure=true;
-for(let timestamp=10700;timestamp<12200;timestamp+=150) tick(timestamp);
+for(let timestamp=11000;timestamp<12500;timestamp+=150) tick(timestamp);
 assert.equal(failed,1);
 assert.equal(stream.active,true,"tracker failure stopped the independent stream");
 assert.equal(frames.size,0);

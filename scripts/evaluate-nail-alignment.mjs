@@ -7,16 +7,21 @@ if (!args.includes('--input')) throw Error('--input local prepared evaluation JS
 const data = JSON.parse(await readFile(option('--input'), 'utf8'));
 const { buildNailsFromLandmarks } = await importTypescript(args.includes('--geometry') ? option('--geometry') : 'src/lib/nailGeometry.ts');
 const refine = args.includes('--refine') ? (await importTypescript('src/lib/nailImageRefinement.ts')).refineNailsFromPixels : null;
+const baselineGeometry = option('--baseline-geometry') ? (await importTypescript(option('--baseline-geometry'))).buildNailsFromLandmarks : buildNailsFromLandmarks;
+const baselineRefine = option('--baseline-refiner') ? (await importTypescript(option('--baseline-refiner'))).refineNailsFromPixels : null;
 const rows = [];
 for (const item of data.cases) {
   const pixels = new Uint8ClampedArray(Buffer.from(item.pixels, 'base64'));
   const mask = new Uint8Array(Buffer.from(item.mask, 'base64'));
   const components = connectedComponents(mask, item.width, item.height);
-  const before = buildNailsFromLandmarks(item.landmarks, false, item.width / item.height);
-  const result = refine ? refine({ data: pixels, width: item.width, height: item.height }, before, false) : null;
-  const after = result?.nails ?? before;
+  const image = { data: pixels, width: item.width, height: item.height };
+  const coarseBaseline = baselineGeometry(item.landmarks, false, item.width / item.height);
+  const before = baselineRefine?.(image, coarseBaseline, false).nails ?? coarseBaseline;
+  const coarse = buildNailsFromLandmarks(item.landmarks, false, item.width / item.height);
+  const result = refine ? refine(image, coarse, false) : null;
+  const after = result?.nails ?? coarse;
   // Lock assignments to the baseline before evaluating any refinement.
-  const candidates = before.flatMap((nail, finger) => components.map((component, index) => ({
+  const candidates = coarseBaseline.flatMap((nail, finger) => components.map((component, index) => ({
     finger, index, distance: Math.hypot(poseCenter(nail, item.width, item.height).x - component.x, poseCenter(nail, item.width, item.height).y - component.y),
   }))).sort((a,b)=>a.distance-b.distance);
   const assigned = new Set(), used = new Set();
@@ -27,23 +32,29 @@ for (const item of data.cases) {
     assigned.add(candidate.finger); used.add(candidate.index);
     const baseline = evaluate(before[candidate.finger], component, item.width, item.height);
     const improved = evaluate(after[candidate.finger], component, item.width, item.height);
-    rows.push({ file:item.file, finger:candidate.finger, before:baseline, after:improved,
+    rows.push({ file:item.file, finger:candidate.finger, maskAspect:component.elongation, before:baseline, after:improved,
       refined:result?.diagnostics[candidate.finger]?.accepted ?? false });
   }
 }
-const summary = (key) => ({
-  meanCenterErrorPx: mean(rows.map(row=>row[key].centerErrorPx)),
-  meanCenterErrorNailWidths: mean(rows.map(row=>row[key].centerErrorNailWidths)),
-  meanEllipseIoU: mean(rows.map(row=>row[key].iou)),
-  meanAngleErrorDeg: mean(rows.map(row=>row[key].angleErrorDeg).filter(value=>value!==null)),
-  meanWidthRatio: mean(rows.map(row=>row[key].widthRatio)),
-  meanHeightRatio: mean(rows.map(row=>row[key].heightRatio)),
+const summary = (key, subset = rows) => ({
+  meanCenterErrorPx: mean(subset.map(row=>row[key].centerErrorPx)),
+  meanCenterErrorNailWidths: mean(subset.map(row=>row[key].centerErrorNailWidths)),
+  meanEllipseIoU: mean(subset.map(row=>row[key].iou)),
+  meanAngleErrorDeg: mean(subset.map(row=>row[key].angleErrorDeg).filter(value=>value!==null)),
+  meanWidthRatio: mean(subset.map(row=>row[key].widthRatio)),
+  meanHeightRatio: mean(subset.map(row=>row[key].heightRatio)),
+  meanWidthRelativeError: mean(subset.map(row=>Math.abs(row[key].widthRatio - 1))),
+  meanHeightRelativeError: mean(subset.map(row=>Math.abs(row[key].heightRatio - 1))),
+  meanApproxRootErrorPx: mean(subset.map(row=>row[key].approxRootErrorPx)),
 });
+const group = (subset) => ({ matchedNails:subset.length, before:summary('before',subset), after:summary('after',subset) });
 const report={source:data.source,license:data.license,images:data.cases.length,matchedNails:rows.length,
   refinedNails:rows.filter(row=>row.refined).length,
   landmarks:data.landmarks,
-  methodology:'Coarse geometry versus image refinement using the same landmarks; baseline-locked greedy component assignment; mask centroid/PCA; ellipse approximation, not rendered design IoU. Exploratory development set, not independent model validation.',
-  before:summary('before'),after:summary('after'),rows};
+  methodology:`${baselineRefine ? 'Previous full pipeline' : 'Coarse geometry'} versus current image refinement using identical landmarks; coarse-baseline-locked greedy component assignment; mask centroid/PCA; ellipse approximation, not rendered design IoU. Approximate root is mask centroid minus half PCA length, with axis sign aligned to baseline nail. No annotated cuticle ground truth. Exploratory development set, not independent model validation.`,
+  before:summary('before'),after:summary('after'),
+  byFinger:['thumb','index','middle','ring','pinky'].map((name,index)=>({name,...group(rows.filter(row=>row.finger===index))})),
+  byMaskAspect:{elongated:group(rows.filter(row=>row.maskAspect>=1.8)),compact:group(rows.filter(row=>row.maskAspect<1.8))},rows};
 console.log(JSON.stringify({...report,rows:undefined},null,2));
 if(args.includes('--output')) await writeFile(option('--output'),JSON.stringify(report,null,2)+'\n');
 
@@ -69,7 +80,11 @@ function evaluate(nail,component,width,height) {
   }
   const delta=Math.abs(((angle-component.angle)*180/Math.PI+540)%180-90);
   const centerErrorPx=Math.hypot(center.x-component.x,center.y-component.y);
+  const direction = Math.cos(angle-component.angle) >= 0 ? 1 : -1;
+  const rootX = component.x - Math.cos(component.angle)*component.height*.5*direction;
+  const rootY = component.y - Math.sin(component.angle)*component.height*.5*direction;
   return {centerErrorPx,centerErrorNailWidths:centerErrorPx/component.width,iou:intersection/Math.max(1,area+component.indices.length-intersection),
+    approxRootErrorPx:Math.hypot(nail.x/100*width-rootX,nail.y/100*height-rootY),
     angleErrorDeg:component.elongation>1.35?90-delta:null,widthRatio:nw/component.width,heightRatio:nh/component.height};
 }
 function connectedComponents(mask,width,height) {

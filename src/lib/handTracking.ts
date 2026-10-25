@@ -4,6 +4,8 @@ import { buildNailsFromLandmarks } from "./nailGeometry";
 import { NailTrackStabilizer, TrackingPerformance } from "./trackingQuality";
 import { NailFrameRefiner } from "./nailFrameRefiner";
 import { publishNailAlignmentDebug } from "./nailAlignmentDebug";
+import { handReference } from "./handReference";
+import { naturalNailLength, type NaturalNailLength } from "./naturalNailLength";
 import { initializeWithDelegateFallback } from "./trackingFallback";
 import {
   calculateProcessingSize,
@@ -39,6 +41,7 @@ export async function startHandTracking(
   mirrored: boolean,
   onTrackingError?: TrackingErrorHandler,
   onDetectionState?: DetectionStateHandler,
+  getNaturalLength: () => NaturalNailLength = () => "auto",
 ): Promise<HandTracker> {
   const session = ++videoSession;
   activeTracker?.stop();
@@ -57,7 +60,8 @@ export async function startHandTracking(
   let previousState: HandDetectionState | null = null;
   let inputMode: DetectionInputMode = "video";
   let previousInputMode: DetectionInputMode = inputMode;
-  const stabilizer = new NailTrackStabilizer();
+  let stabilizer = new NailTrackStabilizer();
+  let previousNaturalLength = getNaturalLength();
   const refiner = new NailFrameRefiner();
   const metrics = new TrackingPerformance();
   let videoFrameCallback = 0;
@@ -91,15 +95,22 @@ export async function startHandTracking(
         consecutiveDetectionErrors = 0;
         const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
         const identity = result.handedness?.[0]?.[0];
+        const naturalLength = naturalNailLength(getNaturalLength());
+        if (naturalLength !== previousNaturalLength) {
+          stabilizer = new NailTrackStabilizer();
+          refiner.dispose();
+          previousNaturalLength = naturalLength;
+        }
         const rawNails = landmarks?.length
-          ? buildNailsFromLandmarks(landmarks, mirrored, video.videoWidth / video.videoHeight) : [];
+          ? buildNailsFromLandmarks(landmarks, mirrored, video.videoWidth / video.videoHeight, naturalLength) : [];
         // The Canvas input is a snapshot: landmark inference and pixel fitting
         // must inspect the same unpainted frame, never the nail overlay.
         const fit = input instanceof HTMLCanvasElement
           ? refiner.refine(input, input.width, input.height, rawNails, mirrored, performance.now())
           : { nails: rawNails, diagnostics: rawNails.map(() => ({ accepted: false, confidence: 0, reason: "no-frame-snapshot" })) };
         const stableNails = stabilizer.update(fit.nails, frameTime, identity
-          ? { label: identity.categoryName, score: identity.score } : undefined);
+          ? { label: identity.categoryName, score: identity.score } : undefined,
+          landmarks ? handReference(landmarks, mirrored, video.videoWidth / video.videoHeight) : undefined);
         const busyMs = performance.now() - startedAt;
         metrics.recordInference(busyMs);
         // Also leave main-thread time after inference and refinement complete.
@@ -194,11 +205,11 @@ export function resetHandTrackingEngine() {
   void previousImage?.then((landmarker) => landmarker.close()).catch(() => undefined);
 }
 
-export async function detectHandNails(image: HTMLImageElement): Promise<NailPose[]> {
+export async function detectHandNails(image: HTMLImageElement, naturalLength: NaturalNailLength = "auto"): Promise<NailPose[]> {
   const landmarker = await getLandmarker("IMAGE");
   const result = landmarker.detect(image);
   const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
-  const coarse = landmarks?.length ? buildNailsFromLandmarks(landmarks, false, image.naturalWidth / image.naturalHeight) : [];
+  const coarse = landmarks?.length ? buildNailsFromLandmarks(landmarks, false, image.naturalWidth / image.naturalHeight, naturalLength) : [];
   const refiner = new NailFrameRefiner();
   try {
     const fit = refiner.refine(image, image.naturalWidth, image.naturalHeight, coarse, false, performance.now());

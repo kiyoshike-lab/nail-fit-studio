@@ -1,4 +1,5 @@
 import type { NailPose } from "./types";
+import { applyNaturalNailLength, type NaturalNailLength } from "./naturalNailLength";
 
 export type NailLandmark = {
   x: number;
@@ -36,6 +37,7 @@ export function buildNailsFromLandmarks(
   landmarks: NailLandmark[],
   mirrored: boolean,
   frameAspect = 1,
+  naturalLength: NaturalNailLength = "auto",
 ): NailPose[] {
   if (landmarks.length < 21 || !landmarks.every((point) =>
     Number.isFinite(point.x) && Number.isFinite(point.y) && (point.z === undefined || Number.isFinite(point.z)))) return [];
@@ -78,7 +80,7 @@ export function buildNailsFromLandmarks(
       palmScale * config.palmLength * 0.72,
       palmScale * config.palmLength * 1.48,
     );
-    const bedLength = clamp(estimatedBedLength * (0.72 + 0.28 * projection), palmScale * config.palmLength * 0.72, 0.18);
+    const bedLength = Math.max(estimatedBedLength * (0.72 + 0.28 * projection), palmScale * config.palmLength * 0.72);
     const bedWidthPhysical = clamp(
       localScale * config.bedWidth + palmScale * config.palmWidth * 0.16,
       palmScale * config.palmWidth * 0.72,
@@ -106,21 +108,21 @@ export function buildNailsFromLandmarks(
       aspect,
     );
 
-    return {
-      x: clamp(root.x * 100, -3, 103),
-      y: clamp(root.y * 100, -3, 103),
+    return applyNaturalNailLength({
+      x: root.x * 100,
+      y: root.y * 100,
       width: (bedWidthPhysical / aspect) * 100,
       height: bedLength * 100,
       rotation: normalizeDegrees((Math.atan2(axis.y, axis.x) * 180) / Math.PI + 90),
       confidence: 0.55 + 0.25 * projection * Math.max(0.3, (bend + 1) / 2),
-    };
+    }, naturalLength);
   });
 }
 
 function estimatePalmScale(points: Point[], aspect: number) {
   const wristToMiddle = physicalDistance(points[0], points[9], aspect);
   const palmWidth = physicalDistance(points[5], points[17], aspect);
-  return clamp(wristToMiddle * 0.68 + palmWidth * 0.32, 0.06, 0.75);
+  return Math.max(0.0001, wristToMiddle * 0.68 + palmWidth * 0.32);
 }
 
 function toPhysicalVector(from: Point, to: Point, aspect: number): Point {

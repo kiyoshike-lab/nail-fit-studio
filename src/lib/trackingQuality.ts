@@ -1,4 +1,5 @@
 import type { NailPose } from "./types";
+import { nailFromHandFrame, nailInHandFrame, type HandReference } from "./handReference";
 
 type FilterOptions = { minCutoff: number; beta: number };
 
@@ -42,8 +43,9 @@ export class NailTrackStabilizer {
   private pendingIdentity?: string;
   private identityFrames = 0;
   private outlierFrames: number[] = [];
+  private relative = false;
 
-  update(next: NailPose[], timestamp: number, identity?: HandIdentity): NailPose[] | null {
+  update(next: NailPose[], timestamp: number, identity?: HandIdentity, reference?: HandReference): NailPose[] | null {
     if (timestamp <= this.timestamp || next.length !== 5 || !next.every(validPose)) return null;
     this.timestamp = timestamp;
     const label = identity && identity.score >= 0.8 ? identity.label : undefined;
@@ -56,23 +58,29 @@ export class NailTrackStabilizer {
       this.pendingIdentity = undefined;
       this.identityFrames = 0;
     }
-    const reset = !this.filters.length || timestamp - this.lastDetectedAt > 450 || changedHand;
+    const relative = Boolean(reference);
+    // Filter finger motion relative to the current palm, then reconstruct using
+    // this frame's measured translation/rotation/scale. Common hand movement no
+    // longer waits for five independent screen-coordinate filters to catch up.
+    const observations = reference ? next.map((nail) => nailInHandFrame(nail, reference)) : next;
+    const reset = !this.filters.length || timestamp - this.lastDetectedAt > 450 || changedHand || relative !== this.relative;
     if (reset) {
-      this.filters = next.map((nail) => ({
-        x: new OneEuroFilter({ minCutoff: 1.5, beta: 0.35 }),
-        y: new OneEuroFilter({ minCutoff: 1.5, beta: 0.35 }),
-        width: new OneEuroFilter({ minCutoff: 1.1, beta: 0.2 }),
-        height: new OneEuroFilter({ minCutoff: 1.1, beta: 0.2 }),
+      this.filters = observations.map((nail) => ({
+        x: new OneEuroFilter({ minCutoff: 1.5, beta: relative ? 0.1 : 0.35 }),
+        y: new OneEuroFilter({ minCutoff: 1.5, beta: relative ? 0.1 : 0.35 }),
+        width: new OneEuroFilter({ minCutoff: 2.5, beta: 2 }),
+        height: new OneEuroFilter({ minCutoff: 2.5, beta: 2 }),
         rotation: new OneEuroFilter({ minCutoff: 1.3, beta: 0.035 }),
         angle: nail.rotation,
       }));
       this.outlierFrames = next.map(() => 0);
     }
+    this.relative = relative;
     if (label) this.identity = label;
-    const motions = next.map((nail, index) => this.nails[index]
+    const motions = observations.map((nail, index) => this.nails[index]
       ? Math.hypot(nail.x - this.nails[index].x, nail.y - this.nails[index].y) : 0);
     const globalMotion = [...motions].sort((a, b) => a - b)[2];
-    this.nails = next.map((nail, index) => {
+    this.nails = observations.map((nail, index) => {
       const previous = this.nails[index];
       // A single finger teleporting is usually a bad landmark. Coherent hand
       // motion is accepted immediately; persistent finger movement after 2 frames.
@@ -85,13 +93,15 @@ export class NailTrackStabilizer {
         ...nail,
         x: filters.x.filter(nail.x, timestamp),
         y: filters.y.filter(nail.y, timestamp),
-        width: filters.width.filter(nail.width, timestamp),
-        height: filters.height.filter(nail.height, timestamp),
+        // Log-size filtering responds to percentage changes equally for a small
+        // pinky and a large thumb, and always reconstructs positive dimensions.
+        width: Math.exp(filters.width.filter(Math.log(nail.width), timestamp)),
+        height: Math.exp(filters.height.filter(Math.log(nail.height), timestamp)),
         rotation: normalizeAngle(filters.rotation.filter(filters.angle, timestamp)),
       };
     });
     this.lastDetectedAt = timestamp;
-    return this.nails;
+    return reference ? this.nails.map((nail) => nailFromHandFrame(nail, reference)) : this.nails;
   }
 
   opacity(timestamp: number) {

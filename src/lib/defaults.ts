@@ -1,6 +1,7 @@
 import type { NailDesign, NailPose } from "./types";
 
 export const defaultDesign: NailDesign = {
+  naturalNailLength: "auto",
   color: "#d9829b",
   shape: "oval",
   finish: "gloss",

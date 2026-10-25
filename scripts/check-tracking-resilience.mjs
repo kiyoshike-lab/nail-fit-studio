@@ -21,7 +21,7 @@ assert.ok(handTracking.includes("maxConsecutiveDetectionErrors"));
 assert.ok(handTracking.includes("detectForVideo error"));
 assert.ok(handTracking.includes("landmarkerPromise = null"));
 assert.ok(handTracking.includes("resetHandTrackingEngine"));
-assert.ok(studio.includes("detectHandNails(detectionImage)"), "写真アップロードの手認識が失われています");
+assert.ok(studio.includes("detectHandNails(detectionImage, naturalLengthRef.current)"), "写真アップロードの手認識が失われています");
 
 const compiledFallback = ts.transpileModule(fallbackSource, {
   compilerOptions: { module: ts.ModuleKind.ES2022, target: ts.ScriptTarget.ES2022 },

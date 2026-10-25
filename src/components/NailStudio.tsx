@@ -15,6 +15,7 @@ import { trackingOpacity } from "@/lib/trackingQuality";
 import { applyCalibration, calibrateNail, defaultCalibration, sanitizeCalibration } from "@/lib/nailCalibration";
 import { neutralLighting, sampleSceneLighting } from "@/lib/sceneLighting";
 import { containRect } from "@/lib/previewGeometry";
+import { naturalNailLength } from "@/lib/naturalNailLength";
 import { assetPath, loadDesignPresets } from "@/lib/presets";
 import { readJson, writeJson } from "@/lib/storage";
 import { detectHandNails, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
@@ -77,6 +78,7 @@ export function NailStudio() {
   const [initialCalibration] = useState(() => sanitizeCalibration(readJson(CALIBRATION_KEY, defaultCalibration())));
   const calibrationRef = useRef(initialCalibration);
   const photoRequestRef = useRef(0);
+  const naturalLengthRef = useRef(naturalNailLength(design.naturalNailLength));
   const lightingRef = useRef(neutralLighting);
   const lightingCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const lastLightingAtRef = useRef(0);
@@ -99,7 +101,8 @@ export function NailStudio() {
     const pattern = params.get("pattern") as NailDesign["pattern"] | null;
     const color = params.get("color");
     const length = params.get("length");
-    if (!shape && !pattern && !color && !length) return;
+    const naturalLength = params.get("naturalNailLength");
+    if (!shape && !pattern && !color && !length && !naturalLength) return;
     const timer = window.setTimeout(() => {
       setDesign((current) => ({
         ...current,
@@ -107,6 +110,7 @@ export function NailStudio() {
         ...(pattern ? { pattern } : {}),
         ...(color && /^#[0-9a-f]{6}$/i.test(color) ? { color } : {}),
         ...(length ? { length: length === "short" ? .84 : length === "long" ? 1.55 : 1.08 } : {}),
+        ...(naturalLength ? { naturalNailLength: naturalNailLength(naturalLength) } : {}),
       }));
       setStatus("診断・保存した条件を試着画面へ反映しました。写真を選んで確認してください。");
     }, 0);
@@ -114,6 +118,7 @@ export function NailStudio() {
   }, []);
 
   useEffect(() => writeJson(DESIGN_KEY, design), [design]);
+  useEffect(() => { naturalLengthRef.current = naturalNailLength(design.naturalNailLength); }, [design.naturalNailLength]);
   useEffect(() => {
     if (mode !== "photo") return;
     const timer = window.setTimeout(() => writeJson(NAILS_KEY, nails), 400);
@@ -351,6 +356,7 @@ export function NailStudio() {
             setStatus("手を探しています…手の甲を向けて、指を少し開いてください。");
           }
         },
+        () => naturalLengthRef.current,
       ),
       () => trackingRequestId === trackingRequestRef.current && streamRef.current === stream && stream.active,
     );
@@ -691,7 +697,7 @@ export function NailStudio() {
       detectionImage.onload = async () => {
         try {
           if (photoRequestId !== photoRequestRef.current) return;
-          const detected = await detectHandNails(detectionImage);
+          const detected = await detectHandNails(detectionImage, naturalLengthRef.current);
           if (photoRequestId !== photoRequestRef.current) return;
           if (detected.length) {
             setNails(detected);
@@ -723,7 +729,30 @@ export function NailStudio() {
   const updateDesign = useCallback((patch: Partial<NailDesign>) => {
     setActivePresetId(undefined);
     setDesign((current) => ({ ...current, ...patch }));
-  }, []);
+    if (patch.naturalNailLength !== undefined) {
+      naturalLengthRef.current = naturalNailLength(patch.naturalNailLength);
+      const image = imageRef.current;
+      if (mode === "photo" && image?.naturalWidth) {
+        const requestId = ++photoRequestRef.current;
+        setLoading(true);
+        setStatus("自爪の長さの目安を使って合わせ直しています…");
+        void detectHandNails(image, naturalLengthRef.current).then((detected) => {
+          if (requestId !== photoRequestRef.current) return;
+          if (detected.length) {
+            setNails(detected);
+            setStatus("自爪の長さを合わせ直しました。根元を動かさず爪先方向へ調整できます。");
+            notify("自爪の長さの目安を反映しました");
+          } else {
+            setStatus("手を認識できませんでした。指ごとの長さ調整も利用できます。");
+          }
+        }).catch(() => {
+          if (requestId === photoRequestRef.current) notify("自動認識を利用できません。指ごとに長さを調整できます。");
+        }).finally(() => {
+          if (requestId === photoRequestRef.current) setLoading(false);
+        });
+      }
+    }
+  }, [mode, notify]);
 
   const selectPreset = useCallback((preset: DesignPreset) => {
     setActivePresetId(preset.id);
@@ -804,7 +833,7 @@ export function NailStudio() {
     const requestId = ++photoRequestRef.current;
     setLoading(true);
     try {
-      const detected = await detectHandNails(image);
+      const detected = await detectHandNails(image, naturalLengthRef.current);
       if (requestId !== photoRequestRef.current) return;
       if (!detected.length) {
         notify("爪を認識できませんでした。手動調整をお試しください。");

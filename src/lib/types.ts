@@ -8,11 +8,14 @@ export type NailPose = {
   y: number;
   width: number;
   height: number;
+  // Positional calibration uses nail-bed length, not the extended free edge.
+  anchorHeight?: number;
   rotation: number;
   confidence?: number;
 };
 
 export type NailDesign = {
+  naturalNailLength?: import("./naturalNailLength").NaturalNailLength;
   color: string;
   shape: NailShape;
   finish: NailFinish;

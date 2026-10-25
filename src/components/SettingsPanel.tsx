@@ -23,7 +23,16 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
         <summary>基本</summary>
         <div className="field-grid">
           <label>
-            長さ
+            自爪の長さの目安
+            <select value={design.naturalNailLength ?? "auto"} onChange={(event) => onDesign({ naturalNailLength: event.target.value as NailDesign["naturalNailLength"] })}>
+              <option value="auto">自動（画像優先）</option>
+              <option value="short">自爪短め</option>
+              <option value="standard">自爪標準</option>
+              <option value="long">自爪長め</option>
+            </select>
+          </label>
+          <label>
+            仕上がりの長さ
             <input type="range" min="0.75" max="2.5" step="0.01" value={design.length} onChange={(e) => onDesign({ length: Number(e.target.value) })} />
           </label>
           <label>
@@ -38,6 +47,7 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
             />
           </label>
         </div>
+        <p className="hint">自爪の輪郭が見える場合は画像の長さを優先します。取れない場合は目安を使います。指ごとの長さは「詳細調整」から変えられます。</p>
       </details>
 
       <details className="setting-block">
@@ -80,7 +90,7 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
               <input
                 type="range"
                 min="0.3"
-                max="14"
+                max={Math.max(14, Math.ceil(nail.width))}
                 step="0.1"
                 value={nail.width}
                 onChange={(e) => onNail({ width: Number(e.target.value) })}
@@ -88,7 +98,7 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
             </label>
             <label>
               この指の長さ
-              <input type="range" min="0.4" max="18" step="0.1" value={nail.height} onChange={(e) => onNail({ height: Number(e.target.value) })} />
+              <input type="range" min="0.2" max={Math.max(30, Math.ceil(nail.height))} step="0.1" value={nail.height} onChange={(e) => onNail({ height: Number(e.target.value) })} />
             </label>
             <label>
               角度

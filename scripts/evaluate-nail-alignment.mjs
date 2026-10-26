@@ -10,16 +10,21 @@ const refine = args.includes('--refine') ? (await importTypescript('src/lib/nail
 const baselineGeometry = option('--baseline-geometry') ? (await importTypescript(option('--baseline-geometry'))).buildNailsFromLandmarks : buildNailsFromLandmarks;
 const baselineRefine = option('--baseline-refiner') ? (await importTypescript(option('--baseline-refiner'))).refineNailsFromPixels : null;
 const rows = [];
+const fitAudit = [];
+const proposals = [];
 for (const item of data.cases) {
   const pixels = new Uint8ClampedArray(Buffer.from(item.pixels, 'base64'));
   const mask = new Uint8Array(Buffer.from(item.mask, 'base64'));
   const components = connectedComponents(mask, item.width, item.height);
   const image = { data: pixels, width: item.width, height: item.height };
   const coarseBaseline = baselineGeometry(item.landmarks, false, item.width / item.height);
-  const before = baselineRefine?.(image, coarseBaseline, false).nails ?? coarseBaseline;
+  const beforeFit = baselineRefine?.(image, coarseBaseline, false);
+  const before = beforeFit?.nails ?? coarseBaseline;
   const coarse = buildNailsFromLandmarks(item.landmarks, false, item.width / item.height);
   const result = refine ? refine(image, coarse, false) : null;
   const after = result?.nails ?? coarse;
+  fitAudit.push({before:beforeFit?.diagnostics,after:result?.diagnostics});
+  if(option('--proposals-output')) proposals.push({file:item.file,width:item.width,height:item.height,coarse,nails:after,diagnostics:result?.diagnostics});
   // Lock assignments to the baseline before evaluating any refinement.
   const candidates = coarseBaseline.flatMap((nail, finger) => components.map((component, index) => ({
     finger, index, distance: Math.hypot(poseCenter(nail, item.width, item.height).x - component.x, poseCenter(nail, item.width, item.height).y - component.y),
@@ -49,14 +54,21 @@ const summary = (key, subset = rows) => ({
 });
 const group = (subset) => ({ matchedNails:subset.length, before:summary('before',subset), after:summary('after',subset) });
 const report={source:data.source,license:data.license,images:data.cases.length,matchedNails:rows.length,
+  inputImages:data.inputImages ?? data.cases.length, undetectedFiles:data.undetectedFiles ?? [],
   refinedNails:rows.filter(row=>row.refined).length,
   landmarks:data.landmarks,
   methodology:`${baselineRefine ? 'Previous full pipeline' : 'Coarse geometry'} versus current image refinement using identical landmarks; coarse-baseline-locked greedy component assignment; mask centroid/PCA; ellipse approximation, not rendered design IoU. Approximate root is mask centroid minus half PCA length, with axis sign aligned to baseline nail. No annotated cuticle ground truth. Exploratory development set, not independent model validation.`,
   before:summary('before'),after:summary('after'),
   byFinger:['thumb','index','middle','ring','pinky'].map((name,index)=>({name,...group(rows.filter(row=>row.finger===index))})),
   byMaskAspect:{elongated:group(rows.filter(row=>row.maskAspect>=1.8)),compact:group(rows.filter(row=>row.maskAspect<1.8))},rows};
+report.refinementAudit=Array.from({length:5},(_,finger)=>{
+  const rejected={};
+  for(const frame of fitAudit) for(const [gate,count] of Object.entries(frame.after?.[finger]?.rejected??{})) rejected[gate]=(rejected[gate]??0)+count;
+  return {finger,attempted:fitAudit.length,beforeAccepted:fitAudit.filter(frame=>frame.before?.[finger]?.accepted).length,afterAccepted:fitAudit.filter(frame=>frame.after?.[finger]?.accepted).length,rejected};
+});
 console.log(JSON.stringify({...report,rows:undefined},null,2));
 if(args.includes('--output')) await writeFile(option('--output'),JSON.stringify(report,null,2)+'\n');
+if(option('--proposals-output')) await writeFile(option('--proposals-output'),JSON.stringify(proposals));
 
 function poseCenter(nail,width,height) {
   const angle=(nail.rotation-90)*Math.PI/180;
@@ -111,4 +123,4 @@ function connectedComponents(mask,width,height) {
   }
   return components;
 }
-function mean(values) {return values.length?values.reduce((sum,value)=>sum+value,0)/values.length:0;}
+function mean(values) {return values.length?values.reduce((sum,value)=>sum+value,0)/values.length:null;}

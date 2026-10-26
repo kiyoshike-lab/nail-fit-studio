@@ -9,6 +9,8 @@ export class NailFrameRefiner {
   private previous: NailPose[] = [];
   private corrections: NailCalibration[] = [];
   private result: NailRefinementResult | null = null;
+  private sourceAspect = 0;
+  private mirrored = false;
 
   refine(source: CanvasImageSource, sourceWidth: number, sourceHeight: number, nails: NailPose[], mirrored: boolean, now: number): NailRefinementResult {
     const fallback = (): NailRefinementResult => ({ nails, diagnostics: nails.map(() => ({ accepted: false, confidence: 0, reason: "pixels-unavailable" })) });
@@ -17,12 +19,15 @@ export class NailFrameRefiner {
       return fallback();
     }
     const aspect = sourceWidth / sourceHeight;
-    const reusable = this.result && now - this.lastAt < 150 && this.previous.every((previous, index) => {
-      const current = nails[index];
-      const angle = ((current.rotation - previous.rotation + 540) % 360) - 180;
-      return Math.abs(angle) < 15 && Math.abs(current.width / previous.width - 1) < 0.2
-        && Math.hypot(current.x - previous.x, current.y - previous.y) < previous.height;
-    });
+    const reusable = this.result && now >= this.lastAt && now - this.lastAt < 150
+      && Math.abs(aspect / this.sourceAspect - 1) < 0.005 && mirrored === this.mirrored
+      && this.previous.every((previous, index) => {
+        const current = nails[index];
+        const angle = ((current.rotation - previous.rotation + 540) % 360) - 180;
+        return Math.abs(angle) < 15 && Math.abs(current.width / previous.width - 1) < 0.2
+          && Math.abs(current.height / previous.height - 1) < 0.15
+          && Math.hypot((current.x - previous.x) * aspect, current.y - previous.y) < previous.height;
+      });
     if (reusable) return {
       nails: nails.map((nail, index) => applyCalibration(nail, this.corrections[index], aspect)),
       diagnostics: this.result!.diagnostics.map((diagnostic) => ({ ...diagnostic, outline: undefined, reason: diagnostic.accepted ? "recent-relative-fit" : diagnostic.reason })),
@@ -42,6 +47,8 @@ export class NailFrameRefiner {
       this.previous = nails;
       this.corrections = result.nails.map((nail, index) => calibrateNail(nails[index], nail, aspect));
       this.lastAt = now;
+      this.sourceAspect = aspect;
+      this.mirrored = mirrored;
       return result;
     } catch {
       // Tainted, unavailable or unsupported Canvas pixel reads cannot break tracking.

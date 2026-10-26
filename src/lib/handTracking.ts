@@ -3,6 +3,7 @@ import type { NailPose } from "./types";
 import { buildNailsFromLandmarks } from "./nailGeometry";
 import { NailTrackStabilizer, TrackingPerformance } from "./trackingQuality";
 import { NailFrameRefiner } from "./nailFrameRefiner";
+import type { NailRefinementResult } from "./nailImageRefinement";
 import { publishNailAlignmentDebug } from "./nailAlignmentDebug";
 import { handReference } from "./handReference";
 import { naturalNailLength, type NaturalNailLength } from "./naturalNailLength";
@@ -92,6 +93,7 @@ export async function startHandTracking(
         const input = prepareDetectionInput(video, processingCanvas, processingContext, effectiveMode, metrics.budget.maxSide);
         lastInferenceTimestamp = Math.max(performance.now(), lastInferenceTimestamp + 0.01);
         const result = landmarker.detectForVideo(input, lastInferenceTimestamp);
+        const landmarkCompletedAt = performance.now();
         consecutiveDetectionErrors = 0;
         const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
         const identity = result.handedness?.[0]?.[0];
@@ -105,14 +107,19 @@ export async function startHandTracking(
           ? buildNailsFromLandmarks(landmarks, mirrored, video.videoWidth / video.videoHeight, naturalLength) : [];
         // The Canvas input is a snapshot: landmark inference and pixel fitting
         // must inspect the same unpainted frame, never the nail overlay.
-        const fit = input instanceof HTMLCanvasElement
+        const fit: NailRefinementResult = input instanceof HTMLCanvasElement
           ? refiner.refine(input, input.width, input.height, rawNails, mirrored, performance.now())
           : { nails: rawNails, diagnostics: rawNails.map(() => ({ accepted: false, confidence: 0, reason: "no-frame-snapshot" })) };
+        const refinementCompletedAt = performance.now();
         const stableNails = stabilizer.update(fit.nails, frameTime, identity
           ? { label: identity.categoryName, score: identity.score } : undefined,
           landmarks ? handReference(landmarks, mirrored, video.videoWidth / video.videoHeight) : undefined);
         const busyMs = performance.now() - startedAt;
-        metrics.recordInference(busyMs);
+        metrics.recordInference(busyMs, {
+          landmarkMs: landmarkCompletedAt - startedAt,
+          refinementMs: refinementCompletedAt - landmarkCompletedAt,
+          stabilizationMs: performance.now() - refinementCompletedAt,
+        });
         // Also leave main-thread time after inference and refinement complete.
         lastDetectionAt = frameTime + busyMs;
         if (stableNails) {
@@ -155,6 +162,7 @@ export async function startHandTracking(
             inputMode,
             processingWidth: input instanceof HTMLCanvasElement ? input.width : video.videoWidth,
             processingHeight: input instanceof HTMLCanvasElement ? input.height : video.videoHeight,
+            fits: fit.diagnostics.map(({ accepted, reason, rejected, candidates, supportThresholds }) => ({ accepted, reason, rejected, candidates, supportThresholds })),
           });
           previousInputMode = inputMode;
         }

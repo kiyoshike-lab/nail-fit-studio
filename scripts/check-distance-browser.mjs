@@ -12,9 +12,12 @@ const browser=await chromium.launch({channel:'chrome',headless:true,args:['--use
 try {
  const page=await browser.newPage({viewport:{width:390,height:844}});
  page.setDefaultTimeout(20000);
- const errors=[],metrics=[];
+ const errors=[],metrics=[],canvasMetrics=[];
  page.on('pageerror',e=>errors.push(e.message));
- page.on('console',async msg=>{if(msg.text().includes('Tracking performance'))metrics.push(await Promise.all(msg.args().map(a=>a.jsonValue().catch(()=>null))));});
+ page.on('console',async msg=>{
+  const destination=msg.text().includes('Tracking performance')?metrics:msg.text().includes('Canvas performance')?canvasMetrics:null;
+  if(destination) destination.push(await Promise.all(msg.args().map(a=>a.jsonValue().catch(()=>null))));
+ });
  await page.route(/googlesyndication|googletagmanager|google-analytics/,route=>route.abort());
  await page.route('**/__qa__/hand.jpg',route=>route.fulfill({path:inputImage,contentType:'image/jpeg'}));
  await page.goto(`${baseUrl}/try-on`,{waitUntil:'networkidle'});
@@ -35,8 +38,8 @@ try {
  await page.evaluate(async()=>{
   const image=new Image();image.src='/__qa__/hand.jpg';await image.decode();
   const canvas=document.createElement('canvas');canvas.width=640;canvas.height=480;const ctx=canvas.getContext('2d');
-  globalThis.__scale=.65;globalThis.__dx=0;globalThis.__dy=0;
-  globalThis.__timer=setInterval(()=>{ctx.fillStyle='#777';ctx.fillRect(0,0,640,480);if(!globalThis.__blank){const w=360*globalThis.__scale,h=480*globalThis.__scale;ctx.drawImage(image,320-w/2+globalThis.__dx,240-h/2+globalThis.__dy,w,h);}},33);
+  globalThis.__scale=.65;globalThis.__dx=0;globalThis.__dy=0;globalThis.__angle=0;
+  globalThis.__timer=setInterval(()=>{ctx.fillStyle='#777';ctx.fillRect(0,0,640,480);if(!globalThis.__blank){const w=360*globalThis.__scale,h=480*globalThis.__scale;ctx.save();ctx.translate(320+globalThis.__dx,240+globalThis.__dy);ctx.rotate(globalThis.__angle);ctx.drawImage(image,-w/2,-h/2,w,h);ctx.restore();}},33);
   globalThis.__stream=canvas.captureStream(30);
   navigator.mediaDevices.getUserMedia=async()=>globalThis.__stream;
   navigator.mediaDevices.enumerateDevices=async()=>[{deviceId:'qa-usb',kind:'videoinput',label:'USB QA camera'}];
@@ -44,7 +47,7 @@ try {
  await page.locator('.bottom-nav').getByRole('button',{name:'カメラ',exact:false}).click();
  await page.waitForFunction(()=>document.querySelector('.detection-status')?.textContent==='手を検出しました',null,{timeout:45000});
  await page.waitForTimeout(2500);
- const pose=async()=>({x:Number(await page.getByLabel('横位置',{exact:true}).inputValue()),y:Number(await page.getByLabel('縦位置',{exact:true}).inputValue()),width:Number(await page.getByLabel('幅',{exact:true}).inputValue()),height:Number(await page.getByLabel('この指の長さ',{exact:true}).inputValue())});
+ const pose=async()=>({x:Number(await page.getByLabel('横位置',{exact:true}).inputValue()),y:Number(await page.getByLabel('縦位置',{exact:true}).inputValue()),width:Number(await page.getByLabel('幅',{exact:true}).inputValue()),height:Number(await page.getByLabel('この指の長さ',{exact:true}).inputValue()),rotation:Number(await page.getByLabel('角度',{exact:true}).inputValue())});
  const far=await pose();
  await page.evaluate(()=>globalThis.__scale=.9);
  await page.waitForTimeout(3000);
@@ -55,6 +58,11 @@ try {
  const shifted=await pose();
  assert.ok(shifted.x-near.x>3,'horizontal move did not follow');
  assert.ok(shifted.y-near.y>0,'vertical move did not follow');
+ await page.evaluate(()=>globalThis.__angle=.10);
+ await page.waitForTimeout(2200);
+ const rotated=await pose();
+ assert.ok(Math.abs(rotated.rotation-shifted.rotation)>2,'image rotation did not follow');
+ assert.ok(rotated.width/shifted.width>.75&&rotated.width/shifted.width<1.35,'slight rotation caused a size jump');
  await page.getByLabel(/自爪の長さの目安/).selectOption('long');
  await page.waitForTimeout(1200);
  assert.equal(await page.evaluate(()=>document.querySelector('video').srcObject===globalThis.__stream&&globalThis.__stream.active),true);
@@ -75,5 +83,5 @@ try {
  assert.equal((await download).suggestedFilename(),'nail-fit-studio.png');
  if(option('--screenshot')) await page.screenshot({path:path.resolve(option('--screenshot'))});
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({far,near,shifted,widthRatio:near.width/far.width,metrics:metrics.slice(-4),errors,passed:'photo/long-mode persistence, 320/390/1280 no overflow, mock camera real MediaPipe scale/XY, no restart on natural-length, loss/recovery, autofit/capture/save, track release'},null,2));
+ console.log(JSON.stringify({far,near,shifted,rotated,widthRatio:near.width/far.width,metrics:metrics.slice(-4),canvasMetrics:canvasMetrics.slice(-4),errors,passed:'photo/long-mode persistence, 320/390/1280 no overflow, mock camera real MediaPipe scale/XY/rotation, no restart on natural-length, loss/recovery, autofit/capture/save, track release'},null,2));
 } finally {await browser.close();}

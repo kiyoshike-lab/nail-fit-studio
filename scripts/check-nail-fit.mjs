@@ -30,7 +30,7 @@ for (const [finger, tipIndex, dipIndex] of [
 
 assert.ok(nails[4].width < nails[3].width, "pinky width must be smaller than ring finger");
 assert.ok(nails[4].height < nails[3].height, "pinky height must be smaller than ring finger");
-assert.ok(nails[0].width > nails[1].width, "thumb needs its own wider geometry");
+assert.ok(nails[0].width > nails[4].width && nails[0].width < nails[1].width * 1.25, "sideways thumb prior must not balloon relative to the other fingers");
 
 const small = geometry.buildNailsFromLandmarks(scaleHand(hand, 0.72), false, 4 / 3);
 const large = geometry.buildNailsFromLandmarks(scaleHand(hand, 1.25), false, 4 / 3);

@@ -1,0 +1,838 @@
+{
+  "modelSizeBytes": 303761,
+  "sha256": "f38a900d0ad61aa3364dcbe8e2dfb18b4ad50c00637417845b01bd8b59b8fc57",
+  "checkpointMetrics": {
+    "epoch": 4,
+    "best_iou": 0.69282696463845,
+    "best_threshold": 0.55,
+    "image_size": 192
+  },
+  "images": 28,
+  "evaluatedROIs": 135,
+  "beforeMeanROIiOU": 0.2843090528759689,
+  "modelMeanROIiOU": 0.677138466085713,
+  "cpuBatch5MedianMs": 122.4170000000413,
+  "cpuBatch5P95Ms": 136.55022499999632,
+  "rows": [
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.14531336661120356,
+      "modelROIiOU": 0.21073263044065962
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.24478837650031585,
+      "modelROIiOU": 0.7893673807978071
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.21374957352439442,
+      "modelROIiOU": 0.7913883868940049
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.23508522727272727,
+      "modelROIiOU": 0.7791872020683526
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.21110992643138926,
+      "modelROIiOU": 0.8097975064108233
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.12877319302132373,
+      "modelROIiOU": 0.48637015781922527
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.00026483050847457627,
+      "modelROIiOU": 0.5399796541200407
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.015451947123972848,
+      "modelROIiOU": 0.6833621808740805
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.13424480568414254,
+      "modelROIiOU": 0.782991202346041
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.12394765358006168,
+      "modelROIiOU": 0.6571616402333799
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.0,
+      "modelROIiOU": 0.6749817916970139
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.3622198505869797,
+      "modelROIiOU": 0.8156899810964083
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.1125454317583657,
+      "modelROIiOU": 0.7441808163724277
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.0943260958623515,
+      "modelROIiOU": 0.6983279971540377
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.19396274887604367,
+      "modelROIiOU": 0.8573212613175148
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.39850446835673903,
+      "modelROIiOU": 0.8399317406143345
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.8408287825248956,
+      "modelROIiOU": 0.7472620050547599
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.3415542112610517,
+      "modelROIiOU": 0.7544588321524555
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.29679802955665024,
+      "modelROIiOU": 0.6739103593036178
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.39332329317269077,
+      "modelROIiOU": 0.5378121070594575
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.0,
+      "modelROIiOU": 0.30790378006872854
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.6069585483602464,
+      "modelROIiOU": 0.5759670539785262
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.31303520456707895,
+      "modelROIiOU": 0.7825811559778305
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.14637763833428408,
+      "modelROIiOU": 0.7215357458075905
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.11840902163974398,
+      "modelROIiOU": 0.4344395280235988
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.12491215741391426,
+      "modelROIiOU": 0.3057946732913513
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.11839666357738647,
+      "modelROIiOU": 0.8552160748692541
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.18392857142857144,
+      "modelROIiOU": 0.8544004725339633
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.3594269634177539,
+      "modelROIiOU": 0.8258299226921327
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.0489171974522293,
+      "modelROIiOU": 0.7769002961500494
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.23291332569683085,
+      "modelROIiOU": 0.6140429338103757
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.2916191562143672,
+      "modelROIiOU": 0.8268434134217068
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.09402720283855706,
+      "modelROIiOU": 0.8460606060606061
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.2947549864565378,
+      "modelROIiOU": 0.6915073115860517
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.4466313398940197,
+      "modelROIiOU": 0.6272952853598015
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.3370955605718585,
+      "modelROIiOU": 0.5565669700910273
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.2784471218206158,
+      "modelROIiOU": 0.7398260869565217
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.1056012848825537,
+      "modelROIiOU": 0.8359592215013901
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.42222813081627225,
+      "modelROIiOU": 0.7847243609485679
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.5982280431432974,
+      "modelROIiOU": 0.7317886932344764
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.23912298732442616,
+      "modelROIiOU": 0.7301862278042442
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.2605820105820106,
+      "modelROIiOU": 0.9159135559921414
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.18641618497109827,
+      "modelROIiOU": 0.8735971647962197
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.28639082751744765,
+      "modelROIiOU": 0.8163869693978283
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.49455984174085066,
+      "modelROIiOU": 0.8355767239594118
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.29429429429429427,
+      "modelROIiOU": 0.5951534733441034
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.2742025741466144,
+      "modelROIiOU": 0.7083876575401999
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.08663819402074435,
+      "modelROIiOU": 0.47115384615384615
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.2773722627737226,
+      "modelROIiOU": 0.7479586281981492
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.36746445924059745,
+      "modelROIiOU": 0.7618464766567582
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.33359936153232245,
+      "modelROIiOU": 0.6423049894588897
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.4110714285714286,
+      "modelROIiOU": 0.7511627906976744
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.21872265966754156,
+      "modelROIiOU": 0.7503040129712201
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.4292149292149292,
+      "modelROIiOU": 0.6831385642737896
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.7351755900978699,
+      "modelROIiOU": 0.7043399638336347
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.3003964623360781,
+      "modelROIiOU": 0.7610976594027441
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.2453264308311763,
+      "modelROIiOU": 0.806282722513089
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.17256534813786722,
+      "modelROIiOU": 0.6551238738738738
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.4259877573734001,
+      "modelROIiOU": 0.8159349593495935
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.37922323965898325,
+      "modelROIiOU": 0.7870477449198744
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.08237861429350792,
+      "modelROIiOU": 0.15784499054820417
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.21186035389765662,
+      "modelROIiOU": 0.8195070235886562
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.2706337509211496,
+      "modelROIiOU": 0.8670127301940428
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.18488850400519594,
+      "modelROIiOU": 0.7553719008264462
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.20380494205116992,
+      "modelROIiOU": 0.7716568544995794
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.1110494169905608,
+      "modelROIiOU": 0.039527487505679235
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.2871551468407001,
+      "modelROIiOU": 0.8054474708171206
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.2939992898567878,
+      "modelROIiOU": 0.8253484320557491
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.3176961167578838,
+      "modelROIiOU": 0.8426605504587156
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.4187940485512921,
+      "modelROIiOU": 0.8150092211661228
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.1816809260191243,
+      "modelROIiOU": 0.0852510460251046
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.8412733260153678,
+      "modelROIiOU": 0.9311621021465581
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.7049475262368815,
+      "modelROIiOU": 0.8472890599935836
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.4267662263067203,
+      "modelROIiOU": 0.7669608383894099
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.2378112942827078,
+      "modelROIiOU": 0.6015952980688497
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.8864970645792564,
+      "modelROIiOU": 0.5449761552376254
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.28425748884639895,
+      "modelROIiOU": 0.31260248301710003
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.24404697769636893,
+      "modelROIiOU": 0.5845246426072178
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.31287228672387685,
+      "modelROIiOU": 0.717111674137595
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.5468134414831981,
+      "modelROIiOU": 0.5538737526628545
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.2839867109634551,
+      "modelROIiOU": 0.7508609271523179
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.2678241216355044,
+      "modelROIiOU": 0.7984213122841638
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.0937748043995918,
+      "modelROIiOU": 0.8002280501710376
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.17217084984588288,
+      "modelROIiOU": 0.7882258923814598
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.19882648784576698,
+      "modelROIiOU": 0.8374049506552338
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.009264458169567658,
+      "modelROIiOU": 0.08136180034622043
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.19274527186761228,
+      "modelROIiOU": 0.26425897379431845
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.19947784939218405,
+      "modelROIiOU": 0.2138139117671043
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.18317049555496875,
+      "modelROIiOU": 0.20750156655626176
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.24112339930151339,
+      "modelROIiOU": 0.05010759299108515
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.0,
+      "modelROIiOU": 0.03686396677050883
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.8522222222222222,
+      "modelROIiOU": 0.8764317945157931
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.5853951477300025,
+      "modelROIiOU": 0.8712780577187357
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.6855533465871438,
+      "modelROIiOU": 0.8796693202694428
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.7084201130615888,
+      "modelROIiOU": 0.8902134738009426
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.26238252476504953,
+      "modelROIiOU": 0.5209526680735604
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.09394673123486683,
+      "modelROIiOU": 0.3872236394557823
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.08850518006906759,
+      "modelROIiOU": 0.5565265486725663
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.5915522481920135,
+      "modelROIiOU": 0.7135591496287255
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.26048748134637706,
+      "modelROIiOU": 0.6898681355366383
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.2197346600331675,
+      "modelROIiOU": 0.6432217104444168
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.37545520757465406,
+      "modelROIiOU": 0.8912882982650424
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.3366606170598911,
+      "modelROIiOU": 0.8721943980708589
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.25510660503951094,
+      "modelROIiOU": 0.8642014663691425
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.2048004987531172,
+      "modelROIiOU": 0.8152192172014111
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.11107888631090487,
+      "modelROIiOU": 0.18830634092780676
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.2657522503214745,
+      "modelROIiOU": 0.7922908981404803
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.24527747871195066,
+      "modelROIiOU": 0.8013536379018612
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.2434590732373647,
+      "modelROIiOU": 0.7616184595385115
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.20934658490167055,
+      "modelROIiOU": 0.8227466288147622
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.3527644230769231,
+      "modelROIiOU": 0.6870830806549424
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.38829615260265116,
+      "modelROIiOU": 0.918391994478951
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.3694557270511779,
+      "modelROIiOU": 0.9073256840247131
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.5244990739181681,
+      "modelROIiOU": 0.8786162559314251
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.5745733788395905,
+      "modelROIiOU": 0.9078732440378962
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.4239961759082218,
+      "modelROIiOU": 0.2894644732236612
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.1583011583011583,
+      "modelROIiOU": 0.8599167822468793
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.12526284169420246,
+      "modelROIiOU": 0.8303182579564489
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.03590878148400272,
+      "modelROIiOU": 0.8690527218174025
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.21905101676774885,
+      "modelROIiOU": 0.7957487613872463
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.31115572125035845,
+      "modelROIiOU": 0.6450016496205873
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.32067390062821244,
+      "modelROIiOU": 0.7367898784420739
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.2032967032967033,
+      "modelROIiOU": 0.7184444927221377
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.35218093699515346,
+      "modelROIiOU": 0.8412408759124088
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.1495086569957885,
+      "modelROIiOU": 0.7876668785759695
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.202437106918239,
+      "modelROIiOU": 0.10355781448538755
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.6723497267759563,
+      "modelROIiOU": 0.8250053157559005
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.18254837531945967,
+      "modelROIiOU": 0.8684812442817932
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.30755573091339516,
+      "modelROIiOU": 0.860775030685604
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.17421773142112126,
+      "modelROIiOU": 0.8088911599386817
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 0,
+      "pixelEllipseROIiOU": 0.0,
+      "modelROIiOU": 0.12104347826086957
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 1,
+      "pixelEllipseROIiOU": 0.1911211437170805,
+      "modelROIiOU": 0.607427612253462
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 2,
+      "pixelEllipseROIiOU": 0.0872320811246831,
+      "modelROIiOU": 0.6375449995609799
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 3,
+      "pixelEllipseROIiOU": 0.21581153922938712,
+      "modelROIiOU": 0.6299711815561959
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 4,
+      "pixelEllipseROIiOU": 0.32576923076923076,
+      "modelROIiOU": 0.5838171262699564
+    }
+  ],
+  "methodology": "Landmark-prior-only axis-aligned crops, 192px, threshold from checkpoint. ROI semantic mask IoU includes every labelled nail in the crop; heuristic uses a nail ellipse. This is not an end-to-end alignment or independent accuracy benchmark. CPU forward plus sigmoid timing, batch of five, two threads, excludes preprocessing. No model is deployed.",
+  "torchVersion": "2.12.0+cu130",
+  "parameters": 66983,
+  "modelRedistributionLicense": "Not established by checkpoint metadata; source dataset notices alone do not establish model provenance.",
+  "trainingOverlap": {
+    "trainImages": 25,
+    "validationImages": 3,
+    "unseenImages": 0,
+    "rule": "basename, remove RF suffix and hyphens; approximate source identity, not person-level split"
+  }
+}

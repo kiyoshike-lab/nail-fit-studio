@@ -48,6 +48,8 @@ try {
   }
   for (const [mode, cases] of [['image', imageCases], ['video', videoCases]]) {
     await writeFile(`${option('--output-prefix')}-${mode}.json`, JSON.stringify({ ...data,
+      inputImages: data.cases.length,
+      undetectedFiles: data.cases.filter(item=>!cases.some(detected=>detected.file===item.file)).map(item=>item.file),
       landmarks: `current self-hosted MediaPipe CPU, ${mode.toUpperCase()} mode, longest input side 640px; VIDEO repeats each still 3 times`, cases }));
     console.log(`${mode}: ${cases.length}/${data.cases.length} images detected`);
   }

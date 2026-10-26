@@ -26,7 +26,7 @@ const pipIndexes = [2, 6, 10, 14, 18];
 // Values are tuned per finger from the distal phalanx rather than applying one
 // generic oval to all five fingers. Pinky is intentionally the smallest.
 const fingerGeometry: FingerGeometry[] = [
-  { distalWeight: 0.9, bedLength: 0.7, bedWidth: 0.68, palmLength: 0.165, palmWidth: 0.115, tipExtension: 0.035, lateralBias: 0.12 },
+  { distalWeight: 0.9, bedLength: 0.7, bedWidth: 0.50, palmLength: 0.165, palmWidth: 0.09, tipExtension: 0.035, lateralBias: -0.30 },
   { distalWeight: 0.8, bedLength: 0.66, bedWidth: 0.52, palmLength: 0.16, palmWidth: 0.09, tipExtension: 0.025, lateralBias: 0 },
   { distalWeight: 0.78, bedLength: 0.68, bedWidth: 0.54, palmLength: 0.17, palmWidth: 0.094, tipExtension: 0.025, lateralBias: 0 },
   { distalWeight: 0.8, bedLength: 0.64, bedWidth: 0.5, palmLength: 0.155, palmWidth: 0.086, tipExtension: 0.023, lateralBias: -0.01 },
@@ -64,6 +64,16 @@ export function buildNailsFromLandmarks(
     const distalAxis = normalize(distalVector);
     const proximalAxis = normalize(proximalVector);
     const bend = clamp(dot(distalAxis, proximalAxis), -1, 1);
+    const proximalDepth = ((landmarks[dipIndexes[fingerIndex]].z ?? 0) - (landmarks[pipIndexes[fingerIndex]].z ?? 0)) * aspect;
+    const spatialBend = (dot(distalVector, proximalVector) + depth * proximalDepth)
+      / (Math.hypot(distalLength, depth) * Math.hypot(proximalLength, proximalDepth) || 1);
+    // A strongly folded thumb needs the previous wider prior. Blend smoothly
+    // rather than forcing a side-view shrink onto every thumb orientation.
+    // Joint bend is only a pose proxy, not a measured nail-surface normal.
+    const thumbSideWeight = fingerIndex === 0 ? clamp((spatialBend - 0.6) / 0.2, 0, 1) : 1;
+    const widthCoefficient = fingerIndex === 0 ? 0.68 + (config.bedWidth - 0.68) * thumbSideWeight : config.bedWidth;
+    const palmWidthCoefficient = fingerIndex === 0 ? 0.115 + (config.palmWidth - 0.115) * thumbSideWeight : config.palmWidth;
+    const lateralBias = fingerIndex === 0 ? 0.12 + (config.lateralBias - 0.12) * thumbSideWeight : config.lateralBias;
     // A bent or oblique finger should follow its distal segment more strongly.
     const distalWeight = clamp(config.distalWeight + (1 - bend) * 0.13, config.distalWeight, 0.96);
     const axis = normalize({
@@ -82,19 +92,21 @@ export function buildNailsFromLandmarks(
     );
     const bedLength = Math.max(estimatedBedLength * (0.72 + 0.28 * projection), palmScale * config.palmLength * 0.72);
     const bedWidthPhysical = clamp(
-      localScale * config.bedWidth + palmScale * config.palmWidth * 0.16,
-      palmScale * config.palmWidth * 0.72,
-      palmScale * config.palmWidth * 1.42,
+      localScale * widthCoefficient + palmScale * palmWidthCoefficient * 0.16,
+      palmScale * palmWidthCoefficient * 0.72,
+      palmScale * palmWidthCoefficient * 1.42,
     );
 
-    let lateralOffset = bedWidthPhysical * config.lateralBias * (mirrored ? -1 : 1);
+    let lateralOffset = bedWidthPhysical * lateralBias * (mirrored ? -1 : 1);
     if (fingerIndex === 0) {
-      // Thumb landmarks are often slightly off-centre. Move toward the index
-      // finger in the thumb's perpendicular axis instead of using handedness
-      // alone, which remains reliable for mirrored and external cameras.
+      // Define the sign using the index finger, not a handedness label. The
+      // thumb nail's visible plate is often on the outward side of this axis.
+      // This is a conservative per-thumb prior, not an observed nail boundary.
+      // Width/side changes were compared on two local image/mask collections;
+      // length is intentionally independent and the other four priors unchanged.
       const towardIndex = toPhysicalVector(dip, points[dipIndexes[1]], aspect);
       const towardIndexSign = Math.sign(dot(towardIndex, sideAxis)) || 1;
-      lateralOffset = bedWidthPhysical * config.lateralBias * towardIndexSign;
+      lateralOffset = bedWidthPhysical * lateralBias * towardIndexSign;
     }
 
     const tipExtension = bedLength * config.tipExtension;

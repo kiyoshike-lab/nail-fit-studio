@@ -123,6 +123,7 @@ export class TrackingPerformance {
   private cameraFrames = 0;
   private presentedFrames = 0;
   private lastPresentedFrame?: number;
+  private phases?: { landmarkMs: number; refinementMs: number; stabilizationMs: number };
 
   frame(timestamp: number, videoTime: number) {
     if (!this.windowStart) this.windowStart = timestamp;
@@ -131,8 +132,16 @@ export class TrackingPerformance {
     this.lastVideoTime = videoTime;
   }
 
-  recordInference(durationMs: number) {
+  recordInference(durationMs: number, phases?: { landmarkMs: number; refinementMs: number; stabilizationMs: number }) {
     this.duration = this.samples ? this.duration * 0.85 + durationMs * 0.15 : durationMs;
+    if (phases) {
+      const previous = this.phases;
+      this.phases = previous ? {
+        landmarkMs: previous.landmarkMs * 0.85 + phases.landmarkMs * 0.15,
+        refinementMs: previous.refinementMs * 0.85 + phases.refinementMs * 0.15,
+        stabilizationMs: previous.stabilizationMs * 0.85 + phases.stabilizationMs * 0.15,
+      } : phases;
+    }
     this.samples += 1;
     this.detections += 1;
   }
@@ -159,6 +168,7 @@ export class TrackingPerformance {
       schedulerFps: this.frames / seconds,
       detectionFps: this.detections / seconds,
       inferenceMs: this.duration,
+      ...this.phases,
       ...this.budget,
     };
     this.windowStart = timestamp;

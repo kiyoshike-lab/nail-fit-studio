@@ -1,0 +1,3882 @@
+{
+  "source": "https://universe.roboflow.com/fingernail/fingernail_detetction",
+  "license": "Public Domain (local export README)",
+  "images": 34,
+  "matchedNails": 147,
+  "inputImages": 90,
+  "undetectedFiles": [
+    "train/Fingernail-4_jpg.rf.083eb6f318c3774dc440560f52a0ee95.jpg",
+    "train/Fingernail-6_jpg.rf.5d6e1af0463007d39f65a8e39f7d5eb3.jpg",
+    "train/Fingernail-2_jpg.rf.916e7c713cffa40cf0285d6fcdc5b727.jpg",
+    "train/Fingernail-12_jpg.rf.db472526424bb49426f3a38278701f44.jpg",
+    "train/Fingernail-5_jpg.rf.c0f138329abf91c47074f2e77e93654e.jpg",
+    "train/5cd5600c1d9802091f835f8eab46bc2c_jpg.rf.072efe0ee2556fe11f5fd64fda03ff63.jpg",
+    "train/4726ae9953948a3f3809fa4cd8c38925_jpg.rf.3147cf77a066c9f92c2483d5b9b1494f.jpg",
+    "train/12ab744fd62762dcee93bf3d547d0160_jpg.rf.38c8528af1aef77a373babaefceb20f2.jpg",
+    "train/817a391437430659d740ad8c7c997020_jpg.rf.ff297670e1da544615831104e74fcfc5.jpg",
+    "train/2C29D473-CCB4-458C-926B-99D0042161E6_jpg.rf.8b723a1c6edb5e8970bf3dd9e3afe37e.jpg",
+    "train/f_2_jpg.rf.a54167109f671e2b25e9c4189a9d855c.jpg",
+    "train/08b5224d1dde484d5af2da2591fa26c9_jpg.rf.e78ca328c9004e59b112f636231a860e.jpg",
+    "train/09aefeec-e05f-11e8-87a6-0242ac1c0002_jpg.rf.b81222e199bec9c89ac5cfb0ec5eb8bf.jpg",
+    "train/f_6_jpg.rf.d0c16faf77724b2b142086ac10688dce.jpg",
+    "train/f_7_jpg.rf.e4fa188fd97ee5574a8418411af38175.jpg",
+    "train/f_10_jpg.rf.2ebb1ab779f87777c12c220c6ab53990.jpg",
+    "train/4c472e18-e402-11e8-97db-0242ac1c0002_jpg.rf.cffafd76af7a52922183bde5cccad8e8.jpg",
+    "train/f_5_jpg.rf.3771c89caa24ec625ae3fc27636e0d8a.jpg",
+    "train/f_14_jpg.rf.6142390a1f7dc21e601a8272d77a7ab1.jpg",
+    "train/f_15_jpg.rf.f9620e220f05cb76a2b218bdd3f8c9f6.jpg",
+    "train/f_13_jpg.rf.2c9d8f85c23a4ac58a89d79a90038d2d.jpg",
+    "train/f_27_jpg.rf.a0cba810b4b1320450ad6df5ab9f1654.jpg",
+    "train/f_29_jpg.rf.12a2fd81747c6dc6a967d14455997fcf.jpg",
+    "train/f_19_jpg.rf.bc16e4f38f3e778102c6a918b030aa0e.jpg",
+    "train/f_1_jpg.rf.5e1703cf20c7a0cd6041614f07a9cab2.jpg",
+    "train/54108996-6DA8-48F9-93DF-7ABB92F64E03_jpg.rf.4d49b33b074bcc71a2bb0029598bc286.jpg",
+    "train/f_32_jpg.rf.3bf814f2d16d5d3e9cf6a2099dcd9ef4.jpg",
+    "train/f_16_jpg.rf.83fc9b8f587ae4bc93593833601f1ea6.jpg",
+    "train/f_53_jpg.rf.342c310ad8d3000b6d46fb465e27635c.jpg",
+    "train/f_60_jpg.rf.490f7abc68a77b1508591dd56111c583.jpg",
+    "train/f_54_jpg.rf.2af54454e4b1b93106481eb94a9d74d3.jpg",
+    "train/f_69_jpg.rf.b004d6fc2b6011775dfaa07f3742c145.jpg",
+    "train/f_46_jpg.rf.bbe391a1e487b1fbb04a72bc17f75d0c.jpg",
+    "train/f_52_jpg.rf.15fc3d267172ec96b3af83a9d2da1f4a.jpg",
+    "train/f_55_jpg.rf.4f85fe7a3d0bbb033176f79016d9e04a.jpg",
+    "train/f_26_jpg.rf.0f91104f68f0bacba0f9f3322a55a482.jpg",
+    "train/f_66_jpg.rf.c36b06322c66b74b766271172a12128d.jpg",
+    "train/59d95f40e88bdebfbab28ee6fa69bd7b_jpg.rf.167002320abff34a0f50efe8ed3df75e.jpg",
+    "train/f_25_jpg.rf.b7bbff8470519c80bbc21c8ff487bfe2.jpg",
+    "valid/34404E67-4BB8-432E-863E-C1BEF5EB37E0_jpg.rf.ec08f3ec6be50727966858c08708502a.jpg",
+    "valid/f_33_jpg.rf.819a5a726d80fc3fecdaadc12ed0b83f.jpg",
+    "valid/f_51_jpg.rf.2af90c1f6e94f71c95972d7c241178c0.jpg",
+    "valid/1eecab90-1a92-43a7-b952-0204384e1fae_jpg.rf.7e0b9706bf83a71ec41c51ba46f1bb1b.jpg",
+    "valid/f_24_jpg.rf.ddd75106232b5c47fb12841e18228f1b.jpg",
+    "valid/f_9_jpg.rf.acb44efca767c13368b236f81df38f83.jpg",
+    "valid/5CBCC5AC-B638-4DFA-AA7B-2464FADFF2F7_jpg.rf.eb791f103b4f8ea9cda566388566e254.jpg",
+    "valid/4c47ee66-e402-11e8-97db-0242ac1c0002_jpg.rf.a8f78771479e4e3f73ab18c1d0927987.jpg",
+    "valid/f_64_jpg.rf.d3537f3cce61e1bce834471b66636956.jpg",
+    "valid/f_17_jpg.rf.bde8b07b8cde735cadc059f4221e4dee.jpg",
+    "test/4c46b91a-e402-11e8-97db-0242ac1c0002_jpg.rf.5f9c9c97c1e8a688e85b29a7ef38d6cc.jpg",
+    "test/f_21_jpg.rf.444321fbc09cb348dcc89cb9347f829f.jpg",
+    "test/f_50_jpg.rf.a13b4bf1eaca1b7d908a240b4f47b736.jpg",
+    "test/f_8_jpg.rf.874a2308df3970542ef26522ef092a46.jpg",
+    "test/Fingernail-1_jpg.rf.798493764f6df1188dbc59c69dcea10d.jpg",
+    "test/f_31_jpg.rf.79476153afbcd2b1130b4c3f589c6aae.jpg",
+    "test/c0edaa5b1e021935bfada4e140a15ad7_jpg.rf.805fc8db2bc4b7df2fdee75c02e21a5b.jpg"
+  ],
+  "refinedNails": 20,
+  "landmarks": "current self-hosted MediaPipe CPU, IMAGE mode, longest input side 640px; VIDEO repeats each still 3 times",
+  "methodology": "Previous full pipeline versus current image refinement using identical landmarks; coarse-baseline-locked greedy component assignment; mask centroid/PCA; ellipse approximation, not rendered design IoU. Approximate root is mask centroid minus half PCA length, with axis sign aligned to baseline nail. No annotated cuticle ground truth. Exploratory development set, not independent model validation.",
+  "before": {
+    "meanCenterErrorPx": 20.865526968219537,
+    "meanCenterErrorNailWidths": 0.5874769845239919,
+    "meanEllipseIoU": 0.24454466047966358,
+    "meanAngleErrorDeg": 17.872693719435407,
+    "meanWidthRatio": 0.6855968043693994,
+    "meanHeightRatio": 0.6897047360034807,
+    "meanWidthRelativeError": 0.39852064680253496,
+    "meanHeightRelativeError": 0.3251260836733056,
+    "meanApproxRootErrorPx": 24.620602060108972
+  },
+  "after": {
+    "meanCenterErrorPx": 20.496563454587136,
+    "meanCenterErrorNailWidths": 0.5719390410624423,
+    "meanEllipseIoU": 0.2501408845034108,
+    "meanAngleErrorDeg": 17.872693719435407,
+    "meanWidthRatio": 0.6553476765027653,
+    "meanHeightRatio": 0.6926136906338768,
+    "meanWidthRelativeError": 0.39048323241630156,
+    "meanHeightRelativeError": 0.3231564600180195,
+    "meanApproxRootErrorPx": 24.609223376199658
+  },
+  "byFinger": [
+    {
+      "name": "thumb",
+      "matchedNails": 23,
+      "before": {
+        "meanCenterErrorPx": 37.23201356225977,
+        "meanCenterErrorNailWidths": 1.248411299699251,
+        "meanEllipseIoU": 0.10904153913912448,
+        "meanAngleErrorDeg": 19.349909048956473,
+        "meanWidthRatio": 1.040197536741543,
+        "meanHeightRatio": 0.7448055917971615,
+        "meanWidthRelativeError": 0.3759637015473288,
+        "meanHeightRelativeError": 0.29859668887092705,
+        "meanApproxRootErrorPx": 33.53150768485626
+      },
+      "after": {
+        "meanCenterErrorPx": 34.873855453391855,
+        "meanCenterErrorNailWidths": 1.1491035740971716,
+        "meanEllipseIoU": 0.14480871007350946,
+        "meanAngleErrorDeg": 19.349909048956473,
+        "meanWidthRatio": 0.8468661542895745,
+        "meanHeightRatio": 0.7633976061740412,
+        "meanWidthRelativeError": 0.3245941400353153,
+        "meanHeightRelativeError": 0.2860082246393158,
+        "meanApproxRootErrorPx": 33.458783052914065
+      }
+    },
+    {
+      "name": "index",
+      "matchedNails": 29,
+      "before": {
+        "meanCenterErrorPx": 21.989797085415674,
+        "meanCenterErrorNailWidths": 0.5170626045572887,
+        "meanEllipseIoU": 0.27102321317870476,
+        "meanAngleErrorDeg": 18.18885100929491,
+        "meanWidthRatio": 0.6475236776733189,
+        "meanHeightRatio": 0.7152788182363817,
+        "meanWidthRelativeError": 0.3897056711230387,
+        "meanHeightRelativeError": 0.30252253834665627,
+        "meanApproxRootErrorPx": 27.789695165019026
+      },
+      "after": {
+        "meanCenterErrorPx": 21.989797085415674,
+        "meanCenterErrorNailWidths": 0.5170626045572887,
+        "meanEllipseIoU": 0.27102321317870476,
+        "meanAngleErrorDeg": 18.18885100929491,
+        "meanWidthRatio": 0.6475236776733189,
+        "meanHeightRatio": 0.7152788182363817,
+        "meanWidthRelativeError": 0.3897056711230387,
+        "meanHeightRelativeError": 0.30252253834665627,
+        "meanApproxRootErrorPx": 27.789695165019026
+      }
+    },
+    {
+      "name": "middle",
+      "matchedNails": 31,
+      "before": {
+        "meanCenterErrorPx": 19.34870029499987,
+        "meanCenterErrorNailWidths": 0.46858831495989034,
+        "meanEllipseIoU": 0.2662649103699403,
+        "meanAngleErrorDeg": 20.021842262061107,
+        "meanWidthRatio": 0.634544212324283,
+        "meanHeightRatio": 0.7201305483311817,
+        "meanWidthRelativeError": 0.40067457332828565,
+        "meanHeightRelativeError": 0.29729528796826193,
+        "meanApproxRootErrorPx": 25.84890886007577
+      },
+      "after": {
+        "meanCenterErrorPx": 19.34870029499987,
+        "meanCenterErrorNailWidths": 0.46858831495989034,
+        "meanEllipseIoU": 0.2662649103699403,
+        "meanAngleErrorDeg": 20.021842262061107,
+        "meanWidthRatio": 0.634544212324283,
+        "meanHeightRatio": 0.7201305483311817,
+        "meanWidthRelativeError": 0.40067457332828565,
+        "meanHeightRelativeError": 0.29729528796826193,
+        "meanApproxRootErrorPx": 25.84890886007577
+      }
+    },
+    {
+      "name": "ring",
+      "matchedNails": 32,
+      "before": {
+        "meanCenterErrorPx": 13.892592858779826,
+        "meanCenterErrorNailWidths": 0.35783665925736724,
+        "meanEllipseIoU": 0.32053948287377937,
+        "meanAngleErrorDeg": 16.1793604294889,
+        "meanWidthRatio": 0.6329591593031826,
+        "meanHeightRatio": 0.6683123868595596,
+        "meanWidthRelativeError": 0.38648219605013917,
+        "meanHeightRelativeError": 0.33560754348202565,
+        "meanApproxRootErrorPx": 18.76002103095577
+      },
+      "after": {
+        "meanCenterErrorPx": 13.892592858779826,
+        "meanCenterErrorNailWidths": 0.35783665925736724,
+        "meanEllipseIoU": 0.32053948287377937,
+        "meanAngleErrorDeg": 16.1793604294889,
+        "meanWidthRatio": 0.6329591593031826,
+        "meanHeightRatio": 0.6683123868595596,
+        "meanWidthRelativeError": 0.38648219605013917,
+        "meanHeightRelativeError": 0.33560754348202565,
+        "meanApproxRootErrorPx": 18.76002103095577
+      }
+    },
+    {
+      "name": "pinky",
+      "matchedNails": 32,
+      "before": {
+        "meanCenterErrorPx": 16.525604884165368,
+        "meanCenterErrorNailWidths": 0.5210572012434479,
+        "meanEllipseIoU": 0.220905026084349,
+        "meanAngleErrorDeg": 16.178526326077236,
+        "meanWidthRatio": 0.5673261426551675,
+        "meanHeightRatio": 0.618841827329667,
+        "meanWidthRelativeError": 0.43267385734483244,
+        "meanHeightRelativeError": 0.381158172670333,
+        "meanApproxRootErrorPx": 20.01455683268251
+      },
+      "after": {
+        "meanCenterErrorPx": 16.525604884165368,
+        "meanCenterErrorNailWidths": 0.5210572012434479,
+        "meanEllipseIoU": 0.220905026084349,
+        "meanAngleErrorDeg": 16.178526326077236,
+        "meanWidthRatio": 0.5673261426551675,
+        "meanHeightRatio": 0.618841827329667,
+        "meanWidthRelativeError": 0.43267385734483244,
+        "meanHeightRelativeError": 0.381158172670333,
+        "meanApproxRootErrorPx": 20.01455683268251
+      }
+    }
+  ],
+  "byMaskAspect": {
+    "elongated": {
+      "matchedNails": 33,
+      "before": {
+        "meanCenterErrorPx": 23.50439130276925,
+        "meanCenterErrorNailWidths": 0.8619516550188808,
+        "meanEllipseIoU": 0.1777694832527305,
+        "meanAngleErrorDeg": 14.55325345335239,
+        "meanWidthRatio": 0.8614116783143452,
+        "meanHeightRatio": 0.6174034976318264,
+        "meanWidthRelativeError": 0.39810389043057953,
+        "meanHeightRelativeError": 0.3868599487660502,
+        "meanApproxRootErrorPx": 23.946584661837772
+      },
+      "after": {
+        "meanCenterErrorPx": 22.25799306258751,
+        "meanCenterErrorNailWidths": 0.8030023365815074,
+        "meanEllipseIoU": 0.19618710446291646,
+        "meanAngleErrorDeg": 14.55325345335239,
+        "meanWidthRatio": 0.7788293428982568,
+        "meanHeightRatio": 0.6174034976318264,
+        "meanWidthRelativeError": 0.35780099688966427,
+        "meanHeightRelativeError": 0.3868599487660502,
+        "meanApproxRootErrorPx": 23.69315409299856
+      }
+    },
+    "compact": {
+      "matchedNails": 114,
+      "before": {
+        "meanCenterErrorPx": 20.101645187165676,
+        "meanCenterErrorNailWidths": 0.5080237904333664,
+        "meanEllipseIoU": 0.2638743170453547,
+        "meanAngleErrorDeg": 19.639492570737662,
+        "meanWidthRatio": 0.6347030250695466,
+        "meanHeightRatio": 0.710634041847907,
+        "meanWidthRelativeError": 0.39864128680494304,
+        "meanHeightRelativeError": 0.3072557543043535,
+        "meanApproxRootErrorPx": 24.81571235960853
+      },
+      "after": {
+        "meanCenterErrorPx": 19.986675936481774,
+        "meanCenterErrorNailWidths": 0.5050522976227128,
+        "meanEllipseIoU": 0.26575908398881715,
+        "meanAngleErrorDeg": 19.639492570737662,
+        "meanWidthRatio": 0.6196029835988067,
+        "meanHeightRatio": 0.7143850622923652,
+        "meanWidthRelativeError": 0.3999438795424335,
+        "meanHeightRelativeError": 0.3047159764330634,
+        "meanApproxRootErrorPx": 24.874401326599966
+      }
+    }
+  },
+  "rows": [
+    {
+      "file": "train/Fingernail-14_jpg.rf.297bd40523e6acedb282cad9ee85a310.jpg",
+      "finger": 0,
+      "maskAspect": 1.5034826797413325,
+      "before": {
+        "centerErrorPx": 16.76321200340686,
+        "centerErrorNailWidths": 0.4494044517161807,
+        "iou": 0.2357100766057749,
+        "approxRootErrorPx": 8.573959775590428,
+        "angleErrorDeg": 13.355847470798722,
+        "widthRatio": 0.6829980232911164,
+        "heightRatio": 0.641424496002353
+      },
+      "after": {
+        "centerErrorPx": 4.905022800216408,
+        "centerErrorNailWidths": 0.13149861027460744,
+        "iou": 0.6509229098805646,
+        "approxRootErrorPx": 2.118767015422916,
+        "angleErrorDeg": 13.355847470798722,
+        "widthRatio": 0.9553126838262422,
+        "heightRatio": 1.0690408266705882
+      },
+      "refined": true
+    },
+    {
+      "file": "train/Fingernail-14_jpg.rf.297bd40523e6acedb282cad9ee85a310.jpg",
+      "finger": 1,
+      "maskAspect": 1.1949375578735753,
+      "before": {
+        "centerErrorPx": 10.453209337486392,
+        "centerErrorNailWidths": 0.23252874641311316,
+        "iou": 0.5023231801755291,
+        "approxRootErrorPx": 13.400493499636562,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6794314161770417,
+        "heightRatio": 0.8495175273527427
+      },
+      "after": {
+        "centerErrorPx": 10.453209337486392,
+        "centerErrorNailWidths": 0.23252874641311316,
+        "iou": 0.5023231801755291,
+        "approxRootErrorPx": 13.400493499636562,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6794314161770417,
+        "heightRatio": 0.8495175273527427
+      },
+      "refined": true
+    },
+    {
+      "file": "train/Fingernail-14_jpg.rf.297bd40523e6acedb282cad9ee85a310.jpg",
+      "finger": 4,
+      "maskAspect": 1.3187556322884302,
+      "before": {
+        "centerErrorPx": 2.7383134123542368,
+        "centerErrorNailWidths": 0.08432341613697615,
+        "iou": 0.7091675447839831,
+        "approxRootErrorPx": 5.303002469490867,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7811822167104479,
+        "heightRatio": 0.9145828684831071
+      },
+      "after": {
+        "centerErrorPx": 2.7383134123542368,
+        "centerErrorNailWidths": 0.08432341613697615,
+        "iou": 0.7091675447839831,
+        "approxRootErrorPx": 5.303002469490867,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7811822167104479,
+        "heightRatio": 0.9145828684831071
+      },
+      "refined": true
+    },
+    {
+      "file": "train/Fingernail-14_jpg.rf.297bd40523e6acedb282cad9ee85a310.jpg",
+      "finger": 2,
+      "maskAspect": 1.3177433775316933,
+      "before": {
+        "centerErrorPx": 13.754427374830547,
+        "centerErrorNailWidths": 0.2939904055747527,
+        "iou": 0.43744454303460517,
+        "approxRootErrorPx": 21.85065527814232,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6818590495084476,
+        "heightRatio": 0.6648163453201887
+      },
+      "after": {
+        "centerErrorPx": 13.754427374830547,
+        "centerErrorNailWidths": 0.2939904055747527,
+        "iou": 0.43744454303460517,
+        "approxRootErrorPx": 21.85065527814232,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6818590495084476,
+        "heightRatio": 0.6648163453201887
+      },
+      "refined": true
+    },
+    {
+      "file": "train/Fingernail-14_jpg.rf.297bd40523e6acedb282cad9ee85a310.jpg",
+      "finger": 3,
+      "maskAspect": 1.0617722385361867,
+      "before": {
+        "centerErrorPx": 12.429282367396796,
+        "centerErrorNailWidths": 0.2683505295612124,
+        "iou": 0.3542168674698795,
+        "approxRootErrorPx": 7.947026977536123,
+        "angleErrorDeg": null,
+        "widthRatio": 0.4725983806592121,
+        "heightRatio": 0.8269353758784102
+      },
+      "after": {
+        "centerErrorPx": 12.429282367396796,
+        "centerErrorNailWidths": 0.2683505295612124,
+        "iou": 0.3542168674698795,
+        "approxRootErrorPx": 7.947026977536123,
+        "angleErrorDeg": null,
+        "widthRatio": 0.4725983806592121,
+        "heightRatio": 0.8269353758784102
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_3_jpg.rf.70abc28008a131d884298f66adae6010.jpg",
+      "finger": 1,
+      "maskAspect": 1.1445593417213842,
+      "before": {
+        "centerErrorPx": 14.581758287243115,
+        "centerErrorNailWidths": 0.2327846633640429,
+        "iou": 0.15249537892791126,
+        "approxRootErrorPx": 32.84835608528453,
+        "angleErrorDeg": null,
+        "widthRatio": 0.2996261828228456,
+        "heightRatio": 0.46815136622680104
+      },
+      "after": {
+        "centerErrorPx": 14.581758287243115,
+        "centerErrorNailWidths": 0.2327846633640429,
+        "iou": 0.15249537892791126,
+        "approxRootErrorPx": 32.84835608528453,
+        "angleErrorDeg": null,
+        "widthRatio": 0.2996261828228456,
+        "heightRatio": 0.46815136622680104
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_3_jpg.rf.70abc28008a131d884298f66adae6010.jpg",
+      "finger": 2,
+      "maskAspect": 1.2262486728263071,
+      "before": {
+        "centerErrorPx": 16.078719454086414,
+        "centerErrorNailWidths": 0.23861090465070656,
+        "iou": 0.14042553191489363,
+        "approxRootErrorPx": 30.155857787176696,
+        "angleErrorDeg": null,
+        "widthRatio": 0.29091054646852793,
+        "heightRatio": 0.4393565985586093
+      },
+      "after": {
+        "centerErrorPx": 16.078719454086414,
+        "centerErrorNailWidths": 0.23861090465070656,
+        "iou": 0.14042553191489363,
+        "approxRootErrorPx": 30.155857787176696,
+        "angleErrorDeg": null,
+        "widthRatio": 0.29091054646852793,
+        "heightRatio": 0.4393565985586093
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_3_jpg.rf.70abc28008a131d884298f66adae6010.jpg",
+      "finger": 4,
+      "maskAspect": 1.3683778012560655,
+      "before": {
+        "centerErrorPx": 18.8102448895953,
+        "centerErrorNailWidths": 0.44363973442543936,
+        "iou": 0.08465608465608465,
+        "approxRootErrorPx": 26.39994270255306,
+        "angleErrorDeg": 13.813400486308524,
+        "widthRatio": 0.33937344778482587,
+        "heightRatio": 0.4617553621979552
+      },
+      "after": {
+        "centerErrorPx": 18.8102448895953,
+        "centerErrorNailWidths": 0.44363973442543936,
+        "iou": 0.08465608465608465,
+        "approxRootErrorPx": 26.39994270255306,
+        "angleErrorDeg": 13.813400486308524,
+        "widthRatio": 0.33937344778482587,
+        "heightRatio": 0.4617553621979552
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_3_jpg.rf.70abc28008a131d884298f66adae6010.jpg",
+      "finger": 3,
+      "maskAspect": 1.2476686523043061,
+      "before": {
+        "centerErrorPx": 21.18687623195522,
+        "centerErrorNailWidths": 0.3368121468439896,
+        "iou": 0.13947290494521764,
+        "approxRootErrorPx": 45.37537778189492,
+        "angleErrorDeg": null,
+        "widthRatio": 0.2851097373992236,
+        "heightRatio": 0.4274007987459512
+      },
+      "after": {
+        "centerErrorPx": 21.18687623195522,
+        "centerErrorNailWidths": 0.3368121468439896,
+        "iou": 0.13947290494521764,
+        "approxRootErrorPx": 45.37537778189492,
+        "angleErrorDeg": null,
+        "widthRatio": 0.2851097373992236,
+        "heightRatio": 0.4274007987459512
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_3_jpg.rf.70abc28008a131d884298f66adae6010.jpg",
+      "finger": 0,
+      "maskAspect": 1.192379667468152,
+      "before": {
+        "centerErrorPx": 60.32611194301602,
+        "centerErrorNailWidths": 1.0956501146792892,
+        "iou": 0,
+        "approxRootErrorPx": 60.408633453845795,
+        "angleErrorDeg": null,
+        "widthRatio": 0.4355692137952612,
+        "heightRatio": 0.4176500679297156
+      },
+      "after": {
+        "centerErrorPx": 53.72025248955937,
+        "centerErrorNailWidths": 0.9756736992495698,
+        "iou": 0,
+        "approxRootErrorPx": 56.27170304981453,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3408802542745522,
+        "heightRatio": 0.4176500679297156
+      },
+      "refined": false
+    },
+    {
+      "file": "train/2c376c66-9823-4874-869e-1e7f5c54ec7b_jpg.rf.2ebf6bf2df4a65747a8cef1e785f491d.jpg",
+      "finger": 3,
+      "maskAspect": 3.1563124255960866,
+      "before": {
+        "centerErrorPx": 20.220114427801967,
+        "centerErrorNailWidths": 0.7857766601250147,
+        "iou": 0.08049659591509811,
+        "approxRootErrorPx": 20.91026837635197,
+        "angleErrorDeg": 2.3761792188901723,
+        "widthRatio": 1.0804339442526354,
+        "heightRatio": 0.6389654302803655
+      },
+      "after": {
+        "centerErrorPx": 20.220114427801967,
+        "centerErrorNailWidths": 0.7857766601250147,
+        "iou": 0.08049659591509811,
+        "approxRootErrorPx": 20.91026837635197,
+        "angleErrorDeg": 2.3761792188901723,
+        "widthRatio": 1.0804339442526354,
+        "heightRatio": 0.6389654302803655
+      },
+      "refined": false
+    },
+    {
+      "file": "train/2c376c66-9823-4874-869e-1e7f5c54ec7b_jpg.rf.2ebf6bf2df4a65747a8cef1e785f491d.jpg",
+      "finger": 0,
+      "maskAspect": 1.436149768539014,
+      "before": {
+        "centerErrorPx": 43.98196789812429,
+        "centerErrorNailWidths": 1.3506228505171187,
+        "iou": 0.005888847994111152,
+        "approxRootErrorPx": 54.107673020814104,
+        "angleErrorDeg": 33.1284457826992,
+        "widthRatio": 1.141672471128108,
+        "heightRatio": 1.187718935134767
+      },
+      "after": {
+        "centerErrorPx": 45.4328020107087,
+        "centerErrorNailWidths": 1.395175875277291,
+        "iou": 0.007172995780590718,
+        "approxRootErrorPx": 52.155946751467255,
+        "angleErrorDeg": 33.1284457826992,
+        "widthRatio": 0.8934828034915626,
+        "heightRatio": 1.187718935134767
+      },
+      "refined": false
+    },
+    {
+      "file": "train/2c376c66-9823-4874-869e-1e7f5c54ec7b_jpg.rf.2ebf6bf2df4a65747a8cef1e785f491d.jpg",
+      "finger": 4,
+      "maskAspect": 2.4632629582326557,
+      "before": {
+        "centerErrorPx": 69.32352738528351,
+        "centerErrorNailWidths": 1.6419523647956462,
+        "iou": 0,
+        "approxRootErrorPx": 36.181743364907675,
+        "angleErrorDeg": 19.799790610533478,
+        "widthRatio": 0.5283396989781755,
+        "heightRatio": 0.3574384813173377
+      },
+      "after": {
+        "centerErrorPx": 69.32352738528351,
+        "centerErrorNailWidths": 1.6419523647956462,
+        "iou": 0,
+        "approxRootErrorPx": 36.181743364907675,
+        "angleErrorDeg": 19.799790610533478,
+        "widthRatio": 0.5283396989781755,
+        "heightRatio": 0.3574384813173377
+      },
+      "refined": false
+    },
+    {
+      "file": "train/3493127D-7B19-4E50-94AE-2401BD2A91C8_jpg.rf.9ced7aecb68dece86956c6fde53bfc14.jpg",
+      "finger": 1,
+      "maskAspect": 1.3169066248782202,
+      "before": {
+        "centerErrorPx": 121.41728692852406,
+        "centerErrorNailWidths": 1.5744139352412874,
+        "iou": 0,
+        "approxRootErrorPx": 140.4730910173251,
+        "angleErrorDeg": null,
+        "widthRatio": 0.29516946671009275,
+        "heightRatio": 0.27141219649234183
+      },
+      "after": {
+        "centerErrorPx": 121.41728692852406,
+        "centerErrorNailWidths": 1.5744139352412874,
+        "iou": 0,
+        "approxRootErrorPx": 140.4730910173251,
+        "angleErrorDeg": null,
+        "widthRatio": 0.29516946671009275,
+        "heightRatio": 0.27141219649234183
+      },
+      "refined": false
+    },
+    {
+      "file": "train/cf255659c833dde32cde073c754eebd4_jpg.rf.524f8fb5ce59c6eae7e8dad904f13648.jpg",
+      "finger": 3,
+      "maskAspect": 1.2869446282688788,
+      "before": {
+        "centerErrorPx": 10.747904411421384,
+        "centerErrorNailWidths": 0.14920050354089914,
+        "iou": 0.3042345276872964,
+        "approxRootErrorPx": 23.963050411807902,
+        "angleErrorDeg": null,
+        "widthRatio": 0.4310494987059457,
+        "heightRatio": 0.6289356705585815
+      },
+      "after": {
+        "centerErrorPx": 10.747904411421384,
+        "centerErrorNailWidths": 0.14920050354089914,
+        "iou": 0.3042345276872964,
+        "approxRootErrorPx": 23.963050411807902,
+        "angleErrorDeg": null,
+        "widthRatio": 0.4310494987059457,
+        "heightRatio": 0.6289356705585815
+      },
+      "refined": false
+    },
+    {
+      "file": "train/cf255659c833dde32cde073c754eebd4_jpg.rf.524f8fb5ce59c6eae7e8dad904f13648.jpg",
+      "finger": 4,
+      "maskAspect": 1.414402585680684,
+      "before": {
+        "centerErrorPx": 13.526122634505002,
+        "centerErrorNailWidths": 0.23115582094154122,
+        "iou": 0.23032861018993067,
+        "approxRootErrorPx": 32.21853139700264,
+        "angleErrorDeg": 31.65606511628266,
+        "widthRatio": 0.4257579870809157,
+        "heightRatio": 0.48887995564315884
+      },
+      "after": {
+        "centerErrorPx": 13.526122634505002,
+        "centerErrorNailWidths": 0.23115582094154122,
+        "iou": 0.23032861018993067,
+        "approxRootErrorPx": 32.21853139700264,
+        "angleErrorDeg": 31.65606511628266,
+        "widthRatio": 0.4257579870809157,
+        "heightRatio": 0.48887995564315884
+      },
+      "refined": false
+    },
+    {
+      "file": "train/cf255659c833dde32cde073c754eebd4_jpg.rf.524f8fb5ce59c6eae7e8dad904f13648.jpg",
+      "finger": 2,
+      "maskAspect": 1.2379546098759042,
+      "before": {
+        "centerErrorPx": 12.125526418273731,
+        "centerErrorNailWidths": 0.16528518859369892,
+        "iou": 0.5413030241526283,
+        "approxRootErrorPx": 38.32585856520638,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6201347670296855,
+        "heightRatio": 0.8500663082842667
+      },
+      "after": {
+        "centerErrorPx": 12.125526418273731,
+        "centerErrorNailWidths": 0.16528518859369892,
+        "iou": 0.5413030241526283,
+        "approxRootErrorPx": 38.32585856520638,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6201347670296855,
+        "heightRatio": 0.8500663082842667
+      },
+      "refined": true
+    },
+    {
+      "file": "train/cf255659c833dde32cde073c754eebd4_jpg.rf.524f8fb5ce59c6eae7e8dad904f13648.jpg",
+      "finger": 1,
+      "maskAspect": 1.2242468982551056,
+      "before": {
+        "centerErrorPx": 41.763780649499544,
+        "centerErrorNailWidths": 0.6156151013210642,
+        "iou": 0.12037037037037036,
+        "approxRootErrorPx": 33.849828341393,
+        "angleErrorDeg": null,
+        "widthRatio": 0.47899851568174406,
+        "heightRatio": 0.6924789791517264
+      },
+      "after": {
+        "centerErrorPx": 41.763780649499544,
+        "centerErrorNailWidths": 0.6156151013210642,
+        "iou": 0.12037037037037036,
+        "approxRootErrorPx": 33.849828341393,
+        "angleErrorDeg": null,
+        "widthRatio": 0.47899851568174406,
+        "heightRatio": 0.6924789791517264
+      },
+      "refined": false
+    },
+    {
+      "file": "train/cf255659c833dde32cde073c754eebd4_jpg.rf.524f8fb5ce59c6eae7e8dad904f13648.jpg",
+      "finger": 0,
+      "maskAspect": 1.961649449460562,
+      "before": {
+        "centerErrorPx": 60.15994199800794,
+        "centerErrorNailWidths": 0.9782273626170304,
+        "iou": 0,
+        "approxRootErrorPx": 61.39063869915234,
+        "angleErrorDeg": 44.83711062104953,
+        "widthRatio": 0.3423391670757102,
+        "heightRatio": 0.2503924864509587
+      },
+      "after": {
+        "centerErrorPx": 54.09258834918517,
+        "centerErrorNailWidths": 0.8795694989151464,
+        "iou": 0,
+        "approxRootErrorPx": 60.91767889565695,
+        "angleErrorDeg": 44.83711062104953,
+        "widthRatio": 0.2679176090157732,
+        "heightRatio": 0.2503924864509587
+      },
+      "refined": false
+    },
+    {
+      "file": "train/Fingernail-13_jpg.rf.a41f8582ae13fd340084498f1a07fa37.jpg",
+      "finger": 4,
+      "maskAspect": 1.6526554574123151,
+      "before": {
+        "centerErrorPx": 5.136558202982224,
+        "centerErrorNailWidths": 0.22536767030717797,
+        "iou": 0.3156089193825043,
+        "approxRootErrorPx": 14.20832397123949,
+        "angleErrorDeg": 25.12090414505451,
+        "widthRatio": 0.5183211527586263,
+        "heightRatio": 0.5902164088022643
+      },
+      "after": {
+        "centerErrorPx": 5.136558202982224,
+        "centerErrorNailWidths": 0.22536767030717797,
+        "iou": 0.3156089193825043,
+        "approxRootErrorPx": 14.20832397123949,
+        "angleErrorDeg": 25.12090414505451,
+        "widthRatio": 0.5183211527586263,
+        "heightRatio": 0.5902164088022643
+      },
+      "refined": false
+    },
+    {
+      "file": "train/Fingernail-13_jpg.rf.a41f8582ae13fd340084498f1a07fa37.jpg",
+      "finger": 1,
+      "maskAspect": 1.4744282974120348,
+      "before": {
+        "centerErrorPx": 6.138424287798257,
+        "centerErrorNailWidths": 0.20376806743479264,
+        "iou": 0.31020408163265306,
+        "approxRootErrorPx": 17.92415912025234,
+        "angleErrorDeg": 42.76321459870212,
+        "widthRatio": 0.5115076964608248,
+        "heightRatio": 0.6381481070441648
+      },
+      "after": {
+        "centerErrorPx": 6.138424287798257,
+        "centerErrorNailWidths": 0.20376806743479264,
+        "iou": 0.31020408163265306,
+        "approxRootErrorPx": 17.92415912025234,
+        "angleErrorDeg": 42.76321459870212,
+        "widthRatio": 0.5115076964608248,
+        "heightRatio": 0.6381481070441648
+      },
+      "refined": false
+    },
+    {
+      "file": "train/Fingernail-13_jpg.rf.a41f8582ae13fd340084498f1a07fa37.jpg",
+      "finger": 3,
+      "maskAspect": 1.5353008244400987,
+      "before": {
+        "centerErrorPx": 6.360089935709323,
+        "centerErrorNailWidths": 0.21948213583000822,
+        "iou": 0.3258173618940248,
+        "approxRootErrorPx": 14.72034188521402,
+        "angleErrorDeg": 28.877068974029157,
+        "widthRatio": 0.508118271949115,
+        "heightRatio": 0.6200394654729942
+      },
+      "after": {
+        "centerErrorPx": 6.360089935709323,
+        "centerErrorNailWidths": 0.21948213583000822,
+        "iou": 0.3258173618940248,
+        "approxRootErrorPx": 14.72034188521402,
+        "angleErrorDeg": 28.877068974029157,
+        "widthRatio": 0.508118271949115,
+        "heightRatio": 0.6200394654729942
+      },
+      "refined": false
+    },
+    {
+      "file": "train/Fingernail-13_jpg.rf.a41f8582ae13fd340084498f1a07fa37.jpg",
+      "finger": 2,
+      "maskAspect": 1.4053876970665586,
+      "before": {
+        "centerErrorPx": 8.543120262091778,
+        "centerErrorNailWidths": 0.27137646867512377,
+        "iou": 0.2857142857142857,
+        "approxRootErrorPx": 21.60305531481014,
+        "angleErrorDeg": 40.77025236965562,
+        "widthRatio": 0.5112272096906519,
+        "heightRatio": 0.6823701269242295
+      },
+      "after": {
+        "centerErrorPx": 8.543120262091778,
+        "centerErrorNailWidths": 0.27137646867512377,
+        "iou": 0.2857142857142857,
+        "approxRootErrorPx": 21.60305531481014,
+        "angleErrorDeg": 40.77025236965562,
+        "widthRatio": 0.5112272096906519,
+        "heightRatio": 0.6823701269242295
+      },
+      "refined": false
+    },
+    {
+      "file": "train/388dc0fdf1ffb2c7b90c8c3c2b608061_jpg.rf.d07e6238736948dc16801863b56a9250.jpg",
+      "finger": 4,
+      "maskAspect": 2.6604259574657374,
+      "before": {
+        "centerErrorPx": 8.107966082714254,
+        "centerErrorNailWidths": 0.38305870341570547,
+        "iou": 0.11098398169336385,
+        "approxRootErrorPx": 23.481900722449144,
+        "angleErrorDeg": 22.571956493995458,
+        "widthRatio": 0.48179055474625376,
+        "heightRatio": 0.34076084449612326
+      },
+      "after": {
+        "centerErrorPx": 8.107966082714254,
+        "centerErrorNailWidths": 0.38305870341570547,
+        "iou": 0.11098398169336385,
+        "approxRootErrorPx": 23.481900722449144,
+        "angleErrorDeg": 22.571956493995458,
+        "widthRatio": 0.48179055474625376,
+        "heightRatio": 0.34076084449612326
+      },
+      "refined": false
+    },
+    {
+      "file": "train/388dc0fdf1ffb2c7b90c8c3c2b608061_jpg.rf.d07e6238736948dc16801863b56a9250.jpg",
+      "finger": 2,
+      "maskAspect": 1.819700798569167,
+      "before": {
+        "centerErrorPx": 9.512113524228045,
+        "centerErrorNailWidths": 0.31715729253115754,
+        "iou": 0.1808242220353238,
+        "approxRootErrorPx": 19.94711130096962,
+        "angleErrorDeg": 29.44598386554162,
+        "widthRatio": 0.4632136091283318,
+        "heightRatio": 0.4757424269621245
+      },
+      "after": {
+        "centerErrorPx": 9.512113524228045,
+        "centerErrorNailWidths": 0.31715729253115754,
+        "iou": 0.1808242220353238,
+        "approxRootErrorPx": 19.94711130096962,
+        "angleErrorDeg": 29.44598386554162,
+        "widthRatio": 0.4632136091283318,
+        "heightRatio": 0.4757424269621245
+      },
+      "refined": false
+    },
+    {
+      "file": "train/388dc0fdf1ffb2c7b90c8c3c2b608061_jpg.rf.d07e6238736948dc16801863b56a9250.jpg",
+      "finger": 3,
+      "maskAspect": 2.1899506982791332,
+      "before": {
+        "centerErrorPx": 11.802424061642995,
+        "centerErrorNailWidths": 0.47591488461845316,
+        "iou": 0.17791411042944785,
+        "approxRootErrorPx": 14.635012123624296,
+        "angleErrorDeg": 26.182357630598062,
+        "widthRatio": 0.5125217545268118,
+        "heightRatio": 0.43810005185229006
+      },
+      "after": {
+        "centerErrorPx": 11.802424061642995,
+        "centerErrorNailWidths": 0.47591488461845316,
+        "iou": 0.17791411042944785,
+        "approxRootErrorPx": 14.635012123624296,
+        "angleErrorDeg": 26.182357630598062,
+        "widthRatio": 0.5125217545268118,
+        "heightRatio": 0.43810005185229006
+      },
+      "refined": false
+    },
+    {
+      "file": "train/388dc0fdf1ffb2c7b90c8c3c2b608061_jpg.rf.d07e6238736948dc16801863b56a9250.jpg",
+      "finger": 0,
+      "maskAspect": 1.6004261673242697,
+      "before": {
+        "centerErrorPx": 108.71132719282129,
+        "centerErrorNailWidths": 1.9344377636771104,
+        "iou": 0,
+        "approxRootErrorPx": 84.32552477361195,
+        "angleErrorDeg": 59.38564872152824,
+        "widthRatio": 0.30243606873850215,
+        "heightRatio": 0.2751824262205086
+      },
+      "after": {
+        "centerErrorPx": 114.05282875146372,
+        "centerErrorNailWidths": 2.029485838211706,
+        "iou": 0,
+        "approxRootErrorPx": 88.50956763898195,
+        "angleErrorDeg": 59.38564872152824,
+        "widthRatio": 0.23668909727361032,
+        "heightRatio": 0.2751824262205086
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_12_jpg.rf.cfdd34b605c3baea31a41ddacd675100.jpg",
+      "finger": 3,
+      "maskAspect": 2.087389265363566,
+      "before": {
+        "centerErrorPx": 2.7189978674319737,
+        "centerErrorNailWidths": 0.12937282671172443,
+        "iou": 0.734338747099768,
+        "approxRootErrorPx": 4.124765825339881,
+        "angleErrorDeg": 6.919246689691704,
+        "widthRatio": 1.073095638577235,
+        "heightRatio": 1.0627188854653657
+      },
+      "after": {
+        "centerErrorPx": 2.7189978674319737,
+        "centerErrorNailWidths": 0.12937282671172443,
+        "iou": 0.734338747099768,
+        "approxRootErrorPx": 4.124765825339881,
+        "angleErrorDeg": 6.919246689691704,
+        "widthRatio": 1.073095638577235,
+        "heightRatio": 1.0627188854653657
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_12_jpg.rf.cfdd34b605c3baea31a41ddacd675100.jpg",
+      "finger": 2,
+      "maskAspect": 1.5652434856325885,
+      "before": {
+        "centerErrorPx": 17.23056400488689,
+        "centerErrorNailWidths": 0.5817274093181511,
+        "iou": 0.2994161801501251,
+        "approxRootErrorPx": 16.738779481440048,
+        "angleErrorDeg": 24.22283367965474,
+        "widthRatio": 0.7243655098353997,
+        "heightRatio": 0.8561236351868914
+      },
+      "after": {
+        "centerErrorPx": 17.23056400488689,
+        "centerErrorNailWidths": 0.5817274093181511,
+        "iou": 0.2994161801501251,
+        "approxRootErrorPx": 16.738779481440048,
+        "angleErrorDeg": 24.22283367965474,
+        "widthRatio": 0.7243655098353997,
+        "heightRatio": 0.8561236351868914
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_12_jpg.rf.cfdd34b605c3baea31a41ddacd675100.jpg",
+      "finger": 1,
+      "maskAspect": 1.643098622365698,
+      "before": {
+        "centerErrorPx": 2.190365460836925,
+        "centerErrorNailWidths": 0.08038684648948205,
+        "iou": 0.6993076162215628,
+        "approxRootErrorPx": 10.980043033462577,
+        "angleErrorDeg": 23.378069331190545,
+        "widthRatio": 1.0105632172423786,
+        "heightRatio": 0.9538658092667561
+      },
+      "after": {
+        "centerErrorPx": 2.190365460836925,
+        "centerErrorNailWidths": 0.08038684648948205,
+        "iou": 0.6993076162215628,
+        "approxRootErrorPx": 10.980043033462577,
+        "angleErrorDeg": 23.378069331190545,
+        "widthRatio": 1.0105632172423786,
+        "heightRatio": 0.9538658092667561
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_12_jpg.rf.cfdd34b605c3baea31a41ddacd675100.jpg",
+      "finger": 4,
+      "maskAspect": 2.127960163170009,
+      "before": {
+        "centerErrorPx": 23.387711603050512,
+        "centerErrorNailWidths": 1.4830632861081896,
+        "iou": 0.049204052098408106,
+        "approxRootErrorPx": 20.45361117674637,
+        "angleErrorDeg": 2.9344228872605527,
+        "widthRatio": 0.9986905054141724,
+        "heightRatio": 0.8295717614128608
+      },
+      "after": {
+        "centerErrorPx": 23.387711603050512,
+        "centerErrorNailWidths": 1.4830632861081896,
+        "iou": 0.049204052098408106,
+        "approxRootErrorPx": 20.45361117674637,
+        "angleErrorDeg": 2.9344228872605527,
+        "widthRatio": 0.9986905054141724,
+        "heightRatio": 0.8295717614128608
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_12_jpg.rf.cfdd34b605c3baea31a41ddacd675100.jpg",
+      "finger": 0,
+      "maskAspect": 2.1973467078656714,
+      "before": {
+        "centerErrorPx": 24.8454212331442,
+        "centerErrorNailWidths": 1.4284044998092813,
+        "iou": 0.023969319271332695,
+        "approxRootErrorPx": 18.117630502797375,
+        "angleErrorDeg": 47.41442068590021,
+        "widthRatio": 1.5090810377572557,
+        "heightRatio": 0.8872039443554492
+      },
+      "after": {
+        "centerErrorPx": 17.444262944961277,
+        "centerErrorNailWidths": 1.002899626962198,
+        "iou": 0.13533834586466165,
+        "approxRootErrorPx": 16.652779424696018,
+        "angleErrorDeg": 47.41442068590021,
+        "widthRatio": 1.1810199425926347,
+        "heightRatio": 0.8872039443554492
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c478f3e-e402-11e8-97db-0242ac1c0002_jpg.rf.b4a2ee99cffdebffd49016afdc6c7435.jpg",
+      "finger": 2,
+      "maskAspect": 1.2504707416167764,
+      "before": {
+        "centerErrorPx": 8.307432837336277,
+        "centerErrorNailWidths": 0.14208259500997197,
+        "iou": 0.2974921630094044,
+        "approxRootErrorPx": 8.022815985503197,
+        "angleErrorDeg": null,
+        "widthRatio": 0.434465623490195,
+        "heightRatio": 0.6538405901017291
+      },
+      "after": {
+        "centerErrorPx": 8.307432837336277,
+        "centerErrorNailWidths": 0.14208259500997197,
+        "iou": 0.2974921630094044,
+        "approxRootErrorPx": 8.022815985503197,
+        "angleErrorDeg": null,
+        "widthRatio": 0.434465623490195,
+        "heightRatio": 0.6538405901017291
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c478f3e-e402-11e8-97db-0242ac1c0002_jpg.rf.b4a2ee99cffdebffd49016afdc6c7435.jpg",
+      "finger": 4,
+      "maskAspect": 1.8042522355121258,
+      "before": {
+        "centerErrorPx": 9.015402183082958,
+        "centerErrorNailWidths": 0.2827403078331889,
+        "iou": 0.26639621365787697,
+        "approxRootErrorPx": 15.85418498286013,
+        "angleErrorDeg": 5.672671859536024,
+        "widthRatio": 0.5847971339422416,
+        "heightRatio": 0.5735706329421688
+      },
+      "after": {
+        "centerErrorPx": 9.015402183082958,
+        "centerErrorNailWidths": 0.2827403078331889,
+        "iou": 0.26639621365787697,
+        "approxRootErrorPx": 15.85418498286013,
+        "angleErrorDeg": 5.672671859536024,
+        "widthRatio": 0.5847971339422416,
+        "heightRatio": 0.5735706329421688
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c478f3e-e402-11e8-97db-0242ac1c0002_jpg.rf.b4a2ee99cffdebffd49016afdc6c7435.jpg",
+      "finger": 1,
+      "maskAspect": 1.2865602513503913,
+      "before": {
+        "centerErrorPx": 10.525949527573497,
+        "centerErrorNailWidths": 0.21679970306203492,
+        "iou": 0.3106508875739645,
+        "approxRootErrorPx": 22.495505016153817,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5009489067715555,
+        "heightRatio": 0.6267844095485565
+      },
+      "after": {
+        "centerErrorPx": 10.525949527573497,
+        "centerErrorNailWidths": 0.21679970306203492,
+        "iou": 0.3106508875739645,
+        "approxRootErrorPx": 22.495505016153817,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5009489067715555,
+        "heightRatio": 0.6267844095485565
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c478f3e-e402-11e8-97db-0242ac1c0002_jpg.rf.b4a2ee99cffdebffd49016afdc6c7435.jpg",
+      "finger": 3,
+      "maskAspect": 1.4066205637356257,
+      "before": {
+        "centerErrorPx": 21.625493767097616,
+        "centerErrorNailWidths": 0.3883770596904612,
+        "iou": 0.15051374618161623,
+        "approxRootErrorPx": 25.29761751536061,
+        "angleErrorDeg": 2.6971233052626076,
+        "widthRatio": 0.4173875708394955,
+        "heightRatio": 0.5539964298243332
+      },
+      "after": {
+        "centerErrorPx": 21.625493767097616,
+        "centerErrorNailWidths": 0.3883770596904612,
+        "iou": 0.15051374618161623,
+        "approxRootErrorPx": 25.29761751536061,
+        "angleErrorDeg": 2.6971233052626076,
+        "widthRatio": 0.4173875708394955,
+        "heightRatio": 0.5539964298243332
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c478f3e-e402-11e8-97db-0242ac1c0002_jpg.rf.b4a2ee99cffdebffd49016afdc6c7435.jpg",
+      "finger": 0,
+      "maskAspect": 5.1266274997054,
+      "before": {
+        "centerErrorPx": 55.59287765946047,
+        "centerErrorNailWidths": 4.6913130492999855,
+        "iou": 0,
+        "approxRootErrorPx": 51.35970319370989,
+        "angleErrorDeg": 6.4808608576183815,
+        "widthRatio": 2.6225671889160096,
+        "heightRatio": 0.5847602822936413
+      },
+      "after": {
+        "centerErrorPx": 48.99637297511669,
+        "centerErrorNailWidths": 4.134654178446154,
+        "iou": 0,
+        "approxRootErrorPx": 43.410973357108325,
+        "angleErrorDeg": 6.4808608576183815,
+        "widthRatio": 2.168380355770145,
+        "heightRatio": 0.5847602822936413
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_4_jpg.rf.feabccaf1a52eb45e1342d01689ea0ef.jpg",
+      "finger": 4,
+      "maskAspect": 1.2105223181545757,
+      "before": {
+        "centerErrorPx": 8.293356113902389,
+        "centerErrorNailWidths": 0.2240862098141243,
+        "iou": 0.2602739726027397,
+        "approxRootErrorPx": 10.173524438644494,
+        "angleErrorDeg": null,
+        "widthRatio": 0.37383768989610777,
+        "heightRatio": 0.5818956035502543
+      },
+      "after": {
+        "centerErrorPx": 8.293356113902389,
+        "centerErrorNailWidths": 0.2240862098141243,
+        "iou": 0.2602739726027397,
+        "approxRootErrorPx": 10.173524438644494,
+        "angleErrorDeg": null,
+        "widthRatio": 0.37383768989610777,
+        "heightRatio": 0.5818956035502543
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_4_jpg.rf.feabccaf1a52eb45e1342d01689ea0ef.jpg",
+      "finger": 3,
+      "maskAspect": 1.2046433557807255,
+      "before": {
+        "centerErrorPx": 9.829187349339751,
+        "centerErrorNailWidths": 0.2079329227085338,
+        "iou": 0.24462061155152887,
+        "approxRootErrorPx": 16.89713953410446,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3647986925115959,
+        "heightRatio": 0.5683348828111279
+      },
+      "after": {
+        "centerErrorPx": 9.829187349339751,
+        "centerErrorNailWidths": 0.2079329227085338,
+        "iou": 0.24462061155152887,
+        "approxRootErrorPx": 16.89713953410446,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3647986925115959,
+        "heightRatio": 0.5683348828111279
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_4_jpg.rf.feabccaf1a52eb45e1342d01689ea0ef.jpg",
+      "finger": 0,
+      "maskAspect": 1.905601182105037,
+      "before": {
+        "centerErrorPx": 11.74722314465968,
+        "centerErrorNailWidths": 0.4696844009013719,
+        "iou": 0.0405982905982906,
+        "approxRootErrorPx": 20.740323492368614,
+        "angleErrorDeg": 17.28801090632544,
+        "widthRatio": 0.8148001903295773,
+        "heightRatio": 0.38875813629830774
+      },
+      "after": {
+        "centerErrorPx": 7.508274620600119,
+        "centerErrorNailWidths": 0.3002002621004699,
+        "iou": 0.12988650693568726,
+        "approxRootErrorPx": 21.15105345758785,
+        "angleErrorDeg": 17.28801090632544,
+        "widthRatio": 0.6040330249285263,
+        "heightRatio": 0.38875813629830774
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_4_jpg.rf.feabccaf1a52eb45e1342d01689ea0ef.jpg",
+      "finger": 1,
+      "maskAspect": 1.0514663637894328,
+      "before": {
+        "centerErrorPx": 13.224788915261438,
+        "centerErrorNailWidths": 0.2513345071062467,
+        "iou": 0.23184507799892415,
+        "approxRootErrorPx": 11.86229386675191,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3429691497311721,
+        "heightRatio": 0.5910377889982781
+      },
+      "after": {
+        "centerErrorPx": 13.224788915261438,
+        "centerErrorNailWidths": 0.2513345071062467,
+        "iou": 0.23184507799892415,
+        "approxRootErrorPx": 11.86229386675191,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3429691497311721,
+        "heightRatio": 0.5910377889982781
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_4_jpg.rf.feabccaf1a52eb45e1342d01689ea0ef.jpg",
+      "finger": 2,
+      "maskAspect": 1.216550758704204,
+      "before": {
+        "centerErrorPx": 14.483453900511027,
+        "centerErrorNailWidths": 0.30263842306908006,
+        "iou": 0.2098950524737631,
+        "approxRootErrorPx": 24.75168968257054,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3938482811142865,
+        "heightRatio": 0.6053747568457628
+      },
+      "after": {
+        "centerErrorPx": 14.483453900511027,
+        "centerErrorNailWidths": 0.30263842306908006,
+        "iou": 0.2098950524737631,
+        "approxRootErrorPx": 24.75168968257054,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3938482811142865,
+        "heightRatio": 0.6053747568457628
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_11_jpg.rf.e3fc6d79558f0dc4145be08132c8ac30.jpg",
+      "finger": 4,
+      "maskAspect": 1.3287768325688838,
+      "before": {
+        "centerErrorPx": 19.906542535257483,
+        "centerErrorNailWidths": 0.6483892421629424,
+        "iou": 0.08679593721144968,
+        "approxRootErrorPx": 23.663839922354462,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5882499919141647,
+        "heightRatio": 0.6057668327221468
+      },
+      "after": {
+        "centerErrorPx": 19.906542535257483,
+        "centerErrorNailWidths": 0.6483892421629424,
+        "iou": 0.08679593721144968,
+        "approxRootErrorPx": 23.663839922354462,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5882499919141647,
+        "heightRatio": 0.6057668327221468
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_11_jpg.rf.e3fc6d79558f0dc4145be08132c8ac30.jpg",
+      "finger": 1,
+      "maskAspect": 1.5007731397969821,
+      "before": {
+        "centerErrorPx": 6.166462045198403,
+        "centerErrorNailWidths": 0.16326821928968452,
+        "iou": 0.679479932165065,
+        "approxRootErrorPx": 8.183165296787458,
+        "angleErrorDeg": 22.736095659939792,
+        "widthRatio": 0.9210364813843438,
+        "heightRatio": 0.9355112528981618
+      },
+      "after": {
+        "centerErrorPx": 6.166462045198403,
+        "centerErrorNailWidths": 0.16326821928968452,
+        "iou": 0.679479932165065,
+        "approxRootErrorPx": 8.183165296787458,
+        "angleErrorDeg": 22.736095659939792,
+        "widthRatio": 0.9210364813843438,
+        "heightRatio": 0.9355112528981618
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_11_jpg.rf.e3fc6d79558f0dc4145be08132c8ac30.jpg",
+      "finger": 3,
+      "maskAspect": 1.6960152312972616,
+      "before": {
+        "centerErrorPx": 22.89174564643195,
+        "centerErrorNailWidths": 0.6491284086439246,
+        "iou": 0.26242322724734785,
+        "approxRootErrorPx": 16.25854116262746,
+        "angleErrorDeg": 18.398812431881538,
+        "widthRatio": 0.7383554637190802,
+        "heightRatio": 0.7276747343174546
+      },
+      "after": {
+        "centerErrorPx": 22.89174564643195,
+        "centerErrorNailWidths": 0.6491284086439246,
+        "iou": 0.26242322724734785,
+        "approxRootErrorPx": 16.25854116262746,
+        "angleErrorDeg": 18.398812431881538,
+        "widthRatio": 0.7383554637190802,
+        "heightRatio": 0.7276747343174546
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_11_jpg.rf.e3fc6d79558f0dc4145be08132c8ac30.jpg",
+      "finger": 2,
+      "maskAspect": 1.4632906051532935,
+      "before": {
+        "centerErrorPx": 25.114079352840115,
+        "centerErrorNailWidths": 0.5725831056153049,
+        "iou": 0.20885818772856563,
+        "approxRootErrorPx": 25.97483316880723,
+        "angleErrorDeg": 25.4969978164537,
+        "widthRatio": 0.6488801047925041,
+        "heightRatio": 0.7461327319649768
+      },
+      "after": {
+        "centerErrorPx": 25.114079352840115,
+        "centerErrorNailWidths": 0.5725831056153049,
+        "iou": 0.20885818772856563,
+        "approxRootErrorPx": 25.97483316880723,
+        "angleErrorDeg": 25.4969978164537,
+        "widthRatio": 0.6488801047925041,
+        "heightRatio": 0.7461327319649768
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_11_jpg.rf.e3fc6d79558f0dc4145be08132c8ac30.jpg",
+      "finger": 0,
+      "maskAspect": 3.4517770249193913,
+      "before": {
+        "centerErrorPx": 45.649899572953096,
+        "centerErrorNailWidths": 2.316424333747862,
+        "iou": 0.029707295762341632,
+        "approxRootErrorPx": 36.446071775717606,
+        "angleErrorDeg": 12.53848446607276,
+        "widthRatio": 1.7668165948104038,
+        "heightRatio": 0.7595316278396019
+      },
+      "after": {
+        "centerErrorPx": 42.96754806207126,
+        "centerErrorNailWidths": 2.1803130964921853,
+        "iou": 0.07688256977356503,
+        "approxRootErrorPx": 35.679693770214655,
+        "angleErrorDeg": 12.53848446607276,
+        "widthRatio": 1.3827260307211855,
+        "heightRatio": 0.7595316278396019
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_40_jpg.rf.edc323afb5214f449d5d0df297ebdf3c.jpg",
+      "finger": 4,
+      "maskAspect": 1.1561560385542022,
+      "before": {
+        "centerErrorPx": 2.766069105859497,
+        "centerErrorNailWidths": 0.12457480991901945,
+        "iou": 0.5873362445414847,
+        "approxRootErrorPx": 4.226326324141736,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7096813815668681,
+        "heightRatio": 0.8627176008155294
+      },
+      "after": {
+        "centerErrorPx": 2.766069105859497,
+        "centerErrorNailWidths": 0.12457480991901945,
+        "iou": 0.5873362445414847,
+        "approxRootErrorPx": 4.226326324141736,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7096813815668681,
+        "heightRatio": 0.8627176008155294
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_40_jpg.rf.edc323afb5214f449d5d0df297ebdf3c.jpg",
+      "finger": 3,
+      "maskAspect": 1.0971362895443963,
+      "before": {
+        "centerErrorPx": 9.714922657547568,
+        "centerErrorNailWidths": 0.26232666254110837,
+        "iou": 0.3646723646723647,
+        "approxRootErrorPx": 22.20192851463151,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5303329995754605,
+        "heightRatio": 0.7739654615048908
+      },
+      "after": {
+        "centerErrorPx": 9.714922657547568,
+        "centerErrorNailWidths": 0.26232666254110837,
+        "iou": 0.3646723646723647,
+        "approxRootErrorPx": 22.20192851463151,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5303329995754605,
+        "heightRatio": 0.7739654615048908
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_40_jpg.rf.edc323afb5214f449d5d0df297ebdf3c.jpg",
+      "finger": 2,
+      "maskAspect": 1.1213443447224674,
+      "before": {
+        "centerErrorPx": 15.117870138672838,
+        "centerErrorNailWidths": 0.4351711769727136,
+        "iou": 0.23514851485148514,
+        "approxRootErrorPx": 24.828032204824705,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6179373977899553,
+        "heightRatio": 0.9357931879091584
+      },
+      "after": {
+        "centerErrorPx": 15.117870138672838,
+        "centerErrorNailWidths": 0.4351711769727136,
+        "iou": 0.23514851485148514,
+        "approxRootErrorPx": 24.828032204824705,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6179373977899553,
+        "heightRatio": 0.9357931879091584
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_40_jpg.rf.edc323afb5214f449d5d0df297ebdf3c.jpg",
+      "finger": 1,
+      "maskAspect": 1.3376170482422864,
+      "before": {
+        "centerErrorPx": 15.216233492622926,
+        "centerErrorNailWidths": 0.5067211480491532,
+        "iou": 0.2189655172413793,
+        "approxRootErrorPx": 19.874154910662373,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6844653844435026,
+        "heightRatio": 0.8600094226040239
+      },
+      "after": {
+        "centerErrorPx": 15.216233492622926,
+        "centerErrorNailWidths": 0.5067211480491532,
+        "iou": 0.2189655172413793,
+        "approxRootErrorPx": 19.874154910662373,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6844653844435026,
+        "heightRatio": 0.8600094226040239
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_40_jpg.rf.edc323afb5214f449d5d0df297ebdf3c.jpg",
+      "finger": 0,
+      "maskAspect": 1.5959354468393159,
+      "before": {
+        "centerErrorPx": 21.818400151263756,
+        "centerErrorNailWidths": 0.9021274629236996,
+        "iou": 0.1901743264659271,
+        "approxRootErrorPx": 21.998582953537216,
+        "angleErrorDeg": 8.313731847258964,
+        "widthRatio": 1.0859003064837933,
+        "heightRatio": 1.0142083700470963
+      },
+      "after": {
+        "centerErrorPx": 22.225280074713428,
+        "centerErrorNailWidths": 0.918950765755781,
+        "iou": 0.14150129421915444,
+        "approxRootErrorPx": 23.534248338512107,
+        "angleErrorDeg": 8.313731847258964,
+        "widthRatio": 0.8498350224655774,
+        "heightRatio": 1.0142083700470963
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_18_jpg.rf.1e02a7c42181e8bd1941c5f1f08e7d36.jpg",
+      "finger": 2,
+      "maskAspect": 1.5865228737442068,
+      "before": {
+        "centerErrorPx": 1.1128050397581197,
+        "centerErrorNailWidths": 0.01704176175393563,
+        "iou": 0.043942992874109264,
+        "approxRootErrorPx": 41.32138768453961,
+        "angleErrorDeg": 15.891205511335443,
+        "widthRatio": 0.19068068074095687,
+        "heightRatio": 0.21760784770692415
+      },
+      "after": {
+        "centerErrorPx": 1.1128050397581197,
+        "centerErrorNailWidths": 0.01704176175393563,
+        "iou": 0.043942992874109264,
+        "approxRootErrorPx": 41.32138768453961,
+        "angleErrorDeg": 15.891205511335443,
+        "widthRatio": 0.19068068074095687,
+        "heightRatio": 0.21760784770692415
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_18_jpg.rf.1e02a7c42181e8bd1941c5f1f08e7d36.jpg",
+      "finger": 4,
+      "maskAspect": 1.6782196462016516,
+      "before": {
+        "centerErrorPx": 7.929309473155658,
+        "centerErrorNailWidths": 0.1810015370805116,
+        "iou": 0.04853181076672104,
+        "approxRootErrorPx": 21.53527155876671,
+        "angleErrorDeg": 12.378484280594762,
+        "widthRatio": 0.20863127870696474,
+        "heightRatio": 0.22779966884534042
+      },
+      "after": {
+        "centerErrorPx": 7.929309473155658,
+        "centerErrorNailWidths": 0.1810015370805116,
+        "iou": 0.04853181076672104,
+        "approxRootErrorPx": 21.53527155876671,
+        "angleErrorDeg": 12.378484280594762,
+        "widthRatio": 0.20863127870696474,
+        "heightRatio": 0.22779966884534042
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_18_jpg.rf.1e02a7c42181e8bd1941c5f1f08e7d36.jpg",
+      "finger": 3,
+      "maskAspect": 1.6346634472114951,
+      "before": {
+        "centerErrorPx": 10.798540380299078,
+        "centerErrorNailWidths": 0.18060340026046998,
+        "iou": 0.042221720478663356,
+        "approxRootErrorPx": 28.329800203927437,
+        "angleErrorDeg": 10.639453010499665,
+        "widthRatio": 0.19052095583223547,
+        "heightRatio": 0.2134795206672295
+      },
+      "after": {
+        "centerErrorPx": 10.798540380299078,
+        "centerErrorNailWidths": 0.18060340026046998,
+        "iou": 0.042221720478663356,
+        "approxRootErrorPx": 28.329800203927437,
+        "angleErrorDeg": 10.639453010499665,
+        "widthRatio": 0.19052095583223547,
+        "heightRatio": 0.2134795206672295
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_18_jpg.rf.1e02a7c42181e8bd1941c5f1f08e7d36.jpg",
+      "finger": 1,
+      "maskAspect": 1.6162225466849538,
+      "before": {
+        "centerErrorPx": 14.811912382654837,
+        "centerErrorNailWidths": 0.2547022680271904,
+        "iou": 0.045712986126904706,
+        "approxRootErrorPx": 22.113010188223985,
+        "angleErrorDeg": 13.158415088996321,
+        "widthRatio": 0.20499705486242314,
+        "heightRatio": 0.22770103676568693
+      },
+      "after": {
+        "centerErrorPx": 14.811912382654837,
+        "centerErrorNailWidths": 0.2547022680271904,
+        "iou": 0.045712986126904706,
+        "approxRootErrorPx": 22.113010188223985,
+        "angleErrorDeg": 13.158415088996321,
+        "widthRatio": 0.20499705486242314,
+        "heightRatio": 0.22770103676568693
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_62_jpg.rf.2345551ea96d94161031e85c78b6a4fd.jpg",
+      "finger": 4,
+      "maskAspect": 2.07536533267265,
+      "before": {
+        "centerErrorPx": 8.4171673581469,
+        "centerErrorNailWidths": 0.2768198264399214,
+        "iou": 0.29190751445086704,
+        "approxRootErrorPx": 15.587847730027,
+        "angleErrorDeg": 6.560838504729588,
+        "widthRatio": 0.40715333672342524,
+        "heightRatio": 0.7344476126130015
+      },
+      "after": {
+        "centerErrorPx": 8.4171673581469,
+        "centerErrorNailWidths": 0.2768198264399214,
+        "iou": 0.29190751445086704,
+        "approxRootErrorPx": 15.587847730027,
+        "angleErrorDeg": 6.560838504729588,
+        "widthRatio": 0.40715333672342524,
+        "heightRatio": 0.7344476126130015
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_62_jpg.rf.2345551ea96d94161031e85c78b6a4fd.jpg",
+      "finger": 3,
+      "maskAspect": 2.05901555590889,
+      "before": {
+        "centerErrorPx": 5.010647276952979,
+        "centerErrorNailWidths": 0.14062334018278477,
+        "iou": 0.42542286007175806,
+        "approxRootErrorPx": 13.939052451724777,
+        "angleErrorDeg": 14.683579585746145,
+        "widthRatio": 0.6784475991023728,
+        "heightRatio": 0.6181067031822335
+      },
+      "after": {
+        "centerErrorPx": 5.010647276952979,
+        "centerErrorNailWidths": 0.14062334018278477,
+        "iou": 0.42542286007175806,
+        "approxRootErrorPx": 13.939052451724777,
+        "angleErrorDeg": 14.683579585746145,
+        "widthRatio": 0.6784475991023728,
+        "heightRatio": 0.6181067031822335
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_62_jpg.rf.2345551ea96d94161031e85c78b6a4fd.jpg",
+      "finger": 0,
+      "maskAspect": 1.6689799316947926,
+      "before": {
+        "centerErrorPx": 6.710667176037374,
+        "centerErrorNailWidths": 0.1473301009561769,
+        "iou": 0.37521150592216584,
+        "approxRootErrorPx": 17.137298565271344,
+        "angleErrorDeg": 17.538417276773828,
+        "widthRatio": 0.709705070240468,
+        "heightRatio": 0.4614897825538611
+      },
+      "after": {
+        "centerErrorPx": 6.710667176037374,
+        "centerErrorNailWidths": 0.1473301009561769,
+        "iou": 0.37521150592216584,
+        "approxRootErrorPx": 17.137298565271344,
+        "angleErrorDeg": 17.538417276773828,
+        "widthRatio": 0.709705070240468,
+        "heightRatio": 0.4614897825538611
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_62_jpg.rf.2345551ea96d94161031e85c78b6a4fd.jpg",
+      "finger": 2,
+      "maskAspect": 1.5159332615345504,
+      "before": {
+        "centerErrorPx": 9.142125910557382,
+        "centerErrorNailWidths": 0.22895997539608104,
+        "iou": 0.5050391937290034,
+        "approxRootErrorPx": 25.08918887766152,
+        "angleErrorDeg": 31.922341779680096,
+        "widthRatio": 0.6617508473556231,
+        "heightRatio": 0.8225502550035682
+      },
+      "after": {
+        "centerErrorPx": 9.142125910557382,
+        "centerErrorNailWidths": 0.22895997539608104,
+        "iou": 0.5050391937290034,
+        "approxRootErrorPx": 25.08918887766152,
+        "angleErrorDeg": 31.922341779680096,
+        "widthRatio": 0.6617508473556231,
+        "heightRatio": 0.8225502550035682
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_62_jpg.rf.2345551ea96d94161031e85c78b6a4fd.jpg",
+      "finger": 1,
+      "maskAspect": 1.4871698267964142,
+      "before": {
+        "centerErrorPx": 21.915679581539823,
+        "centerErrorNailWidths": 0.5674124674276098,
+        "iou": 0.15735359856951275,
+        "approxRootErrorPx": 33.5212774067842,
+        "angleErrorDeg": 23.056900996121442,
+        "widthRatio": 0.6549991288522775,
+        "heightRatio": 0.808918741553052
+      },
+      "after": {
+        "centerErrorPx": 21.915679581539823,
+        "centerErrorNailWidths": 0.5674124674276098,
+        "iou": 0.15735359856951275,
+        "approxRootErrorPx": 33.5212774067842,
+        "angleErrorDeg": 23.056900996121442,
+        "widthRatio": 0.6549991288522775,
+        "heightRatio": 0.808918741553052
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_38_jpg.rf.586af1528f3377962f99904e2fe6ab6e.jpg",
+      "finger": 3,
+      "maskAspect": 1.565875573668162,
+      "before": {
+        "centerErrorPx": 16.01330869447813,
+        "centerErrorNailWidths": 0.4283165644150644,
+        "iou": 0.36037527593818985,
+        "approxRootErrorPx": 13.81060446089227,
+        "angleErrorDeg": 19.619271075752863,
+        "widthRatio": 0.6475367707101635,
+        "heightRatio": 0.7659474394120486
+      },
+      "after": {
+        "centerErrorPx": 16.01330869447813,
+        "centerErrorNailWidths": 0.4283165644150644,
+        "iou": 0.36037527593818985,
+        "approxRootErrorPx": 13.81060446089227,
+        "angleErrorDeg": 19.619271075752863,
+        "widthRatio": 0.6475367707101635,
+        "heightRatio": 0.7659474394120486
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_38_jpg.rf.586af1528f3377962f99904e2fe6ab6e.jpg",
+      "finger": 4,
+      "maskAspect": 1.3065991290784609,
+      "before": {
+        "centerErrorPx": 18.682884985260173,
+        "centerErrorNailWidths": 0.6229198928908068,
+        "iou": 0.2081447963800905,
+        "approxRootErrorPx": 15.978159127807537,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6476189379198543,
+        "heightRatio": 0.8366031266642208
+      },
+      "after": {
+        "centerErrorPx": 18.682884985260173,
+        "centerErrorNailWidths": 0.6229198928908068,
+        "iou": 0.2081447963800905,
+        "approxRootErrorPx": 15.978159127807537,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6476189379198543,
+        "heightRatio": 0.8366031266642208
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_38_jpg.rf.586af1528f3377962f99904e2fe6ab6e.jpg",
+      "finger": 0,
+      "maskAspect": 1.830484199131615,
+      "before": {
+        "centerErrorPx": 22.797476050353612,
+        "centerErrorNailWidths": 0.5581989931807576,
+        "iou": 0.3445575567736883,
+        "approxRootErrorPx": 10.006494702720733,
+        "angleErrorDeg": 11.381903738193273,
+        "widthRatio": 0.792651544777214,
+        "heightRatio": 0.6292710832970952
+      },
+      "after": {
+        "centerErrorPx": 23.7467356463357,
+        "centerErrorNailWidths": 0.5814417306475727,
+        "iou": 0.22397841171935234,
+        "approxRootErrorPx": 17.71330431455442,
+        "angleErrorDeg": 11.381903738193273,
+        "widthRatio": 0.6203359915647761,
+        "heightRatio": 0.6292710832970952
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_38_jpg.rf.586af1528f3377962f99904e2fe6ab6e.jpg",
+      "finger": 2,
+      "maskAspect": 1.5106080611734711,
+      "before": {
+        "centerErrorPx": 23.95405074419048,
+        "centerErrorNailWidths": 0.5416214503290809,
+        "iou": 0.20319027725028485,
+        "approxRootErrorPx": 23.724557220885412,
+        "angleErrorDeg": 17.612128623339117,
+        "widthRatio": 0.5983109256090872,
+        "heightRatio": 0.7366755230359272
+      },
+      "after": {
+        "centerErrorPx": 23.95405074419048,
+        "centerErrorNailWidths": 0.5416214503290809,
+        "iou": 0.20319027725028485,
+        "approxRootErrorPx": 23.724557220885412,
+        "angleErrorDeg": 17.612128623339117,
+        "widthRatio": 0.5983109256090872,
+        "heightRatio": 0.7366755230359272
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_38_jpg.rf.586af1528f3377962f99904e2fe6ab6e.jpg",
+      "finger": 1,
+      "maskAspect": 1.4780796805407455,
+      "before": {
+        "centerErrorPx": 12.504456870279244,
+        "centerErrorNailWidths": 0.31078962197497456,
+        "iou": 0.5230542235337514,
+        "approxRootErrorPx": 22.486777783465957,
+        "angleErrorDeg": 16.504447118928056,
+        "widthRatio": 1.0852093701014363,
+        "heightRatio": 1.1544111663246044
+      },
+      "after": {
+        "centerErrorPx": 12.504456870279244,
+        "centerErrorNailWidths": 0.31078962197497456,
+        "iou": 0.5230542235337514,
+        "approxRootErrorPx": 22.486777783465957,
+        "angleErrorDeg": 16.504447118928056,
+        "widthRatio": 1.0852093701014363,
+        "heightRatio": 1.1544111663246044
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_47_jpg.rf.547c8a120656ebaf7d8c648a78309bd1.jpg",
+      "finger": 2,
+      "maskAspect": 1.6934918277142,
+      "before": {
+        "centerErrorPx": 1.975382335093544,
+        "centerErrorNailWidths": 0.04603872297081688,
+        "iou": 0.09739973556632878,
+        "approxRootErrorPx": 25.222542734964435,
+        "angleErrorDeg": 18.697546669839653,
+        "widthRatio": 0.28593217553419004,
+        "heightRatio": 0.31724110071367195
+      },
+      "after": {
+        "centerErrorPx": 1.975382335093544,
+        "centerErrorNailWidths": 0.04603872297081688,
+        "iou": 0.09739973556632878,
+        "approxRootErrorPx": 25.222542734964435,
+        "angleErrorDeg": 18.697546669839653,
+        "widthRatio": 0.28593217553419004,
+        "heightRatio": 0.31724110071367195
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_47_jpg.rf.547c8a120656ebaf7d8c648a78309bd1.jpg",
+      "finger": 1,
+      "maskAspect": 1.747593308050652,
+      "before": {
+        "centerErrorPx": 4.833422116600794,
+        "centerErrorNailWidths": 0.11569311786484913,
+        "iou": 0.08848007008322382,
+        "approxRootErrorPx": 30.878589834407173,
+        "angleErrorDeg": 18.5094087748966,
+        "widthRatio": 0.2811631380982071,
+        "heightRatio": 0.2950676307079808
+      },
+      "after": {
+        "centerErrorPx": 4.833422116600794,
+        "centerErrorNailWidths": 0.11569311786484913,
+        "iou": 0.08848007008322382,
+        "approxRootErrorPx": 30.878589834407173,
+        "angleErrorDeg": 18.5094087748966,
+        "widthRatio": 0.2811631380982071,
+        "heightRatio": 0.2950676307079808
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_47_jpg.rf.547c8a120656ebaf7d8c648a78309bd1.jpg",
+      "finger": 4,
+      "maskAspect": 1.419680254039564,
+      "before": {
+        "centerErrorPx": 16.99506098552349,
+        "centerErrorNailWidths": 0.5499013067409446,
+        "iou": 0.10202020202020202,
+        "approxRootErrorPx": 31.13692231115356,
+        "angleErrorDeg": 17.023044689466587,
+        "widthRatio": 0.29138969393451136,
+        "heightRatio": 0.38041916102807033
+      },
+      "after": {
+        "centerErrorPx": 16.99506098552349,
+        "centerErrorNailWidths": 0.5499013067409446,
+        "iou": 0.10202020202020202,
+        "approxRootErrorPx": 31.13692231115356,
+        "angleErrorDeg": 17.023044689466587,
+        "widthRatio": 0.29138969393451136,
+        "heightRatio": 0.38041916102807033
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_47_jpg.rf.547c8a120656ebaf7d8c648a78309bd1.jpg",
+      "finger": 3,
+      "maskAspect": 1.8992575706612649,
+      "before": {
+        "centerErrorPx": 24.047463529633628,
+        "centerErrorNailWidths": 0.6172590624059554,
+        "iou": 0,
+        "approxRootErrorPx": 39.41044911053541,
+        "angleErrorDeg": 13.667268412929502,
+        "widthRatio": 0.2881109228286064,
+        "heightRatio": 0.28488187780086227
+      },
+      "after": {
+        "centerErrorPx": 24.047463529633628,
+        "centerErrorNailWidths": 0.6172590624059554,
+        "iou": 0,
+        "approxRootErrorPx": 39.41044911053541,
+        "angleErrorDeg": 13.667268412929502,
+        "widthRatio": 0.2881109228286064,
+        "heightRatio": 0.28488187780086227
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_30_jpg.rf.ed6d9ab66be7931d0e5a01abd0d31e87.jpg",
+      "finger": 4,
+      "maskAspect": 1.3138663667917954,
+      "before": {
+        "centerErrorPx": 5.262623948846217,
+        "centerErrorNailWidths": 0.1415095194050873,
+        "iou": 0.5076674737691687,
+        "approxRootErrorPx": 10.401398120566594,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6474135629939824,
+        "heightRatio": 0.7022212509513797
+      },
+      "after": {
+        "centerErrorPx": 5.262623948846217,
+        "centerErrorNailWidths": 0.1415095194050873,
+        "iou": 0.5076674737691687,
+        "approxRootErrorPx": 10.401398120566594,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6474135629939824,
+        "heightRatio": 0.7022212509513797
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_30_jpg.rf.ed6d9ab66be7931d0e5a01abd0d31e87.jpg",
+      "finger": 3,
+      "maskAspect": 1.5589720381759349,
+      "before": {
+        "centerErrorPx": 17.03563619795118,
+        "centerErrorNailWidths": 0.44438992384659753,
+        "iou": 0.4061284046692607,
+        "approxRootErrorPx": 13.767186666680919,
+        "angleErrorDeg": 12.41544433699704,
+        "widthRatio": 0.7828051637578137,
+        "heightRatio": 0.804886812482614
+      },
+      "after": {
+        "centerErrorPx": 17.03563619795118,
+        "centerErrorNailWidths": 0.44438992384659753,
+        "iou": 0.4061284046692607,
+        "approxRootErrorPx": 13.767186666680919,
+        "angleErrorDeg": 12.41544433699704,
+        "widthRatio": 0.7828051637578137,
+        "heightRatio": 0.804886812482614
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_30_jpg.rf.ed6d9ab66be7931d0e5a01abd0d31e87.jpg",
+      "finger": 1,
+      "maskAspect": 1.2133411593534422,
+      "before": {
+        "centerErrorPx": 5.360144601339892,
+        "centerErrorNailWidths": 0.10512418223286385,
+        "iou": 0.5703924914675768,
+        "approxRootErrorPx": 9.969613908418998,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7076425198229754,
+        "heightRatio": 0.7684224273888617
+      },
+      "after": {
+        "centerErrorPx": 5.360144601339892,
+        "centerErrorNailWidths": 0.10512418223286385,
+        "iou": 0.5703924914675768,
+        "approxRootErrorPx": 9.969613908418998,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7076425198229754,
+        "heightRatio": 0.7684224273888617
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_30_jpg.rf.ed6d9ab66be7931d0e5a01abd0d31e87.jpg",
+      "finger": 2,
+      "maskAspect": 1.351855377854084,
+      "before": {
+        "centerErrorPx": 2.145113506979795,
+        "centerErrorNailWidths": 0.047329758560579395,
+        "iou": 0.8191863385233551,
+        "approxRootErrorPx": 7.532416284856023,
+        "angleErrorDeg": 3.8017573560396727,
+        "widthRatio": 0.9238780351293597,
+        "heightRatio": 0.8299003661998666
+      },
+      "after": {
+        "centerErrorPx": 2.145113506979795,
+        "centerErrorNailWidths": 0.047329758560579395,
+        "iou": 0.8191863385233551,
+        "approxRootErrorPx": 7.532416284856023,
+        "angleErrorDeg": 3.8017573560396727,
+        "widthRatio": 0.9238780351293597,
+        "heightRatio": 0.8299003661998666
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_30_jpg.rf.ed6d9ab66be7931d0e5a01abd0d31e87.jpg",
+      "finger": 0,
+      "maskAspect": 1.7849459516528154,
+      "before": {
+        "centerErrorPx": 30.891075598834178,
+        "centerErrorNailWidths": 0.786571961817174,
+        "iou": 0.24028966425279788,
+        "approxRootErrorPx": 25.217085584520895,
+        "angleErrorDeg": 4.476500627089877,
+        "widthRatio": 1.021768843996141,
+        "heightRatio": 0.8462463689979173
+      },
+      "after": {
+        "centerErrorPx": 31.29530930725603,
+        "centerErrorNailWidths": 0.796864866641699,
+        "iou": 0.20819848975188782,
+        "approxRootErrorPx": 27.18332406066743,
+        "angleErrorDeg": 4.476500627089877,
+        "widthRatio": 0.7996451822578494,
+        "heightRatio": 0.8462463689979173
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_34_jpg.rf.d0770576acc4e4df687d86e8dfd422c1.jpg",
+      "finger": 4,
+      "maskAspect": 1.4260992640926997,
+      "before": {
+        "centerErrorPx": 5.087521096144386,
+        "centerErrorNailWidths": 0.17193347004641288,
+        "iou": 0.5176600441501104,
+        "approxRootErrorPx": 5.016471162697841,
+        "angleErrorDeg": 11.068605869300086,
+        "widthRatio": 0.6720026660653592,
+        "heightRatio": 0.7432648492442511
+      },
+      "after": {
+        "centerErrorPx": 5.087521096144386,
+        "centerErrorNailWidths": 0.17193347004641288,
+        "iou": 0.5176600441501104,
+        "approxRootErrorPx": 5.016471162697841,
+        "angleErrorDeg": 11.068605869300086,
+        "widthRatio": 0.6720026660653592,
+        "heightRatio": 0.7432648492442511
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_34_jpg.rf.d0770576acc4e4df687d86e8dfd422c1.jpg",
+      "finger": 1,
+      "maskAspect": 1.633949102824123,
+      "before": {
+        "centerErrorPx": 22.423123298083283,
+        "centerErrorNailWidths": 0.5880582677263818,
+        "iou": 0.27391304347826084,
+        "approxRootErrorPx": 17.839799665145115,
+        "angleErrorDeg": 13.701313892584494,
+        "widthRatio": 0.6801966124621827,
+        "heightRatio": 0.7677773903965712
+      },
+      "after": {
+        "centerErrorPx": 22.423123298083283,
+        "centerErrorNailWidths": 0.5880582677263818,
+        "iou": 0.27391304347826084,
+        "approxRootErrorPx": 17.839799665145115,
+        "angleErrorDeg": 13.701313892584494,
+        "widthRatio": 0.6801966124621827,
+        "heightRatio": 0.7677773903965712
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_34_jpg.rf.d0770576acc4e4df687d86e8dfd422c1.jpg",
+      "finger": 3,
+      "maskAspect": 1.6132032438186148,
+      "before": {
+        "centerErrorPx": 22.42767486273951,
+        "centerErrorNailWidths": 0.6373095227032165,
+        "iou": 0.2708779443254818,
+        "approxRootErrorPx": 16.33377969859834,
+        "angleErrorDeg": 3.8045927160158044,
+        "widthRatio": 0.7042588408683781,
+        "heightRatio": 0.7885310088489496
+      },
+      "after": {
+        "centerErrorPx": 22.42767486273951,
+        "centerErrorNailWidths": 0.6373095227032165,
+        "iou": 0.2708779443254818,
+        "approxRootErrorPx": 16.33377969859834,
+        "angleErrorDeg": 3.8045927160158044,
+        "widthRatio": 0.7042588408683781,
+        "heightRatio": 0.7885310088489496
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_34_jpg.rf.d0770576acc4e4df687d86e8dfd422c1.jpg",
+      "finger": 2,
+      "maskAspect": 1.557242210905724,
+      "before": {
+        "centerErrorPx": 24.345936722361323,
+        "centerErrorNailWidths": 0.5996419231375651,
+        "iou": 0.25707154742096505,
+        "approxRootErrorPx": 19.008903160198205,
+        "angleErrorDeg": 6.967315935627312,
+        "widthRatio": 0.6672077051376474,
+        "heightRatio": 0.8007095734111139
+      },
+      "after": {
+        "centerErrorPx": 24.345936722361323,
+        "centerErrorNailWidths": 0.5996419231375651,
+        "iou": 0.25707154742096505,
+        "approxRootErrorPx": 19.008903160198205,
+        "angleErrorDeg": 6.967315935627312,
+        "widthRatio": 0.6672077051376474,
+        "heightRatio": 0.8007095734111139
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_34_jpg.rf.d0770576acc4e4df687d86e8dfd422c1.jpg",
+      "finger": 0,
+      "maskAspect": 2.5820925171289044,
+      "before": {
+        "centerErrorPx": 36.166812057370365,
+        "centerErrorNailWidths": 1.2996040836482194,
+        "iou": 0.11621966794380588,
+        "approxRootErrorPx": 23.91967052125191,
+        "angleErrorDeg": 12.482958819010832,
+        "widthRatio": 1.1908755487628555,
+        "heightRatio": 0.687429140302639
+      },
+      "after": {
+        "centerErrorPx": 33.709885577326375,
+        "centerErrorNailWidths": 1.2113178481452507,
+        "iou": 0.16733067729083664,
+        "approxRootErrorPx": 24.147266636115543,
+        "angleErrorDeg": 12.482958819010832,
+        "widthRatio": 0.9319895599013652,
+        "heightRatio": 0.687429140302639
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c48acb6-e402-11e8-97db-0242ac1c0002_jpg.rf.b16462f39f4835a4b16cb34b687969bd.jpg",
+      "finger": 3,
+      "maskAspect": 1.2009784588540473,
+      "before": {
+        "centerErrorPx": 7.855435447755347,
+        "centerErrorNailWidths": 0.28089240576935837,
+        "iou": 0.4601366742596811,
+        "approxRootErrorPx": 24.883103858902537,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8668756967824687,
+        "heightRatio": 0.933140933834652
+      },
+      "after": {
+        "centerErrorPx": 7.855435447755347,
+        "centerErrorNailWidths": 0.28089240576935837,
+        "iou": 0.4601366742596811,
+        "approxRootErrorPx": 24.883103858902537,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8668756967824687,
+        "heightRatio": 0.933140933834652
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c48acb6-e402-11e8-97db-0242ac1c0002_jpg.rf.b16462f39f4835a4b16cb34b687969bd.jpg",
+      "finger": 4,
+      "maskAspect": 1.1095363036280719,
+      "before": {
+        "centerErrorPx": 8.304805278452365,
+        "centerErrorNailWidths": 0.28356528350818644,
+        "iou": 0.37055837563451777,
+        "approxRootErrorPx": 19.837309545958323,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6144510582567251,
+        "heightRatio": 0.7789182122417455
+      },
+      "after": {
+        "centerErrorPx": 8.304805278452365,
+        "centerErrorNailWidths": 0.28356528350818644,
+        "iou": 0.37055837563451777,
+        "approxRootErrorPx": 19.837309545958323,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6144510582567251,
+        "heightRatio": 0.7789182122417455
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c48acb6-e402-11e8-97db-0242ac1c0002_jpg.rf.b16462f39f4835a4b16cb34b687969bd.jpg",
+      "finger": 1,
+      "maskAspect": 1.2980211068173462,
+      "before": {
+        "centerErrorPx": 15.05510301442508,
+        "centerErrorNailWidths": 0.5231373161086535,
+        "iou": 0.2479541734860884,
+        "approxRootErrorPx": 38.30588943842904,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8891082110699766,
+        "heightRatio": 0.987110473361683
+      },
+      "after": {
+        "centerErrorPx": 15.05510301442508,
+        "centerErrorNailWidths": 0.5231373161086535,
+        "iou": 0.2479541734860884,
+        "approxRootErrorPx": 38.30588943842904,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8891082110699766,
+        "heightRatio": 0.987110473361683
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c48acb6-e402-11e8-97db-0242ac1c0002_jpg.rf.b16462f39f4835a4b16cb34b687969bd.jpg",
+      "finger": 2,
+      "maskAspect": 1.203601949191993,
+      "before": {
+        "centerErrorPx": 19.755938622866832,
+        "centerErrorNailWidths": 0.5695590424530724,
+        "iou": 0.18392282958199357,
+        "approxRootErrorPx": 44.806395338111706,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7704581964711071,
+        "heightRatio": 0.8893310486710237
+      },
+      "after": {
+        "centerErrorPx": 19.755938622866832,
+        "centerErrorNailWidths": 0.5695590424530724,
+        "iou": 0.18392282958199357,
+        "approxRootErrorPx": 44.806395338111706,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7704581964711071,
+        "heightRatio": 0.8893310486710237
+      },
+      "refined": false
+    },
+    {
+      "file": "train/4c48acb6-e402-11e8-97db-0242ac1c0002_jpg.rf.b16462f39f4835a4b16cb34b687969bd.jpg",
+      "finger": 0,
+      "maskAspect": 1.4035877874390343,
+      "before": {
+        "centerErrorPx": 22.451006907438483,
+        "centerErrorNailWidths": 0.6607099398238814,
+        "iou": 0.2298728813559322,
+        "approxRootErrorPx": 22.211763942636562,
+        "angleErrorDeg": 18.316839456043454,
+        "widthRatio": 0.962172633756197,
+        "heightRatio": 1.0237397915554494
+      },
+      "after": {
+        "centerErrorPx": 20.457070477524844,
+        "centerErrorNailWidths": 0.6020304505674597,
+        "iou": 0.26322263222632225,
+        "approxRootErrorPx": 24.1178471195515,
+        "angleErrorDeg": 18.316839456043454,
+        "widthRatio": 0.7530046698961541,
+        "heightRatio": 1.0237397915554494
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_49_jpg.rf.2e3a136d387ce12f9f07f2a021d905dd.jpg",
+      "finger": 1,
+      "maskAspect": 2.180896678248643,
+      "before": {
+        "centerErrorPx": 10.302067957855206,
+        "centerErrorNailWidths": 0.25533120302695494,
+        "iou": 0.31195697145221346,
+        "approxRootErrorPx": 14.802003322336885,
+        "angleErrorDeg": 2.0887705045481653,
+        "widthRatio": 0.5794117790117319,
+        "heightRatio": 0.4658218881436541
+      },
+      "after": {
+        "centerErrorPx": 10.302067957855206,
+        "centerErrorNailWidths": 0.25533120302695494,
+        "iou": 0.31195697145221346,
+        "approxRootErrorPx": 14.802003322336885,
+        "angleErrorDeg": 2.0887705045481653,
+        "widthRatio": 0.5794117790117319,
+        "heightRatio": 0.4658218881436541
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_49_jpg.rf.2e3a136d387ce12f9f07f2a021d905dd.jpg",
+      "finger": 3,
+      "maskAspect": 2.1869593072429168,
+      "before": {
+        "centerErrorPx": 15.564745301083583,
+        "centerErrorNailWidths": 0.35018015005530134,
+        "iou": 0.21271317829457365,
+        "approxRootErrorPx": 20.66375459107612,
+        "angleErrorDeg": 12.728224242947476,
+        "widthRatio": 0.5025893559582993,
+        "heightRatio": 0.41805932106357746
+      },
+      "after": {
+        "centerErrorPx": 15.564745301083583,
+        "centerErrorNailWidths": 0.35018015005530134,
+        "iou": 0.21271317829457365,
+        "approxRootErrorPx": 20.66375459107612,
+        "angleErrorDeg": 12.728224242947476,
+        "widthRatio": 0.5025893559582993,
+        "heightRatio": 0.41805932106357746
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_49_jpg.rf.2e3a136d387ce12f9f07f2a021d905dd.jpg",
+      "finger": 2,
+      "maskAspect": 2.190181279970272,
+      "before": {
+        "centerErrorPx": 16.91806997670685,
+        "centerErrorNailWidths": 0.35987187525863573,
+        "iou": 0.1963482402752051,
+        "approxRootErrorPx": 23.58060352152777,
+        "angleErrorDeg": 4.534215433354575,
+        "widthRatio": 0.5193860404515068,
+        "heightRatio": 0.429388349395985
+      },
+      "after": {
+        "centerErrorPx": 16.91806997670685,
+        "centerErrorNailWidths": 0.35987187525863573,
+        "iou": 0.1963482402752051,
+        "approxRootErrorPx": 23.58060352152777,
+        "angleErrorDeg": 4.534215433354575,
+        "widthRatio": 0.5193860404515068,
+        "heightRatio": 0.429388349395985
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_49_jpg.rf.2e3a136d387ce12f9f07f2a021d905dd.jpg",
+      "finger": 4,
+      "maskAspect": 1.8046772626494572,
+      "before": {
+        "centerErrorPx": 27.390821514895023,
+        "centerErrorNailWidths": 0.6734511418543396,
+        "iou": 0.11890660592255126,
+        "approxRootErrorPx": 47.97502269239268,
+        "angleErrorDeg": 10.46957083081304,
+        "widthRatio": 0.440671999082461,
+        "heightRatio": 0.43067401057107496
+      },
+      "after": {
+        "centerErrorPx": 27.390821514895023,
+        "centerErrorNailWidths": 0.6734511418543396,
+        "iou": 0.11890660592255126,
+        "approxRootErrorPx": 47.97502269239268,
+        "angleErrorDeg": 10.46957083081304,
+        "widthRatio": 0.440671999082461,
+        "heightRatio": 0.43067401057107496
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_41_jpg.rf.65c186727123a555984c3cc2b8214d16.jpg",
+      "finger": 3,
+      "maskAspect": 1.2300017944423216,
+      "before": {
+        "centerErrorPx": 6.170923989515188,
+        "centerErrorNailWidths": 0.20757300988918959,
+        "iou": 0.49008168028004667,
+        "approxRootErrorPx": 6.445604986200949,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6160801921382106,
+        "heightRatio": 0.9405984949827066
+      },
+      "after": {
+        "centerErrorPx": 6.170923989515188,
+        "centerErrorNailWidths": 0.20757300988918959,
+        "iou": 0.49008168028004667,
+        "approxRootErrorPx": 6.445604986200949,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6160801921382106,
+        "heightRatio": 0.9405984949827066
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_41_jpg.rf.65c186727123a555984c3cc2b8214d16.jpg",
+      "finger": 4,
+      "maskAspect": 1.6623564226259069,
+      "before": {
+        "centerErrorPx": 13.519205887807109,
+        "centerErrorNailWidths": 0.6255139978318079,
+        "iou": 0.2038404726735598,
+        "approxRootErrorPx": 8.903219824328378,
+        "angleErrorDeg": 6.2609811836418885,
+        "widthRatio": 0.6799125385867412,
+        "heightRatio": 0.6478514992041844
+      },
+      "after": {
+        "centerErrorPx": 13.519205887807109,
+        "centerErrorNailWidths": 0.6255139978318079,
+        "iou": 0.2038404726735598,
+        "approxRootErrorPx": 8.903219824328378,
+        "angleErrorDeg": 6.2609811836418885,
+        "widthRatio": 0.6799125385867412,
+        "heightRatio": 0.6478514992041844
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_41_jpg.rf.65c186727123a555984c3cc2b8214d16.jpg",
+      "finger": 2,
+      "maskAspect": 1.3252123245092733,
+      "before": {
+        "centerErrorPx": 13.607456908746066,
+        "centerErrorNailWidths": 0.47665042253555473,
+        "iou": 0.26033834586466165,
+        "approxRootErrorPx": 17.460156679455803,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7012437072351893,
+        "heightRatio": 0.9269240451763834
+      },
+      "after": {
+        "centerErrorPx": 13.607456908746066,
+        "centerErrorNailWidths": 0.47665042253555473,
+        "iou": 0.26033834586466165,
+        "approxRootErrorPx": 17.460156679455803,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7012437072351893,
+        "heightRatio": 0.9269240451763834
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_41_jpg.rf.65c186727123a555984c3cc2b8214d16.jpg",
+      "finger": 1,
+      "maskAspect": 1.4493882571372396,
+      "before": {
+        "centerErrorPx": 13.801305372183679,
+        "centerErrorNailWidths": 0.5603642730982522,
+        "iou": 0.22608695652173913,
+        "approxRootErrorPx": 13.943185527571591,
+        "angleErrorDeg": 7.267800222932692,
+        "widthRatio": 0.7782352376189092,
+        "heightRatio": 0.9046715769185595
+      },
+      "after": {
+        "centerErrorPx": 13.801305372183679,
+        "centerErrorNailWidths": 0.5603642730982522,
+        "iou": 0.22608695652173913,
+        "approxRootErrorPx": 13.943185527571591,
+        "angleErrorDeg": 7.267800222932692,
+        "widthRatio": 0.7782352376189092,
+        "heightRatio": 0.9046715769185595
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_35_jpg.rf.f5ecee34ea69eeb42dd885b87cf64025.jpg",
+      "finger": 3,
+      "maskAspect": 1.9199864876321076,
+      "before": {
+        "centerErrorPx": 9.117140842136141,
+        "centerErrorNailWidths": 0.24113946100714256,
+        "iou": 0.4642512077294686,
+        "approxRootErrorPx": 3.619233176086714,
+        "angleErrorDeg": 2.0154622450613715,
+        "widthRatio": 0.6773769774604578,
+        "heightRatio": 0.6584680728979144
+      },
+      "after": {
+        "centerErrorPx": 9.117140842136141,
+        "centerErrorNailWidths": 0.24113946100714256,
+        "iou": 0.4642512077294686,
+        "approxRootErrorPx": 3.619233176086714,
+        "angleErrorDeg": 2.0154622450613715,
+        "widthRatio": 0.6773769774604578,
+        "heightRatio": 0.6584680728979144
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_35_jpg.rf.f5ecee34ea69eeb42dd885b87cf64025.jpg",
+      "finger": 4,
+      "maskAspect": 1.8728775050771689,
+      "before": {
+        "centerErrorPx": 18.377160266942266,
+        "centerErrorNailWidths": 0.6293452775791484,
+        "iou": 0.30214830214830213,
+        "approxRootErrorPx": 10.471128179708737,
+        "angleErrorDeg": 1.1180765004453406,
+        "widthRatio": 0.7036910448827919,
+        "heightRatio": 0.7062743913968291
+      },
+      "after": {
+        "centerErrorPx": 18.377160266942266,
+        "centerErrorNailWidths": 0.6293452775791484,
+        "iou": 0.30214830214830213,
+        "approxRootErrorPx": 10.471128179708737,
+        "angleErrorDeg": 1.1180765004453406,
+        "widthRatio": 0.7036910448827919,
+        "heightRatio": 0.7062743913968291
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_35_jpg.rf.f5ecee34ea69eeb42dd885b87cf64025.jpg",
+      "finger": 2,
+      "maskAspect": 1.9036185998740198,
+      "before": {
+        "centerErrorPx": 27.942960595007975,
+        "centerErrorNailWidths": 0.6643173008948691,
+        "iou": 0.2584988219454729,
+        "approxRootErrorPx": 14.255018405083728,
+        "angleErrorDeg": 0.9725801235499603,
+        "widthRatio": 0.6655081171265942,
+        "heightRatio": 0.6523264383355576
+      },
+      "after": {
+        "centerErrorPx": 27.942960595007975,
+        "centerErrorNailWidths": 0.6643173008948691,
+        "iou": 0.2584988219454729,
+        "approxRootErrorPx": 14.255018405083728,
+        "angleErrorDeg": 0.9725801235499603,
+        "widthRatio": 0.6655081171265942,
+        "heightRatio": 0.6523264383355576
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_35_jpg.rf.f5ecee34ea69eeb42dd885b87cf64025.jpg",
+      "finger": 1,
+      "maskAspect": 1.7881643642703244,
+      "before": {
+        "centerErrorPx": 33.46312562157931,
+        "centerErrorNailWidths": 0.8159249218089729,
+        "iou": 0.1657754010695187,
+        "approxRootErrorPx": 21.943728867638992,
+        "angleErrorDeg": 4.788134495896884,
+        "widthRatio": 0.6535044704443115,
+        "heightRatio": 0.67321948367383
+      },
+      "after": {
+        "centerErrorPx": 33.46312562157931,
+        "centerErrorNailWidths": 0.8159249218089729,
+        "iou": 0.1657754010695187,
+        "approxRootErrorPx": 21.943728867638992,
+        "angleErrorDeg": 4.788134495896884,
+        "widthRatio": 0.6535044704443115,
+        "heightRatio": 0.67321948367383
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_35_jpg.rf.f5ecee34ea69eeb42dd885b87cf64025.jpg",
+      "finger": 0,
+      "maskAspect": 2.637918426985172,
+      "before": {
+        "centerErrorPx": 34.42946316751401,
+        "centerErrorNailWidths": 1.0635191762475202,
+        "iou": 0.15434314429289303,
+        "approxRootErrorPx": 15.06388338946096,
+        "angleErrorDeg": 15.466587851673808,
+        "widthRatio": 1.0578772385627342,
+        "heightRatio": 0.5929060891991329
+      },
+      "after": {
+        "centerErrorPx": 29.99420428044025,
+        "centerErrorNailWidths": 0.926514923376221,
+        "iou": 0.2728062554300608,
+        "approxRootErrorPx": 14.761017037315737,
+        "angleErrorDeg": 15.466587851673808,
+        "widthRatio": 0.827903925831705,
+        "heightRatio": 0.5929060891991329
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_43_jpg.rf.c5b9a979e13d166f8e94fac1826bccd4.jpg",
+      "finger": 3,
+      "maskAspect": 1.2929328522082937,
+      "before": {
+        "centerErrorPx": 1.4549283983544126,
+        "centerErrorNailWidths": 0.037228151297713466,
+        "iou": 0.7006507592190889,
+        "approxRootErrorPx": 7.87157434026853,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7942687589564055,
+        "heightRatio": 0.7860517178604888
+      },
+      "after": {
+        "centerErrorPx": 1.4549283983544126,
+        "centerErrorNailWidths": 0.037228151297713466,
+        "iou": 0.7006507592190889,
+        "approxRootErrorPx": 7.87157434026853,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7942687589564055,
+        "heightRatio": 0.7860517178604888
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_43_jpg.rf.c5b9a979e13d166f8e94fac1826bccd4.jpg",
+      "finger": 1,
+      "maskAspect": 1.3978526669319449,
+      "before": {
+        "centerErrorPx": 19.648038243404468,
+        "centerErrorNailWidths": 0.5340789238351045,
+        "iou": 0.2116136236739252,
+        "approxRootErrorPx": 18.77455778827612,
+        "angleErrorDeg": 12.878708586201242,
+        "widthRatio": 0.658757000057746,
+        "heightRatio": 0.7655673782795458
+      },
+      "after": {
+        "centerErrorPx": 19.648038243404468,
+        "centerErrorNailWidths": 0.5340789238351045,
+        "iou": 0.2116136236739252,
+        "approxRootErrorPx": 18.77455778827612,
+        "angleErrorDeg": 12.878708586201242,
+        "widthRatio": 0.658757000057746,
+        "heightRatio": 0.7655673782795458
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_43_jpg.rf.c5b9a979e13d166f8e94fac1826bccd4.jpg",
+      "finger": 4,
+      "maskAspect": 1.1786751815897238,
+      "before": {
+        "centerErrorPx": 20.46220534814632,
+        "centerErrorNailWidths": 0.5795102819235619,
+        "iou": 0.15735641227380015,
+        "approxRootErrorPx": 15.19931916508965,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5262041712150252,
+        "heightRatio": 0.722774027885904
+      },
+      "after": {
+        "centerErrorPx": 20.46220534814632,
+        "centerErrorNailWidths": 0.5795102819235619,
+        "iou": 0.15735641227380015,
+        "approxRootErrorPx": 15.19931916508965,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5262041712150252,
+        "heightRatio": 0.722774027885904
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_43_jpg.rf.c5b9a979e13d166f8e94fac1826bccd4.jpg",
+      "finger": 2,
+      "maskAspect": 1.1502294868391727,
+      "before": {
+        "centerErrorPx": 4.293357603339893,
+        "centerErrorNailWidths": 0.10140250394182168,
+        "iou": 0.6634615384615384,
+        "approxRootErrorPx": 13.982817512148427,
+        "angleErrorDeg": null,
+        "widthRatio": 1.1829354549134352,
+        "heightRatio": 1.1403714783498975
+      },
+      "after": {
+        "centerErrorPx": 4.293357603339893,
+        "centerErrorNailWidths": 0.10140250394182168,
+        "iou": 0.6634615384615384,
+        "approxRootErrorPx": 13.982817512148427,
+        "angleErrorDeg": null,
+        "widthRatio": 1.1829354549134352,
+        "heightRatio": 1.1403714783498975
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_43_jpg.rf.c5b9a979e13d166f8e94fac1826bccd4.jpg",
+      "finger": 0,
+      "maskAspect": 2.1398681707752085,
+      "before": {
+        "centerErrorPx": 25.055673576315236,
+        "centerErrorNailWidths": 1.0927303858522932,
+        "iou": 0.10336950314106225,
+        "approxRootErrorPx": 22.345861876866664,
+        "angleErrorDeg": 4.538933359606062,
+        "widthRatio": 1.3505207655261176,
+        "heightRatio": 0.9181068802507788
+      },
+      "after": {
+        "centerErrorPx": 20.381796941048307,
+        "centerErrorNailWidths": 0.8888928396963163,
+        "iou": 0.2884322678843227,
+        "approxRootErrorPx": 18.155651880088758,
+        "angleErrorDeg": 4.538933359606062,
+        "widthRatio": 1.0569292947595703,
+        "heightRatio": 0.9181068802507788
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_42_jpg.rf.4058fa48db7359db5e21b70bec80331a.jpg",
+      "finger": 3,
+      "maskAspect": 1.2141258153886787,
+      "before": {
+        "centerErrorPx": 7.543597815126249,
+        "centerErrorNailWidths": 0.13757833554715537,
+        "iou": 0.2,
+        "approxRootErrorPx": 13.244514885124365,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3400538382961484,
+        "heightRatio": 0.5216912668236924
+      },
+      "after": {
+        "centerErrorPx": 7.543597815126249,
+        "centerErrorNailWidths": 0.13757833554715537,
+        "iou": 0.2,
+        "approxRootErrorPx": 13.244514885124365,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3400538382961484,
+        "heightRatio": 0.5216912668236924
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_42_jpg.rf.4058fa48db7359db5e21b70bec80331a.jpg",
+      "finger": 4,
+      "maskAspect": 1.3918015021523509,
+      "before": {
+        "centerErrorPx": 12.637165346275186,
+        "centerErrorNailWidths": 0.29333865152948213,
+        "iou": 0.17859093391589295,
+        "approxRootErrorPx": 30.807124182583667,
+        "angleErrorDeg": 29.705608333042505,
+        "widthRatio": 0.34725333002186776,
+        "heightRatio": 0.4640863036308268
+      },
+      "after": {
+        "centerErrorPx": 12.637165346275186,
+        "centerErrorNailWidths": 0.29333865152948213,
+        "iou": 0.17859093391589295,
+        "approxRootErrorPx": 30.807124182583667,
+        "angleErrorDeg": 29.705608333042505,
+        "widthRatio": 0.34725333002186776,
+        "heightRatio": 0.4640863036308268
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_42_jpg.rf.4058fa48db7359db5e21b70bec80331a.jpg",
+      "finger": 2,
+      "maskAspect": 1.2819474749388708,
+      "before": {
+        "centerErrorPx": 16.92678087404101,
+        "centerErrorNailWidths": 0.30286223590334554,
+        "iou": 0.2236503856041131,
+        "approxRootErrorPx": 8.640925505340332,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3646500780428452,
+        "heightRatio": 0.5307848895893228
+      },
+      "after": {
+        "centerErrorPx": 16.92678087404101,
+        "centerErrorNailWidths": 0.30286223590334554,
+        "iou": 0.2236503856041131,
+        "approxRootErrorPx": 8.640925505340332,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3646500780428452,
+        "heightRatio": 0.5307848895893228
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_42_jpg.rf.4058fa48db7359db5e21b70bec80331a.jpg",
+      "finger": 1,
+      "maskAspect": 1.139512771022245,
+      "before": {
+        "centerErrorPx": 25.602534752921244,
+        "centerErrorNailWidths": 0.5809288911459568,
+        "iou": 0.03303303303303303,
+        "approxRootErrorPx": 15.824267723104747,
+        "angleErrorDeg": null,
+        "widthRatio": 0.4427516882207541,
+        "heightRatio": 0.7115062803298902
+      },
+      "after": {
+        "centerErrorPx": 25.602534752921244,
+        "centerErrorNailWidths": 0.5809288911459568,
+        "iou": 0.03303303303303303,
+        "approxRootErrorPx": 15.824267723104747,
+        "angleErrorDeg": null,
+        "widthRatio": 0.4427516882207541,
+        "heightRatio": 0.7115062803298902
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_42_jpg.rf.4058fa48db7359db5e21b70bec80331a.jpg",
+      "finger": 0,
+      "maskAspect": 1.2183104493395303,
+      "before": {
+        "centerErrorPx": 42.27316710311555,
+        "centerErrorNailWidths": 0.927325651570787,
+        "iou": 0.007377049180327869,
+        "approxRootErrorPx": 34.249917661151244,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5469442140454007,
+        "heightRatio": 0.6519075456258445
+      },
+      "after": {
+        "centerErrorPx": 40.462412321112275,
+        "centerErrorNailWidths": 0.8876040155277579,
+        "iou": 0.0176444640494045,
+        "approxRootErrorPx": 35.588980581059566,
+        "angleErrorDeg": null,
+        "widthRatio": 0.42804329794857443,
+        "heightRatio": 0.6519075456258445
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_23_jpg.rf.3940a85c9e4214da68e6f88d736f6e09.jpg",
+      "finger": 2,
+      "maskAspect": 1.3253140414770161,
+      "before": {
+        "centerErrorPx": 2.9291046202387396,
+        "centerErrorNailWidths": 0.08554717202685407,
+        "iou": 0.7572886297376094,
+        "approxRootErrorPx": 16.816402442631183,
+        "angleErrorDeg": null,
+        "widthRatio": 1.2668607038730009,
+        "heightRatio": 0.8408166771305776
+      },
+      "after": {
+        "centerErrorPx": 2.9291046202387396,
+        "centerErrorNailWidths": 0.08554717202685407,
+        "iou": 0.7572886297376094,
+        "approxRootErrorPx": 16.816402442631183,
+        "angleErrorDeg": null,
+        "widthRatio": 1.2668607038730009,
+        "heightRatio": 0.8408166771305776
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_23_jpg.rf.3940a85c9e4214da68e6f88d736f6e09.jpg",
+      "finger": 3,
+      "maskAspect": 1.325254538148295,
+      "before": {
+        "centerErrorPx": 2.669846870493156,
+        "centerErrorNailWidths": 0.07590655081231655,
+        "iou": 0.7746365105008077,
+        "approxRootErrorPx": 11.56905734732615,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0380288429949067,
+        "heightRatio": 0.8272800341066993
+      },
+      "after": {
+        "centerErrorPx": 2.669846870493156,
+        "centerErrorNailWidths": 0.07590655081231655,
+        "iou": 0.7746365105008077,
+        "approxRootErrorPx": 11.56905734732615,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0380288429949067,
+        "heightRatio": 0.8272800341066993
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_23_jpg.rf.3940a85c9e4214da68e6f88d736f6e09.jpg",
+      "finger": 1,
+      "maskAspect": 1.3816712885434472,
+      "before": {
+        "centerErrorPx": 5.0739705740859735,
+        "centerErrorNailWidths": 0.1633558024873778,
+        "iou": 0.6636904761904762,
+        "approxRootErrorPx": 17.371762657426647,
+        "angleErrorDeg": 35.084873423121394,
+        "widthRatio": 1.4440529702033726,
+        "heightRatio": 0.8364364015019782
+      },
+      "after": {
+        "centerErrorPx": 5.0739705740859735,
+        "centerErrorNailWidths": 0.1633558024873778,
+        "iou": 0.6636904761904762,
+        "approxRootErrorPx": 17.371762657426647,
+        "angleErrorDeg": 35.084873423121394,
+        "widthRatio": 1.4440529702033726,
+        "heightRatio": 0.8364364015019782
+      },
+      "refined": true
+    },
+    {
+      "file": "train/f_23_jpg.rf.3940a85c9e4214da68e6f88d736f6e09.jpg",
+      "finger": 4,
+      "maskAspect": 1.4093951058740368,
+      "before": {
+        "centerErrorPx": 29.22832651309131,
+        "centerErrorNailWidths": 1.0542071251659504,
+        "iou": 0,
+        "approxRootErrorPx": 35.491531618270166,
+        "angleErrorDeg": 38.11360826458588,
+        "widthRatio": 0.6058641171386147,
+        "heightRatio": 0.6061366355410766
+      },
+      "after": {
+        "centerErrorPx": 29.22832651309131,
+        "centerErrorNailWidths": 1.0542071251659504,
+        "iou": 0,
+        "approxRootErrorPx": 35.491531618270166,
+        "angleErrorDeg": 38.11360826458588,
+        "widthRatio": 0.6058641171386147,
+        "heightRatio": 0.6061366355410766
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_23_jpg.rf.3940a85c9e4214da68e6f88d736f6e09.jpg",
+      "finger": 0,
+      "maskAspect": 1.7915506516883055,
+      "before": {
+        "centerErrorPx": 39.8387763828328,
+        "centerErrorNailWidths": 1.5837061611638974,
+        "iou": 0.035478966041561075,
+        "approxRootErrorPx": 42.789211215728514,
+        "angleErrorDeg": 12.02095122858509,
+        "widthRatio": 1.3220055800110044,
+        "heightRatio": 1.1024639544802262
+      },
+      "after": {
+        "centerErrorPx": 41.26501308435915,
+        "centerErrorNailWidths": 1.640403179912161,
+        "iou": 0.0011383039271485487,
+        "approxRootErrorPx": 45.3578209333405,
+        "angleErrorDeg": 12.02095122858509,
+        "widthRatio": 1.0346130626173078,
+        "heightRatio": 1.1024639544802262
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_22_jpg.rf.672a877c339b6bff83ccd6f1f4cceb97.jpg",
+      "finger": 4,
+      "maskAspect": 1.6566668333330614,
+      "before": {
+        "centerErrorPx": 19.951452036600564,
+        "centerErrorNailWidths": 0.7181177943881764,
+        "iou": 0.20070671378091873,
+        "approxRootErrorPx": 14.93368407142545,
+        "angleErrorDeg": 3.9008855201448114,
+        "widthRatio": 0.8912705515698202,
+        "heightRatio": 0.7865561028899225
+      },
+      "after": {
+        "centerErrorPx": 19.951452036600564,
+        "centerErrorNailWidths": 0.7181177943881764,
+        "iou": 0.20070671378091873,
+        "approxRootErrorPx": 14.93368407142545,
+        "angleErrorDeg": 3.9008855201448114,
+        "widthRatio": 0.8912705515698202,
+        "heightRatio": 0.7865561028899225
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_22_jpg.rf.672a877c339b6bff83ccd6f1f4cceb97.jpg",
+      "finger": 2,
+      "maskAspect": 1.4444104649394833,
+      "before": {
+        "centerErrorPx": 21.734244732222013,
+        "centerErrorNailWidths": 0.538444160742854,
+        "iou": 0.32715286361763496,
+        "approxRootErrorPx": 22.723213510817484,
+        "angleErrorDeg": 10.172308044586998,
+        "widthRatio": 0.8357247399887929,
+        "heightRatio": 0.9634356345958061
+      },
+      "after": {
+        "centerErrorPx": 21.734244732222013,
+        "centerErrorNailWidths": 0.538444160742854,
+        "iou": 0.32715286361763496,
+        "approxRootErrorPx": 22.723213510817484,
+        "angleErrorDeg": 10.172308044586998,
+        "widthRatio": 0.8357247399887929,
+        "heightRatio": 0.9634356345958061
+      },
+      "refined": false
+    },
+    {
+      "file": "train/f_22_jpg.rf.672a877c339b6bff83ccd6f1f4cceb97.jpg",
+      "finger": 3,
+      "maskAspect": 1.5777239578142428,
+      "before": {
+        "centerErrorPx": 23.610896051560722,
+        "centerErrorNailWidths": 0.5962639033580135,
+        "iou": 0.2974710672953279,
+        "approxRootErrorPx": 18.058679615792357,
+        "angleErrorDeg": 7.540771886509674,
+        "widthRatio": 0.779406076753526,
+        "heightRatio": 0.8185486686125852
+      },
+      "after": {
+        "centerErrorPx": 23.610896051560722,
+        "centerErrorNailWidths": 0.5962639033580135,
+        "iou": 0.2974710672953279,
+        "approxRootErrorPx": 18.058679615792357,
+        "angleErrorDeg": 7.540771886509674,
+        "widthRatio": 0.779406076753526,
+        "heightRatio": 0.8185486686125852
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_48_jpg.rf.0a8be22c2723ced98cd35af515c135e5.jpg",
+      "finger": 4,
+      "maskAspect": 1.4066038799870162,
+      "before": {
+        "centerErrorPx": 18.62399023229779,
+        "centerErrorNailWidths": 0.6027491932090756,
+        "iou": 0.22148638704930096,
+        "approxRootErrorPx": 15.316828995939,
+        "angleErrorDeg": 2.076010821149225,
+        "widthRatio": 0.7506807675383881,
+        "heightRatio": 0.8482366673306433
+      },
+      "after": {
+        "centerErrorPx": 18.62399023229779,
+        "centerErrorNailWidths": 0.6027491932090756,
+        "iou": 0.22148638704930096,
+        "approxRootErrorPx": 15.316828995939,
+        "angleErrorDeg": 2.076010821149225,
+        "widthRatio": 0.7506807675383881,
+        "heightRatio": 0.8482366673306433
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_48_jpg.rf.0a8be22c2723ced98cd35af515c135e5.jpg",
+      "finger": 3,
+      "maskAspect": 1.5876270329196687,
+      "before": {
+        "centerErrorPx": 22.70728437373478,
+        "centerErrorNailWidths": 0.617255111176369,
+        "iou": 0.19562243502051985,
+        "approxRootErrorPx": 24.176739639454556,
+        "angleErrorDeg": 15.134948502879013,
+        "widthRatio": 0.7858510599321047,
+        "heightRatio": 0.832169008904257
+      },
+      "after": {
+        "centerErrorPx": 22.70728437373478,
+        "centerErrorNailWidths": 0.617255111176369,
+        "iou": 0.19562243502051985,
+        "approxRootErrorPx": 24.176739639454556,
+        "angleErrorDeg": 15.134948502879013,
+        "widthRatio": 0.7858510599321047,
+        "heightRatio": 0.832169008904257
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_48_jpg.rf.0a8be22c2723ced98cd35af515c135e5.jpg",
+      "finger": 1,
+      "maskAspect": 1.1532034516638285,
+      "before": {
+        "centerErrorPx": 9.447738099162123,
+        "centerErrorNailWidths": 0.22608586909852865,
+        "iou": 0.5050962627406569,
+        "approxRootErrorPx": 5.949802889622717,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7856022104664349,
+        "heightRatio": 0.8560681290829691
+      },
+      "after": {
+        "centerErrorPx": 9.447738099162123,
+        "centerErrorNailWidths": 0.22608586909852865,
+        "iou": 0.5050962627406569,
+        "approxRootErrorPx": 5.949802889622717,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7856022104664349,
+        "heightRatio": 0.8560681290829691
+      },
+      "refined": true
+    },
+    {
+      "file": "valid/f_48_jpg.rf.0a8be22c2723ced98cd35af515c135e5.jpg",
+      "finger": 2,
+      "maskAspect": 1.2218217590062461,
+      "before": {
+        "centerErrorPx": 31.152012651690285,
+        "centerErrorNailWidths": 0.6615148651009312,
+        "iou": 0.14404720583130856,
+        "approxRootErrorPx": 31.667914725785955,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6710017408920956,
+        "heightRatio": 0.9087183259624849
+      },
+      "after": {
+        "centerErrorPx": 31.152012651690285,
+        "centerErrorNailWidths": 0.6615148651009312,
+        "iou": 0.14404720583130856,
+        "approxRootErrorPx": 31.667914725785955,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6710017408920956,
+        "heightRatio": 0.9087183259624849
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_36_jpg.rf.6e90c84e60307a3342ba90fdda5e2e70.jpg",
+      "finger": 4,
+      "maskAspect": 1.6196754881279456,
+      "before": {
+        "centerErrorPx": 11.234443115340836,
+        "centerErrorNailWidths": 0.3522379215945457,
+        "iou": 0.37209302325581395,
+        "approxRootErrorPx": 1.854559774903592,
+        "angleErrorDeg": 1.1051316709639423,
+        "widthRatio": 0.6362804170102838,
+        "heightRatio": 0.6356557100198623
+      },
+      "after": {
+        "centerErrorPx": 11.234443115340836,
+        "centerErrorNailWidths": 0.3522379215945457,
+        "iou": 0.37209302325581395,
+        "approxRootErrorPx": 1.854559774903592,
+        "angleErrorDeg": 1.1051316709639423,
+        "widthRatio": 0.6362804170102838,
+        "heightRatio": 0.6356557100198623
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_36_jpg.rf.6e90c84e60307a3342ba90fdda5e2e70.jpg",
+      "finger": 3,
+      "maskAspect": 1.7768637670417557,
+      "before": {
+        "centerErrorPx": 14.023994337385421,
+        "centerErrorNailWidths": 0.3954075457785317,
+        "iou": 0.4197802197802198,
+        "approxRootErrorPx": 7.235713498244951,
+        "angleErrorDeg": 8.37837480135613,
+        "widthRatio": 0.7131593532379915,
+        "heightRatio": 0.7069945264958988
+      },
+      "after": {
+        "centerErrorPx": 14.023994337385421,
+        "centerErrorNailWidths": 0.3954075457785317,
+        "iou": 0.4197802197802198,
+        "approxRootErrorPx": 7.235713498244951,
+        "angleErrorDeg": 8.37837480135613,
+        "widthRatio": 0.7131593532379915,
+        "heightRatio": 0.7069945264958988
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_36_jpg.rf.6e90c84e60307a3342ba90fdda5e2e70.jpg",
+      "finger": 1,
+      "maskAspect": 1.6750795809391976,
+      "before": {
+        "centerErrorPx": 20.371842290702784,
+        "centerErrorNailWidths": 0.5789111612505149,
+        "iou": 0.319935691318328,
+        "approxRootErrorPx": 12.958002593913859,
+        "angleErrorDeg": 8.577216011389055,
+        "widthRatio": 0.7522098788313478,
+        "heightRatio": 0.7347293986583155
+      },
+      "after": {
+        "centerErrorPx": 20.371842290702784,
+        "centerErrorNailWidths": 0.5789111612505149,
+        "iou": 0.319935691318328,
+        "approxRootErrorPx": 12.958002593913859,
+        "angleErrorDeg": 8.577216011389055,
+        "widthRatio": 0.7522098788313478,
+        "heightRatio": 0.7347293986583155
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_36_jpg.rf.6e90c84e60307a3342ba90fdda5e2e70.jpg",
+      "finger": 2,
+      "maskAspect": 1.7297255144008867,
+      "before": {
+        "centerErrorPx": 23.2182426812921,
+        "centerErrorNailWidths": 0.6470425706965868,
+        "iou": 0.2771764705882353,
+        "approxRootErrorPx": 15.808610537242876,
+        "angleErrorDeg": 0.8287997070613073,
+        "widthRatio": 0.7704532090648503,
+        "heightRatio": 0.7546553317884261
+      },
+      "after": {
+        "centerErrorPx": 23.2182426812921,
+        "centerErrorNailWidths": 0.6470425706965868,
+        "iou": 0.2771764705882353,
+        "approxRootErrorPx": 15.808610537242876,
+        "angleErrorDeg": 0.8287997070613073,
+        "widthRatio": 0.7704532090648503,
+        "heightRatio": 0.7546553317884261
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_36_jpg.rf.6e90c84e60307a3342ba90fdda5e2e70.jpg",
+      "finger": 0,
+      "maskAspect": 2.2044591209919027,
+      "before": {
+        "centerErrorPx": 27.721526420489102,
+        "centerErrorNailWidths": 1.2023994919777643,
+        "iou": 0.13296258847320525,
+        "approxRootErrorPx": 26.06781364352825,
+        "angleErrorDeg": 9.832097161509978,
+        "widthRatio": 1.4670482255741082,
+        "heightRatio": 0.9938518200217392
+      },
+      "after": {
+        "centerErrorPx": 24.193503557185164,
+        "centerErrorNailWidths": 1.0493742640672534,
+        "iou": 0.25885383129426914,
+        "approxRootErrorPx": 24.505464252542314,
+        "angleErrorDeg": 9.832097161509978,
+        "widthRatio": 1.148124698275389,
+        "heightRatio": 0.9938518200217392
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/41d83dbb-7c39-4d91-979e-eec5ff71b265_jpg.rf.154379bff64612527d2d426860c206a3.jpg",
+      "finger": 4,
+      "maskAspect": 1.6008758783103894,
+      "before": {
+        "centerErrorPx": 13.113090959642951,
+        "centerErrorNailWidths": 0.29834052653045606,
+        "iou": 0.2211938917167978,
+        "approxRootErrorPx": 23.856365665469625,
+        "angleErrorDeg": 31.634456198245744,
+        "widthRatio": 0.4997383243131776,
+        "heightRatio": 0.4405498961957628
+      },
+      "after": {
+        "centerErrorPx": 13.113090959642951,
+        "centerErrorNailWidths": 0.29834052653045606,
+        "iou": 0.2211938917167978,
+        "approxRootErrorPx": 23.856365665469625,
+        "angleErrorDeg": 31.634456198245744,
+        "widthRatio": 0.4997383243131776,
+        "heightRatio": 0.4405498961957628
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/41d83dbb-7c39-4d91-979e-eec5ff71b265_jpg.rf.154379bff64612527d2d426860c206a3.jpg",
+      "finger": 3,
+      "maskAspect": 1.7435858449063983,
+      "before": {
+        "centerErrorPx": 17.254285771503483,
+        "centerErrorNailWidths": 0.3561859841736986,
+        "iou": 0.2433828276307295,
+        "approxRootErrorPx": 32.79529079189391,
+        "angleErrorDeg": 40.46242075989966,
+        "widthRatio": 0.6010889843662568,
+        "heightRatio": 0.5566133335695858
+      },
+      "after": {
+        "centerErrorPx": 17.254285771503483,
+        "centerErrorNailWidths": 0.3561859841736986,
+        "iou": 0.2433828276307295,
+        "approxRootErrorPx": 32.79529079189391,
+        "angleErrorDeg": 40.46242075989966,
+        "widthRatio": 0.6010889843662568,
+        "heightRatio": 0.5566133335695858
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/41d83dbb-7c39-4d91-979e-eec5ff71b265_jpg.rf.154379bff64612527d2d426860c206a3.jpg",
+      "finger": 1,
+      "maskAspect": 1.8006339760701706,
+      "before": {
+        "centerErrorPx": 18.109574828046373,
+        "centerErrorNailWidths": 0.36243442635751927,
+        "iou": 0.18751831233518898,
+        "approxRootErrorPx": 35.61686228065382,
+        "angleErrorDeg": 33.30661126881256,
+        "widthRatio": 0.6098516129467827,
+        "heightRatio": 0.44108673050648695
+      },
+      "after": {
+        "centerErrorPx": 18.109574828046373,
+        "centerErrorNailWidths": 0.36243442635751927,
+        "iou": 0.18751831233518898,
+        "approxRootErrorPx": 35.61686228065382,
+        "angleErrorDeg": 33.30661126881256,
+        "widthRatio": 0.6098516129467827,
+        "heightRatio": 0.44108673050648695
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/41d83dbb-7c39-4d91-979e-eec5ff71b265_jpg.rf.154379bff64612527d2d426860c206a3.jpg",
+      "finger": 2,
+      "maskAspect": 1.9281813425219825,
+      "before": {
+        "centerErrorPx": 42.03091439443462,
+        "centerErrorNailWidths": 0.8366183618527548,
+        "iou": 0.06123764503652772,
+        "approxRootErrorPx": 45.937050735852374,
+        "angleErrorDeg": 37.12424090823464,
+        "widthRatio": 0.6335003889750247,
+        "heightRatio": 0.550124945902298
+      },
+      "after": {
+        "centerErrorPx": 42.03091439443462,
+        "centerErrorNailWidths": 0.8366183618527548,
+        "iou": 0.06123764503652772,
+        "approxRootErrorPx": 45.937050735852374,
+        "angleErrorDeg": 37.12424090823464,
+        "widthRatio": 0.6335003889750247,
+        "heightRatio": 0.550124945902298
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_63_jpg.rf.a6d364bdabd5cf45103f9111f3ae95f6.jpg",
+      "finger": 1,
+      "maskAspect": 1.2792807679552252,
+      "before": {
+        "centerErrorPx": 11.791801018304353,
+        "centerErrorNailWidths": 0.23642306176771624,
+        "iou": 0.10246382479468126,
+        "approxRootErrorPx": 20.92157870389927,
+        "angleErrorDeg": null,
+        "widthRatio": 0.27515773226965534,
+        "heightRatio": 0.3825723808538156
+      },
+      "after": {
+        "centerErrorPx": 11.791801018304353,
+        "centerErrorNailWidths": 0.23642306176771624,
+        "iou": 0.10246382479468126,
+        "approxRootErrorPx": 20.92157870389927,
+        "angleErrorDeg": null,
+        "widthRatio": 0.27515773226965534,
+        "heightRatio": 0.3825723808538156
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_63_jpg.rf.a6d364bdabd5cf45103f9111f3ae95f6.jpg",
+      "finger": 2,
+      "maskAspect": 1.2779058860652208,
+      "before": {
+        "centerErrorPx": 18.81716794694269,
+        "centerErrorNailWidths": 0.3759739019276434,
+        "iou": 0.11126893939393939,
+        "approxRootErrorPx": 20.807248003629052,
+        "angleErrorDeg": null,
+        "widthRatio": 0.28639195159148095,
+        "heightRatio": 0.40723502147540463
+      },
+      "after": {
+        "centerErrorPx": 18.81716794694269,
+        "centerErrorNailWidths": 0.3759739019276434,
+        "iou": 0.11126893939393939,
+        "approxRootErrorPx": 20.807248003629052,
+        "angleErrorDeg": null,
+        "widthRatio": 0.28639195159148095,
+        "heightRatio": 0.40723502147540463
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_63_jpg.rf.a6d364bdabd5cf45103f9111f3ae95f6.jpg",
+      "finger": 3,
+      "maskAspect": 1.158426326565907,
+      "before": {
+        "centerErrorPx": 20.15908944610532,
+        "centerErrorNailWidths": 0.44404428640673976,
+        "iou": 0.06577480490523968,
+        "approxRootErrorPx": 37.70155737732949,
+        "angleErrorDeg": null,
+        "widthRatio": 0.2888572966877754,
+        "heightRatio": 0.4580498670727017
+      },
+      "after": {
+        "centerErrorPx": 20.15908944610532,
+        "centerErrorNailWidths": 0.44404428640673976,
+        "iou": 0.06577480490523968,
+        "approxRootErrorPx": 37.70155737732949,
+        "angleErrorDeg": null,
+        "widthRatio": 0.2888572966877754,
+        "heightRatio": 0.4580498670727017
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/f_63_jpg.rf.a6d364bdabd5cf45103f9111f3ae95f6.jpg",
+      "finger": 4,
+      "maskAspect": 1.5125237937688991,
+      "before": {
+        "centerErrorPx": 24.319070365886887,
+        "centerErrorNailWidths": 0.7155749676926002,
+        "iou": 0,
+        "approxRootErrorPx": 32.27829987621135,
+        "angleErrorDeg": 50.30435253972928,
+        "widthRatio": 0.3095898956818462,
+        "heightRatio": 0.3637347366779153
+      },
+      "after": {
+        "centerErrorPx": 24.319070365886887,
+        "centerErrorNailWidths": 0.7155749676926002,
+        "iou": 0,
+        "approxRootErrorPx": 32.27829987621135,
+        "angleErrorDeg": 50.30435253972928,
+        "widthRatio": 0.3095898956818462,
+        "heightRatio": 0.3637347366779153
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/Fingernail-10_jpg.rf.8098ee09466efd42800e1918dc28bc29.jpg",
+      "finger": 3,
+      "maskAspect": 1.2597377349606436,
+      "before": {
+        "centerErrorPx": 2.274219252859069,
+        "centerErrorNailWidths": 0.06186501241122258,
+        "iou": 0.7692307692307693,
+        "approxRootErrorPx": 12.444612381673046,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0519075771048512,
+        "heightRatio": 0.8251253332196514
+      },
+      "after": {
+        "centerErrorPx": 2.274219252859069,
+        "centerErrorNailWidths": 0.06186501241122258,
+        "iou": 0.7692307692307693,
+        "approxRootErrorPx": 12.444612381673046,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0519075771048512,
+        "heightRatio": 0.8251253332196514
+      },
+      "refined": true
+    },
+    {
+      "file": "valid/Fingernail-10_jpg.rf.8098ee09466efd42800e1918dc28bc29.jpg",
+      "finger": 2,
+      "maskAspect": 1.2079113969604047,
+      "before": {
+        "centerErrorPx": 29.54570933417,
+        "centerErrorNailWidths": 0.822072091944821,
+        "iou": 0.023821098687408847,
+        "approxRootErrorPx": 43.24720553636149,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7369640307314067,
+        "heightRatio": 1.1221010041918793
+      },
+      "after": {
+        "centerErrorPx": 29.54570933417,
+        "centerErrorNailWidths": 0.822072091944821,
+        "iou": 0.023821098687408847,
+        "approxRootErrorPx": 43.24720553636149,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7369640307314067,
+        "heightRatio": 1.1221010041918793
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/Fingernail-10_jpg.rf.8098ee09466efd42800e1918dc28bc29.jpg",
+      "finger": 4,
+      "maskAspect": 1.1624930122754256,
+      "before": {
+        "centerErrorPx": 31.244566345642436,
+        "centerErrorNailWidths": 1.0860642267766376,
+        "iou": 0,
+        "approxRootErrorPx": 39.134909600923415,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6758231317947534,
+        "heightRatio": 0.9508442727866883
+      },
+      "after": {
+        "centerErrorPx": 31.244566345642436,
+        "centerErrorNailWidths": 1.0860642267766376,
+        "iou": 0,
+        "approxRootErrorPx": 39.134909600923415,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6758231317947534,
+        "heightRatio": 0.9508442727866883
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/Fingernail-10_jpg.rf.8098ee09466efd42800e1918dc28bc29.jpg",
+      "finger": 0,
+      "maskAspect": 1.5850771156695151,
+      "before": {
+        "centerErrorPx": 53.81052966314103,
+        "centerErrorNailWidths": 2.075292635881047,
+        "iou": 0,
+        "approxRootErrorPx": 57.19216124166787,
+        "angleErrorDeg": 24.285120079512694,
+        "widthRatio": 1.2497204387934944,
+        "heightRatio": 1.1709951764654805
+      },
+      "after": {
+        "centerErrorPx": 51.5521721430842,
+        "centerErrorNailWidths": 1.9881953194282997,
+        "iou": 0,
+        "approxRootErrorPx": 56.80955182129375,
+        "angleErrorDeg": 24.285120079512694,
+        "widthRatio": 0.9780420825340389,
+        "heightRatio": 1.1709951764654805
+      },
+      "refined": false
+    },
+    {
+      "file": "valid/Fingernail-10_jpg.rf.8098ee09466efd42800e1918dc28bc29.jpg",
+      "finger": 1,
+      "maskAspect": 1.1692285339246657,
+      "before": {
+        "centerErrorPx": 70.21547308644259,
+        "centerErrorNailWidths": 1.9547413365374682,
+        "iou": 0,
+        "approxRootErrorPx": 79.36451009778676,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7059955023015488,
+        "heightRatio": 1.1037085041294423
+      },
+      "after": {
+        "centerErrorPx": 70.21547308644259,
+        "centerErrorNailWidths": 1.9547413365374682,
+        "iou": 0,
+        "approxRootErrorPx": 79.36451009778676,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7059955023015488,
+        "heightRatio": 1.1037085041294423
+      },
+      "refined": false
+    },
+    {
+      "file": "test/f_71_jpg.rf.27fd71aff54892afb9b8290b161a8e57.jpg",
+      "finger": 4,
+      "maskAspect": 1.349367128519539,
+      "before": {
+        "centerErrorPx": 27.34879510576086,
+        "centerErrorNailWidths": 0.5669896982666155,
+        "iou": 0.09341742215214821,
+        "approxRootErrorPx": 21.28027424905032,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3490388141223853,
+        "heightRatio": 0.48515757241827145
+      },
+      "after": {
+        "centerErrorPx": 27.34879510576086,
+        "centerErrorNailWidths": 0.5669896982666155,
+        "iou": 0.09341742215214821,
+        "approxRootErrorPx": 21.28027424905032,
+        "angleErrorDeg": null,
+        "widthRatio": 0.3490388141223853,
+        "heightRatio": 0.48515757241827145
+      },
+      "refined": false
+    },
+    {
+      "file": "test/f_71_jpg.rf.27fd71aff54892afb9b8290b161a8e57.jpg",
+      "finger": 3,
+      "maskAspect": 1.6020980352606542,
+      "before": {
+        "centerErrorPx": 36.582729057281675,
+        "centerErrorNailWidths": 0.7428004600355461,
+        "iou": 0.08581235697940504,
+        "approxRootErrorPx": 24.739047448636097,
+        "angleErrorDeg": 61.014732250812585,
+        "widthRatio": 0.42607119849353803,
+        "heightRatio": 0.4959345700820391
+      },
+      "after": {
+        "centerErrorPx": 36.582729057281675,
+        "centerErrorNailWidths": 0.7428004600355461,
+        "iou": 0.08581235697940504,
+        "approxRootErrorPx": 24.739047448636097,
+        "angleErrorDeg": 61.014732250812585,
+        "widthRatio": 0.42607119849353803,
+        "heightRatio": 0.4959345700820391
+      },
+      "refined": false
+    },
+    {
+      "file": "test/f_71_jpg.rf.27fd71aff54892afb9b8290b161a8e57.jpg",
+      "finger": 0,
+      "maskAspect": 1.2519101884615278,
+      "before": {
+        "centerErrorPx": 40.01729366467339,
+        "centerErrorNailWidths": 1.0626115527599826,
+        "iou": 0.0023507287259050304,
+        "approxRootErrorPx": 35.882592268155584,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7450961551749151,
+        "heightRatio": 0.8541847014000009
+      },
+      "after": {
+        "centerErrorPx": 38.79103950144332,
+        "centerErrorNailWidths": 1.03004983453418,
+        "iou": 0.01032448377581121,
+        "approxRootErrorPx": 35.11538057325501,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6801086352921687,
+        "heightRatio": 0.8541847014000009
+      },
+      "refined": false
+    },
+    {
+      "file": "test/f_71_jpg.rf.27fd71aff54892afb9b8290b161a8e57.jpg",
+      "finger": 2,
+      "maskAspect": 1.488903243927986,
+      "before": {
+        "centerErrorPx": 96.2248403836335,
+        "centerErrorNailWidths": 1.909297018395715,
+        "iou": 0,
+        "approxRootErrorPx": 72.40783557488693,
+        "angleErrorDeg": 57.7574518345283,
+        "widthRatio": 0.4550947355122146,
+        "heightRatio": 0.5659044534729789
+      },
+      "after": {
+        "centerErrorPx": 96.2248403836335,
+        "centerErrorNailWidths": 1.909297018395715,
+        "iou": 0,
+        "approxRootErrorPx": 72.40783557488693,
+        "angleErrorDeg": 57.7574518345283,
+        "widthRatio": 0.4550947355122146,
+        "heightRatio": 0.5659044534729789
+      },
+      "refined": false
+    },
+    {
+      "file": "test/Fingernail-11_jpg.rf.48cbe80be888c90e9775e02a8c6707d8.jpg",
+      "finger": 4,
+      "maskAspect": 1.9710081294930177,
+      "before": {
+        "centerErrorPx": 9.677875980845664,
+        "centerErrorNailWidths": 0.4783872334761165,
+        "iou": 0.2519788918205805,
+        "approxRootErrorPx": 11.305239720176655,
+        "angleErrorDeg": 12.638712367875314,
+        "widthRatio": 0.9197351666135856,
+        "heightRatio": 0.7035764140294646
+      },
+      "after": {
+        "centerErrorPx": 9.677875980845664,
+        "centerErrorNailWidths": 0.4783872334761165,
+        "iou": 0.2519788918205805,
+        "approxRootErrorPx": 11.305239720176655,
+        "angleErrorDeg": 12.638712367875314,
+        "widthRatio": 0.9197351666135856,
+        "heightRatio": 0.7035764140294646
+      },
+      "refined": false
+    },
+    {
+      "file": "test/Fingernail-11_jpg.rf.48cbe80be888c90e9775e02a8c6707d8.jpg",
+      "finger": 3,
+      "maskAspect": 2.2156748964399156,
+      "before": {
+        "centerErrorPx": 12.71354486022891,
+        "centerErrorNailWidths": 0.5852761738880321,
+        "iou": 0.23397169025811823,
+        "approxRootErrorPx": 16.950246351722516,
+        "angleErrorDeg": 16.03187651201779,
+        "widthRatio": 1.067595682723518,
+        "heightRatio": 0.8643706808737579
+      },
+      "after": {
+        "centerErrorPx": 12.71354486022891,
+        "centerErrorNailWidths": 0.5852761738880321,
+        "iou": 0.23397169025811823,
+        "approxRootErrorPx": 16.950246351722516,
+        "angleErrorDeg": 16.03187651201779,
+        "widthRatio": 1.067595682723518,
+        "heightRatio": 0.8643706808737579
+      },
+      "refined": false
+    },
+    {
+      "file": "test/Fingernail-11_jpg.rf.48cbe80be888c90e9775e02a8c6707d8.jpg",
+      "finger": 0,
+      "maskAspect": 1.518028598234147,
+      "before": {
+        "centerErrorPx": 24.57646136700209,
+        "centerErrorNailWidths": 0.637163468314346,
+        "iou": 0.23987398739873989,
+        "approxRootErrorPx": 21.672180497587963,
+        "angleErrorDeg": 13.915310021879122,
+        "widthRatio": 0.803976823509103,
+        "heightRatio": 0.7911055046121518
+      },
+      "after": {
+        "centerErrorPx": 28.193632336263416,
+        "centerErrorNailWidths": 0.730941379049493,
+        "iou": 0.10175438596491228,
+        "approxRootErrorPx": 28.55669074250513,
+        "angleErrorDeg": 13.915310021879122,
+        "widthRatio": 0.6291992531810372,
+        "heightRatio": 0.7911055046121518
+      },
+      "refined": false
+    },
+    {
+      "file": "test/Fingernail-11_jpg.rf.48cbe80be888c90e9775e02a8c6707d8.jpg",
+      "finger": 2,
+      "maskAspect": 1.95899275399573,
+      "before": {
+        "centerErrorPx": 31.770186292965107,
+        "centerErrorNailWidths": 1.3738076779224222,
+        "iou": 0.00364741641337386,
+        "approxRootErrorPx": 35.07709190091775,
+        "angleErrorDeg": 14.153358796556063,
+        "widthRatio": 1.0960950188283813,
+        "heightRatio": 1.0076279800996
+      },
+      "after": {
+        "centerErrorPx": 31.770186292965107,
+        "centerErrorNailWidths": 1.3738076779224222,
+        "iou": 0.00364741641337386,
+        "approxRootErrorPx": 35.07709190091775,
+        "angleErrorDeg": 14.153358796556063,
+        "widthRatio": 1.0960950188283813,
+        "heightRatio": 1.0076279800996
+      },
+      "refined": false
+    },
+    {
+      "file": "test/Fingernail-11_jpg.rf.48cbe80be888c90e9775e02a8c6707d8.jpg",
+      "finger": 1,
+      "maskAspect": 1.4633792695442798,
+      "before": {
+        "centerErrorPx": 61.29454283539898,
+        "centerErrorNailWidths": 2.1836974826135807,
+        "iou": 0,
+        "approxRootErrorPx": 61.42484892073615,
+        "angleErrorDeg": 13.221636174457217,
+        "widthRatio": 0.8646241174586763,
+        "heightRatio": 0.9713718506945829
+      },
+      "after": {
+        "centerErrorPx": 61.29454283539898,
+        "centerErrorNailWidths": 2.1836974826135807,
+        "iou": 0,
+        "approxRootErrorPx": 61.42484892073615,
+        "angleErrorDeg": 13.221636174457217,
+        "widthRatio": 0.8646241174586763,
+        "heightRatio": 0.9713718506945829
+      },
+      "refined": false
+    }
+  ],
+  "refinementAudit": [
+    {
+      "finger": 0,
+      "attempted": 34,
+      "beforeAccepted": 0,
+      "afterAccepted": 1,
+      "rejected": {
+        "patch-edge": 1098,
+        "area": 1558,
+        "contrast": 10,
+        "size": 2,
+        "fill": 82,
+        "not-long": 13,
+        "cuticle-prior": 1
+      }
+    },
+    {
+      "finger": 1,
+      "attempted": 34,
+      "beforeAccepted": 7,
+      "afterAccepted": 7,
+      "rejected": {
+        "area": 1285,
+        "patch-edge": 1050,
+        "size": 26,
+        "fill": 116,
+        "not-long": 14,
+        "contrast": 31
+      }
+    },
+    {
+      "finger": 2,
+      "attempted": 34,
+      "beforeAccepted": 5,
+      "afterAccepted": 5,
+      "rejected": {
+        "area": 1337,
+        "patch-edge": 1045,
+        "fill": 115,
+        "not-long": 16,
+        "contrast": 48,
+        "size": 11,
+        "aspect": 2
+      }
+    },
+    {
+      "finger": 3,
+      "attempted": 34,
+      "beforeAccepted": 5,
+      "afterAccepted": 5,
+      "rejected": {
+        "area": 1315,
+        "patch-edge": 1044,
+        "position": 1,
+        "fill": 118,
+        "contrast": 51,
+        "not-long": 35,
+        "size": 20,
+        "cuticle-prior": 3
+      }
+    },
+    {
+      "finger": 4,
+      "attempted": 34,
+      "beforeAccepted": 2,
+      "afterAccepted": 2,
+      "rejected": {
+        "patch-edge": 1170,
+        "area": 1355,
+        "fill": 88,
+        "contrast": 35,
+        "size": 5,
+        "not-long": 15,
+        "position": 6,
+        "cuticle-prior": 3
+      }
+    }
+  ]
+}

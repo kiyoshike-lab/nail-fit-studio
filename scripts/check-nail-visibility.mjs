@@ -18,7 +18,9 @@ assert.equal(estimateHandPose(reflected,undefined,{...identity,categoryName:'Lef
 assert.equal(estimateHandPose(landmarks,undefined,{...identity,score:.5},1).view,'unknown');
 assert.equal(estimateHandPose(landmarks,undefined,undefined,1).view,'unknown');
 assert.equal(estimateHandPose(landmarks.map(()=>({x:.5,y:.5,z:0})),undefined,identity,1).view,'unknown');
-assert.equal(estimateHandPose(landmarks,reflected,identity,fixture.aspect).view,'unknown','world/image disagreement was trusted');
+const disagree=estimateHandPose(landmarks,reflected,identity,fixture.aspect);
+assert.equal(disagree.view,'back','unreliable world reconstruction vetoed the dorsal image prior');
+assert.equal(disagree.source,'normalized','disagreeing world coordinates were used for finger orientation');
 const sidePoints=landmarks.map(p=>({x:(p.x-.5)*.05+.5,y:p.y,z:(p.x-.5)}));
 assert.equal(estimateHandPose(sidePoints,undefined,identity,fixture.aspect).view,'side');
 
@@ -28,7 +30,7 @@ const get=(pose=back,fit=blank,ns=nails,lm=landmarks,mirrored=false,w=1280,h=720
 assert.ok(get().every(e=>e.state==='visible'),'flat back should use the safe dorsal prior');
 assert.ok(get(palm).every(e=>e.hardHidden),'open palm must not paint pads');
 assert.deepEqual(get(back,blank,buildNailsFromLandmarks(landmarks,true,fixture.aspect),landmarks,true).map(e=>e.state),get().map(e=>e.state),'display mirror changed visibility');
-assert.ok(get(back,blank,nails,landmarks,false,20,12).every(e=>e.hardHidden),'subpixel nails accepted');
+assert.ok(get(back,blank,nails,landmarks,false,20,12).every(e=>e.state==='uncertain'&&e.confidence===0&&!e.hardHidden),'subpixel uncertainty was confused with a hidden nail');
 const contour=[{x:40,y:40},{x:50,y:40},{x:50,y:50},{x:40,y:50}];
 const supported=nails.map(()=>({accepted:true,confidence:.94,reason:'test',contour,supportThresholds:3}));
 assert.ok(get(palm,supported).every(e=>e.hardHidden),'colour alone made an open palm visible');

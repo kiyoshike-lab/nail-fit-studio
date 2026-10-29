@@ -8,6 +8,10 @@ export type HandPose = {
   view: HandView; modelHand: string; confidence: number; facing: number;
   tiltDegrees: number; normal: Vector; source: "world" | "normalized" | "none";
   fingers: FingerPose[];
+  reason?: string;
+  imageFacing?: number;
+  worldFacing?: number;
+  worldAgreement?: number;
 };
 const chains = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16], [17, 18, 19, 20]];
 
@@ -19,31 +23,33 @@ export function estimateHandPose(landmarks: NailLandmark[], world: NailLandmark[
   const unknown: HandPose = { view: "unknown", modelHand: identity?.categoryName ?? "unknown", confidence: 0,
     facing: 0, tiltDegrees: 90, normal: { x: 0, y: 0, z: 0 }, source: "none", fingers: [] };
   if (!valid(landmarks) || !Number.isFinite(aspect) || aspect <= 0
-    || !identity || !Number.isFinite(identity.score) || identity.score < 0.75 || !["Left", "Right"].includes(identity.categoryName)) return unknown;
+    || !identity || !Number.isFinite(identity.score) || identity.score < 0.6 || !["Left", "Right"].includes(identity.categoryName)) return unknown;
   const imagePoints = landmarks.map(p => ({ x: p.x * aspect, y: p.y, z: (p.z ?? 0) * aspect }));
   const imagePlane = plane(imagePoints);
   const worldPoints = world && valid(world) ? world.map(p => ({ x: p.x, y: p.y, z: p.z ?? 0 })) : undefined;
   const worldPlane = worldPoints ? plane(worldPoints) : undefined;
   if (!imagePlane) return unknown;
-  // Metric reconstruction and normalized depth can disagree at occlusion / edge-on
-  // poses. Do not let a guessed world plane reverse the observed winding.
+  // World reconstruction has no nail/surface confidence. Its full 3D normal is
+  // not interchangeable with a projected image normal. A disagreement must NOT
+  // veto a clearly observed dorsal winding and turn all five nails off.
   const agreement = worldPlane ? dot(imagePlane.normal, worldPlane.normal) : 1;
-  if (agreement < 0.35) return unknown;
-  const points = worldPlane && worldPoints ? worldPoints : imagePoints;
-  const chosen = worldPlane ?? imagePlane;
+  const useWorld = Boolean(worldPlane && worldPoints && agreement >= 0.75
+    && imagePlane.normal.z * worldPlane.normal.z > 0);
+  const points = useWorld ? worldPoints! : imagePoints;
   const sign = identity.categoryName === "Right" ? 1 : -1;
-  const normal = mul(chosen.normal, sign);
-  const confidence = identity.score * Math.min(imagePlane.quality, chosen.quality) * Math.min(1, agreement + 0.2);
+  const normal = mul(imagePlane.normal, sign);
+  const fingerNormal = useWorld ? mul(worldPlane!.normal, sign) : normal;
+  const confidence = identity.score * imagePlane.quality;
   const facing = normal.z;
   const view: HandView = confidence < 0.6 ? "unknown" : facing > 0.35 ? "back" : facing < -0.35 ? "palm" : "side";
   const fingers = chains.map(chain => {
-    let n = normal;
+    let n = fingerNormal;
     let previous = unit(sub(points[chain[0]], points[0]));
     let bendDegrees = 0;
     let outOfPlaneDegrees = 0;
     for (let index = 1; index < chain.length; index++) {
       const direction = unit(sub(points[chain[index]], points[chain[index - 1]]));
-      outOfPlaneDegrees = Math.max(outOfPlaneDegrees, Math.asin(Math.min(1, Math.abs(dot(normal, direction)))) * 180 / Math.PI);
+      outOfPlaneDegrees = Math.max(outOfPlaneDegrees, Math.asin(Math.min(1, Math.abs(dot(fingerNormal, direction)))) * 180 / Math.PI);
       bendDegrees += Math.acos(clamp(dot(previous, direction), -1, 1)) * 180 / Math.PI;
       n = transport(n, previous, direction);
       previous = direction;
@@ -52,7 +58,9 @@ export function estimateHandPose(landmarks: NailLandmark[], world: NailLandmark[
   });
   return { view, modelHand: identity.categoryName, confidence, facing, normal,
     tiltDegrees: Math.acos(Math.min(1, Math.abs(facing))) * 180 / Math.PI,
-    source: worldPlane ? "world" : "normalized", fingers };
+    source: useWorld ? "world" : "normalized", fingers,
+    imageFacing: facing, worldFacing: worldPlane ? worldPlane.normal.z * sign : undefined, worldAgreement: worldPlane ? agreement : undefined,
+    reason: useWorld ? "image-pose-with-world-finger-support" : worldPlane ? "world-disagrees-use-image-pose" : "image-pose-no-reliable-world" };
 }
 
 function plane(points: Vector[]) {

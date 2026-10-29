@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { importTypescript } from "./lib/import-typescript.mjs";
 
 const previousEnv=process.env.NODE_ENV;
@@ -46,6 +47,8 @@ let failure=false;
 let handVisible=true;
 let modelHand="Right";
 let modelLandmarks=hand;
+let modelWorld;
+let modelScore=.99;
 globalThis.__nailTrackingMock={
   FilesetResolver:{forVisionTasks:async()=>({})},
   HandLandmarker:{createFromOptions:async(_vision,options)=>{
@@ -57,9 +60,9 @@ globalThis.__nailTrackingMock={
         if(failure) throw Error("mock frame failure");
         this.videoCalls++;
         this.timestamps.push(timestamp);
-        return {landmarks:handVisible?[modelLandmarks]:[],handedness:[[{categoryName:modelHand,score:.99}]]};
+        return {landmarks:handVisible?[modelLandmarks]:[],worldLandmarks:modelWorld?[modelWorld]:[],handedness:[[{categoryName:modelHand,score:modelScore}]]};
       },
-      detect(){assert.equal(options.runningMode,"IMAGE");this.imageCalls++;return {landmarks:[hand],handedness:[[{categoryName:modelHand,score:.99}]]};},
+      detect(){assert.equal(options.runningMode,"IMAGE");this.imageCalls++;return {landmarks:[modelLandmarks],worldLandmarks:modelWorld?[modelWorld]:[],handedness:[[{categoryName:modelHand,score:modelScore}]]};},
       close(){this.closed++;},
     };
     instances.push(instance);
@@ -136,13 +139,43 @@ assert.ok(updates.at(-1).nails.some(nail=>nail.visibility>0),'new physical hand 
 const videoInstance=instances[0];
 assert.ok(videoInstance.timestamps.every((value,index)=>index===0||value>videoInstance.timestamps[index-1]),"VIDEO timestamps went backward");
 
+// Reproduce the actual CC0 dorsal image's disagreeing world reconstruction
+// through the REAL tracking, filtering, visibility and renderer modules.
+const regression=JSON.parse(await readFile('scripts/fixtures/dorsal-world-disagreement.json','utf8'));
+video.videoWidth=regression.width;video.videoHeight=regression.height;
+modelLandmarks=regression.landmarks;modelWorld=regression.worldLandmarks;modelHand=regression.handedness.categoryName;
+const realUpdates=[];
+const regressionTracker=await tracking.startHandTracking(video,(nails,detected)=>realUpdates.push({nails,detected}),false,()=>failed++);
+for(let timestamp=14000;timestamp<=17000;timestamp+=600)tick(timestamp);
+assert.equal(realUpdates.at(-1).detected,true);
+assert.equal(realUpdates.at(-1).nails.filter(n=>n.visibility>0).length,5,'world disagreement / slow VIDEO erased the dorsal hand');
+assert.ok(realUpdates.slice(2).every(u=>u.nails.filter(n=>n.visibility>0).length===5),'continuous slow dorsal observations intermittently erased nails');
+const realPhoto=await tracking.detectHandNails({naturalWidth:regression.width,naturalHeight:regression.height});
+assert.equal(realPhoto.filter(n=>n.visibility>0).length,5,'IMAGE pipeline lost the real dorsal hand');
+const renderer=await importTypescript('src/lib/nailRenderer.ts');
+const defaults=await importTypescript('src/lib/defaults.ts');
+logs.length=0;await renderer.drawNails(context,regression.width,regression.height,realUpdates.at(-1).nails,defaults.defaultDesign);
+assert.equal(logs.filter(e=>e.method==='translate').length,11,'VIDEO did not draw five nails and their root shadows');
+logs.length=0;await renderer.drawNails(context,regression.width,regression.height,realPhoto,defaults.defaultDesign);
+assert.equal(logs.filter(e=>e.method==='translate').length,11,'IMAGE did not draw five nails');
+modelScore=.5;tick(17150);
+assert.equal(realUpdates.at(-1).nails.filter(n=>n.visibility>0).length,5,'transient unknown score cleared a confirmed dorsal overlay');
+modelScore=.99;modelWorld=undefined;modelHand=modelHand==='Left'?'Right':'Left';
+for(let timestamp=17350;timestamp<=18000;timestamp+=150)tick(timestamp);
+assert.equal(realUpdates.at(-1).detected,true);
+assert.equal(realUpdates.at(-1).nails.filter(n=>n.visibility>0).length,0,'open palm regained finger-pad painting');
+modelHand=regression.handedness.categoryName;modelWorld=regression.worldLandmarks;
+for(let timestamp=18200;timestamp<=19500;timestamp+=200)tick(timestamp);
+assert.equal(realUpdates.at(-1).nails.filter(n=>n.visibility>0).length,5,'dorsal return did not recover');
+regressionTracker.stop();
+
 video.videoWidth=640;
 video.videoHeight=480;
 const nextTracker=await tracking.startHandTracking(video,()=>{},false,()=>failed++);
 assert.equal(frames.size,1,"switching cameras left multiple inference loops");
 tracker.stop();
 failure=true;
-for(let timestamp=13400;timestamp<14900;timestamp+=150) tick(timestamp);
+for(let timestamp=20000;timestamp<21500;timestamp+=150) tick(timestamp);
 assert.equal(failed,1);
 assert.equal(stream.active,true,"tracker failure stopped the independent stream");
 assert.equal(frames.size,0);

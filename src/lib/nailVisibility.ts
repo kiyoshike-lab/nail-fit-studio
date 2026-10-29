@@ -15,16 +15,20 @@ export function assessNailVisibility(pose: HandPose, landmarks: NailLandmark[], 
   return nails.map((nail, finger) => {
     const hide = (reason: string, uncertain = false): NailVisibilityEvidence => ({ state: uncertain ? "uncertain" : "hidden", confidence: 0, reason, hardHidden: true });
     const joint = pose.fingers[finger];
-    if (pose.view === "unknown" || !joint || pose.confidence < 0.6) return hide("uncertain-hand-pose", true);
+    const uncertain = (reason: string): NailVisibilityEvidence => ({ state: "uncertain", confidence: 0, reason, hardHidden: false });
+    if (pose.view === "unknown" || !joint || pose.confidence < 0.6) return uncertain("uncertain-hand-pose");
     const pixels = Math.min(nail.width / 100 * width, nail.height / 100 * height);
-    if (pixels < 4) return hide("insufficient-nail-pixels", true);
+    // Small nails cannot support boundary fitting, but a visible dorsal hand
+    // can still use the original landmark placement. Do not require 6px/0.72
+    // boundary confidence merely to render a landmark-estimated pinky.
+    if (pixels < 1) return uncertain("insufficient-nail-pixels");
     const fit = fits[finger];
     const bounded = Boolean(fit?.accepted && fit.confidence >= 0.8 && fit.contour && fit.contour.length >= 3
       && (fit.supportThresholds ?? 0) >= 2 && pixels >= 6);
     const occluded = overlapsCloserFinger(finger, landmarks, nails, aspect, mirrored);
-    const resolutionConfidence = Math.min(1, (pixels - 3) / 3);
+    const resolutionConfidence = Math.min(1, pixels / 6);
     if (pose.view === "back" && joint.facing >= 0.3 && !occluded) {
-      return { state: "visible", confidence: Math.min(pose.confidence, resolutionConfidence), reason: "dorsal-pose-prior", hardHidden: false };
+      return { state: "visible", confidence: pose.confidence, reason: "dorsal-pose-prior", hardHidden: false };
     }
     // Thumb roll is underdetermined by its centreline. On a curled palm it needs
     // stronger independent image support; a palm plane alone must not show it.
@@ -69,32 +73,40 @@ function overlapsCloserFinger(finger: number, landmarks: NailLandmark[], nails: 
 }
 
 export class NailVisibilityTracker {
-  private states: { alpha: number; since: number; eligible: boolean; lastStrong: number }[] = [];
+  private states: { alpha: number; since: number; eligible: boolean; lastStrong: number; dorsal: boolean }[] = [];
   private lastAt = -Infinity;
   private identity?: string;
+
+  reset() { this.states = []; this.identity = undefined; this.lastAt = -Infinity; }
 
   update(evidence: NailVisibilityEvidence[], now: number, identity?: string): NailVisibility[] {
     if (!Number.isFinite(now) || now < this.lastAt) return evidence.map(() => ({
       state: "uncertain", confidence: 0, reason: "stale-visibility-frame", hardHidden: true, alpha: 0, becameVisible: false,
     }));
-    const changed = this.identity !== undefined && identity !== this.identity;
-    const reset = changed || now - this.lastAt > 450;
+    const changed = Boolean(identity && this.identity && identity !== this.identity);
+    // Continuous, slow inference is NOT a lost hand. The caller resets on actual
+    // missing landmarks; otherwise a >450ms inference cadence never entered.
+    const reset = changed;
     if (reset) this.states = [];
     if (identity) this.identity = identity;
     const dt = Math.max(0, Math.min(100, now - this.lastAt));
     this.lastAt = now;
     return evidence.map((value, index) => {
-      const previous = this.states[index] ?? { alpha: 0, since: now, eligible: false, lastStrong: -Infinity };
+      const previous = this.states[index] ?? { alpha: 0, since: now, eligible: false, lastStrong: -Infinity, dorsal: false };
       const wasVisible = previous.alpha > 0;
-      const strong = !value.hardHidden && value.confidence >= 0.72;
+      const strong = !value.hardHidden && value.confidence >= 0.6;
       if (value.hardHidden) {
-        previous.alpha = 0; previous.since = now; previous.eligible = false;
+        previous.alpha = 0; previous.since = now; previous.eligible = false; previous.dorsal = false;
       } else {
-        if (strong) previous.lastStrong = now;
-        const eligible = strong || (previous.alpha > 0 && value.confidence >= 0.5 && now - previous.lastStrong < 120);
+        if (strong) { previous.lastStrong = now; previous.dorsal = value.state === "visible"; }
+        // Only a recent, confirmed DORSAL landmark prior may survive a short
+        // unknown. Never carry an absolute partial contour into another frame.
+        const hold = !strong && value.state === "uncertain" && previous.dorsal && previous.alpha > 0 && now - previous.lastStrong <= 350;
+        const eligible = strong || hold;
         if (eligible !== previous.eligible) previous.since = now;
         previous.eligible = eligible;
-        if (eligible && now - previous.since >= 70) previous.alpha = Math.min(1, previous.alpha + dt / 120);
+        if (hold) { /* keep current alpha, without renewing lastStrong */ }
+        else if (eligible && now - previous.since >= 70) previous.alpha = Math.min(1, previous.alpha + dt / 120);
         else if (!eligible) previous.alpha = Math.max(0, previous.alpha - dt / 80);
       }
       this.states[index] = previous;
@@ -106,7 +118,7 @@ export class NailVisibilityTracker {
 export function withNailVisibility(nails: NailPose[], visibility: NailVisibility[] | NailVisibilityEvidence[]): NailPose[] {
   return nails.map((nail, index) => {
     const value = visibility[index];
-    return { ...nail, visibility: value && "alpha" in value ? value.alpha : value && !value.hardHidden && value.confidence >= 0.72 ? 1 : 0,
+    return { ...nail, visibility: value && "alpha" in value ? value.alpha : value && !value.hardHidden && value.confidence >= 0.6 ? 1 : 0,
       visibilityState: value?.state ?? "uncertain", visibilityConfidence: value?.confidence ?? 0,
       clipContour: value?.state === "partial" ? value.contour : undefined,
       clipHoles: value?.state === "partial" ? value.holes : undefined };

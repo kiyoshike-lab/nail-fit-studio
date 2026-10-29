@@ -51,6 +51,7 @@ export function NailAlignmentDebug({ mode, design, nails, loading, liveNailsRef 
             ctx.lineWidth = dpr;
             for (const index of [4, 8, 12, 16, 20]) {
               const tip = frame.landmarks[index];
+              if (!tip) continue;
               dot(ctx, (frame.mirrored ? 1 - tip.x : tip.x) * viewport.width, tip.y * viewport.height, "#ff28cc", dpr * 3);
             }
             frame.coarse.forEach((nail) => pose(ctx, nail, viewport.width, viewport.height, "#ff9a00", "oval", 1));
@@ -61,7 +62,7 @@ export function NailAlignmentDebug({ mode, design, nails, loading, liveNailsRef 
             });
             frame.stable.forEach((nail) => pose(ctx, nail, viewport.width, viewport.height, "#79ff41", "oval", 1));
             const rendered = mode === "camera" ? liveNailsRef?.current ?? nails : nails;
-            rendered.forEach((nail) => pose(ctx, nail, viewport.width, viewport.height, "#ffffff", design.shape, design.length));
+            if (frame.landmarks.length) rendered.forEach((nail) => pose(ctx, nail, viewport.width, viewport.height, "#ffffff", design.shape, design.length));
             ctx.restore();
           }
         }
@@ -84,8 +85,10 @@ export function NailAlignmentDebug({ mode, design, nails, loading, liveNailsRef 
           <span style={{ color: "#ff28cc" }}>●指先</span> / <span style={{ color: "#ff9a00" }}>橙:幾何推定</span> / <span style={{ color: "#00d5ef" }}>水色:画像補正</span> / <span style={{ color: "#79ff41" }}>緑:追尾後</span> / 白:手動補正・描画<br />
           点:中心 / 線の根元・先端:描画基準。画像補正が不確かな爪は水色を表示しません。
           {summary?.sourceMode === mode && <div>
+            手の検出: {summary.landmarks.length === 21 ? "成功" : "未検出"} / 描画対象: {summary.stable.filter(nail => (nail.visibility ?? 1) > 0.05).length}/5本<br />
             姿勢: {summary.pose?.view ?? "unknown"} / モデル左右ラベル: {summary.pose?.modelHand ?? "unknown"} / 表示反転: {summary.mirrored ? "あり" : "なし"}<br />
             3D: {summary.pose?.source} / 傾斜: {summary.pose?.tiltDegrees.toFixed(0)}° / 信頼度: {summary.pose?.confidence.toFixed(2)}
+            <div>{summary.pose?.reason} / 画像面 {summary.pose?.imageFacing?.toFixed(2)} / world面 {summary.pose?.worldFacing?.toFixed(2)} / 一致 {summary.pose?.worldAgreement?.toFixed(2)}</div>
             {summary.visibility?.map((value, index) => <div key={index}>
               {["親指", "人差指", "中指", "薬指", "小指"][index]}: {value.state} / α{summary.stable[index]?.visibility?.toFixed(2) ?? "?"} / 曲げ {summary.pose?.fingers[index]?.bendDegrees.toFixed(0) ?? "?"}° / {value.reason} / 輪郭 {summary.fits[index]?.contourStatus ?? summary.fits[index]?.reason}
             </div>)}

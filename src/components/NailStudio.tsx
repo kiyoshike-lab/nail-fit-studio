@@ -335,9 +335,10 @@ export function NailStudio() {
               hasTrackingPoseRef.current = true;
               lastTrackingUiAtRef.current = now;
               setNails(adjusted);
+              const uncertain = adjusted.some((nail) => nail.visibilityState === "uncertain");
               setStatus(adjusted.some((nail) => (nail.visibility ?? 1) > 0.05)
-                ? "手を検出しました。見えている爪を追従しています。"
-                : "手は認識しています。爪が隠れているか向きを確認できないため非表示です。手の甲を向けてください。");
+                ? uncertain ? "手を検出しました。向きを確認中のため、直前の爪位置推定を短時間維持しています。" : "手を検出しました。見えている爪を追従しています。"
+                : uncertain ? "手は検出できましたが、向きをまだ判断できません。手全体を写し、少し向きを変えてください。" : "手を検出しました。爪が見えない指は非表示にしています。");
             }
           } else {
             lostFramesRef.current += 1;
@@ -710,7 +711,9 @@ export function NailStudio() {
             const visible = detected.some((nail) => (nail.visibility ?? 1) > 0.05);
             setStatus(visible
               ? "写真から手を認識し、見えている爪位置を自動配置しました。必要なら細かく調整できます。"
-              : "手を認識し爪位置を自動配置しましたが、爪の可視性を確認できず非表示です。手の甲の写真か手動調整をお試しください。");
+              : detected.some((nail) => nail.visibilityState === "uncertain")
+                ? "手を認識し爪位置を自動配置しましたが、向きをまだ判断できません。写真を変えるか、手動調整をお試しください。"
+                : "手を認識し爪位置を自動配置しました。爪が見えない指は非表示にしています。手動調整も利用できます。");
             notify(visible ? "見えている爪の位置を自動調整しました" : "爪を確認できないため非表示にしました");
           } else {
             setStatus("手を認識できませんでした。手全体が写り、指を少し開いた写真をお試しください。");
@@ -856,7 +859,9 @@ export function NailStudio() {
       }
       setNails(detected);
       const visible = detected.some((nail) => (nail.visibility ?? 1) > 0.05);
-      if (!visible) setStatus("手は認識していますが爪を確認できないため非表示です。手の甲の写真か手動調整をお試しください。");
+      if (!visible) setStatus(detected.some((nail) => nail.visibilityState === "uncertain")
+        ? "手は検出できましたが、向きをまだ判断できません。写真を変えるか、手動調整をお試しください。"
+        : "手を検出しました。爪が見えない指は非表示にしています。手動調整も利用できます。");
       notify(visible ? "爪の位置を自動調整しました" : "爪の可視性を確認できませんでした");
     } catch {
       if (requestId === photoRequestRef.current) notify("自動認識を利用できません。手動で調整できます。");

@@ -1,11 +1,7 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { NailStudio } from "@/components/NailStudio";
 
-export const metadata: Metadata = {
-  title: "バーチャルネイル試着",
-  description: "手の写真やカメラで、ネイルの色・形・長さ・デザインを無料で試せます。",
-  alternates: { canonical: "/try-on" },
-};
+export const metadata = pageMetadata("ネイルシミュレーター｜写真・カメラで無料試着", "自分の手の写真やカメラでネイルを無料シミュレーション。色・形・長さやデザインを変えて比較し、気に入った試着画像を保存できます。アプリ不要。", "/try-on");
 
 export default function TryOnPage() {
   return <NailStudio />;

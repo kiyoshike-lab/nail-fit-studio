@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" lang="ja">
+  <title>Nail Fit Studio — 無料でネイル試着</title>
+  <desc>自分の手の写真やカメラで、色・形・長さをお試し。無料・アプリ不要。右側はネイルカラーのイメージです。</desc>
+  <defs>
+    <linearGradient id="rose" x1="0" x2="1" y2="0"><stop stop-color="#a5596f"/><stop offset=".4" stop-color="#efbdc8"/><stop offset="1" stop-color="#b66d81"/></linearGradient>
+    <linearGradient id="sheer" x1="0" x2="1" y2="0"><stop stop-color="#bc8a81"/><stop offset=".45" stop-color="#fae0d4"/><stop offset="1" stop-color="#d29b93"/></linearGradient>
+    <linearGradient id="mauve" x1="0" x2="1" y2="0"><stop stop-color="#73546f"/><stop offset=".4" stop-color="#c8b1c7"/><stop offset="1" stop-color="#8e708c"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#fcfaf8"/>
+  <rect x="18" y="18" width="1164" height="594" rx="32" fill="none" stroke="#e8dbd9" stroke-width="2"/>
+  <g font-family="Meiryo, 'Noto Sans JP', sans-serif" fill="#372a31">
+    <text x="66" y="91" font-size="30" font-weight="700">Nail Fit Studio</text>
+    <rect x="66" y="124" width="250" height="47" rx="23.5" fill="#6f3442"/>
+    <text x="191" y="156" text-anchor="middle" font-size="23" font-weight="700" fill="#fff">無料・アプリ不要</text>
+    <text x="61" y="265" font-size="67" font-weight="700">自分の手で、</text>
+    <text x="61" y="358" font-size="78" font-weight="700" fill="#6f3442">ネイルを試着。</text>
+    <text x="66" y="433" font-size="29">写真・カメラで</text>
+    <text x="66" y="480" font-size="29">色・形・長さをお試し</text>
+    <text x="66" y="560" font-size="20" fill="#77666e">サロンへ行く前に、似合うデザインをチェック</text>
+    <rect x="778" y="110" width="350" height="420" rx="40" fill="#f2e8e5"/>
+    <g transform="translate(812 215) rotate(-10 40 100)">
+      <rect width="82" height="190" rx="41" fill="url(#sheer)"/>
+      <path d="M24 30 Q15 90 24 125" stroke="#fff" stroke-opacity=".55" stroke-width="6" stroke-linecap="round" fill="none"/>
+    </g>
+    <g transform="translate(911 185)">
+      <rect width="86" height="214" rx="43" fill="url(#rose)"/>
+      <path d="M25 32 Q16 95 25 147" stroke="#fff" stroke-opacity=".55" stroke-width="7" stroke-linecap="round" fill="none"/>
+    </g>
+    <g transform="translate(1011 216) rotate(10 40 100)">
+      <rect width="82" height="190" rx="41" fill="url(#mauve)"/>
+      <path d="M24 30 Q15 90 24 125" stroke="#fff" stroke-opacity=".5" stroke-width="6" stroke-linecap="round" fill="none"/>
+    </g>
+    <text x="953" y="475" text-anchor="middle" font-size="21" fill="#6f3442">自分に似合う色を見つけよう</text>
+    <text x="953" y="559" text-anchor="middle" font-size="16" fill="#88747e">ネイルカラーのイメージ</text>
+  </g>
+</svg>

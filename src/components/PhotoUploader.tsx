@@ -13,7 +13,7 @@ export function PhotoUploader({ onPhoto, onSample, onCamera, onError }: Props) {
   return (
     <section className="panel-card intro-actions" aria-labelledby="start-title">
       <div>
-        <p className="eyebrow">3 STEP</p>
+        <p className="eyebrow">使い方・3ステップ</p>
         <h2 id="start-title">まず手の写真かカメラを入れてください</h2>
       </div>
       <label className="upload-button">

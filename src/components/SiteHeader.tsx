@@ -12,7 +12,7 @@ export function SiteHeader() {
       <div className="site-header-inner">
         <Link href="/" className="brand-mark" aria-label="Nail Fit Studio ホーム">
           <span>Nail Fit Studio</span>
-          <small>2.0</small>
+          <small>無料</small>
         </Link>
         <nav className="desktop-nav" aria-label="メインナビゲーション">
           {primaryNavigation.map((item) => (

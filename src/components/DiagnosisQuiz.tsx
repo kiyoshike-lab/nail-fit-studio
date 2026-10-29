@@ -47,10 +47,10 @@ export function DiagnosisQuiz() {
   }
 
   if (result) {
-    return <div className="diagnosis-result"><p className="eyebrow">YOUR NAIL FIT</p><h2>{result.title}</h2><p>{result.description}</p><div className="result-tags">{result.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><div className="hero-actions"><Link className="button light" href={tryOnUrl}>この条件で試着する</Link><button type="button" className="secondary" onClick={startOver}>もう一度診断</button></div></div>;
+    return <div className="diagnosis-result"><p className="eyebrow">あなたへのおすすめ</p><h2>{result.title}</h2><p>{result.description}</p><div className="result-tags">{result.tags.map((tag) => <span key={tag}>{tag}</span>)}</div><div className="hero-actions"><Link className="button light" href={tryOnUrl}>この条件で試着する</Link><button type="button" className="secondary" onClick={startOver}>もう一度診断</button></div></div>;
   }
 
-  return <div className="diagnosis-card"><div className="diagnosis-progress" aria-label={`診断 ${step + 1}/${questions.length}`}><span style={{ width: `${Math.max(6, progress)}%` }} /></div><p className="eyebrow">QUESTION {step + 1} / {questions.length}</p><h2>{question.title}</h2><div className="option-list">{question.options.map(([label,value]) => <button type="button" key={value} onClick={() => answer(value)}>{label}</button>)}</div>{step > 0 && <button type="button" className="secondary" onClick={() => { setAnswers((current) => current.slice(0,-1)); setStep((current) => current - 1); }}>ひとつ戻る</button>}</div>;
+  return <div className="diagnosis-card"><div className="diagnosis-progress" aria-label={`診断 ${step + 1}/${questions.length}`}><span style={{ width: `${Math.max(6, progress)}%` }} /></div><p className="eyebrow">質問 {step + 1} / {questions.length}</p><h2>{question.title}</h2><div className="option-list">{question.options.map(([label,value]) => <button type="button" key={value} onClick={() => answer(value)}>{label}</button>)}</div>{step > 0 && <button type="button" className="secondary" onClick={() => { setAnswers((current) => current.slice(0,-1)); setStep((current) => current - 1); }}>ひとつ戻る</button>}</div>;
 }
 
 function createResult(answers: string[]): DiagnosisResult {

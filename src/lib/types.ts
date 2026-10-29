@@ -12,6 +12,13 @@ export type NailPose = {
   anchorHeight?: number;
   rotation: number;
   confidence?: number;
+  visibility?: number;
+  visibilityState?: "visible" | "partial" | "hidden" | "uncertain" | "manual";
+  visibilityConfidence?: number;
+  // Display/source-percent coordinates. Partial visibility clips the whole nail,
+  // including its shadow, to current image evidence rather than a guessed width.
+  clipContour?: { x: number; y: number }[];
+  clipHoles?: { x: number; y: number }[][];
 };
 
 export type NailDesign = {

@@ -55,7 +55,28 @@ export async function drawNails(
     ctx.clip();
     ctx.translate(viewport.x, viewport.y);
     for (let index = 0; index < nails.length; index += 1) {
-      drawNail(ctx, viewport.width, viewport.height, nails[index], design, index, texture, options.lighting);
+      const nail = nails[index];
+      const visibility = nail.visibility === undefined ? 1 : Number.isFinite(nail.visibility) ? Math.max(0, Math.min(1, nail.visibility)) : 0;
+      if (visibility === 0) continue;
+      const contour = nail.clipContour;
+      if (nail.visibilityState === "partial" && (!contour || contour.length < 3)) continue;
+      ctx.save();
+      try {
+        ctx.globalAlpha *= visibility;
+        if (contour) {
+          const rings = [contour, ...(nail.clipHoles ?? [])];
+          if (rings.length > 17 || rings.reduce((sum, ring) => sum + ring.length, 0) > 128
+            || !rings.every(ring => ring.length >= 3 && ring.every(point => Number.isFinite(point.x) && Number.isFinite(point.y)))) continue;
+          ctx.beginPath();
+          for (const ring of rings) {
+            ctx.moveTo(ring[0].x / 100 * viewport.width, ring[0].y / 100 * viewport.height);
+            for (const point of ring.slice(1)) ctx.lineTo(point.x / 100 * viewport.width, point.y / 100 * viewport.height);
+            ctx.closePath();
+          }
+          ctx.clip("evenodd");
+        }
+        drawNail(ctx, viewport.width, viewport.height, nail, design, index, texture, options.lighting);
+      } finally { ctx.restore(); }
     }
   } finally {
     ctx.restore();

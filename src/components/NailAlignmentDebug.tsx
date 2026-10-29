@@ -13,10 +13,18 @@ export function NailAlignmentDebug({ mode, design, nails, loading, liveNailsRef 
   const [enabled, setEnabled] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const frameRef = useRef<NailAlignmentFrame | null>(null);
+  const [summary, setSummary] = useState<NailAlignmentFrame | null>(null);
 
   useEffect(() => {
     if (!enabled) return;
-    return subscribeNailAlignmentDebug((frame) => { frameRef.current = frame; });
+    let lastSummaryAt = -Infinity;
+    return subscribeNailAlignmentDebug((frame) => {
+      frameRef.current = frame;
+      if (frame.timestamp - lastSummaryAt >= 250) {
+        lastSummaryAt = frame.timestamp;
+        setSummary(frame);
+      }
+    });
   }, [enabled]);
 
   useEffect(() => {
@@ -75,6 +83,13 @@ export function NailAlignmentDebug({ mode, design, nails, loading, liveNailsRef 
         <div style={{ position: "absolute", top: 48, left: 8, right: 8, zIndex: 6, pointerEvents: "none", background: "#000b", color: "white", fontSize: 10, padding: 5, borderRadius: 6 }}>
           <span style={{ color: "#ff28cc" }}>●指先</span> / <span style={{ color: "#ff9a00" }}>橙:幾何推定</span> / <span style={{ color: "#00d5ef" }}>水色:画像補正</span> / <span style={{ color: "#79ff41" }}>緑:追尾後</span> / 白:手動補正・描画<br />
           点:中心 / 線の根元・先端:描画基準。画像補正が不確かな爪は水色を表示しません。
+          {summary?.sourceMode === mode && <div>
+            姿勢: {summary.pose?.view ?? "unknown"} / モデル左右ラベル: {summary.pose?.modelHand ?? "unknown"} / 表示反転: {summary.mirrored ? "あり" : "なし"}<br />
+            3D: {summary.pose?.source} / 傾斜: {summary.pose?.tiltDegrees.toFixed(0)}° / 信頼度: {summary.pose?.confidence.toFixed(2)}
+            {summary.visibility?.map((value, index) => <div key={index}>
+              {["親指", "人差指", "中指", "薬指", "小指"][index]}: {value.state} / α{summary.stable[index]?.visibility?.toFixed(2) ?? "?"} / 曲げ {summary.pose?.fingers[index]?.bendDegrees.toFixed(0) ?? "?"}° / {value.reason} / 輪郭 {summary.fits[index]?.contourStatus ?? summary.fits[index]?.reason}
+            </div>)}
+          </div>}
         </div>
       </>}
     </>

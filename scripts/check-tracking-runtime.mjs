@@ -44,6 +44,8 @@ const hand=[
 const instances=[];
 let failure=false;
 let handVisible=true;
+let modelHand="Right";
+let modelLandmarks=hand;
 globalThis.__nailTrackingMock={
   FilesetResolver:{forVisionTasks:async()=>({})},
   HandLandmarker:{createFromOptions:async(_vision,options)=>{
@@ -55,9 +57,9 @@ globalThis.__nailTrackingMock={
         if(failure) throw Error("mock frame failure");
         this.videoCalls++;
         this.timestamps.push(timestamp);
-        return {landmarks:handVisible?[hand]:[],handedness:[[{categoryName:"Left",score:.99}]]};
+        return {landmarks:handVisible?[modelLandmarks]:[],handedness:[[{categoryName:modelHand,score:.99}]]};
       },
-      detect(){assert.equal(options.runningMode,"IMAGE");this.imageCalls++;return {landmarks:[hand]};},
+      detect(){assert.equal(options.runningMode,"IMAGE");this.imageCalls++;return {landmarks:[hand],handedness:[[{categoryName:modelHand,score:.99}]]};},
       close(){this.closed++;},
     };
     instances.push(instance);
@@ -116,6 +118,21 @@ assert.equal(stream.active,true,"changing natural nail length stopped the camera
 assert.equal(frames.size,1,"changing natural nail length duplicated tracking");
 assert.equal(instances.filter((instance)=>instance.options.runningMode==="VIDEO").length,1);
 assert.equal(instances.filter((instance)=>instance.options.runningMode==="IMAGE").length,1);
+assert.ok(updates.at(-1).nails.some(nail=>nail.visibility>0),"back-facing hand never showed nails");
+modelHand="Left"; // Same raw winding with opposite label is an open palm.
+for(let timestamp=10900;timestamp<=11300;timestamp+=100) tick(timestamp);
+assert.equal(updates.at(-1).detected,true,"palm incorrectly became a lost hand");
+assert.ok(updates.at(-1).nails.every(nail=>nail.visibility===0),"open palm painted finger pads");
+assert.equal(stream.active,true);
+modelHand="Right";
+for(let timestamp=11400;timestamp<=12000;timestamp+=100) tick(timestamp);
+assert.ok(updates.at(-1).nails.some(nail=>nail.visibility>0),"dorsal visibility failed to recover");
+modelHand="Left";modelLandmarks=hand.map(p=>({...p,x:1-p.x}));
+tick(12200);
+assert.equal(updates.at(-1).detected,true,'pending hand identity stopped hand recognition');
+assert.ok(updates.at(-1).nails.every(nail=>nail.visibility===0),'pending identity retained the OLD hand overlay');
+for(let timestamp=12400;timestamp<=13200;timestamp+=200)tick(timestamp);
+assert.ok(updates.at(-1).nails.some(nail=>nail.visibility>0),'new physical hand failed to acquire');
 const videoInstance=instances[0];
 assert.ok(videoInstance.timestamps.every((value,index)=>index===0||value>videoInstance.timestamps[index-1]),"VIDEO timestamps went backward");
 
@@ -125,7 +142,7 @@ const nextTracker=await tracking.startHandTracking(video,()=>{},false,()=>failed
 assert.equal(frames.size,1,"switching cameras left multiple inference loops");
 tracker.stop();
 failure=true;
-for(let timestamp=11000;timestamp<12500;timestamp+=150) tick(timestamp);
+for(let timestamp=13400;timestamp<14900;timestamp+=150) tick(timestamp);
 assert.equal(failed,1);
 assert.equal(stream.active,true,"tracker failure stopped the independent stream");
 assert.equal(frames.size,0);

@@ -7,6 +7,8 @@ import type { NailRefinementResult } from "./nailImageRefinement";
 import { publishNailAlignmentDebug } from "./nailAlignmentDebug";
 import { handReference } from "./handReference";
 import { naturalNailLength, type NaturalNailLength } from "./naturalNailLength";
+import { estimateHandPose, type HandPose } from "./handPose";
+import { assessNailVisibility, NailVisibilityTracker, withNailVisibility } from "./nailVisibility";
 import { initializeWithDelegateFallback } from "./trackingFallback";
 import {
   calculateProcessingSize,
@@ -64,6 +66,8 @@ export async function startHandTracking(
   let stabilizer = new NailTrackStabilizer();
   let previousNaturalLength = getNaturalLength();
   const refiner = new NailFrameRefiner();
+  const visibilityTracker = new NailVisibilityTracker();
+  let previousPose: HandPose | undefined;
   const metrics = new TrackingPerformance();
   let videoFrameCallback = 0;
   const observeVideoFrame: VideoFrameRequestCallback = (_now, metadata) => {
@@ -97,6 +101,13 @@ export async function startHandTracking(
         consecutiveDetectionErrors = 0;
         const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
         const identity = result.handedness?.[0]?.[0];
+        const pose = estimateHandPose(landmarks ?? [], result.worldLandmarks?.[0], identity, video.videoWidth / video.videoHeight);
+        if (previousPose && (pose.view !== previousPose.view || pose.normal.x * previousPose.normal.x
+          + pose.normal.y * previousPose.normal.y + pose.normal.z * previousPose.normal.z < 0.75)) {
+          refiner.dispose();
+          stabilizer = new NailTrackStabilizer();
+        }
+        previousPose = pose;
         const naturalLength = naturalNailLength(getNaturalLength());
         if (naturalLength !== previousNaturalLength) {
           stabilizer = new NailTrackStabilizer();
@@ -107,9 +118,14 @@ export async function startHandTracking(
           ? buildNailsFromLandmarks(landmarks, mirrored, video.videoWidth / video.videoHeight, naturalLength) : [];
         // The Canvas input is a snapshot: landmark inference and pixel fitting
         // must inspect the same unpainted frame, never the nail overlay.
-        const fit: NailRefinementResult = input instanceof HTMLCanvasElement
-          ? refiner.refine(input, input.width, input.height, rawNails, mirrored, performance.now())
-          : { nails: rawNails, diagnostics: rawNails.map(() => ({ accepted: false, confidence: 0, reason: "no-frame-snapshot" })) };
+        const search = pose.view !== "unknown" && (pose.view !== "palm" || pose.fingers.some(f => f.facing >= 0.4 || f.bendDegrees > 70));
+        const fit: NailRefinementResult = search && input instanceof HTMLCanvasElement
+          ? refiner.refine(input, input.width, input.height, rawNails, mirrored, performance.now(), pose.view !== "back" || pose.fingers.some(f => f.facing < 0.3))
+          : { nails: rawNails, diagnostics: rawNails.map(() => ({ accepted: false, confidence: 0, reason: search ? "no-frame-snapshot" : "nail-visibility-unconfirmed" })) };
+        const pixelScale = Math.min(1, 640 / Math.max(video.videoWidth, video.videoHeight));
+        const evidence = assessNailVisibility(pose, landmarks ?? [], fit.nails, fit.diagnostics, video.videoWidth * pixelScale, video.videoHeight * pixelScale, mirrored);
+        const visibility = visibilityTracker.update(evidence, frameTime, identity?.categoryName);
+        stabilizer.resetFingers(visibility.flatMap((value, index) => value.becameVisible ? [index] : []));
         const refinementCompletedAt = performance.now();
         const stableNails = stabilizer.update(fit.nails, frameTime, identity
           ? { label: identity.categoryName, score: identity.score } : undefined,
@@ -122,15 +138,23 @@ export async function startHandTracking(
         });
         // Also leave main-thread time after inference and refinement complete.
         lastDetectionAt = frameTime + busyMs;
-        if (stableNails) {
+        const validHandGeometry = rawNails.length === 5 && rawNails.every(nail =>
+          [nail.x, nail.y, nail.width, nail.height, nail.rotation].every(Number.isFinite) && nail.width > 0 && nail.height > 0);
+        if (stableNails || validHandGeometry) {
           successfulDetections += 1;
           consecutiveMisses = 0;
           everDetected = true;
           lastDetectedAt = performance.now();
           previousState = publishDetectionState("detected", previousState, onDetectionState);
-          onUpdate(stableNails, true);
+          // A pending identity switch must clear the OLD hand's overlay, not
+          // retain it via the generic short detection-loss fade.
+          const currentVisibility = stableNails ? visibility : visibility.map(value => ({
+            ...value, state: "uncertain" as const, confidence: 0, alpha: 0, hardHidden: true, reason: "unstable-hand-identity",
+          }));
+          const visibleNails = withNailVisibility((stableNails ?? rawNails).map((nail, index) => currentVisibility[index]?.state === "partial" ? fit.nails[index] : nail), currentVisibility);
+          onUpdate(visibleNails, true);
           if (process.env.NODE_ENV !== "production" && landmarks) publishNailAlignmentDebug({
-            landmarks, coarse: rawNails, refined: fit.nails, stable: stableNails, fits: fit.diagnostics,
+            landmarks, coarse: rawNails, refined: fit.nails, stable: visibleNails, fits: fit.diagnostics, pose, visibility: currentVisibility,
             sourceWidth: video.videoWidth, sourceHeight: video.videoHeight, mirrored, timestamp: performance.now(),
             sourceMode: "camera",
           });
@@ -163,6 +187,8 @@ export async function startHandTracking(
             processingWidth: input instanceof HTMLCanvasElement ? input.width : video.videoWidth,
             processingHeight: input instanceof HTMLCanvasElement ? input.height : video.videoHeight,
             fits: fit.diagnostics.map(({ accepted, reason, rejected, candidates, supportThresholds }) => ({ accepted, reason, rejected, candidates, supportThresholds })),
+            pose: { view: pose.view, source: pose.source, confidence: pose.confidence, facing: pose.facing },
+            visibility: visibility.map(({ state, reason, alpha }) => ({ state, reason, alpha })),
           });
           previousInputMode = inputMode;
         }
@@ -218,15 +244,19 @@ export async function detectHandNails(image: HTMLImageElement, naturalLength: Na
   const result = landmarker.detect(image);
   const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
   const coarse = landmarks?.length ? buildNailsFromLandmarks(landmarks, false, image.naturalWidth / image.naturalHeight, naturalLength) : [];
+  const pose = estimateHandPose(landmarks ?? [], result.worldLandmarks?.[0], result.handedness?.[0]?.[0], image.naturalWidth / image.naturalHeight);
   const refiner = new NailFrameRefiner();
   try {
     const fit = refiner.refine(image, image.naturalWidth, image.naturalHeight, coarse, false, performance.now());
+    const pixelScale = Math.min(1, 640 / Math.max(image.naturalWidth, image.naturalHeight));
+    const visibility = assessNailVisibility(pose, landmarks ?? [], fit.nails, fit.diagnostics, image.naturalWidth * pixelScale, image.naturalHeight * pixelScale, false);
+    const visibleNails = withNailVisibility(fit.nails, visibility);
     if (process.env.NODE_ENV !== "production" && landmarks) publishNailAlignmentDebug({
-      landmarks, coarse, refined: fit.nails, stable: fit.nails, fits: fit.diagnostics,
+      landmarks, coarse, refined: fit.nails, stable: visibleNails, fits: fit.diagnostics, pose, visibility,
       sourceWidth: image.naturalWidth, sourceHeight: image.naturalHeight, mirrored: false, timestamp: performance.now(),
       sourceMode: "photo",
     });
-    return fit.nails;
+    return visibleNails;
   } finally {
     refiner.dispose();
   }

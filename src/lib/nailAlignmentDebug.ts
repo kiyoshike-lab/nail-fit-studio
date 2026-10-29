@@ -1,6 +1,8 @@
 import type { NailLandmark } from "./nailGeometry";
 import type { NailFitDiagnostic } from "./nailImageRefinement";
 import type { NailPose } from "./types";
+import type { HandPose } from "./handPose";
+import type { NailVisibilityEvidence } from "./nailVisibility";
 
 export type NailAlignmentFrame = {
   landmarks: NailLandmark[];
@@ -13,6 +15,8 @@ export type NailAlignmentFrame = {
   mirrored: boolean;
   timestamp: number;
   sourceMode: "photo" | "camera";
+  pose?: HandPose;
+  visibility?: NailVisibilityEvidence[];
 };
 
 let listener: ((frame: NailAlignmentFrame) => void) | null = null;

@@ -1,0 +1,24 @@
+{
+  "kind": "headless Chrome static-image UI regression, NOT physical camera or labelled nail accuracy",
+  "backPixels": 1136,
+  "palmPixels": 0,
+  "palmStates": [
+    "hidden",
+    "hidden",
+    "hidden",
+    "hidden",
+    "hidden"
+  ],
+  "errors": [],
+  "passed": [
+    "320/390/1280 overflow",
+    "dorsal rendering",
+    "Before/After tap and hold (desktop pointer)",
+    "new palm hides saved poses",
+    "explicit manual photo adjustment",
+    "auto-fit restores gating",
+    "PNG download",
+    "no-hand photo stays hidden",
+    "illustration demo preserved"
+  ]
+}

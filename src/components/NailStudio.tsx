@@ -335,6 +335,9 @@ export function NailStudio() {
               hasTrackingPoseRef.current = true;
               lastTrackingUiAtRef.current = now;
               setNails(adjusted);
+              setStatus(adjusted.some((nail) => (nail.visibility ?? 1) > 0.05)
+                ? "手を検出しました。見えている爪を追従しています。"
+                : "手は認識しています。爪が隠れているか向きを確認できないため非表示です。手の甲を向けてください。");
             }
           } else {
             lostFramesRef.current += 1;
@@ -681,7 +684,10 @@ export function NailStudio() {
       setPhotoUrl(url);
       setMode("photo");
       setBefore(false);
-      setNails(readJson(NAILS_KEY, defaultPhotoNails));
+      // A saved position is not evidence that a nail is visible in a NEW photo.
+      setNails(readJson<NailPose[]>(NAILS_KEY, defaultPhotoNails).map((nail) => ({
+        ...nail, visibility: 0, visibilityState: "uncertain", clipContour: undefined, clipHoles: undefined,
+      })));
       setStatus("写真を読み込みました。必要なら指ごとに微調整してください。");
       notify("写真を準備しました");
       trackEvent("photo_uploaded");
@@ -701,8 +707,11 @@ export function NailStudio() {
           if (photoRequestId !== photoRequestRef.current) return;
           if (detected.length) {
             setNails(detected);
-            setStatus("写真から手を認識し、爪位置を自動配置しました。必要なら細かく調整できます。");
-            notify("爪の位置を自動調整しました");
+            const visible = detected.some((nail) => (nail.visibility ?? 1) > 0.05);
+            setStatus(visible
+              ? "写真から手を認識し、見えている爪位置を自動配置しました。必要なら細かく調整できます。"
+              : "手を認識し爪位置を自動配置しましたが、爪の可視性を確認できず非表示です。手の甲の写真か手動調整をお試しください。");
+            notify(visible ? "見えている爪の位置を自動調整しました" : "爪を確認できないため非表示にしました");
           } else {
             setStatus("手を認識できませんでした。手全体が写り、指を少し開いた写真をお試しください。");
           }
@@ -723,7 +732,12 @@ export function NailStudio() {
       <rect width="900" height="1100" fill="#f7ede8"/>
       <path fill="#efc1a6" d="M255 1010c-22-140-20-260 5-356 20-77 47-172 72-273 8-34 22-53 44-53 25 0 39 18 39 52V190c0-32 16-48 39-48 24 0 40 16 40 48v174-211c0-31 17-48 40-48 25 0 41 18 41 48v225-176c0-31 17-47 39-47 24 0 40 17 40 47v216-130c0-31 16-48 39-48 24 0 40 18 40 48v241c0 85-22 161-60 243-36 77-79 155-101 238H255Z"/>
     </svg>`;
-    loadPhoto(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`);
+    // The illustration has no real nail boundary: keep its explicit demo poses,
+    // without treating a saved pose as evidence on an uploaded photograph.
+    loadPhoto(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`, defaultPhotoNails.map((nail) => ({
+      ...nail, visibility: 1, visibilityState: "manual", clipContour: undefined, clipHoles: undefined,
+    })));
+    setStatus("サンプルの手に仮配置しています。実際の爪認識結果ではありません。指ごとに調整できます。");
   }, [loadPhoto]);
 
   const updateDesign = useCallback((patch: Partial<NailDesign>) => {
@@ -800,7 +814,8 @@ export function NailStudio() {
       // A deliberate manual adjustment also cancels a pending photo result.
       photoRequestRef.current += 1;
       setLoading(false);
-      setNails((current) => current.map((nail, finger) => finger === index ? { ...nail, ...patch } : nail));
+      setNails((current) => current.map((nail, finger) => finger === index
+        ? { ...nail, ...patch, visibility: 1, visibilityState: "manual", clipContour: undefined, clipHoles: undefined } : nail));
     }
   }, [mode, nails]);
 
@@ -840,7 +855,9 @@ export function NailStudio() {
         return;
       }
       setNails(detected);
-      notify("爪の位置を自動調整しました");
+      const visible = detected.some((nail) => (nail.visibility ?? 1) > 0.05);
+      if (!visible) setStatus("手は認識していますが爪を確認できないため非表示です。手の甲の写真か手動調整をお試しください。");
+      notify(visible ? "爪の位置を自動調整しました" : "爪の可視性を確認できませんでした");
     } catch {
       if (requestId === photoRequestRef.current) notify("自動認識を利用できません。手動で調整できます。");
     } finally {

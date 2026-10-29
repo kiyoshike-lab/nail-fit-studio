@@ -45,6 +45,7 @@ export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, d
     const point = pointerPosition(event);
     if (point.x < 0 || point.x > 100 || point.y < 0 || point.y > 100) return;
     const nearest = nails.reduce((best, nail, nailIndex) => {
+      if ((nail.visibility ?? 1) <= 0.05) return best;
       const distance = Math.hypot(nail.x - point.x, nail.y - point.y);
       return distance < best.distance ? { index: nailIndex, distance } : best;
     }, { index: 0, distance: Number.POSITIVE_INFINITY });

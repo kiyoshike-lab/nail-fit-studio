@@ -12,14 +12,14 @@ export class NailFrameRefiner {
   private sourceAspect = 0;
   private mirrored = false;
 
-  refine(source: CanvasImageSource, sourceWidth: number, sourceHeight: number, nails: NailPose[], mirrored: boolean, now: number): NailRefinementResult {
+  refine(source: CanvasImageSource, sourceWidth: number, sourceHeight: number, nails: NailPose[], mirrored: boolean, now: number, requireFreshContour = false): NailRefinementResult {
     const fallback = (): NailRefinementResult => ({ nails, diagnostics: nails.map(() => ({ accepted: false, confidence: 0, reason: "pixels-unavailable" })) });
     if (nails.length !== 5 || sourceWidth <= 0 || sourceHeight <= 0) {
       this.result = null;
       return fallback();
     }
     const aspect = sourceWidth / sourceHeight;
-    const reusable = this.result && now >= this.lastAt && now - this.lastAt < 150
+    const reusable = !requireFreshContour && this.result && now >= this.lastAt && now - this.lastAt < 150
       && Math.abs(aspect / this.sourceAspect - 1) < 0.005 && mirrored === this.mirrored
       && this.previous.every((previous, index) => {
         const current = nails[index];
@@ -30,7 +30,8 @@ export class NailFrameRefiner {
       });
     if (reusable) return {
       nails: nails.map((nail, index) => applyCalibration(nail, this.corrections[index], aspect)),
-      diagnostics: this.result!.diagnostics.map((diagnostic) => ({ ...diagnostic, outline: undefined, reason: diagnostic.accepted ? "recent-relative-fit" : diagnostic.reason })),
+      diagnostics: this.result!.diagnostics.map((diagnostic) => ({ ...diagnostic, outline: undefined, contour: undefined, contourHoles: undefined,
+        contourStatus: diagnostic.accepted ? "stale" : undefined, reason: diagnostic.accepted ? "recent-relative-fit" : diagnostic.reason })),
     };
     try {
       this.canvas ??= document.createElement("canvas");

@@ -1,10 +1,14 @@
 import type { NailPose } from "./types";
+import { traceNailRegion, type ContourPoint } from "./nailContour";
 
 type PixelImage = { width: number; height: number; data: Uint8ClampedArray };
 export type NailFitDiagnostic = {
   accepted: boolean; confidence: number; reason: string;
   rejected?: Record<string, number>; candidates?: number; supportThresholds?: number;
   outline?: { x: number; y: number }[];
+  contour?: ContourPoint[];
+  contourHoles?: ContourPoint[][];
+  contourStatus?: "closed" | "ambiguous" | "low-confidence" | "stale";
 };
 export type NailRefinementResult = { nails: NailPose[]; diagnostics: NailFitDiagnostic[] };
 const patchWidth = 48;
@@ -26,9 +30,9 @@ export function refineNailsFromPixels(image: PixelImage, nails: NailPose[], mirr
   return { nails: refined, diagnostics };
 }
 
-type Candidate = { nail: NailPose; score: number; contrast: number; threshold: number; outline: { x: number; y: number }[] };
+type Candidate = { nail: NailPose; score: number; contrast: number; threshold: number; outline: { x: number; y: number }[]; inside: Uint8Array };
 
-function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, finger: number, extended: boolean) {
+function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, finger: number, extended: boolean): { nail: NailPose; diagnostic: NailFitDiagnostic } {
   const patchHeight = extended ? 96 : 64;
   const alongSpan = extended ? 4.5 : 3;
   const rejected: Record<string, number> = {};
@@ -145,7 +149,7 @@ function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, fing
         + Math.max(0, 1 - Math.abs(centerSide) - Math.abs(centerAlong - 0.4) * 0.5) * 0.3;
       const outline = Array.from(border).filter((_, index) => index % Math.max(1, Math.floor(border.size / 40)) === 0)
         .map((index) => { const position = point(index % patchWidth, Math.floor(index / patchWidth)); return { x: position.x / image.width * 100, y: position.y / image.height * 100 }; });
-      candidates.push({ nail: fitted, score, contrast, threshold, outline });
+      candidates.push({ nail: fitted, score, contrast, threshold, outline, inside });
     }
   }
   candidates.sort((a, b) => b.score - a.score);
@@ -157,5 +161,11 @@ function refineFinger(image: PixelImage, nail: NailPose, mirrored: boolean, fing
     && Math.hypot(candidate.nail.x - best.nail.x, candidate.nail.y - best.nail.y) < nail.height * 0.25);
   supportThresholds = new Set(support.map((candidate) => candidate.threshold)).size;
   if (supportThresholds < 2 || best.score < 0.65) return fallback("unstable-boundary");
-  return { nail: best.nail, diagnostic: { accepted: true, confidence: best.score, reason: "color-boundary", rejected, candidates: candidateCount, supportThresholds, outline: best.outline } };
+  // Trace the winner once, not every threshold/seed proposal.
+  const region = best.score >= 0.75 ? traceNailRegion(best.inside, patchWidth, patchHeight, (x, y) => {
+    const position = point(x, y); return { x: position.x / image.width * 100, y: position.y / image.height * 100 };
+  }) : undefined;
+  return { nail: best.nail, diagnostic: { accepted: true, confidence: best.score, reason: "color-boundary", rejected, candidates: candidateCount, supportThresholds, outline: best.outline,
+    contour: region?.contour, contourHoles: region?.holes,
+    contourStatus: region ? "closed" : best.score >= 0.75 ? "ambiguous" : "low-confidence" } };
 }

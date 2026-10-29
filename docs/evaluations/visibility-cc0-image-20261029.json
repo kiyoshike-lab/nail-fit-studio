@@ -1,0 +1,1901 @@
+{
+  "kind": "unlabelled static-frame replay, NOT hardware/video visibility accuracy",
+  "source": "https://github.com/vpapenko/nails-segmentation-dataset",
+  "license": "CC0-1.0",
+  "inputImages": 28,
+  "detectedFrames": 28,
+  "undetectedFiles": [],
+  "views": {
+    "side": 3,
+    "palm": 8,
+    "back": 11,
+    "unknown": 6
+  },
+  "totalNailProposals": 140,
+  "beforeVisibilityGate": 140,
+  "afterVisibilityGate": 51,
+  "partial": 2,
+  "visibilityCoverage": 0.36428571428571427,
+  "acceptedImageFits": 26,
+  "orderedCurrentContours": 9,
+  "reasons": {
+    "side-or-rolled-nail-unconfirmed": 17,
+    "palm-no-visible-nail-evidence": 36,
+    "overlapping-closer-finger": 2,
+    "dorsal-pose-prior": 53,
+    "uncertain-hand-pose": 30,
+    "pose-and-current-boundary": 2
+  },
+  "candidateRejections": {
+    "patch-edge": 3974,
+    "area": 5582,
+    "aspect": 25,
+    "fill": 381,
+    "not-long": 60,
+    "cuticle-prior": 24,
+    "contrast": 276,
+    "size": 65,
+    "position": 3
+  },
+  "contourStatuses": {
+    "low-confidence": 13,
+    "ambiguous": 4,
+    "closed": 9
+  },
+  "visibilityAccuracy": null,
+  "hiddenNailFalsePaintRate": null,
+  "recoveryMs": null,
+  "centerErrorPx": null,
+  "contourIoU": null,
+  "timing": {
+    "environment": "Node offline postprocess, excludes MediaPipe, decode, camera and rendering; not FPS",
+    "medianMs": 42.46259999999984,
+    "p95Ms": 187.07619999999997
+  },
+  "rows": [
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "modelHand": "Right",
+      "view": "side",
+      "source": "world",
+      "confidence": 0.7759217905611445,
+      "facing": 0.3080698787756419,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.3037949502834212,
+          "bendDegrees": 75.54561146588321,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.8898106195224382,
+          "bendDegrees": 108.77247345193939,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.8357265382930603,
+          "bendDegrees": 106.08444644434316,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.8881329961938544,
+          "bendDegrees": 125.42370817413698,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.8978938970660302,
+          "bendDegrees": 139.6232205560397,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 293.00970000000007
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "modelHand": "Left",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.7633647918701172,
+      "facing": -0.9982924138614778,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.9682693738412572,
+          "bendDegrees": 70.54770233527772,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.396078798913856,
+          "bendDegrees": 172.69525187237278,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.09652601135932046,
+          "bendDegrees": 193.70103226021848,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "overlapping-closer-finger",
+          "alpha": 0,
+          "facing": 0.08047925797282049,
+          "bendDegrees": 186.2740450873695,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "overlapping-closer-finger",
+          "alpha": 0,
+          "facing": 0.2114446945027529,
+          "bendDegrees": 185.86557447951918,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 146.19359999999995
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "modelHand": "Right",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9877533912658691,
+      "facing": -0.8065190830606321,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.7733989940060828,
+          "bendDegrees": 77.66557626706326,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.15361801644043827,
+          "bendDegrees": 78.4063506733638,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.4750064612208038,
+          "bendDegrees": 70.39030293670712,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.5121680939373777,
+          "bendDegrees": 51.40909316939738,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.27500603065122203,
+          "bendDegrees": 63.671259071898305,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 56.08570000000009
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "modelHand": "Left",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9941864013671875,
+      "facing": -0.7266683735243016,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.9407681592946665,
+          "bendDegrees": 69.80133872893119,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.7177974756648539,
+          "bendDegrees": 107.93148750176574,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.9008402112846827,
+          "bendDegrees": 155.76943669648836,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.8177229355700452,
+          "bendDegrees": 149.7138704886279,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.7707282952837559,
+          "bendDegrees": 157.26994490666226,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 91.82540000000017
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "modelHand": "Left",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9912150502204895,
+      "facing": -0.7643335947798164,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.8451965830354946,
+          "bendDegrees": 85.55441680402598,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.5224265886130983,
+          "bendDegrees": 121.18641826633839,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6520571031628452,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.7082888202261594,
+          "bendDegrees": 137.48911452073258,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6663780520871858,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.5878814833695829,
+          "bendDegrees": 112.55314042991068,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.5915194581441868,
+          "bendDegrees": 133.70782695734698,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.7038472357781596,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        }
+      ],
+      "offlinePostprocessMs": 63.7333000000001
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9794765114784241,
+      "facing": -0.6872928151227328,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.994402051616852,
+          "bendDegrees": 76.87736039855412,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.7155324044225448,
+          "bendDegrees": 142.4563789648588,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.673537281108948,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.9477142645513784,
+          "bendDegrees": 158.40433361851927,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.989330279458398,
+          "bendDegrees": 140.65170271212307,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.9725420109257927,
+          "bendDegrees": 145.1096729740807,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 49.49129999999991
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.9949554204940796,
+      "facing": 0.5568592807287712,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.4971628730742266,
+          "bendDegrees": 37.413257729504224,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.7208662296291702,
+          "bendDegrees": 99.16968781989354,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.5235549084744453,
+          "bendDegrees": 116.93049566433774,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8148189726246624,
+          "bendDegrees": 100.3935486129489,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8811857895049228,
+          "bendDegrees": 107.28251206194409,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 78.16830000000004
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "unknown",
+      "source": "none",
+      "confidence": 0,
+      "facing": 0,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 40.47499999999991
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "back",
+      "source": "normalized",
+      "confidence": 0.9911292791366577,
+      "facing": 0.9769957403362008,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9974721357887426,
+          "bendDegrees": 35.157934441455915,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9871605885726722,
+          "bendDegrees": 26.743121095977813,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9587693577734826,
+          "bendDegrees": 21.197123180838474,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9448600471680886,
+          "bendDegrees": 21.480198766274498,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9634458088034111,
+          "bendDegrees": 14.744512130287081,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 38.71139999999991
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "back",
+      "source": "normalized",
+      "confidence": 0.9929572939872742,
+      "facing": 0.9770469177990544,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9991676912401933,
+          "bendDegrees": 39.95879914893603,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9848264692743037,
+          "bendDegrees": 26.8803582092604,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9515786001801362,
+          "bendDegrees": 22.508850754644364,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.930361971029628,
+          "bendDegrees": 20.439736218048132,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9563845478195785,
+          "bendDegrees": 15.249176678055722,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 52.83349999999996
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "unknown",
+      "source": "world",
+      "confidence": 0.5115019434414891,
+      "facing": 0.5805444298068538,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.29389756704084363,
+          "bendDegrees": 29.184618009526208,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.7941436478866825,
+          "bendDegrees": 121.56065553651581,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.7107739134766259,
+          "bendDegrees": 107.69896178014395,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.5825495933262794,
+          "bendDegrees": 98.04983599510466,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.6563673541581079,
+          "bendDegrees": 78.30495712445031,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 52.178499999999985
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "unknown",
+      "source": "world",
+      "confidence": 0.5299943203759541,
+      "facing": 0.6039497979012538,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.46011755366386303,
+          "bendDegrees": 37.27203191723889,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.9267664541298826,
+          "bendDegrees": 119.64847834135709,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.7251601387063266,
+          "bendDegrees": 102.8183307076791,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.571613402504383,
+          "bendDegrees": 85.8441819226089,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.627133985087177,
+          "bendDegrees": 84.61025563957492,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 38.09889999999996
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "unknown",
+      "source": "none",
+      "confidence": 0,
+      "facing": 0,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 34.63359999999989
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "modelHand": "Right",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.8263838199121023,
+      "facing": 0.6940192470495662,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.5695202887428368,
+          "bendDegrees": 81.806138843963,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8399218987782464,
+          "bendDegrees": 65.67713407747934,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.7484928245959706,
+          "bendDegrees": 80.15219454047879,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6987532524549211,
+          "support": 3,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9092339181796623,
+          "bendDegrees": 77.60196748732731,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9867270956540228,
+          "bendDegrees": 109.30371996950868,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 37.428100000000086
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "modelHand": "Right",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9811338186264038,
+      "facing": -0.9988585009068917,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.7867058972436902,
+          "bendDegrees": 93.58021894120749,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.8726550275803806,
+          "bendDegrees": 209.59213602781563,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.6058001956189354,
+          "bendDegrees": 236.96104736988173,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.9047661085470661,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "ambiguous"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.7942888163506443,
+          "bendDegrees": 216.85122868331072,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8016660745483553,
+          "support": 3,
+          "contour": 0,
+          "contourStatus": "ambiguous"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.9200658825994665,
+          "bendDegrees": 196.96406064245767,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8445087782147271,
+          "support": 3,
+          "contour": 0,
+          "contourStatus": "ambiguous"
+        }
+      ],
+      "offlinePostprocessMs": 18.693700000000035
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "modelHand": "Left",
+      "view": "back",
+      "source": "normalized",
+      "confidence": 0.9942450523376465,
+      "facing": 0.9603942337134772,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9630683651332583,
+          "bendDegrees": 57.8290067331297,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9910335498471057,
+          "bendDegrees": 21.136424199397375,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8252409976059605,
+          "support": 3,
+          "contour": 54,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9851696415262772,
+          "bendDegrees": 25.216344044443094,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.7831052871536626,
+          "support": 3,
+          "contour": 62,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9849355961754334,
+          "bendDegrees": 19.17435261045954,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6880198263178775,
+          "support": 3,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9921376353488144,
+          "bendDegrees": 15.092745717022545,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 38.61419999999998
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "modelHand": "Left",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9929988980293274,
+      "facing": -0.9360554757588699,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.7519484097543052,
+          "bendDegrees": 121.48595477886369,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8591055000841153,
+          "support": 4,
+          "contour": 60,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.7219003664757478,
+          "bendDegrees": 152.2008060808385,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6882393881745175,
+          "support": 3,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.9207565619223518,
+          "bendDegrees": 160.00095188123774,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.884548152594371,
+          "support": 2,
+          "contour": 74,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.8369430587097069,
+          "bendDegrees": 146.0885947597171,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.9071640220493719,
+          "support": 3,
+          "contour": 88,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.6564464388577761,
+          "bendDegrees": 154.13338554498915,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8271521143095808,
+          "support": 3,
+          "contour": 0,
+          "contourStatus": "ambiguous"
+        }
+      ],
+      "offlinePostprocessMs": 28.485100000000102
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "modelHand": "Left",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.986264169216156,
+      "facing": -0.8519836498559785,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.7804172516890687,
+          "bendDegrees": 87.22329358486459,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.8451179222884054,
+          "bendDegrees": 161.9476478070317,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6726900011986038,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.5987851577808813,
+          "bendDegrees": 208.0555794250297,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.825279604114937,
+          "bendDegrees": 184.8413992658604,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.9561594554027456,
+          "bendDegrees": 167.52095364695316,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 63.68599999999992
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "modelHand": "Right",
+      "view": "side",
+      "source": "world",
+      "confidence": 0.690174830563934,
+      "facing": 0.19676824771416995,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": -0.01484805505515433,
+          "bendDegrees": 52.17918853200892,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.8707710143844041,
+          "bendDegrees": 119.2171721214238,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.7344434922349685,
+          "bendDegrees": 106.66018932043238,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.6900886671603998,
+          "bendDegrees": 94.62786749789778,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.648199266286102,
+          "bendDegrees": 110.32437358928655,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 37.43040000000019
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "modelHand": "Left",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.6048321314180317,
+      "facing": 0.6479868394737562,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.19503816893300815,
+          "bendDegrees": 55.068121045155735,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 0,
+          "facing": 0.564720697408314,
+          "bendDegrees": 107.07087524751786,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8762261154996355,
+          "support": 3,
+          "contour": 50,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 0,
+          "facing": 0.7281860240010579,
+          "bendDegrees": 98.27055287215163,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8475388002433598,
+          "support": 3,
+          "contour": 64,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 0,
+          "facing": 0.7403596481108702,
+          "bendDegrees": 104.88578915974253,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6863631718194779,
+          "support": 3,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 0,
+          "facing": 0.8121438504487852,
+          "bendDegrees": 92.28627783268264,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.7107335146219498,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        }
+      ],
+      "offlinePostprocessMs": 23.19249999999988
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "modelHand": "Left",
+      "view": "unknown",
+      "source": "none",
+      "confidence": 0,
+      "facing": 0,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 1,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6565393862469169,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 42.25569999999993
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "modelHand": "Right",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.9203450679779053,
+      "facing": 0.6808587220912066,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.7991928461486624,
+          "bendDegrees": 72.69498768109554,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8905969147799593,
+          "bendDegrees": 66.47213954272763,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.899360016346857,
+          "bendDegrees": 65.63103171415537,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.837727700609869,
+          "bendDegrees": 76.68090119739514,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9720059249255681,
+          "bendDegrees": 79.55653944007403,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 42.94089999999983
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "modelHand": "Right",
+      "view": "side",
+      "source": "world",
+      "confidence": 0.7759217905611445,
+      "facing": 0.3080698787756419,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.3037949502834212,
+          "bendDegrees": 75.54561146588321,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.8898106195224382,
+          "bendDegrees": 108.77247345193939,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.8357265382930603,
+          "bendDegrees": 106.08444644434316,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.8881329961938544,
+          "bendDegrees": 125.42370817413698,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.8978938970660302,
+          "bendDegrees": 139.6232205560397,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 42.46259999999984
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "unknown",
+      "source": "world",
+      "confidence": 0.39198300709778694,
+      "facing": 0.5632359824447811,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.5520405892272278,
+          "bendDegrees": 51.444082769313354,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.13377606762990768,
+          "bendDegrees": 125.7192154908289,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.7911846709081413,
+          "support": 2,
+          "contour": 40,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.49852944535236404,
+          "bendDegrees": 83.79631727908067,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.5703442981907922,
+          "bendDegrees": 85.05570403226511,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "uncertain",
+          "reason": "uncertain-hand-pose",
+          "alpha": 0,
+          "facing": 0.8187605083123575,
+          "bendDegrees": 68.47125906009639,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8225862111058214,
+          "support": 2,
+          "contour": 60,
+          "contourStatus": "closed"
+        }
+      ],
+      "offlinePostprocessMs": 22.76409999999987
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "modelHand": "Left",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.9387824535369873,
+      "facing": 0.4272276591251426,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.6957090502175415,
+          "bendDegrees": 88.0014657661392,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.6188356028516733,
+          "bendDegrees": 129.03041525059177,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.5633167455758695,
+          "bendDegrees": 118.2680462097351,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.6241014625704101,
+          "bendDegrees": 122.13768836585275,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.42931314167701484,
+          "bendDegrees": 145.46734028596873,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 38.83249999999998
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "modelHand": "Left",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.984025776386261,
+      "facing": 0.8305331664669371,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.6305627115560006,
+          "bendDegrees": 36.36980659096789,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8382043838274349,
+          "bendDegrees": 73.69871260935373,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6957384209496805,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8640280608145209,
+          "bendDegrees": 76.61375658171494,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9714942651008734,
+          "bendDegrees": 75.64044913534704,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9988584408585407,
+          "bendDegrees": 56.1607598261139,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 26.83140000000003
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "modelHand": "Left",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.9729341268539429,
+      "facing": 0.5598466973905976,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "side-or-rolled-nail-unconfirmed",
+          "alpha": 0,
+          "facing": 0.21810034426356292,
+          "bendDegrees": 57.34288755006746,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.7237787435577976,
+          "bendDegrees": 82.73416656828668,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.7007016497888028,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.7229655853661625,
+          "bendDegrees": 97.94054476616448,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8308010586159674,
+          "bendDegrees": 97.77874684924781,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9492176957067351,
+          "bendDegrees": 82.58751259328261,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 45.17630000000008
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "modelHand": "Left",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.9631170034408569,
+      "facing": 0.41755370723186885,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.4655278601721465,
+          "bendDegrees": 63.542001375370205,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.5502688167072113,
+          "bendDegrees": 123.63094179572838,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.6237015304255409,
+          "bendDegrees": 123.2514040170475,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.6172278512114439,
+          "bendDegrees": 121.52102872044205,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.7313929935375283,
+          "bendDegrees": 109.40506706418431,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 187.07619999999997
+    }
+  ]
+}

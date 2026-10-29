@@ -1,0 +1,187 @@
+{
+  "kind": "unlabelled static-frame replay, NOT hardware/video visibility accuracy",
+  "source": "User screenshots with existing overlays; orientation reference only, no nail ground truth",
+  "license": "user provided, local-only",
+  "inputImages": 3,
+  "detectedFrames": 2,
+  "undetectedFiles": [
+    "スクリーンショット 2026-10-27 000703.png"
+  ],
+  "views": {
+    "back": 1,
+    "palm": 1
+  },
+  "totalNailProposals": 10,
+  "beforeVisibilityGate": 10,
+  "afterVisibilityGate": 4,
+  "partial": 0,
+  "visibilityCoverage": 0.4,
+  "acceptedImageFits": 3,
+  "orderedCurrentContours": 0,
+  "reasons": {
+    "dorsal-pose-prior": 5,
+    "palm-no-visible-nail-evidence": 5
+  },
+  "candidateRejections": {
+    "patch-edge": 259,
+    "area": 315,
+    "fill": 46,
+    "size": 3,
+    "not-long": 4,
+    "contrast": 6,
+    "cuticle-prior": 1
+  },
+  "contourStatuses": {
+    "low-confidence": 2,
+    "ambiguous": 1
+  },
+  "visibilityAccuracy": null,
+  "hiddenNailFalsePaintRate": null,
+  "recoveryMs": null,
+  "centerErrorPx": null,
+  "contourIoU": null,
+  "timing": {
+    "environment": "Node offline postprocess, excludes MediaPipe, decode, camera and rendering; not FPS",
+    "medianMs": 95.27100000000002,
+    "p95Ms": 95.27100000000002
+  },
+  "rows": [
+    {
+      "file": "スクリーンショット 2026-10-27 000715.png",
+      "condition": "back-far",
+      "modelHand": "Right",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.8229645274625119,
+      "facing": 0.7166173509925042,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8075165910888159,
+          "bendDegrees": 80.54349662596476,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8236242059144975,
+          "bendDegrees": 61.77963602319018,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.7136655495872609,
+          "bendDegrees": 50.20184888648365,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.601917982183798,
+          "bendDegrees": 62.14695430592245,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.6767311658891563,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 0,
+          "facing": 0.5859937461798947,
+          "bendDegrees": 80.44099718010435,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 95.27100000000002
+    },
+    {
+      "file": "スクリーンショット 2026-10-27 000729.png",
+      "condition": "palm-curled",
+      "modelHand": "Right",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9852291941642761,
+      "facing": -0.8583711297585378,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.833261458947076,
+          "bendDegrees": 76.07656680320345,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.5200396085723552,
+          "bendDegrees": 124.50794929410573,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.7001482428073756,
+          "bendDegrees": 121.52600894497337,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.7916815672885408,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "ambiguous"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.574581619162281,
+          "bendDegrees": 111.20451453981111,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.729474500690467,
+          "support": 2,
+          "contour": 0,
+          "contourStatus": "low-confidence"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.36580734509021484,
+          "bendDegrees": 129.96248831159033,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 84.48519999999996
+    }
+  ]
+}

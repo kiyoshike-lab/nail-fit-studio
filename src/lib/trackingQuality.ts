@@ -44,6 +44,11 @@ export class NailTrackStabilizer {
   private identityFrames = 0;
   private outlierFrames: number[] = [];
   private relative = false;
+  private resets = new Set<number>();
+
+  resetFingers(indexes: number[]) {
+    for (const index of indexes) if (index >= 0 && index < 5) this.resets.add(index);
+  }
 
   update(next: NailPose[], timestamp: number, identity?: HandIdentity, reference?: HandReference): NailPose[] | null {
     if (timestamp <= this.timestamp || next.length !== 5 || !next.every(validPose)) return null;
@@ -65,14 +70,7 @@ export class NailTrackStabilizer {
     const observations = reference ? next.map((nail) => nailInHandFrame(nail, reference)) : next;
     const reset = !this.filters.length || timestamp - this.lastDetectedAt > 450 || changedHand || relative !== this.relative;
     if (reset) {
-      this.filters = observations.map((nail) => ({
-        x: new OneEuroFilter({ minCutoff: 1.5, beta: relative ? 0.1 : 0.35 }),
-        y: new OneEuroFilter({ minCutoff: 1.5, beta: relative ? 0.1 : 0.35 }),
-        width: new OneEuroFilter({ minCutoff: 2.5, beta: 2 }),
-        height: new OneEuroFilter({ minCutoff: 2.5, beta: 2 }),
-        rotation: new OneEuroFilter({ minCutoff: 1.3, beta: 0.035 }),
-        angle: nail.rotation,
-      }));
+      this.filters = observations.map(nail => fingerFilters(nail, relative));
       this.outlierFrames = next.map(() => 0);
     }
     this.relative = relative;
@@ -81,7 +79,9 @@ export class NailTrackStabilizer {
       ? Math.hypot(nail.x - this.nails[index].x, nail.y - this.nails[index].y) : 0);
     const globalMotion = [...motions].sort((a, b) => a - b)[2];
     this.nails = observations.map((nail, index) => {
-      const previous = this.nails[index];
+      const fresh = reset || this.resets.has(index);
+      if (fresh && !reset) this.filters[index] = fingerFilters(nail, relative);
+      const previous = fresh ? undefined : this.nails[index];
       // A single finger teleporting is usually a bad landmark. Coherent hand
       // motion is accepted immediately; persistent finger movement after 2 frames.
       const outlier = !reset && previous && motions[index] > Math.max(previous.height * 1.4, 4) && globalMotion < motions[index] * 0.35;
@@ -100,6 +100,7 @@ export class NailTrackStabilizer {
         rotation: normalizeAngle(filters.rotation.filter(filters.angle, timestamp)),
       };
     });
+    this.resets.clear();
     this.lastDetectedAt = timestamp;
     return reference ? this.nails.map((nail) => nailFromHandFrame(nail, reference)) : this.nails;
   }
@@ -107,6 +108,13 @@ export class NailTrackStabilizer {
   opacity(timestamp: number) {
     return trackingOpacity(timestamp - this.lastDetectedAt);
   }
+}
+
+function fingerFilters(nail: NailPose, relative: boolean): FingerFilters {
+  return { x: new OneEuroFilter({ minCutoff: 1.5, beta: relative ? 0.1 : 0.35 }),
+    y: new OneEuroFilter({ minCutoff: 1.5, beta: relative ? 0.1 : 0.35 }),
+    width: new OneEuroFilter({ minCutoff: 2.5, beta: 2 }), height: new OneEuroFilter({ minCutoff: 2.5, beta: 2 }),
+    rotation: new OneEuroFilter({ minCutoff: 1.3, beta: 0.035 }), angle: nail.rotation };
 }
 
 export function trackingOpacity(missingForMs: number) {

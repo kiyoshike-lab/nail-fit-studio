@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import ts from 'typescript';
+const source=await readFile('src/components/BeforeAfter.tsx','utf8');
+const data=code=>`data:text/javascript;base64,${Buffer.from(code).toString('base64')}`;
+const cleanups=[];
+globalThis.__beforeAfterEffects=cleanups;
+let code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ES2022,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX}}).outputText;
+code=code.replace(/from "react\/jsx-runtime"/,`from "${data('export const jsx=(type,props)=>({type,props});')}"`);
+code=code.replace(/from "react"/,`from "${data('export const useRef=current=>({current});export const useEffect=effect=>globalThis.__beforeAfterEffects.push(effect());')}"`);
+const {BeforeAfter}=await import(data(code));
+const realTimeout=globalThis.setTimeout,realClear=globalThis.clearTimeout;
+const pending=new Map();let id=0;
+globalThis.setTimeout=callback=>{pending.set(++id,callback);return id;};
+globalThis.clearTimeout=timer=>pending.delete(timer);
+try{
+ let toggles=0,starts=0,ends=0;
+ const button=BeforeAfter({enabled:true,onToggle:()=>toggles++,onHoldStart:()=>starts++,onHoldEnd:()=>ends++}).props.children.props;
+ const down=()=>button.onPointerDown({isPrimary:true,button:0});
+ down();button.onPointerUp();button.onClick();
+ assert.equal(toggles,1);assert.equal(starts,0);assert.equal(ends,0);assert.equal(pending.size,0);
+ button.onClick();assert.equal(toggles,2,'keyboard click did not toggle');
+ down();for(const callback of pending.values())callback();
+ assert.equal(starts,1);button.onPointerUp();button.onClick();
+ assert.equal(ends,1);assert.equal(toggles,2,'long press also toggled on release');
+ down();button.onPointerCancel();assert.equal(pending.size,0);
+ down();button.onPointerUp();button.onClick();assert.equal(toggles,3,'cancel swallowed next tap');
+ down();for(const callback of pending.values())callback();button.onPointerLeave();
+ assert.equal(ends,2);down();button.onPointerUp();button.onClick();assert.equal(toggles,4);
+ button.onPointerDown({isPrimary:false,button:0});assert.equal(pending.size,0);
+ down();cleanups.forEach(cleanup=>cleanup?.());assert.equal(pending.size,0,'unmount leaked hold timer');
+ console.log('before-after: component handler tap/keyboard/hold/release/cancel/leave/primary pointer and unmount cleanup passed (browser test separately verifies actual rendering)');
+}finally{globalThis.setTimeout=realTimeout;globalThis.clearTimeout=realClear;delete globalThis.__beforeAfterEffects;}

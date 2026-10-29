@@ -36,15 +36,17 @@ try {
       const rgba = Uint8ClampedArray.from(atob(pixels), char => char.charCodeAt(0));
       const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height;
       canvas.getContext('2d').putImageData(new ImageData(rgba, width, height), 0, 0);
-      const image = globalThis.__alignmentImageModel.detect(canvas).landmarks[0];
+      const imageResult = globalThis.__alignmentImageModel.detect(canvas);
+      const image = {landmarks:imageResult.landmarks[0],worldLandmarks:imageResult.worldLandmarks[0],handedness:imageResult.handedness[0]?.[0]};
       let video;
       for (let sample = 0; sample < 3; sample++) {
-        video = globalThis.__alignmentVideoModel.detectForVideo(canvas, globalThis.__alignmentTimestamp += 66).landmarks[0];
+        const result = globalThis.__alignmentVideoModel.detectForVideo(canvas, globalThis.__alignmentTimestamp += 66);
+        video = {landmarks:result.landmarks[0],worldLandmarks:result.worldLandmarks[0],handedness:result.handedness[0]?.[0]};
       }
       return { image, video };
     }, item);
-    if (result.image) imageCases.push({ ...item, landmarks: result.image });
-    if (result.video) videoCases.push({ ...item, landmarks: result.video });
+    if (result.image.landmarks) imageCases.push({ ...item, ...result.image });
+    if (result.video.landmarks) videoCases.push({ ...item, ...result.video });
   }
   for (const [mode, cases] of [['image', imageCases], ['video', videoCases]]) {
     await writeFile(`${option('--output-prefix')}-${mode}.json`, JSON.stringify({ ...data,

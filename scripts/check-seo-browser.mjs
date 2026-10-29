@@ -88,7 +88,11 @@ try{
  const lead=await page.locator('.home-hero .lead').innerText();assert.ok(lead.includes('無料')&&lead.includes('写真やカメラ')&&lead.includes('インストールは不要'));
  assert.ok(await page.locator('.home-hero .lead').evaluate(el=>el.getBoundingClientRect().bottom<innerHeight),'three service facts are below the first screen');
  await page.locator('.home-hero a[href="/try-on"]').click();await page.waitForURL('**/try-on');
+ // App Router can update the URL before the lazy client studio has mounted.
+ await page.locator('input[type=file]').first().waitFor({state:'attached'});
  assert.equal(await page.locator('input[type=file]').count()>0,true);assert.equal(await page.locator('.bottom-nav').getByRole('button',{name:'カメラ',exact:true}).count(),1);
+ await page.locator('script[src*="adsbygoogle.js"]').waitFor({state:'attached'});
+ await page.locator('script[src*="gtag/js?id=G-CLEJWK7RF3"]').waitFor({state:'attached'});
  assert.equal(await page.locator('script[src*="adsbygoogle.js"]').count(),1);assert.equal(await page.locator('script[src*="gtag/js?id=G-CLEJWK7RF3"]').count(),1);
  assert.equal((await (await page.request.get(`${base}/ads.txt`)).text()).trim(),'google.com, pub-6994120027205290, DIRECT, f08c47fec0942fa0');
  assert.deepEqual(errors,[]);

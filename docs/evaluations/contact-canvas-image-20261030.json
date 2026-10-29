@@ -1,0 +1,2257 @@
+{
+  "method": "actual Canvas natural design paths at length=1, alpha>=128, baseline-locked per-component masks; silhouette IoU, not photorealism or anatomical cuticle accuracy",
+  "nails": 137,
+  "beforeIoU": 0.33880438722385264,
+  "afterIoU": 0.3593400815831675,
+  "experimentalContourIoU": 0.35857753443883933,
+  "experimentalContourNails": 2,
+  "byFinger": [
+    {
+      "finger": 0,
+      "n": 27,
+      "beforeIoU": 0.24001901343156995,
+      "afterIoU": 0.24237160304322972
+    },
+    {
+      "finger": 1,
+      "n": 27,
+      "beforeIoU": 0.40201388547242434,
+      "afterIoU": 0.44804874020133745
+    },
+    {
+      "finger": 2,
+      "n": 28,
+      "beforeIoU": 0.3085302108677226,
+      "afterIoU": 0.3423615991666748
+    },
+    {
+      "finger": 3,
+      "n": 27,
+      "beforeIoU": 0.381779736533737,
+      "afterIoU": 0.3820220359191609
+    },
+    {
+      "finger": 4,
+      "n": 28,
+      "beforeIoU": 0.36194335673402944,
+      "afterIoU": 0.38169722010022766
+    }
+  ],
+  "timing": {
+    "method": "headless desktop Chrome, alternating warmed pure pixel-refinement calls; not camera FPS or mobile timing",
+    "before": {
+      "samples": 84,
+      "meanMs": 19.619047619036532,
+      "p50Ms": 19.600000000558794,
+      "p95Ms": 26.300000000745058
+    },
+    "after": {
+      "samples": 84,
+      "meanMs": 22.016666666682188,
+      "p50Ms": 21.600000000558794,
+      "p95Ms": 31
+    }
+  },
+  "rows": [
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.22555555555555556,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.5033333333333333,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.5033333333333333,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.2403051493960585,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7018436109345201,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7018436109345201,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.2745411013567438,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.5988835725677831,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.5988835725677831,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.2520064205457464,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2520064205457464,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2520064205457464,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.1594896331738437,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.1594896331738437,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.1594896331738437,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.18908629441624367,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.18908629441624367,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.18908629441624367,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.1335125448028674,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.1335125448028674,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.1335125448028674,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.014221073044602456,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.014221073044602456,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.014221073044602456,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.4608433734939759,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.4608433734939759,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.4608433734939759,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.2230514096185738,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2230514096185738,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2230514096185738,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.20786516853932585,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.20786516853932585,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.20786516853932585,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.20140105078809106,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.20140105078809106,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.20140105078809106,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.5007173601147776,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.5007173601147776,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.5007173601147776,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.41548771407297097,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.47900763358778625,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.47900763358778625,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.6835891381345927,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.6835891381345927,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.6835891381345927,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.40707964601769914,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.40707964601769914,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.40707964601769914,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.8273809523809523,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.8273809523809523,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.8273809523809523,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.6298984034833092,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.6298984034833092,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.6298984034833092,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.3155487804878049,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3155487804878049,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3155487804878049,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.380920613742495,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.380920613742495,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.380920613742495,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.19666474985623922,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.19666474985623922,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.19666474985623922,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.36990595611285265,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.36990595611285265,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.36990595611285265,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.048576214405360134,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.048576214405360134,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.048576214405360134,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.13048275862068964,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.13048275862068964,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.13048275862068964,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.20577933450087565,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.20577933450087565,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.20577933450087565,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.1363236587510994,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.1363236587510994,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.1363236587510994,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.46355685131195334,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.46355685131195334,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.46355685131195334,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.32967032967032966,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.32967032967032966,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.32967032967032966,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.31773879142300193,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.31773879142300193,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.31773879142300193,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.26810477657935283,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.26810477657935283,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.26810477657935283,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.10863874345549739,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.10863874345549739,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.10863874345549739,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.6234567901234568,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.6234567901234568,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.6234567901234568,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.485838779956427,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.485838779956427,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.485838779956427,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.3672316384180791,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3672316384180791,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3672316384180791,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.29896907216494845,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.29896907216494845,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.29896907216494845,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.12679738562091503,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.12679738562091503,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.12679738562091503,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.4973821989528796,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.4973821989528796,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.4973821989528796,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.3086003372681282,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3086003372681282,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3086003372681282,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.284,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.284,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.284,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.27128263337116915,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.27128263337116915,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.27128263337116915,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.2330654420206659,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2330654420206659,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2330654420206659,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.39015151515151514,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.39015151515151514,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.39015151515151514,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.3117505995203837,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3182926829268293,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3182926829268293,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.30861244019138756,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.30861244019138756,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.30861244019138756,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.3194444444444444,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3194444444444444,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3194444444444444,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.09929078014184398,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.09929078014184398,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.09929078014184398,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.752542372881356,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.752542372881356,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.752542372881356,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.461839530332681,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.461839530332681,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.461839530332681,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.45124282982791586,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.45124282982791586,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.45124282982791586,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.3600944510035419,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3600944510035419,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3600944510035419,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.24193548387096775,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.24193548387096775,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.24193548387096775,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.4003623188405797,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.4003623188405797,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.4003623188405797,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.45217391304347826,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.45217391304347826,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.45217391304347826,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.2757352941176471,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2757352941176471,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2757352941176471,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.3283720930232558,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3283720930232558,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3283720930232558,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.20672097759674135,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.20672097759674135,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.20672097759674135,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.22381930184804927,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.22381930184804927,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.22381930184804927,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.2636363636363636,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2636363636363636,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2636363636363636,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.22151450813871196,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.22151450813871196,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.22151450813871196,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.08785529715762273,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.08785529715762273,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.08785529715762273,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.4426850258175559,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.4426850258175559,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.4426850258175559,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.7386215864759428,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7386215864759428,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7386215864759428,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.7911571025399812,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7911571025399812,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7911571025399812,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.6836808051761323,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.6836808051761323,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.6836808051761323,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.4584026622296173,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.4584026622296173,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.4584026622296173,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.10912343470483005,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.10912343470483005,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.10912343470483005,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.2517985611510791,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2517985611510791,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2517985611510791,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.17647058823529413,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.17647058823529413,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.17647058823529413,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.7670364500792393,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7670364500792393,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7670364500792393,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.5414258188824663,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.5414258188824663,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.5414258188824663,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.7075757575757575,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7075757575757575,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7075757575757575,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.8189655172413793,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.8189655172413793,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.8189655172413793,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.7767857142857143,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7767857142857143,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7767857142857143,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.5755208333333334,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.5755208333333334,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.5755208333333334,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.6887871853546911,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.6887871853546911,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.6887871853546911,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.8617200674536256,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.8617200674536256,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.8549618320610687,
+        "surfaceUsed": true
+      }
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.3343701399688958,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3343701399688958,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3343701399688958,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.38722966014418125,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.38722966014418125,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.38722966014418125,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.7425414364640884,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7425414364640884,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7425414364640884,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.39443155452436196,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.39443155452436196,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.39443155452436196,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.25380710659898476,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.25380710659898476,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.25380710659898476,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.21059431524547803,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3049095607235142,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3049095607235142,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.2517482517482518,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2517482517482518,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2517482517482518,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.20813397129186603,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.20813397129186603,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.20813397129186603,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.010830324909747292,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.010830324909747292,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.010830324909747292,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.18063583815028902,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.18063583815028902,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.18063583815028902,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.7572649572649572,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7572649572649572,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7572649572649572,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.7834319526627219,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7834319526627219,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7834319526627219,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.881767955801105,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.881767955801105,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.881767955801105,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.8371212121212122,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.8371212121212122,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.8371212121212122,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.2690166975881262,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2690166975881262,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2690166975881262,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.27001862197392923,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.27001862197392923,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.27001862197392923,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.7131552917903067,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7131552917903067,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7131552917903067,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.09372693726937269,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.5707762557077626,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.5707762557077626,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.0927367055771725,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.0927367055771725,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.0927367055771725,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.3992015968063872,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3992015968063872,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3992015968063872,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.3668300653594771,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.3668300653594771,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.3668300653594771,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.35758651286601595,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.35758651286601595,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.35758651286601595,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.26371681415929205,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.26371681415929205,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.26371681415929205,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.22178988326848248,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.22178988326848248,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.22178988326848248,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.22356828193832598,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.4988986784140969,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.4988986784140969,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.2705798138869005,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.7563202247191011,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.7563202247191011,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.260797342192691,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.260797342192691,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.260797342192691,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.2927659574468085,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.64,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.64,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.12624584717607973,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.12624584717607973,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.12624584717607973,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.5889748549323017,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.5889748549323017,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.49126413155190135,
+        "surfaceUsed": true
+      }
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.5486202365308804,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.5486202365308804,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.5486202365308804,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.40337146297411197,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.40337146297411197,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.40337146297411197,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.38822922044398556,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.38822922044398556,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.38822922044398556,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.36824877250409166,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.36824877250409166,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.36824877250409166,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.4253393665158371,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.4253393665158371,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.4253393665158371,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.2276923076923077,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2276923076923077,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2276923076923077,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.18525519848771266,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.18525519848771266,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.18525519848771266,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.14626391096979333,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.14626391096979333,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.14626391096979333,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.04310344827586207,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.04310344827586207,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.04310344827586207,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.36649550706033374,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.36649550706033374,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.36649550706033374,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.34846765039727584,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.34846765039727584,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.34846765039727584,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.413961038961039,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.413961038961039,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.413961038961039,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.32906857727737976,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.32906857727737976,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.32906857727737976,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.16884422110552763,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.16884422110552763,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.16884422110552763,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0.20082815734989648,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.20082815734989648,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.20082815734989648,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.6871401151631478,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.6871401151631478,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.6871401151631478,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.2841068917018284,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.2841068917018284,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.2841068917018284,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.32299270072992703,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.32299270072992703,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.32299270072992703,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.18255813953488373,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.18255813953488373,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.18255813953488373,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 4,
+      "before": {
+        "iou": 0.33903133903133903,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.33903133903133903,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.33903133903133903,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 3,
+      "before": {
+        "iou": 0.229957805907173,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.229957805907173,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.229957805907173,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 1,
+      "before": {
+        "iou": 0.21416666666666667,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.21416666666666667,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.21416666666666667,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 2,
+      "before": {
+        "iou": 0.18641896220371557,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0.18641896220371557,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0.18641896220371557,
+        "surfaceUsed": false
+      }
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 0,
+      "before": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "after": {
+        "iou": 0,
+        "surfaceUsed": false
+      },
+      "candidate": {
+        "iou": 0,
+        "surfaceUsed": false
+      }
+    }
+  ],
+  "baselineCommit": "b1ed43d",
+  "evaluationDate": "2026-10-30",
+  "changeAudit": {
+    "changedMatchedNails": 10,
+    "iouImproved": 10,
+    "iouWorsenedOver001": 0,
+    "definition": "IoU-decrease proxy only, not anatomically adjudicated false-correction rate; fixed coarse assignment may be wrong."
+  }
+}

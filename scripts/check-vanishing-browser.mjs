@@ -10,15 +10,23 @@ const base=option('--base-url')??'http://127.0.0.1:4194';
 if(!['localhost','127.0.0.1'].includes(new URL(base).hostname))throw Error('Local QA only');
 const {chromium}=await import(pathToFileURL(path.resolve(option('--playwright-module'))).href);
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
+let page;
 try{
- const page=await browser.newPage({viewport:{width:1280,height:900}}),errors=[];
+ page=await browser.newPage({viewport:{width:1280,height:900}});const errors=[];
  page.setDefaultTimeout(60000);page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{
   // Observe, don't stub, the real Canvas rendering. Default cream/solid draws
   // two rotations per nail (cuticle shadow + plate). Clear starts a new frame.
-  const clear=CanvasRenderingContext2D.prototype.clearRect,rotate=CanvasRenderingContext2D.prototype.rotate;
+  const clear=CanvasRenderingContext2D.prototype.clearRect,rotate=CanvasRenderingContext2D.prototype.rotate,draw=CanvasRenderingContext2D.prototype.drawImage;
   CanvasRenderingContext2D.prototype.clearRect=function(...a){if(this.canvas.classList.contains('nail-canvas'))window.__nailRotations=0;return clear.apply(this,a);};
   CanvasRenderingContext2D.prototype.rotate=function(...a){if(this.canvas.classList.contains('nail-canvas'))window.__nailRotations=(window.__nailRotations??0)+1;return rotate.apply(this,a);};
+  CanvasRenderingContext2D.prototype.drawImage=function(source,...a){
+   if(source instanceof HTMLVideoElement&&this.canvas.width===640&&this.canvas.height===480){
+    const id=source.srcObject?.getVideoTracks()[0]?.id;
+    if(id){window.__sampledTracks??={};window.__sampledTracks[id]=(window.__sampledTracks[id]??0)+1;}
+   }
+   return draw.call(this,source,...a);
+  };
  });
  await page.route(/googlesyndication|googletagmanager|google-analytics/,route=>route.abort());
  await page.route('**/__qa__/dorsal.jpg',route=>route.fulfill({path:path.resolve(option('--image')),contentType:'image/jpeg'}));
@@ -41,7 +49,7 @@ try{
  });
  await page.setViewportSize({width:390,height:844});
  await page.locator('.bottom-nav').getByRole('button',{name:'カメラ',exact:true}).click();
- await page.waitForFunction(()=>document.querySelector('.detection-status')?.textContent==='手を検出しました'&&window.__nailRotations===10);
+ await page.waitForFunction(()=>{const id=document.querySelector('video')?.srcObject?.getVideoTracks()[0]?.id;return (window.__sampledTracks?.[id]??0)>=3&&document.querySelector('.detection-status')?.textContent==='手を検出しました'&&window.__nailRotations===10;});
  await page.waitForTimeout(2000);
  console.log('stage: unmirrored VIDEO rendered five Canvas nails');
  const pose=async()=>({width:Number(await page.getByLabel('幅',{exact:true}).inputValue()),height:Number(await page.getByLabel('この指の長さ',{exact:true}).inputValue()),x:Number(await page.getByLabel('横位置',{exact:true}).inputValue())});
@@ -54,7 +62,10 @@ try{
  await page.setViewportSize({width:1280,height:900});
  const front=page.getByRole('button',{name:'内カメラ優先にする',exact:true});
  await front.scrollIntoViewIfNeeded();await front.click();
- await page.waitForFunction(()=>document.querySelector('video')?.classList.contains('is-mirrored')&&window.__nailRotations===10);
+ // Mirror CSS and old Canvas pixels can update before the NEW tracker starts.
+ // Wait for actual input samples from this track; otherwise blanking the source
+ // too early tests "searching" forever instead of loss of an acquired hand.
+ await page.waitForFunction(()=>{const v=document.querySelector('video'),id=v?.srcObject?.getVideoTracks()[0]?.id;return v?.classList.contains('is-mirrored')&&(window.__sampledTracks?.[id]??0)>=3&&document.querySelector('.detection-status')?.textContent==='手を検出しました'&&window.__nailRotations===10;});
  assert.equal(await page.evaluate(()=>window.__streams[0].active),false);
  assert.equal(await page.evaluate(()=>window.__streams.at(-1).active),true);
  console.log('stage: mirrored VIDEO rendered five nails; previous stream released');
@@ -75,4 +86,12 @@ try{
  const report={kind:'headless Chrome + real bundled MediaPipe + Canvas.captureStream of a real dorsal photo; not physical camera or recorded motion',photoNails:5,videoDrawnNails:5,mirroredVideoDrawnNails:5,far,near,moved,errors,
   passed:['photo detection to five actual Canvas nails','VIDEO detection to five actual Canvas nails','distance scale','horizontal tracking','rear-like unmirrored / front-like mirrored preview','camera switch releases old stream','loss and reacquisition','capture and PNG save']};
  if(option('--output'))await writeFile(option('--output'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
+}catch(error){
+ if(page){
+  console.error('camera QA failure state',await page.evaluate(()=>({status:document.querySelector('.detection-status')?.textContent,header:document.querySelector('.preview-header')?.textContent,
+   rotations:window.__nailRotations,opacity:document.querySelector('.nail-canvas')?.style.opacity,blank:window.__blank,sampledTracks:window.__sampledTracks,
+   video:Array.from(document.querySelectorAll('video')).map(v=>({width:v.videoWidth,height:v.videoHeight,time:v.currentTime,ready:v.readyState,active:v.srcObject?.active})),streams:window.__streams?.map(s=>s.active)})));
+  if(option('--screenshot'))await page.screenshot({path:option('--screenshot')+'.failure.png'});
+ }
+ throw error;
 }finally{await browser.close();}

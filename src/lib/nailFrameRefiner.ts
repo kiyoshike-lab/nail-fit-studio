@@ -1,6 +1,7 @@
 import { applyCalibration, calibrateNail, type NailCalibration } from "./nailCalibration";
 import { refineNailsFromPixels, type NailRefinementResult } from "./nailImageRefinement";
 import type { NailPose } from "./types";
+import { NailCorrectionGate } from "./nailCorrectionGate";
 
 export class NailFrameRefiner {
   private canvas: HTMLCanvasElement | null = null;
@@ -11,6 +12,7 @@ export class NailFrameRefiner {
   private result: NailRefinementResult | null = null;
   private sourceAspect = 0;
   private mirrored = false;
+  private gates = Array.from({ length: 5 }, () => new NailCorrectionGate());
 
   refine(source: CanvasImageSource, sourceWidth: number, sourceHeight: number, nails: NailPose[], mirrored: boolean, now: number, requireFreshContour = false): NailRefinementResult {
     const fallback = (): NailRefinementResult => ({ nails, diagnostics: nails.map(() => ({ accepted: false, confidence: 0, reason: "pixels-unavailable" })) });
@@ -19,6 +21,9 @@ export class NailFrameRefiner {
       return fallback();
     }
     const aspect = sourceWidth / sourceHeight;
+    if (mirrored !== this.mirrored || Math.abs(aspect / this.sourceAspect - 1) > 0.005) {
+      this.gates = Array.from({ length: 5 }, () => new NailCorrectionGate());
+    }
     const reusable = !requireFreshContour && this.result && now >= this.lastAt && now - this.lastAt < 150
       && Math.abs(aspect / this.sourceAspect - 1) < 0.005 && mirrored === this.mirrored
       && this.previous.every((previous, index) => {
@@ -44,6 +49,15 @@ export class NailFrameRefiner {
       this.context.drawImage(source, 0, 0, width, height);
       const pixels = this.context.getImageData(0, 0, width, height);
       const result = refineNailsFromPixels(pixels, nails, mirrored);
+      // Partial nails require today's visible contour, never a held old mask.
+      if (!requireFreshContour) result.nails = result.nails.map((nail, index) => {
+        if (!result.diagnostics[index].accepted) return nail;
+        const proposed = calibrateNail(nails[index], nail, aspect);
+        const checked = this.gates[index].update(proposed, now);
+        if (!checked.held) return nail;
+        result.diagnostics[index] = { accepted: false, confidence: 0, reason: "temporal-jump-pending", contourStatus: "stale" };
+        return applyCalibration(nails[index], checked.correction, aspect);
+      });
       this.result = result;
       this.previous = nails;
       this.corrections = result.nails.map((nail, index) => calibrateNail(nails[index], nail, aspect));
@@ -65,5 +79,6 @@ export class NailFrameRefiner {
     this.result = null;
     this.previous = [];
     this.corrections = [];
+    this.gates = Array.from({ length: 5 }, () => new NailCorrectionGate());
   }
 }

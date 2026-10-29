@@ -6,12 +6,14 @@ const option = (name) => args.includes(name) ? args[args.indexOf(name) + 1] : un
 if (!args.includes('--input')) throw Error('--input local prepared evaluation JSON is required');
 const data = JSON.parse(await readFile(option('--input'), 'utf8'));
 const { buildNailsFromLandmarks } = await importTypescript(args.includes('--geometry') ? option('--geometry') : 'src/lib/nailGeometry.ts');
-const refine = args.includes('--refine') ? (await importTypescript('src/lib/nailImageRefinement.ts')).refineNailsFromPixels : null;
+const refine = args.includes('--refine') ? (await importTypescript(option('--refiner') ?? 'src/lib/nailImageRefinement.ts')).refineNailsFromPixels : null;
 const baselineGeometry = option('--baseline-geometry') ? (await importTypescript(option('--baseline-geometry'))).buildNailsFromLandmarks : buildNailsFromLandmarks;
 const baselineRefine = option('--baseline-refiner') ? (await importTypescript(option('--baseline-refiner'))).refineNailsFromPixels : null;
+const {surfaceFromContour} = option('--render-cases-output') ? await importTypescript('scripts/lib/nail-surface-candidate.ts') : {};
 const rows = [];
 const fitAudit = [];
 const proposals = [];
+const renderCases = [];
 for (const item of data.cases) {
   const pixels = new Uint8ClampedArray(Buffer.from(item.pixels, 'base64'));
   const mask = new Uint8Array(Buffer.from(item.mask, 'base64'));
@@ -37,8 +39,19 @@ for (const item of data.cases) {
     assigned.add(candidate.finger); used.add(candidate.index);
     const baseline = evaluate(before[candidate.finger], component, item.width, item.height);
     const improved = evaluate(after[candidate.finger], component, item.width, item.height);
-    rows.push({ file:item.file, finger:candidate.finger, maskAspect:component.elongation, before:baseline, after:improved,
+    rows.push({ file:item.file, finger:candidate.finger, component:candidate.index, maskAspect:component.elongation, before:baseline, after:improved,
       refined:result?.diagnostics[candidate.finger]?.accepted ?? false });
+  }
+  if (option('--render-cases-output')) {
+    const labels = new Uint8Array(mask.length);
+    components.forEach((component, index) => component.indices.forEach(pixel => { labels[pixel] = index + 1; }));
+    const surfaces = after.map((nail,index) => {
+      const fit = result?.diagnostics[index];
+      return fit?.accepted && fit.confidence >= .8 && fit.contour && !fit.contourHoles?.length
+        ? surfaceFromContour(nail,fit.contour,item.width/item.height,fit.confidence) : null;
+    });
+    renderCases.push({ file:item.file,width:item.width,height:item.height,before,after,surfaces,labels:Buffer.from(labels).toString('base64'),
+      matches:rows.filter(row=>row.file===item.file).map(row=>({finger:row.finger,label:row.component+1})) });
   }
 }
 const summary = (key, subset = rows) => ({
@@ -69,6 +82,7 @@ report.refinementAudit=Array.from({length:5},(_,finger)=>{
 console.log(JSON.stringify({...report,rows:undefined},null,2));
 if(args.includes('--output')) await writeFile(option('--output'),JSON.stringify(report,null,2)+'\n');
 if(option('--proposals-output')) await writeFile(option('--proposals-output'),JSON.stringify(proposals));
+if(option('--render-cases-output')) await writeFile(option('--render-cases-output'),JSON.stringify(renderCases));
 
 function poseCenter(nail,width,height) {
   const angle=(nail.rotation-90)*Math.PI/180;

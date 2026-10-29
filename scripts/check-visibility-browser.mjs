@@ -3,6 +3,7 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {writeFile} from 'node:fs/promises';
 const args=process.argv.slice(2),option=name=>args.includes(name)?args[args.indexOf(name)+1]:undefined;
 for(const flag of ['--back-image','--palm-image','--playwright-module'])if(!option(flag))throw Error(`${flag} is required`);
 const baseUrl=option('--base-url')??'http://127.0.0.1:4191';
@@ -82,6 +83,8 @@ try{
  await page.waitForFunction(()=>document.querySelector('.preview-header')?.textContent.includes('サンプルの手に仮配置'));
  await page.waitForTimeout(500);assert.ok(await pixels()>0,'explicit illustration demo lost its sample poses');
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({kind:'headless Chrome static-image UI regression, NOT physical camera or labelled nail accuracy',backPixels,palmPixels,palmStates:palmNails.map(n=>n.visibilityState),errors,
-  passed:['320/390/1280 overflow','dorsal rendering','Before/After tap and hold (desktop pointer)','new palm hides saved poses','explicit manual photo adjustment','auto-fit restores gating','PNG download','no-hand photo stays hidden','illustration demo preserved']},null,2));
+ const report={kind:'headless Chrome static-image UI regression, NOT physical camera or labelled nail accuracy',backPixels,palmPixels,palmStates:palmNails.map(n=>n.visibilityState),errors,
+  passed:['320/390/1280 overflow','dorsal rendering','Before/After tap and hold (desktop pointer)','new palm hides saved poses','explicit manual photo adjustment','auto-fit restores gating','PNG download','no-hand photo stays hidden','illustration demo preserved']};
+ if(option('--output'))await writeFile(option('--output'),JSON.stringify(report,null,2)+'\n');
+ console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();}

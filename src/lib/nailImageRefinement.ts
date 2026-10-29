@@ -1,5 +1,6 @@
 import type { NailPose } from "./types";
 import { traceNailRegion, type ContourPoint } from "./nailContour";
+import { fitNailFromEdges } from "./nailEdgeFit";
 
 type PixelImage = { width: number; height: number; data: Uint8ClampedArray };
 export type NailFitDiagnostic = {
@@ -9,6 +10,8 @@ export type NailFitDiagnostic = {
   contour?: ContourPoint[];
   contourHoles?: ContourPoint[][];
   contourStatus?: "closed" | "ambiguous" | "low-confidence" | "stale";
+  edgeScore?: number;
+  edgeSupport?: number[];
 };
 export type NailRefinementResult = { nails: NailPose[]; diagnostics: NailFitDiagnostic[] };
 const patchWidth = 48;
@@ -25,6 +28,15 @@ export function refineNailsFromPixels(image: PixelImage, nails: NailPose[], mirr
     const rejected = { ...standard.diagnostic.rejected };
     if (result !== standard) for (const [gate, count] of Object.entries(result.diagnostic.rejected ?? {})) rejected[gate] = (rejected[gate] ?? 0) + count;
     diagnostics.push({ ...result.diagnostic, rejected, candidates: (standard.diagnostic.candidates ?? 0) + (result === standard ? 0 : result.diagnostic.candidates ?? 0) });
+    if (!result.diagnostic.accepted) {
+      const edge = fitNailFromEdges(image, nail, mirrored);
+      if (edge) {
+        // This is a bounded geometric proposal, not a semantic nail mask or a
+        // calibrated probability. It must not authorize partial/palm rendering.
+        diagnostics[index] = { ...diagnostics[index], accepted: true, confidence: 0.7, reason: "supported-edge-profile", edgeScore: edge.score, edgeSupport: edge.support };
+        return edge.nail;
+      }
+    }
     return result.nail;
   });
   return { nails: refined, diagnostics };

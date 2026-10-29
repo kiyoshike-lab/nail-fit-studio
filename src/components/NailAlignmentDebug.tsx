@@ -86,11 +86,13 @@ export function NailAlignmentDebug({ mode, design, nails, loading, liveNailsRef 
           点:中心 / 線の根元・先端:描画基準。画像補正が不確かな爪は水色を表示しません。
           {summary?.sourceMode === mode && <div>
             手の検出: {summary.landmarks.length === 21 ? "成功" : "未検出"} / 描画対象: {summary.stable.filter(nail => (nail.visibility ?? 1) > 0.05).length}/5本<br />
+            画像補正採用: {summary.fits.filter(fit => fit.accepted).length}/5本（輪郭の確定とは異なります）<br />
             姿勢: {summary.pose?.view ?? "unknown"} / モデル左右ラベル: {summary.pose?.modelHand ?? "unknown"} / 表示反転: {summary.mirrored ? "あり" : "なし"}<br />
             3D: {summary.pose?.source} / 傾斜: {summary.pose?.tiltDegrees.toFixed(0)}° / 信頼度: {summary.pose?.confidence.toFixed(2)}
             <div>{summary.pose?.reason} / 画像面 {summary.pose?.imageFacing?.toFixed(2)} / world面 {summary.pose?.worldFacing?.toFixed(2)} / 一致 {summary.pose?.worldAgreement?.toFixed(2)}</div>
             {summary.visibility?.map((value, index) => <div key={index}>
               {["親指", "人差指", "中指", "薬指", "小指"][index]}: {value.state} / α{summary.stable[index]?.visibility?.toFixed(2) ?? "?"} / 曲げ {summary.pose?.fingers[index]?.bendDegrees.toFixed(0) ?? "?"}° / {value.reason} / 輪郭 {summary.fits[index]?.contourStatus ?? summary.fits[index]?.reason}
+              {summary.fits[index]?.edgeSupport && <span> / 境界支持(根元・左・右・先端): {summary.fits[index].edgeSupport!.map(score => score.toFixed(0)).join("/")}</span>}
             </div>)}
           </div>}
         </div>

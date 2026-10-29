@@ -1,0 +1,34 @@
+{
+  "kind": "headless Chrome + real bundled MediaPipe + Canvas.captureStream of a real dorsal photo; not physical camera or recorded motion",
+  "photoNails": 5,
+  "videoDrawnNails": 5,
+  "mirroredVideoDrawnNails": 5,
+  "far": {
+    "width": 1.6,
+    "height": 3.3,
+    "x": 50
+  },
+  "near": {
+    "width": 2.3,
+    "height": 4.7,
+    "x": 50
+  },
+  "moved": {
+    "width": 2.3,
+    "height": 4.7,
+    "x": 55.4
+  },
+  "errors": [],
+  "passed": [
+    "photo detection to five actual Canvas nails",
+    "VIDEO detection to five actual Canvas nails",
+    "distance scale",
+    "horizontal tracking",
+    "rear-like unmirrored / front-like mirrored preview",
+    "camera switch releases old stream",
+    "loss and reacquisition",
+    "capture and PNG save"
+  ],
+  "baselineCommit": "b1ed43d",
+  "evaluationDate": "2026-10-30"
+}

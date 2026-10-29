@@ -3,6 +3,10 @@ import path from "node:path";
 import ts from "typescript";
 
 export async function importTypescript(file, replacements = {}) {
+  return import(await typescriptModuleUrl(file, replacements));
+}
+
+export async function typescriptModuleUrl(file, replacements = {}) {
   const cache = new Map();
   async function compile(filename) {
     const absolute = path.resolve(filename);
@@ -22,5 +26,5 @@ export async function importTypescript(file, replacements = {}) {
     cache.set(absolute, url);
     return url;
   }
-  return import(await compile(file));
+  return compile(file);
 }

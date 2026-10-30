@@ -1,0 +1,579 @@
+{
+  "kind": "local production head + headless Chrome viewport QA; not real SERP, social-service cache or physical phone validation",
+  "rows": [
+    {
+      "route": "/",
+      "title": "無料ネイル試着｜写真・カメラで似合うネイルをお試し - Nail Fit Studio",
+      "description": "ネイルをする前に、自分の手で似合うデザインをチェック。Nail Fit Studioは、写真やカメラでネイルの色・形・長さを無料で試せるサイトです。アプリのインストール不要で、スマホから気軽にお試しできます。",
+      "canonical": "https://nail-fit-studio.vercel.app/",
+      "ogUrl": "https://nail-fit-studio.vercel.app",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "WebSite",
+        "Organization"
+      ]
+    },
+    {
+      "route": "/try-on",
+      "title": "ネイルシミュレーター｜写真・カメラで無料試着｜Nail Fit Studio",
+      "description": "自分の手の写真やカメラでネイルを無料シミュレーション。色・形・長さやデザインを変えて比較し、気に入った試着画像を保存できます。アプリ不要。",
+      "canonical": "https://nail-fit-studio.vercel.app/try-on",
+      "ogUrl": "https://nail-fit-studio.vercel.app/try-on",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/diagnosis",
+      "title": "似合うネイル診断｜好み・シーンから無料で提案｜Nail Fit Studio",
+      "description": "8つの質問で、好みや使う場面に合うネイルの色・形・長さを無料で提案。診断結果から自分の手でネイル試着もできます。",
+      "canonical": "https://nail-fit-studio.vercel.app/diagnosis",
+      "ogUrl": "https://nail-fit-studio.vercel.app/diagnosis",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/guide",
+      "title": "ネイルの選び方・デザインガイド｜Nail Fit Studio",
+      "description": "ネイルの形・色・長さの選び方から、オフィスや季節に合うデザイン、サロン前の準備まで。自分の手で試着しながら選べる日本語ネイルガイドです。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/about",
+      "title": "Nail Fit Studioとは｜無料ネイル試着サイト",
+      "description": "Nail Fit Studioは、写真やカメラで自分に似合うネイルを無料で試せるサイトです。アプリ不要で使える機能や、試着結果の見方、写真の取り扱いをご案内します。",
+      "canonical": "https://nail-fit-studio.vercel.app/about",
+      "ogUrl": "https://nail-fit-studio.vercel.app/about",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/contact",
+      "title": "お問い合わせ｜Nail Fit Studio",
+      "description": "Nail Fit Studioへのご意見・不具合報告の窓口です。",
+      "canonical": "https://nail-fit-studio.vercel.app/contact",
+      "ogUrl": "https://nail-fit-studio.vercel.app/contact",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/editorial-policy",
+      "title": "編集方針｜Nail Fit Studio",
+      "description": "Nail Fit Studioのガイド記事の制作・更新方針です。",
+      "canonical": "https://nail-fit-studio.vercel.app/editorial-policy",
+      "ogUrl": "https://nail-fit-studio.vercel.app/editorial-policy",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/privacy",
+      "title": "プライバシーポリシー｜Nail Fit Studio",
+      "description": "画像、端末内保存、Cookie、Google Analytics、広告の取り扱いについて。",
+      "canonical": "https://nail-fit-studio.vercel.app/privacy",
+      "ogUrl": "https://nail-fit-studio.vercel.app/privacy",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/terms",
+      "title": "利用規約｜Nail Fit Studio",
+      "description": "Nail Fit Studioのサービス利用条件です。",
+      "canonical": "https://nail-fit-studio.vercel.app/terms",
+      "ogUrl": "https://nail-fit-studio.vercel.app/terms",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/favorites",
+      "title": "お気に入り｜Nail Fit Studio",
+      "description": "保存したネイルデザインを端末内で見返せます。",
+      "canonical": "https://nail-fit-studio.vercel.app/favorites",
+      "ogUrl": "https://nail-fit-studio.vercel.app/favorites",
+      "robots": "noindex, nofollow",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/history",
+      "title": "試着履歴｜Nail Fit Studio",
+      "description": "最近試したネイル設定を端末内で見返せます。",
+      "canonical": "https://nail-fit-studio.vercel.app/history",
+      "ogUrl": "https://nail-fit-studio.vercel.app/history",
+      "robots": "noindex, nofollow",
+      "jsonLdTypes": []
+    },
+    {
+      "route": "/guide/how-to-choose-nail-shape",
+      "title": "自分に似合うネイルの形の選び方｜Nail Fit Studio",
+      "description": "指の見え方だけでなく、生活のしやすさまで含めたネイル形状の選び方を解説します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/how-to-choose-nail-shape",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/how-to-choose-nail-shape",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/round-nail",
+      "title": "ラウンドネイルとは？似合う指の特徴｜Nail Fit Studio",
+      "description": "丸みのあるラウンドネイルの特徴、扱いやすさ、きれいに見せる色を紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/round-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/round-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/oval-nail",
+      "title": "オーバルネイルとは？特徴とおすすめデザイン｜Nail Fit Studio",
+      "description": "上品で指先をすっきり見せやすいオーバルの特徴と選び方を解説します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/oval-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/oval-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/square-nail",
+      "title": "スクエアネイルが似合う人とは？｜Nail Fit Studio",
+      "description": "直線的なスクエアネイルの魅力と、幅広く見せないデザインのコツを紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/square-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/square-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/almond-nail",
+      "title": "アーモンドネイルの特徴と似合う手｜Nail Fit Studio",
+      "description": "先細りのアーモンド形で、指をしなやかに見せるバランスを解説します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/almond-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/almond-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/ballerina-nail",
+      "title": "バレリーナネイルとは？｜Nail Fit Studio",
+      "description": "先細りと平らな先端を組み合わせたバレリーナ形の魅力と注意点を解説します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/ballerina-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/ballerina-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/short-nail-design",
+      "title": "短い爪でも似合うネイルデザイン｜Nail Fit Studio",
+      "description": "短い爪のかわいさを生かし、すっきり見せる色と模様の選び方を紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/short-nail-design",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/short-nail-design",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/make-nails-look-longer",
+      "title": "爪を長く見せるネイルデザイン｜Nail Fit Studio",
+      "description": "縦の流れ、余白、光の置き方で爪をすっきり見せる方法を紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/make-nails-look-longer",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/make-nails-look-longer",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/hand-beautiful-nail-colors",
+      "title": "手がきれいに見えるネイルカラー｜Nail Fit Studio",
+      "description": "手全体を明るく、清潔感のある印象に見せるカラー選びの考え方です。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/hand-beautiful-nail-colors",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/hand-beautiful-nail-colors",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/pink-beige-nail",
+      "title": "ピンクベージュネイルの選び方｜Nail Fit Studio",
+      "description": "定番のピンクベージュを、白浮きやくすみを避けて選ぶポイントを解説します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/pink-beige-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/pink-beige-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/warm-tone-nail-colors",
+      "title": "黄みが似合いやすい人のネイルカラー選び｜Nail Fit Studio",
+      "description": "黄みのある色が心地よく感じる人向けに、温かみのあるカラーを紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/warm-tone-nail-colors",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/warm-tone-nail-colors",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/cool-tone-nail-colors",
+      "title": "青みが似合いやすい人のネイルカラー選び｜Nail Fit Studio",
+      "description": "青みのある色が心地よく感じる人向けに、透明感を生かすカラーを紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/cool-tone-nail-colors",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/cool-tone-nail-colors",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/skin-friendly-nail-colors",
+      "title": "肌なじみのいいネイルカラーとは？｜Nail Fit Studio",
+      "description": "肌なじみを色相・明るさ・透明感の三つから考える方法を紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/skin-friendly-nail-colors",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/skin-friendly-nail-colors",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/date-nail",
+      "title": "デートにおすすめのネイル｜Nail Fit Studio",
+      "description": "近くで見たときにきれいで、服装にも合わせやすいデートネイルを紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/date-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/date-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/university-nail",
+      "title": "大学生におすすめのネイルデザイン｜Nail Fit Studio",
+      "description": "授業、アルバイト、休日を行き来しやすい大学生向けデザインの選び方です。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/university-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/university-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/job-hunting-nail",
+      "title": "就活で好印象なネイルとは？｜Nail Fit Studio",
+      "description": "就職活動で清潔感を優先した手元の整え方と、ネイルをする場合の考え方です。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/job-hunting-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/job-hunting-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/office-nail",
+      "title": "オフィスで使いやすいネイル｜Nail Fit Studio",
+      "description": "仕事中も扱いやすく、きちんと見えるオフィスネイルの選び方です。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/office-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/office-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/wedding-guest-nail",
+      "title": "結婚式のお呼ばれネイルの選び方｜Nail Fit Studio",
+      "description": "ドレスやアクセサリーになじむ、上品なお呼ばれネイルの考え方です。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/wedding-guest-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/wedding-guest-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/coming-of-age-nail",
+      "title": "成人式におすすめのネイル｜Nail Fit Studio",
+      "description": "振袖の色柄と調和し、写真にも残しやすい成人式ネイルの選び方です。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/coming-of-age-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/coming-of-age-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/spring-nail",
+      "title": "春におすすめのネイルデザイン｜Nail Fit Studio",
+      "description": "春の光と服に合わせやすい、軽やかな色とデザインを紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/spring-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/spring-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/summer-nail",
+      "title": "夏におすすめのネイルデザイン｜Nail Fit Studio",
+      "description": "光の強い夏に映える、透明感・ブルー・きらめきの使い方を紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/summer-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/summer-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/autumn-nail",
+      "title": "秋におすすめのネイルデザイン｜Nail Fit Studio",
+      "description": "秋服になじむ深みカラーを、重く見せずに使う方法を紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/autumn-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/autumn-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/winter-nail",
+      "title": "冬におすすめのネイルデザイン｜Nail Fit Studio",
+      "description": "冬の素材やイルミネーションに合う、深色と光のデザインを紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/winter-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/winter-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/french-nail",
+      "title": "フレンチネイルとは？｜Nail Fit Studio",
+      "description": "定番のフレンチネイルを、爪の長さや形に合わせる方法を解説します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/french-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/french-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/gradient-nail",
+      "title": "グラデーションネイルとは？｜Nail Fit Studio",
+      "description": "根元から先端へ色を変えるグラデーションの魅力と選び方を解説します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/gradient-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/gradient-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/magnet-nail",
+      "title": "マグネットネイルとは？｜Nail Fit Studio",
+      "description": "光の筋が動いて見えるマグネットネイルの特徴と、色の選び方を紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/magnet-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/magnet-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/gel-vs-polish",
+      "title": "ジェルネイルとマニキュアの違い｜Nail Fit Studio",
+      "description": "ジェルとマニキュアの仕上がり、持ち、落とし方の違いを整理します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/gel-vs-polish",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/gel-vs-polish",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/before-nail-salon",
+      "title": "ネイルサロンへ行く前に準備すること｜Nail Fit Studio",
+      "description": "希望を伝えやすくし、当日を安心して迎えるための準備をまとめます。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/before-nail-salon",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/before-nail-salon",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/long-lasting-nail",
+      "title": "ネイルを長持ちさせるための基本｜Nail Fit Studio",
+      "description": "施術後のネイルをきれいに保つために、日常で気をつけたい基本を紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/long-lasting-nail",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/long-lasting-nail",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    },
+    {
+      "route": "/guide/daily-nail-care",
+      "title": "爪をきれいに見せる日常ケア｜Nail Fit Studio",
+      "description": "色を塗らない日にも役立つ、爪と指先を整えて見せる日常習慣を紹介します。",
+      "canonical": "https://nail-fit-studio.vercel.app/guide/daily-nail-care",
+      "ogUrl": "https://nail-fit-studio.vercel.app/guide/daily-nail-care",
+      "robots": "index allowed (no noindex)",
+      "jsonLdTypes": [
+        "Article",
+        "BreadcrumbList"
+      ]
+    }
+  ],
+  "layouts": [
+    {
+      "route": "/",
+      "width": 320,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/",
+      "width": 1280,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/try-on",
+      "width": 320,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/try-on",
+      "width": 390,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/try-on",
+      "width": 1280,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/diagnosis",
+      "width": 320,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/diagnosis",
+      "width": 390,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/diagnosis",
+      "width": 1280,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/guide",
+      "width": 320,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/guide",
+      "width": 390,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/guide",
+      "width": 1280,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/about",
+      "width": 320,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/about",
+      "width": 390,
+      "overflow": false,
+      "headingClipped": false
+    },
+    {
+      "route": "/about",
+      "width": 1280,
+      "overflow": false,
+      "headingClipped": false
+    }
+  ],
+  "sitemapEntries": 39,
+  "robots": "User-Agent: *\nAllow: /\n\nHost: https://nail-fit-studio.vercel.app\nSitemap: https://nail-fit-studio.vercel.app/sitemap.xml\n",
+  "notFoundStatus": 404,
+  "errors": [],
+  "passed": [
+    "unique Japanese titles/descriptions",
+    "canonical/OG URLs",
+    "Japanese OGP/Twitter with PNG",
+    "WebSite/Article/Breadcrumb JSON-LD parse and semantics",
+    "no fabricated rating schema",
+    "personal noindex",
+    "sitemap/robots/404",
+    "favicon/manifest",
+    "3 facts above fold",
+    "home to try-on link",
+    "AdSense/GA4/ads.txt retained"
+  ],
+  "baselineCommit": "2f6d866",
+  "date": "2026-10-30",
+  "candidate": "dense-alignment / current-clipped-fragment, chroma-only negative-facing thumb rejected"
+}

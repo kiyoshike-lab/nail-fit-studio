@@ -1,0 +1,3711 @@
+{
+  "source": "https://github.com/vpapenko/nails-segmentation-dataset",
+  "license": "CC0-1.0",
+  "images": 28,
+  "matchedNails": 135,
+  "inputImages": 28,
+  "undetectedFiles": [],
+  "refinedNails": 44,
+  "landmarks": "current self-hosted MediaPipe CPU, VIDEO mode, longest input side 640px; VIDEO repeats each still 3 times",
+  "methodology": "Previous full pipeline versus current image refinement using identical landmarks; coarse-baseline-locked greedy component assignment; mask centroid/PCA; ellipse approximation, not rendered design IoU. Approximate root is mask centroid minus half PCA length, with axis sign aligned to baseline nail. No annotated cuticle ground truth. Exploratory development set, not independent model validation.",
+  "before": {
+    "meanCenterErrorPx": 12.054441301772783,
+    "meanCenterErrorNailWidths": 0.5768319298167487,
+    "meanEllipseIoU": 0.3341321119429202,
+    "meanAngleErrorDeg": 9.479263174397191,
+    "meanWidthRatio": 0.837608809481735,
+    "meanHeightRatio": 0.9224739100262295,
+    "meanWidthRelativeError": 0.3476031004112574,
+    "meanHeightRelativeError": 0.2295909311392992,
+    "meanApproxRootErrorPx": 14.36601253157216
+  },
+  "after": {
+    "meanCenterErrorPx": 11.534929553871166,
+    "meanCenterErrorNailWidths": 0.5611713789546005,
+    "meanEllipseIoU": 0.3638436600714146,
+    "meanAngleErrorDeg": 9.479263174397191,
+    "meanWidthRatio": 0.8745928906234093,
+    "meanHeightRatio": 0.921944573353224,
+    "meanWidthRelativeError": 0.3224522725213891,
+    "meanHeightRelativeError": 0.2270436851959176,
+    "meanApproxRootErrorPx": 13.99378875555985
+  },
+  "byFinger": [
+    {
+      "name": "thumb",
+      "matchedNails": 26,
+      "before": {
+        "meanCenterErrorPx": 15.67046994985328,
+        "meanCenterErrorNailWidths": 1.177217026652489,
+        "meanEllipseIoU": 0.2373516664351745,
+        "meanAngleErrorDeg": 10.959466191802477,
+        "meanWidthRatio": 1.3323275728238895,
+        "meanHeightRatio": 1.013041100117484,
+        "meanWidthRelativeError": 0.5743152239054223,
+        "meanHeightRelativeError": 0.3139774122032678,
+        "meanApproxRootErrorPx": 17.50216589083675
+      },
+      "after": {
+        "meanCenterErrorPx": 15.670469949853278,
+        "meanCenterErrorNailWidths": 1.177217026652489,
+        "meanEllipseIoU": 0.2373516664351745,
+        "meanAngleErrorDeg": 10.959466191802477,
+        "meanWidthRatio": 1.3305773577333697,
+        "meanHeightRatio": 1.0082566408251785,
+        "meanWidthRelativeError": 0.576065438995942,
+        "meanHeightRelativeError": 0.31876187149557356,
+        "meanApproxRootErrorPx": 17.412464668176618
+      }
+    },
+    {
+      "name": "index",
+      "matchedNails": 26,
+      "before": {
+        "meanCenterErrorPx": 10.433663702576439,
+        "meanCenterErrorNailWidths": 0.38661992646641646,
+        "meanEllipseIoU": 0.3929078813469722,
+        "meanAngleErrorDeg": 11.037324458001649,
+        "meanWidthRatio": 0.7764703116622665,
+        "meanHeightRatio": 0.9495813151423278,
+        "meanWidthRelativeError": 0.2572821301841011,
+        "meanHeightRelativeError": 0.20300003155079693,
+        "meanApproxRootErrorPx": 14.041373136065213
+      },
+      "after": {
+        "meanCenterErrorPx": 10.433663702576439,
+        "meanCenterErrorNailWidths": 0.38661992646641646,
+        "meanEllipseIoU": 0.3929078813469722,
+        "meanAngleErrorDeg": 11.037324458001649,
+        "meanWidthRatio": 0.7764703116622665,
+        "meanHeightRatio": 0.9495813151423278,
+        "meanWidthRelativeError": 0.2572821301841011,
+        "meanHeightRelativeError": 0.20300003155079693,
+        "meanApproxRootErrorPx": 14.041373136065213
+      }
+    },
+    {
+      "name": "middle",
+      "matchedNails": 28,
+      "before": {
+        "meanCenterErrorPx": 13.71858422009707,
+        "meanCenterErrorNailWidths": 0.4756724860980506,
+        "meanEllipseIoU": 0.3154722118392731,
+        "meanAngleErrorDeg": 7.755632063817466,
+        "meanWidthRatio": 0.6949335054019178,
+        "meanHeightRatio": 0.9493971128817533,
+        "meanWidthRelativeError": 0.31655482057861967,
+        "meanHeightRelativeError": 0.20562053996739316,
+        "meanApproxRootErrorPx": 17.91322693484498
+      },
+      "after": {
+        "meanCenterErrorPx": 12.477993686637538,
+        "meanCenterErrorNailWidths": 0.4487675005734983,
+        "meanEllipseIoU": 0.38468523467337395,
+        "meanAngleErrorDeg": 7.755632063817466,
+        "meanWidthRatio": 0.773810949784221,
+        "meanHeightRatio": 0.9575474832035392,
+        "meanWidthRelativeError": 0.2444732711145504,
+        "meanHeightRelativeError": 0.19747016964560724,
+        "meanApproxRootErrorPx": 16.764492008785947
+      }
+    },
+    {
+      "name": "ring",
+      "matchedNails": 27,
+      "before": {
+        "meanCenterErrorPx": 12.170315982938222,
+        "meanCenterErrorNailWidths": 0.4469335123645514,
+        "meanEllipseIoU": 0.36084721432661443,
+        "meanAngleErrorDeg": 3.6774327290795696,
+        "meanWidthRatio": 0.7147063292516848,
+        "meanHeightRatio": 0.9270903381787741,
+        "meanWidthRelativeError": 0.29193371352796255,
+        "meanHeightRelativeError": 0.18734204531664111,
+        "meanApproxRootErrorPx": 12.579407786258551
+      },
+      "after": {
+        "meanCenterErrorPx": 11.366773923814934,
+        "meanCenterErrorNailWidths": 0.4220177316347175,
+        "meanEllipseIoU": 0.41217528819350335,
+        "meanAngleErrorDeg": 3.6774327290795696,
+        "meanWidthRatio": 0.790834838595074,
+        "meanHeightRatio": 0.9136717901053728,
+        "meanWidthRelativeError": 0.24031599234696424,
+        "meanHeightRelativeError": 0.18537768030810772,
+        "meanApproxRootErrorPx": 12.2715610666541
+      }
+    },
+    {
+      "name": "pinky",
+      "matchedNails": 28,
+      "before": {
+        "meanCenterErrorPx": 8.42582896693224,
+        "meanCenterErrorNailWidths": 0.4223755464136138,
+        "meanEllipseIoU": 0.36232107684429254,
+        "meanAngleErrorDeg": 11.40564367957367,
+        "meanWidthRatio": 0.6961869729408933,
+        "meanHeightRatio": 0.7818298844739237,
+        "meanWidthRelativeError": 0.3056836467048502,
+        "meanHeightRelativeError": 0.24063399369869237,
+        "meanApproxRootErrorPx": 9.930904023505418
+      },
+      "after": {
+        "meanCenterErrorPx": 7.936474844306424,
+        "meanCenterErrorNailWidths": 0.3978002359851489,
+        "meanEllipseIoU": 0.38686523268664663,
+        "meanAngleErrorDeg": 11.40564367957367,
+        "meanWidthRatio": 0.7238411997803057,
+        "meanHeightRatio": 0.7885093816066402,
+        "meanWidthRelativeError": 0.30465130739753404,
+        "meanHeightRelativeError": 0.23395449656597583,
+        "meanApproxRootErrorPx": 9.665134787308078
+      }
+    }
+  ],
+  "byMaskAspect": {
+    "elongated": {
+      "matchedNails": 27,
+      "before": {
+        "meanCenterErrorPx": 12.891276663250949,
+        "meanCenterErrorNailWidths": 0.9938493294116129,
+        "meanEllipseIoU": 0.2667375356928219,
+        "meanAngleErrorDeg": 5.758595907496202,
+        "meanWidthRatio": 1.2740202603738224,
+        "meanHeightRatio": 0.8493683555456799,
+        "meanWidthRelativeError": 0.5553941100259762,
+        "meanHeightRelativeError": 0.3374395352694027,
+        "meanApproxRootErrorPx": 14.158371650363112
+      },
+      "after": {
+        "meanCenterErrorPx": 13.081143855363083,
+        "meanCenterErrorNailWidths": 1.0005616398603134,
+        "meanEllipseIoU": 0.2709824886646832,
+        "meanAngleErrorDeg": 5.758595907496202,
+        "meanWidthRatio": 1.2961795782711365,
+        "meanHeightRatio": 0.8493683555456799,
+        "meanWidthRelativeError": 0.5437690227534244,
+        "meanHeightRelativeError": 0.3374395352694027,
+        "meanApproxRootErrorPx": 14.090908685304505
+      }
+    },
+    "compact": {
+      "matchedNails": 108,
+      "before": {
+        "meanCenterErrorPx": 11.84523246140324,
+        "meanCenterErrorNailWidths": 0.4725775799180326,
+        "meanEllipseIoU": 0.35098075600544476,
+        "meanAngleErrorDeg": 13.19993044129818,
+        "meanWidthRatio": 0.7285059467587132,
+        "meanHeightRatio": 0.9407502986463667,
+        "meanWidthRelativeError": 0.2956553480075778,
+        "meanHeightRelativeError": 0.20262878010677327,
+        "meanApproxRootErrorPx": 14.417922751874423
+      },
+      "after": {
+        "meanCenterErrorPx": 11.148375978498187,
+        "meanCenterErrorNailWidths": 0.45132381372817215,
+        "meanEllipseIoU": 0.3870589529230975,
+        "meanAngleErrorDeg": 13.19993044129818,
+        "meanWidthRatio": 0.7691962187114775,
+        "meanHeightRatio": 0.9400886278051102,
+        "meanWidthRelativeError": 0.2671230849633802,
+        "meanHeightRelativeError": 0.19944472267754623,
+        "meanApproxRootErrorPx": 13.969508773123687
+      }
+    }
+  },
+  "rows": [
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 4,
+      "component": 1,
+      "maskAspect": 1.975666860352855,
+      "before": {
+        "centerErrorPx": 4.492997422261538,
+        "centerErrorNailWidths": 0.18489111490565252,
+        "iou": 0.2688888888888889,
+        "approxRootErrorPx": 8.170950003831635,
+        "angleErrorDeg": 0.8560621400771424,
+        "widthRatio": 0.5217279678796549,
+        "heightRatio": 0.49674793786188703
+      },
+      "after": {
+        "centerErrorPx": 4.492997422261538,
+        "centerErrorNailWidths": 0.18489111490565252,
+        "iou": 0.2688888888888889,
+        "approxRootErrorPx": 8.170950003831635,
+        "angleErrorDeg": 0.8560621400771424,
+        "widthRatio": 0.5217279678796549,
+        "heightRatio": 0.49674793786188703
+      },
+      "refined": false
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 5.132451945208942,
+      "before": {
+        "centerErrorPx": 7.680516278837189,
+        "centerErrorNailWidths": 0.7600223891840058,
+        "iou": 0.3197969543147208,
+        "approxRootErrorPx": 5.695750120079045,
+        "angleErrorDeg": 0.6772058058689936,
+        "widthRatio": 1.6364156990793244,
+        "heightRatio": 0.594441269666518
+      },
+      "after": {
+        "centerErrorPx": 7.680516278837189,
+        "centerErrorNailWidths": 0.7600223891840058,
+        "iou": 0.3197969543147208,
+        "approxRootErrorPx": 5.695750120079045,
+        "angleErrorDeg": 0.6772058058689936,
+        "widthRatio": 1.6364156990793244,
+        "heightRatio": 0.594441269666518
+      },
+      "refined": false
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 2,
+      "component": 5,
+      "maskAspect": 1.6686170377054663,
+      "before": {
+        "centerErrorPx": 8.702397155931804,
+        "centerErrorNailWidths": 0.2545419791824197,
+        "iou": 0.2803560076287349,
+        "approxRootErrorPx": 8.606809032968044,
+        "angleErrorDeg": 0.5090377965484549,
+        "widthRatio": 0.5052002145770578,
+        "heightRatio": 0.5683679941229737
+      },
+      "after": {
+        "centerErrorPx": 8.702397155931804,
+        "centerErrorNailWidths": 0.2545419791824197,
+        "iou": 0.2803560076287349,
+        "approxRootErrorPx": 8.606809032968044,
+        "angleErrorDeg": 0.5090377965484549,
+        "widthRatio": 0.5052002145770578,
+        "heightRatio": 0.5683679941229737
+      },
+      "refined": false
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 3,
+      "component": 4,
+      "maskAspect": 1.8773525108557294,
+      "before": {
+        "centerErrorPx": 10.100556618291145,
+        "centerErrorNailWidths": 0.3569090312504822,
+        "iou": 0.2953451043338684,
+        "approxRootErrorPx": 4.822660899976498,
+        "angleErrorDeg": 3.0601174529159607,
+        "widthRatio": 0.5583748348163572,
+        "heightRatio": 0.5575459822910307
+      },
+      "after": {
+        "centerErrorPx": 10.100556618291145,
+        "centerErrorNailWidths": 0.3569090312504822,
+        "iou": 0.2953451043338684,
+        "approxRootErrorPx": 4.822660899976498,
+        "angleErrorDeg": 3.0601174529159607,
+        "widthRatio": 0.5583748348163572,
+        "heightRatio": 0.5575459822910307
+      },
+      "refined": false
+    },
+    {
+      "file": "2C29D473-CCB4-458C-926B-99D0042161E6.jpg",
+      "finger": 1,
+      "component": 2,
+      "maskAspect": 1.9837178026366482,
+      "before": {
+        "centerErrorPx": 10.278762312741074,
+        "centerErrorNailWidths": 0.3733052159652522,
+        "iou": 0.2631981637337414,
+        "approxRootErrorPx": 9.185333068957208,
+        "angleErrorDeg": 1.794376885093243,
+        "widthRatio": 0.6005938761678001,
+        "heightRatio": 0.5573361120734929
+      },
+      "after": {
+        "centerErrorPx": 10.278762312741074,
+        "centerErrorNailWidths": 0.3733052159652522,
+        "iou": 0.2631981637337414,
+        "approxRootErrorPx": 9.185333068957208,
+        "angleErrorDeg": 1.794376885093243,
+        "widthRatio": 0.6005938761678001,
+        "heightRatio": 0.5573361120734929
+      },
+      "refined": false
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 4,
+      "component": 2,
+      "maskAspect": 1.4675590660500504,
+      "before": {
+        "centerErrorPx": 19.09218517533847,
+        "centerErrorNailWidths": 0.48255678117012063,
+        "iou": 0.13949163050216987,
+        "approxRootErrorPx": 19.88034950052314,
+        "angleErrorDeg": 43.23735587054995,
+        "widthRatio": 0.380790399154769,
+        "heightRatio": 0.4706064002643826
+      },
+      "after": {
+        "centerErrorPx": 19.09218517533847,
+        "centerErrorNailWidths": 0.48255678117012063,
+        "iou": 0.13949163050216987,
+        "approxRootErrorPx": 19.88034950052314,
+        "angleErrorDeg": 43.23735587054995,
+        "widthRatio": 0.380790399154769,
+        "heightRatio": 0.4706064002643826
+      },
+      "refined": false
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 2,
+      "component": 1,
+      "maskAspect": 1.8998252688348571,
+      "before": {
+        "centerErrorPx": 19.887349073724067,
+        "centerErrorNailWidths": 0.78452610356271,
+        "iou": 0.018329938900203666,
+        "approxRootErrorPx": 17.059730365168978,
+        "angleErrorDeg": 6.621153874911329,
+        "widthRatio": 0.8096595998675764,
+        "heightRatio": 0.801301127262042
+      },
+      "after": {
+        "centerErrorPx": 19.887349073724067,
+        "centerErrorNailWidths": 0.78452610356271,
+        "iou": 0.018329938900203666,
+        "approxRootErrorPx": 17.059730365168978,
+        "angleErrorDeg": 6.621153874911329,
+        "widthRatio": 0.8096595998675764,
+        "heightRatio": 0.801301127262042
+      },
+      "refined": false
+    },
+    {
+      "file": "2c376c66-9823-4874-869e-1e7f5c54ec7b.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 2.1173156815151413,
+      "before": {
+        "centerErrorPx": 23.29965214013634,
+        "centerErrorNailWidths": 1.1042987812582186,
+        "iou": 0,
+        "approxRootErrorPx": 28.625473789235148,
+        "angleErrorDeg": 20.474662720570336,
+        "widthRatio": 0.9313732908244363,
+        "heightRatio": 0.8405292664812168
+      },
+      "after": {
+        "centerErrorPx": 23.29965214013634,
+        "centerErrorNailWidths": 1.1042987812582186,
+        "iou": 0,
+        "approxRootErrorPx": 28.625473789235148,
+        "angleErrorDeg": 20.474662720570336,
+        "widthRatio": 0.9313732908244363,
+        "heightRatio": 0.8405292664812168
+      },
+      "refined": false
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.364465770305983,
+      "before": {
+        "centerErrorPx": 28.41541356444072,
+        "centerErrorNailWidths": 1.0325082082153076,
+        "iou": 0,
+        "approxRootErrorPx": 19.273608800618508,
+        "angleErrorDeg": 46.542148011117035,
+        "widthRatio": 0.4550559235351326,
+        "heightRatio": 0.41465313866649667
+      },
+      "after": {
+        "centerErrorPx": 28.41541356444069,
+        "centerErrorNailWidths": 1.0325082082153068,
+        "iou": 0,
+        "approxRootErrorPx": 16.94137701145509,
+        "angleErrorDeg": 46.542148011117035,
+        "widthRatio": 0.4095503311816193,
+        "heightRatio": 0.2902571970665477
+      },
+      "refined": true
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.6477702329372579,
+      "before": {
+        "centerErrorPx": 34.76348433564182,
+        "centerErrorNailWidths": 2.050619833935492,
+        "iou": 0,
+        "approxRootErrorPx": 46.556120826962236,
+        "angleErrorDeg": 56.07072932554456,
+        "widthRatio": 0.33269770056232084,
+        "heightRatio": 0.3657750416949835
+      },
+      "after": {
+        "centerErrorPx": 34.76348433564182,
+        "centerErrorNailWidths": 2.050619833935492,
+        "iou": 0,
+        "approxRootErrorPx": 46.556120826962236,
+        "angleErrorDeg": 56.07072932554456,
+        "widthRatio": 0.33269770056232084,
+        "heightRatio": 0.3657750416949835
+      },
+      "refined": false
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 3,
+      "component": 2,
+      "maskAspect": 1.4133523811070985,
+      "before": {
+        "centerErrorPx": 37.856125787697614,
+        "centerErrorNailWidths": 1.7016553889602342,
+        "iou": 0,
+        "approxRootErrorPx": 28.448383946764213,
+        "angleErrorDeg": 3.7604243830136284,
+        "widthRatio": 0.372573551712032,
+        "heightRatio": 0.4029540682161224
+      },
+      "after": {
+        "centerErrorPx": 37.856125787697614,
+        "centerErrorNailWidths": 1.7016553889602342,
+        "iou": 0,
+        "approxRootErrorPx": 28.448383946764213,
+        "angleErrorDeg": 3.7604243830136284,
+        "widthRatio": 0.372573551712032,
+        "heightRatio": 0.4029540682161224
+      },
+      "refined": false
+    },
+    {
+      "file": "3493127D-7B19-4E50-94AE-2401BD2A91C8.jpg",
+      "finger": 2,
+      "component": 0,
+      "maskAspect": 1.3800584053799787,
+      "before": {
+        "centerErrorPx": 47.58989664982946,
+        "centerErrorNailWidths": 1.9571837629335869,
+        "iou": 0,
+        "approxRootErrorPx": 37.75493119168331,
+        "angleErrorDeg": 1.6355296030822046,
+        "widthRatio": 0.31599742973945266,
+        "heightRatio": 0.41410183158243563
+      },
+      "after": {
+        "centerErrorPx": 47.58989664982946,
+        "centerErrorNailWidths": 1.9571837629335869,
+        "iou": 0,
+        "approxRootErrorPx": 37.75493119168331,
+        "angleErrorDeg": 1.6355296030822046,
+        "widthRatio": 0.31599742973945266,
+        "heightRatio": 0.41410183158243563
+      },
+      "refined": false
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 1,
+      "component": 1,
+      "maskAspect": 1.084049697844675,
+      "before": {
+        "centerErrorPx": 5.182757598802746,
+        "centerErrorNailWidths": 0.1168440707073375,
+        "iou": 0.4,
+        "approxRootErrorPx": 2.2400945299875543,
+        "angleErrorDeg": null,
+        "widthRatio": 0.49416782828180505,
+        "heightRatio": 0.8029761320796079
+      },
+      "after": {
+        "centerErrorPx": 5.182757598802746,
+        "centerErrorNailWidths": 0.1168440707073375,
+        "iou": 0.4,
+        "approxRootErrorPx": 2.2400945299875543,
+        "angleErrorDeg": null,
+        "widthRatio": 0.49416782828180505,
+        "heightRatio": 0.8029761320796079
+      },
+      "refined": false
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.347198109976875,
+      "before": {
+        "centerErrorPx": 9.095600799324648,
+        "centerErrorNailWidths": 0.2952805608234269,
+        "iou": 0.32217973231357555,
+        "approxRootErrorPx": 2.822523800325158,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5455552426088408,
+        "heightRatio": 0.6390559041877162
+      },
+      "after": {
+        "centerErrorPx": 9.095600799324648,
+        "centerErrorNailWidths": 0.2952805608234269,
+        "iou": 0.32217973231357555,
+        "approxRootErrorPx": 2.822523800325158,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5455552426088408,
+        "heightRatio": 0.6390559041877162
+      },
+      "refined": false
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 2,
+      "component": 0,
+      "maskAspect": 1.2081452716122705,
+      "before": {
+        "centerErrorPx": 20.38575514923468,
+        "centerErrorNailWidths": 0.46120651452879663,
+        "iou": 0.2372960372960373,
+        "approxRootErrorPx": 15.66637397358766,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5179438252900473,
+        "heightRatio": 0.8075140404824529
+      },
+      "after": {
+        "centerErrorPx": 3.749402195460013,
+        "centerErrorNailWidths": 0.08482632629871696,
+        "iou": 0.69676048858205,
+        "approxRootErrorPx": 4.4080960846838755,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8805045029930805,
+        "heightRatio": 0.8075140404824529
+      },
+      "refined": true
+    },
+    {
+      "file": "41d83dbb-7c39-4d91-979e-eec5ff71b265.jpg",
+      "finger": 3,
+      "component": 2,
+      "maskAspect": 1.202235537987731,
+      "before": {
+        "centerErrorPx": 28.20999378567796,
+        "centerErrorNailWidths": 0.7220382177319602,
+        "iou": 0.24894837476099427,
+        "approxRootErrorPx": 38.90737418094069,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8845568855089482,
+        "heightRatio": 1.4416077017395366
+      },
+      "after": {
+        "centerErrorPx": 28.20999378567796,
+        "centerErrorNailWidths": 0.7220382177319602,
+        "iou": 0.24894837476099427,
+        "approxRootErrorPx": 38.90737418094069,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8845568855089482,
+        "heightRatio": 1.4416077017395366
+      },
+      "refined": true
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 3,
+      "component": 4,
+      "maskAspect": 1.0569399683039336,
+      "before": {
+        "centerErrorPx": 6.106341550483659,
+        "centerErrorNailWidths": 0.20561385783150796,
+        "iou": 0.4202279202279202,
+        "approxRootErrorPx": 13.364908297426615,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6018607867553457,
+        "heightRatio": 0.7468686055704513
+      },
+      "after": {
+        "centerErrorPx": 6.106341550483659,
+        "centerErrorNailWidths": 0.20561385783150796,
+        "iou": 0.4202279202279202,
+        "approxRootErrorPx": 13.364908297426615,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6018607867553457,
+        "heightRatio": 0.7468686055704513
+      },
+      "refined": false
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 1,
+      "component": 1,
+      "maskAspect": 1.18534672142248,
+      "before": {
+        "centerErrorPx": 2.3943527060247978,
+        "centerErrorNailWidths": 0.08413445186562828,
+        "iou": 0.826302729528536,
+        "approxRootErrorPx": 20.24587590928145,
+        "angleErrorDeg": null,
+        "widthRatio": 1.2603509312655161,
+        "heightRatio": 0.7899446831373688
+      },
+      "after": {
+        "centerErrorPx": 2.3943527060247978,
+        "centerErrorNailWidths": 0.08413445186562828,
+        "iou": 0.826302729528536,
+        "approxRootErrorPx": 20.24587590928145,
+        "angleErrorDeg": null,
+        "widthRatio": 1.2603509312655161,
+        "heightRatio": 0.7899446831373688
+      },
+      "refined": true
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 1.2321123714571034,
+      "before": {
+        "centerErrorPx": 10.530692504092073,
+        "centerErrorNailWidths": 0.28361777896847773,
+        "iou": 0.40244780417566595,
+        "approxRootErrorPx": 30.978203572980387,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8335395514923584,
+        "heightRatio": 0.6448457410105064
+      },
+      "after": {
+        "centerErrorPx": 10.530692504092073,
+        "centerErrorNailWidths": 0.28361777896847773,
+        "iou": 0.40244780417566595,
+        "approxRootErrorPx": 30.978203572980387,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8335395514923584,
+        "heightRatio": 0.6448457410105064
+      },
+      "refined": true
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 2,
+      "component": 2,
+      "maskAspect": 1.1233704596577958,
+      "before": {
+        "centerErrorPx": 4.65462797223486,
+        "centerErrorNailWidths": 0.15128579477773996,
+        "iou": 0.5208816705336426,
+        "approxRootErrorPx": 25.70986522317503,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5920050038294836,
+        "heightRatio": 1.0435961046526512
+      },
+      "after": {
+        "centerErrorPx": 4.65462797223486,
+        "centerErrorNailWidths": 0.15128579477773996,
+        "iou": 0.5208816705336426,
+        "approxRootErrorPx": 25.70986522317503,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5920050038294836,
+        "heightRatio": 1.0435961046526512
+      },
+      "refined": true
+    },
+    {
+      "file": "4252e46c-e40f-4543-91ab-031917d46c5c.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.0700920058060512,
+      "before": {
+        "centerErrorPx": 12.984357992435534,
+        "centerErrorNailWidths": 0.5713311767878366,
+        "iou": 0.15202702702702703,
+        "approxRootErrorPx": 26.711895646012312,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6536697264044518,
+        "heightRatio": 0.8855719426168424
+      },
+      "after": {
+        "centerErrorPx": 5.028654464295299,
+        "centerErrorNailWidths": 0.2212683194978926,
+        "iou": 0.5368589743589743,
+        "approxRootErrorPx": 20.206254157664276,
+        "angleErrorDeg": null,
+        "widthRatio": 1.3727064254493486,
+        "heightRatio": 0.8855719426168424
+      },
+      "refined": true
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 4,
+      "maskAspect": 1.3641037383859667,
+      "before": {
+        "centerErrorPx": 4.053929347782001,
+        "centerErrorNailWidths": 0.16941828235157533,
+        "iou": 0.367047308319739,
+        "approxRootErrorPx": 6.112691261460075,
+        "angleErrorDeg": 18.262411893115313,
+        "widthRatio": 0.5818300758716015,
+        "heightRatio": 0.674378019385952
+      },
+      "after": {
+        "centerErrorPx": 4.053929347782001,
+        "centerErrorNailWidths": 0.16941828235157533,
+        "iou": 0.367047308319739,
+        "approxRootErrorPx": 6.112691261460075,
+        "angleErrorDeg": 18.262411893115313,
+        "widthRatio": 0.5818300758716015,
+        "heightRatio": 0.674378019385952
+      },
+      "refined": false
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 1,
+      "maskAspect": 1.1929524037462045,
+      "before": {
+        "centerErrorPx": 7.3964502767837725,
+        "centerErrorNailWidths": 0.19807186294546877,
+        "iou": 0.3218390804597701,
+        "approxRootErrorPx": 5.2279560286250675,
+        "angleErrorDeg": null,
+        "widthRatio": 0.486300740800523,
+        "heightRatio": 0.535793876598199
+      },
+      "after": {
+        "centerErrorPx": 7.3964502767837725,
+        "centerErrorNailWidths": 0.19807186294546877,
+        "iou": 0.3218390804597701,
+        "approxRootErrorPx": 5.2279560286250675,
+        "angleErrorDeg": null,
+        "widthRatio": 0.486300740800523,
+        "heightRatio": 0.535793876598199
+      },
+      "refined": false
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 2,
+      "maskAspect": 1.0644976004894857,
+      "before": {
+        "centerErrorPx": 13.396865405537302,
+        "centerErrorNailWidths": 0.2857580905941442,
+        "iou": 0.25741324921135644,
+        "approxRootErrorPx": 14.850864194530109,
+        "angleErrorDeg": null,
+        "widthRatio": 0.40456301029300484,
+        "heightRatio": 0.6820530269067192
+      },
+      "after": {
+        "centerErrorPx": 3.9774747005821016,
+        "centerErrorNailWidths": 0.0848404116499573,
+        "iou": 0.6987392169873922,
+        "approxRootErrorPx": 7.490950523991121,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8495823216153102,
+        "heightRatio": 0.6820530269067192
+      },
+      "refined": true
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 3,
+      "maskAspect": 1.2007222906003572,
+      "before": {
+        "centerErrorPx": 14.463762649451349,
+        "centerErrorNailWidths": 0.34918748060379845,
+        "iou": 0.23454545454545456,
+        "approxRootErrorPx": 4.230232878744427,
+        "angleErrorDeg": null,
+        "widthRatio": 0.4189274390165569,
+        "heightRatio": 0.6546488858917792
+      },
+      "after": {
+        "centerErrorPx": 5.284821437347991,
+        "centerErrorNailWidths": 0.12758737320806982,
+        "iou": 0.5827067669172933,
+        "approxRootErrorPx": 6.159995851142327,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8797476219347695,
+        "heightRatio": 0.6546488858917792
+      },
+      "refined": true
+    },
+    {
+      "file": "4c478f3e-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 4.7733764921399535,
+      "before": {
+        "centerErrorPx": 56.4319140136563,
+        "centerErrorNailWidths": 6.582099258805305,
+        "iou": 0,
+        "approxRootErrorPx": 53.7755313991532,
+        "angleErrorDeg": 11.478395216034869,
+        "widthRatio": 2.1180935293893124,
+        "heightRatio": 0.8246156743296218
+      },
+      "after": {
+        "centerErrorPx": 56.4319140136563,
+        "centerErrorNailWidths": 6.582099258805305,
+        "iou": 0,
+        "approxRootErrorPx": 53.7755313991532,
+        "angleErrorDeg": 11.478395216034869,
+        "widthRatio": 2.1180935293893124,
+        "heightRatio": 0.8246156743296218
+      },
+      "refined": false
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 2,
+      "maskAspect": 1.709286300025148,
+      "before": {
+        "centerErrorPx": 18.26177004241789,
+        "centerErrorNailWidths": 1.041951426008418,
+        "iou": 0.006269592476489028,
+        "approxRootErrorPx": 15.330327882061985,
+        "angleErrorDeg": 4.261987424011409,
+        "widthRatio": 0.865455201708276,
+        "heightRatio": 0.7984224383543398
+      },
+      "after": {
+        "centerErrorPx": 18.26177004241789,
+        "centerErrorNailWidths": 1.041951426008418,
+        "iou": 0.006269592476489028,
+        "approxRootErrorPx": 15.330327882061985,
+        "angleErrorDeg": 4.261987424011409,
+        "widthRatio": 0.865455201708276,
+        "heightRatio": 0.7984224383543398
+      },
+      "refined": false
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 1,
+      "maskAspect": 1.3525421355126281,
+      "before": {
+        "centerErrorPx": 21.86229182251793,
+        "centerErrorNailWidths": 0.6898275958482598,
+        "iou": 0.103397341211226,
+        "approxRootErrorPx": 31.87448061785841,
+        "angleErrorDeg": 42.677475532614324,
+        "widthRatio": 0.652024070318171,
+        "heightRatio": 0.9083822711943703
+      },
+      "after": {
+        "centerErrorPx": 21.86229182251793,
+        "centerErrorNailWidths": 0.6898275958482598,
+        "iou": 0.103397341211226,
+        "approxRootErrorPx": 31.87448061785841,
+        "angleErrorDeg": 42.677475532614324,
+        "widthRatio": 0.652024070318171,
+        "heightRatio": 0.9083822711943703
+      },
+      "refined": false
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 0,
+      "maskAspect": 1.1343626324378224,
+      "before": {
+        "centerErrorPx": 23.55970723443319,
+        "centerErrorNailWidths": 0.7641824960111625,
+        "iou": 0.0883935434281322,
+        "approxRootErrorPx": 22.696636624397158,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6132203317381554,
+        "heightRatio": 1.0147777989981823
+      },
+      "after": {
+        "centerErrorPx": 23.55970723443319,
+        "centerErrorNailWidths": 0.7641824960111625,
+        "iou": 0.0883935434281322,
+        "approxRootErrorPx": 22.696636624397158,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6132203317381554,
+        "heightRatio": 1.0147777989981823
+      },
+      "refined": false
+    },
+    {
+      "file": "4c47ee66-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 3,
+      "maskAspect": 1.438404435805855,
+      "before": {
+        "centerErrorPx": 29.915569649795405,
+        "centerErrorNailWidths": 1.0147071299328856,
+        "iou": 0.004307250538406317,
+        "approxRootErrorPx": 38.026493997216,
+        "angleErrorDeg": 44.92959598702322,
+        "widthRatio": 0.6710839351725746,
+        "heightRatio": 0.8644344660989268
+      },
+      "after": {
+        "centerErrorPx": 29.915569649795405,
+        "centerErrorNailWidths": 1.0147071299328856,
+        "iou": 0.004307250538406317,
+        "approxRootErrorPx": 38.026493997216,
+        "angleErrorDeg": 44.92959598702322,
+        "widthRatio": 0.6710839351725746,
+        "heightRatio": 0.8644344660989268
+      },
+      "refined": false
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.2920667584032965,
+      "before": {
+        "centerErrorPx": 8.250282748948,
+        "centerErrorNailWidths": 0.48318858267208165,
+        "iou": 0.31451612903225806,
+        "approxRootErrorPx": 7.112440760577932,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7677003252660543,
+        "heightRatio": 0.83786627214446
+      },
+      "after": {
+        "centerErrorPx": 8.250282748948,
+        "centerErrorNailWidths": 0.48318858267208165,
+        "iou": 0.31451612903225806,
+        "approxRootErrorPx": 7.112440760577932,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7677003252660543,
+        "heightRatio": 0.83786627214446
+      },
+      "refined": false
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 2,
+      "maskAspect": 1.2184507671660385,
+      "before": {
+        "centerErrorPx": 8.589059786904288,
+        "centerErrorNailWidths": 0.47542774094582274,
+        "iou": 0.37154989384288745,
+        "approxRootErrorPx": 10.892015446042906,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9695372101947651,
+        "heightRatio": 1.1749763898221457
+      },
+      "after": {
+        "centerErrorPx": 8.589059786904288,
+        "centerErrorNailWidths": 0.47542774094582274,
+        "iou": 0.37154989384288745,
+        "approxRootErrorPx": 10.892015446042906,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9695372101947651,
+        "heightRatio": 1.1749763898221457
+      },
+      "refined": false
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 1,
+      "maskAspect": 1.0827535174156004,
+      "before": {
+        "centerErrorPx": 9.192408632633683,
+        "centerErrorNailWidths": 0.4879952909381693,
+        "iou": 0.3034934497816594,
+        "approxRootErrorPx": 13.791010457161429,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8885212921993823,
+        "heightRatio": 1.1664435933671515
+      },
+      "after": {
+        "centerErrorPx": 9.192408632633683,
+        "centerErrorNailWidths": 0.4879952909381693,
+        "iou": 0.3034934497816594,
+        "approxRootErrorPx": 13.791010457161429,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8885212921993823,
+        "heightRatio": 1.1664435933671515
+      },
+      "refined": false
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.190232156706162,
+      "before": {
+        "centerErrorPx": 10.602420004475857,
+        "centerErrorNailWidths": 0.5178138856958735,
+        "iou": 0.3284072249589491,
+        "approxRootErrorPx": 14.21132324440687,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8554493022462891,
+        "heightRatio": 1.331222090600424
+      },
+      "after": {
+        "centerErrorPx": 10.602420004475857,
+        "centerErrorNailWidths": 0.5178138856958735,
+        "iou": 0.3284072249589491,
+        "approxRootErrorPx": 14.21132324440687,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8554493022462891,
+        "heightRatio": 1.331222090600424
+      },
+      "refined": false
+    },
+    {
+      "file": "4c484f8c-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 0,
+      "maskAspect": 1.0920909794022164,
+      "before": {
+        "centerErrorPx": 13.903915965637491,
+        "centerErrorNailWidths": 0.6126459023296161,
+        "iou": 0.21700879765395895,
+        "approxRootErrorPx": 15.880363841710913,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8060896249871794,
+        "heightRatio": 1.138399024185024
+      },
+      "after": {
+        "centerErrorPx": 13.903915965637491,
+        "centerErrorNailWidths": 0.6126459023296161,
+        "iou": 0.21700879765395895,
+        "approxRootErrorPx": 15.880363841710913,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8060896249871794,
+        "heightRatio": 1.138399024185024
+      },
+      "refined": false
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.318414645387823,
+      "before": {
+        "centerErrorPx": 6.42188760726397,
+        "centerErrorNailWidths": 0.3715029197990086,
+        "iou": 0.4034090909090909,
+        "approxRootErrorPx": 4.366723143513337,
+        "angleErrorDeg": null,
+        "widthRatio": 0.776266752279286,
+        "heightRatio": 0.8312111685267972
+      },
+      "after": {
+        "centerErrorPx": 3.043410034506948,
+        "centerErrorNailWidths": 0.17605971687919925,
+        "iou": 0.4334470989761092,
+        "approxRootErrorPx": 2.6511692691627373,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6986400770513576,
+        "heightRatio": 0.5818478179687578
+      },
+      "refined": true
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 2,
+      "maskAspect": 1.1121205918665336,
+      "before": {
+        "centerErrorPx": 9.03312146251069,
+        "centerErrorNailWidths": 0.45317671632232864,
+        "iou": 0.3643122676579926,
+        "approxRootErrorPx": 12.25449402574374,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9032207153178897,
+        "heightRatio": 1.2419096591535022
+      },
+      "after": {
+        "centerErrorPx": 9.03312146251069,
+        "centerErrorNailWidths": 0.45317671632232864,
+        "iou": 0.3643122676579926,
+        "approxRootErrorPx": 12.25449402574374,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9032207153178897,
+        "heightRatio": 1.2419096591535022
+      },
+      "refined": false
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 1,
+      "maskAspect": 1.1848783302885597,
+      "before": {
+        "centerErrorPx": 9.870046519512979,
+        "centerErrorNailWidths": 0.5258742443445601,
+        "iou": 0.2933070866141732,
+        "approxRootErrorPx": 12.05641439453696,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9166062082754037,
+        "heightRatio": 1.0973914622059118
+      },
+      "after": {
+        "centerErrorPx": 9.870046519512979,
+        "centerErrorNailWidths": 0.5258742443445601,
+        "iou": 0.2933070866141732,
+        "approxRootErrorPx": 12.05641439453696,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9166062082754037,
+        "heightRatio": 1.0973914622059118
+      },
+      "refined": false
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.2019860939052278,
+      "before": {
+        "centerErrorPx": 12.203742939782412,
+        "centerErrorNailWidths": 0.48636429916762564,
+        "iou": 0.3174825174825175,
+        "approxRootErrorPx": 18.148481508969585,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7175179809077623,
+        "heightRatio": 1.1321305302769613
+      },
+      "after": {
+        "centerErrorPx": 12.203742939782412,
+        "centerErrorNailWidths": 0.48636429916762564,
+        "iou": 0.3174825174825175,
+        "approxRootErrorPx": 18.148481508969585,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7175179809077623,
+        "heightRatio": 1.1321305302769613
+      },
+      "refined": false
+    },
+    {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 0,
+      "maskAspect": 1.1855186303458716,
+      "before": {
+        "centerErrorPx": 14.355066013504391,
+        "centerErrorNailWidths": 0.6787845486788558,
+        "iou": 0.2217453505007153,
+        "approxRootErrorPx": 16.750368100608927,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8891524904488646,
+        "heightRatio": 1.1857644962633493
+      },
+      "after": {
+        "centerErrorPx": 14.355066013504391,
+        "centerErrorNailWidths": 0.6787845486788558,
+        "iou": 0.2217453505007153,
+        "approxRootErrorPx": 16.750368100608927,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8891524904488646,
+        "heightRatio": 1.1857644962633493
+      },
+      "refined": false
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.4224950714830957,
+      "before": {
+        "centerErrorPx": 8.847834289017873,
+        "centerErrorNailWidths": 0.5444166340320095,
+        "iou": 0.3182957393483709,
+        "approxRootErrorPx": 7.538659512035246,
+        "angleErrorDeg": 2.743792199349002,
+        "widthRatio": 0.8769310885934987,
+        "heightRatio": 0.8701460675611329
+      },
+      "after": {
+        "centerErrorPx": 8.847834289017873,
+        "centerErrorNailWidths": 0.5444166340320095,
+        "iou": 0.3182957393483709,
+        "approxRootErrorPx": 7.538659512035246,
+        "angleErrorDeg": 2.743792199349002,
+        "widthRatio": 0.8769310885934987,
+        "heightRatio": 0.8701460675611329
+      },
+      "refined": false
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 2,
+      "maskAspect": 1.1896183776879719,
+      "before": {
+        "centerErrorPx": 12.02492755469806,
+        "centerErrorNailWidths": 0.5293601682903304,
+        "iou": 0.30428571428571427,
+        "approxRootErrorPx": 13.377393114290737,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8390299823024226,
+        "heightRatio": 1.0824290696059022
+      },
+      "after": {
+        "centerErrorPx": 12.02492755469806,
+        "centerErrorNailWidths": 0.5293601682903304,
+        "iou": 0.30428571428571427,
+        "approxRootErrorPx": 13.377393114290737,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8390299823024226,
+        "heightRatio": 1.0824290696059022
+      },
+      "refined": false
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 1,
+      "maskAspect": 1.0143621167307113,
+      "before": {
+        "centerErrorPx": 12.654647759412637,
+        "centerErrorNailWidths": 0.5621200031196395,
+        "iou": 0.216260162601626,
+        "approxRootErrorPx": 17.151073067168532,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8089908506902374,
+        "heightRatio": 1.1415483930484944
+      },
+      "after": {
+        "centerErrorPx": 12.654647759412637,
+        "centerErrorNailWidths": 0.5621200031196395,
+        "iou": 0.216260162601626,
+        "approxRootErrorPx": 17.151073067168532,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8089908506902374,
+        "heightRatio": 1.1415483930484944
+      },
+      "refined": false
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.1672162873366037,
+      "before": {
+        "centerErrorPx": 12.962837061956806,
+        "centerErrorNailWidths": 0.48586451679196063,
+        "iou": 0.32107843137254904,
+        "approxRootErrorPx": 17.38453291659957,
+        "angleErrorDeg": null,
+        "widthRatio": 0.714370990777192,
+        "heightRatio": 1.159703272801076
+      },
+      "after": {
+        "centerErrorPx": 12.962837061956806,
+        "centerErrorNailWidths": 0.48586451679196063,
+        "iou": 0.32107843137254904,
+        "approxRootErrorPx": 17.38453291659957,
+        "angleErrorDeg": null,
+        "widthRatio": 0.714370990777192,
+        "heightRatio": 1.159703272801076
+      },
+      "refined": false
+    },
+    {
+      "file": "4c490eae-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 0,
+      "maskAspect": 1.0482309818102267,
+      "before": {
+        "centerErrorPx": 17.903606544441153,
+        "centerErrorNailWidths": 0.6852213112766713,
+        "iou": 0.13901345291479822,
+        "approxRootErrorPx": 26.265743841754585,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7618761350796575,
+        "heightRatio": 1.1343728809072053
+      },
+      "after": {
+        "centerErrorPx": 17.903606544441153,
+        "centerErrorNailWidths": 0.6852213112766713,
+        "iou": 0.13901345291479822,
+        "approxRootErrorPx": 26.265743841754585,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7618761350796575,
+        "heightRatio": 1.1343728809072053
+      },
+      "refined": false
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.2430689561248365,
+      "before": {
+        "centerErrorPx": 8.340865748051797,
+        "centerErrorNailWidths": 0.5698639397364882,
+        "iou": 0.2210144927536232,
+        "approxRootErrorPx": 7.3607832392434585,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7385478987060057,
+        "heightRatio": 0.8415807649114686
+      },
+      "after": {
+        "centerErrorPx": 8.340865748051797,
+        "centerErrorNailWidths": 0.5698639397364882,
+        "iou": 0.2210144927536232,
+        "approxRootErrorPx": 7.3607832392434585,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7385478987060057,
+        "heightRatio": 0.8415807649114686
+      },
+      "refined": false
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 2,
+      "maskAspect": 1.0363942912218844,
+      "before": {
+        "centerErrorPx": 8.810440203623761,
+        "centerErrorNailWidths": 0.5241411437983784,
+        "iou": 0.2860696517412935,
+        "approxRootErrorPx": 20.208635127182852,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0023506923695547,
+        "heightRatio": 1.332632759813836
+      },
+      "after": {
+        "centerErrorPx": 8.810440203623761,
+        "centerErrorNailWidths": 0.5241411437983784,
+        "iou": 0.2860696517412935,
+        "approxRootErrorPx": 20.208635127182852,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0023506923695547,
+        "heightRatio": 1.332632759813836
+      },
+      "refined": false
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 1,
+      "maskAspect": 1.0177965519586474,
+      "before": {
+        "centerErrorPx": 9.505439684060338,
+        "centerErrorNailWidths": 0.5000186185399177,
+        "iou": 0.2433734939759036,
+        "approxRootErrorPx": 11.62021747978376,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8252202361595274,
+        "heightRatio": 1.0637082755450231
+      },
+      "after": {
+        "centerErrorPx": 9.505439684060338,
+        "centerErrorNailWidths": 0.5000186185399177,
+        "iou": 0.2433734939759036,
+        "approxRootErrorPx": 11.62021747978376,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8252202361595274,
+        "heightRatio": 1.0637082755450231
+      },
+      "refined": false
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.1361672387787733,
+      "before": {
+        "centerErrorPx": 10.708182764904905,
+        "centerErrorNailWidths": 0.4547987527874172,
+        "iou": 0.3371757925072046,
+        "approxRootErrorPx": 13.387385459589456,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7156036393602233,
+        "heightRatio": 1.1990398553315105
+      },
+      "after": {
+        "centerErrorPx": 10.708182764904905,
+        "centerErrorNailWidths": 0.4547987527874172,
+        "iou": 0.3371757925072046,
+        "approxRootErrorPx": 13.387385459589456,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7156036393602233,
+        "heightRatio": 1.1990398553315105
+      },
+      "refined": false
+    },
+    {
+      "file": "4c49b502-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 0,
+      "maskAspect": 1.023646400728446,
+      "before": {
+        "centerErrorPx": 12.46840067285416,
+        "centerErrorNailWidths": 0.6571509236082045,
+        "iou": 0.17357001972386588,
+        "approxRootErrorPx": 17.718408629609517,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9274889997169364,
+        "heightRatio": 1.2593548228012668
+      },
+      "after": {
+        "centerErrorPx": 12.46840067285416,
+        "centerErrorNailWidths": 0.6571509236082045,
+        "iou": 0.17357001972386588,
+        "approxRootErrorPx": 17.718408629609517,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9274889997169364,
+        "heightRatio": 1.2593548228012668
+      },
+      "refined": false
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.1863207545244012,
+      "before": {
+        "centerErrorPx": 7.750621782831719,
+        "centerErrorNailWidths": 0.4640776244951089,
+        "iou": 0.3527777777777778,
+        "approxRootErrorPx": 7.978382743186763,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8611342348067549,
+        "heightRatio": 1.0230634050814646
+      },
+      "after": {
+        "centerErrorPx": 7.750621782831719,
+        "centerErrorNailWidths": 0.4640776244951089,
+        "iou": 0.3527777777777778,
+        "approxRootErrorPx": 7.978382743186763,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8611342348067549,
+        "heightRatio": 1.0230634050814646
+      },
+      "refined": false
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 1,
+      "maskAspect": 1.0764113711851273,
+      "before": {
+        "centerErrorPx": 10.215922495284,
+        "centerErrorNailWidths": 0.49863591323533163,
+        "iou": 0.30335097001763667,
+        "approxRootErrorPx": 14.291120893439018,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9143719436599858,
+        "heightRatio": 1.2076693266061194
+      },
+      "after": {
+        "centerErrorPx": 5.337475188170054,
+        "centerErrorNailWidths": 0.260520458730253,
+        "iou": 0.4883227176220807,
+        "approxRootErrorPx": 7.38295383863222,
+        "angleErrorDeg": null,
+        "widthRatio": 1.1886835267579818,
+        "heightRatio": 0.8453685286242835
+      },
+      "refined": true
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 2,
+      "maskAspect": 1.0810422081268354,
+      "before": {
+        "centerErrorPx": 10.665817919723468,
+        "centerErrorNailWidths": 0.5308690933474531,
+        "iou": 0.3055555555555556,
+        "approxRootErrorPx": 15.849611633915961,
+        "angleErrorDeg": null,
+        "widthRatio": 0.975785277969427,
+        "heightRatio": 1.3006459036502782
+      },
+      "after": {
+        "centerErrorPx": 10.665817919723468,
+        "centerErrorNailWidths": 0.5308690933474531,
+        "iou": 0.3055555555555556,
+        "approxRootErrorPx": 15.849611633915961,
+        "angleErrorDeg": null,
+        "widthRatio": 0.975785277969427,
+        "heightRatio": 1.3006459036502782
+      },
+      "refined": false
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.312863277128581,
+      "before": {
+        "centerErrorPx": 11.519392145108462,
+        "centerErrorNailWidths": 0.47577779675197884,
+        "iou": 0.39856801909307876,
+        "approxRootErrorPx": 14.302190583080026,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8097213545508339,
+        "heightRatio": 1.173102672872485
+      },
+      "after": {
+        "centerErrorPx": 11.519392145108462,
+        "centerErrorNailWidths": 0.47577779675197884,
+        "iou": 0.39856801909307876,
+        "approxRootErrorPx": 14.302190583080026,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8097213545508339,
+        "heightRatio": 1.173102672872485
+      },
+      "refined": false
+    },
+    {
+      "file": "4c4a0dd6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 0,
+      "maskAspect": 1.0351560798571953,
+      "before": {
+        "centerErrorPx": 13.437197830529584,
+        "centerErrorNailWidths": 0.6042395171685148,
+        "iou": 0.2318840579710145,
+        "approxRootErrorPx": 25.417136614324846,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9207606326042144,
+        "heightRatio": 1.3185857578892295
+      },
+      "after": {
+        "centerErrorPx": 13.437197830529584,
+        "centerErrorNailWidths": 0.6042395171685148,
+        "iou": 0.2318840579710145,
+        "approxRootErrorPx": 25.417136614324846,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9207606326042144,
+        "heightRatio": 1.3185857578892295
+      },
+      "refined": false
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.3253557135096043,
+      "before": {
+        "centerErrorPx": 11.446003995474731,
+        "centerErrorNailWidths": 0.5536412888064194,
+        "iou": 0.2585034013605442,
+        "approxRootErrorPx": 9.88504387438623,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7698644283467936,
+        "heightRatio": 0.8194101905222669
+      },
+      "after": {
+        "centerErrorPx": 11.446003995474731,
+        "centerErrorNailWidths": 0.5536412888064194,
+        "iou": 0.2585034013605442,
+        "approxRootErrorPx": 9.88504387438623,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7698644283467936,
+        "heightRatio": 0.8194101905222669
+      },
+      "refined": false
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 1,
+      "maskAspect": 1.0694443606931068,
+      "before": {
+        "centerErrorPx": 13.798652305246156,
+        "centerErrorNailWidths": 0.5825613964829826,
+        "iou": 0.24935400516795866,
+        "approxRootErrorPx": 15.961734164237116,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8963721118573971,
+        "heightRatio": 1.1706767905924156
+      },
+      "after": {
+        "centerErrorPx": 13.798652305246156,
+        "centerErrorNailWidths": 0.5825613964829826,
+        "iou": 0.24935400516795866,
+        "approxRootErrorPx": 15.961734164237116,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8963721118573971,
+        "heightRatio": 1.1706767905924156
+      },
+      "refined": false
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 2,
+      "maskAspect": 1.0403484086459291,
+      "before": {
+        "centerErrorPx": 13.829251150598001,
+        "centerErrorNailWidths": 0.5660247770956648,
+        "iou": 0.24907521578298397,
+        "approxRootErrorPx": 17.798375331988076,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9094192478369363,
+        "heightRatio": 1.258337781914385
+      },
+      "after": {
+        "centerErrorPx": 13.829251150598001,
+        "centerErrorNailWidths": 0.5660247770956648,
+        "iou": 0.24907521578298397,
+        "approxRootErrorPx": 17.798375331988076,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9094192478369363,
+        "heightRatio": 1.258337781914385
+      },
+      "refined": false
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.2082558534301229,
+      "before": {
+        "centerErrorPx": 15.085590727955811,
+        "centerErrorNailWidths": 0.5147346839286036,
+        "iou": 0.290990990990991,
+        "approxRootErrorPx": 21.376808889368135,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7581383663220747,
+        "heightRatio": 1.196370882998406
+      },
+      "after": {
+        "centerErrorPx": 15.085590727955811,
+        "centerErrorNailWidths": 0.5147346839286036,
+        "iou": 0.290990990990991,
+        "approxRootErrorPx": 21.376808889368135,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7581383663220747,
+        "heightRatio": 1.196370882998406
+      },
+      "refined": false
+    },
+    {
+      "file": "4c4a6402-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 0,
+      "maskAspect": 1.0724714492206144,
+      "before": {
+        "centerErrorPx": 17.724779731178547,
+        "centerErrorNailWidths": 0.7193016170404332,
+        "iou": 0.18503538928210314,
+        "approxRootErrorPx": 21.979628859644297,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9417657612757567,
+        "heightRatio": 1.3216413719178863
+      },
+      "after": {
+        "centerErrorPx": 17.724779731178547,
+        "centerErrorNailWidths": 0.7193016170404332,
+        "iou": 0.18503538928210314,
+        "approxRootErrorPx": 21.979628859644297,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9417657612757567,
+        "heightRatio": 1.3216413719178863
+      },
+      "refined": false
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 4,
+      "component": 4,
+      "maskAspect": 1.0610154679263903,
+      "before": {
+        "centerErrorPx": 2.234765912286389,
+        "centerErrorNailWidths": 0.06905046348419333,
+        "iou": 0.7278401997503121,
+        "approxRootErrorPx": 11.954011842548011,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8571252616602894,
+        "heightRatio": 0.7803966974882017
+      },
+      "after": {
+        "centerErrorPx": 2.234765912286389,
+        "centerErrorNailWidths": 0.06905046348419333,
+        "iou": 0.7278401997503121,
+        "approxRootErrorPx": 11.954011842548011,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8571252616602894,
+        "heightRatio": 0.7803966974882017
+      },
+      "refined": true
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 3,
+      "component": 3,
+      "maskAspect": 1.0639964958548025,
+      "before": {
+        "centerErrorPx": 17.385522183505195,
+        "centerErrorNailWidths": 0.46695339710171524,
+        "iou": 0.2257142857142857,
+        "approxRootErrorPx": 16.2439489125281,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5628088933060165,
+        "heightRatio": 0.9836840904751747
+      },
+      "after": {
+        "centerErrorPx": 17.385522183505195,
+        "centerErrorNailWidths": 0.46695339710171524,
+        "iou": 0.2257142857142857,
+        "approxRootErrorPx": 16.2439489125281,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5628088933060165,
+        "heightRatio": 0.9836840904751747
+      },
+      "refined": false
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 1,
+      "component": 1,
+      "maskAspect": 1.0657873570637046,
+      "before": {
+        "centerErrorPx": 19.234666912083085,
+        "centerErrorNailWidths": 0.5456592542663098,
+        "iou": 0.19869942196531792,
+        "approxRootErrorPx": 19.375647477836456,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6220940748979584,
+        "heightRatio": 1.0228006141081118
+      },
+      "after": {
+        "centerErrorPx": 19.234666912083085,
+        "centerErrorNailWidths": 0.5456592542663098,
+        "iou": 0.19869942196531792,
+        "approxRootErrorPx": 19.375647477836456,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6220940748979584,
+        "heightRatio": 1.0228006141081118
+      },
+      "refined": false
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 4.122964872795945,
+      "before": {
+        "centerErrorPx": 19.503679506029282,
+        "centerErrorNailWidths": 2.825741403691399,
+        "iou": 0.08062418725617686,
+        "approxRootErrorPx": 25.625768222833106,
+        "angleErrorDeg": 10.275355989226,
+        "widthRatio": 3.1771306415477842,
+        "heightRatio": 1.441565043628851
+      },
+      "after": {
+        "centerErrorPx": 19.503679506029282,
+        "centerErrorNailWidths": 2.825741403691399,
+        "iou": 0.08062418725617686,
+        "approxRootErrorPx": 25.625768222833106,
+        "angleErrorDeg": 10.275355989226,
+        "widthRatio": 3.1771306415477842,
+        "heightRatio": 1.441565043628851
+      },
+      "refined": false
+    },
+    {
+      "file": "5fad3947-76d7-4352-9329-4a92f898dd59.jpg",
+      "finger": 2,
+      "component": 2,
+      "maskAspect": 1.0759981052329535,
+      "before": {
+        "centerErrorPx": 20.033141126350067,
+        "centerErrorNailWidths": 0.5058857625817451,
+        "iou": 0.22150029533372712,
+        "approxRootErrorPx": 20.581925742100477,
+        "angleErrorDeg": null,
+        "widthRatio": 0.578372933072361,
+        "heightRatio": 1.0066390242292034
+      },
+      "after": {
+        "centerErrorPx": 20.033141126350067,
+        "centerErrorNailWidths": 0.5058857625817451,
+        "iou": 0.22150029533372712,
+        "approxRootErrorPx": 20.581925742100477,
+        "angleErrorDeg": null,
+        "widthRatio": 0.578372933072361,
+        "heightRatio": 1.0066390242292034
+      },
+      "refined": false
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 2,
+      "component": 2,
+      "maskAspect": 1.051163460950088,
+      "before": {
+        "centerErrorPx": 4.932921454550949,
+        "centerErrorNailWidths": 0.13649113115477965,
+        "iou": 0.6906976744186046,
+        "approxRootErrorPx": 16.114344020644992,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0267829589128954,
+        "heightRatio": 1.0364548524274897
+      },
+      "after": {
+        "centerErrorPx": 4.932921454550949,
+        "centerErrorNailWidths": 0.13649113115477965,
+        "iou": 0.6906976744186046,
+        "approxRootErrorPx": 16.114344020644992,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0267829589128954,
+        "heightRatio": 1.0364548524274897
+      },
+      "refined": true
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 4,
+      "component": 0,
+      "maskAspect": 1.0509235183116654,
+      "before": {
+        "centerErrorPx": 1.2590344864505951,
+        "centerErrorNailWidths": 0.04226124956593948,
+        "iou": 0.7347767253044655,
+        "approxRootErrorPx": 10.732958832180321,
+        "angleErrorDeg": null,
+        "widthRatio": 0.787541234276766,
+        "heightRatio": 1.1512287635123897
+      },
+      "after": {
+        "centerErrorPx": 1.2590344864505951,
+        "centerErrorNailWidths": 0.04226124956593948,
+        "iou": 0.7347767253044655,
+        "approxRootErrorPx": 10.732958832180321,
+        "angleErrorDeg": null,
+        "widthRatio": 0.787541234276766,
+        "heightRatio": 1.1512287635123897
+      },
+      "refined": true
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 1,
+      "component": 3,
+      "maskAspect": 1.1089681884227889,
+      "before": {
+        "centerErrorPx": 12.641658973556913,
+        "centerErrorNailWidths": 0.3569719493224721,
+        "iou": 0.37469782433521354,
+        "approxRootErrorPx": 13.548505764437515,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7484803519899904,
+        "heightRatio": 0.9095010800480853
+      },
+      "after": {
+        "centerErrorPx": 12.641658973556913,
+        "centerErrorNailWidths": 0.3569719493224721,
+        "iou": 0.37469782433521354,
+        "approxRootErrorPx": 13.548505764437515,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7484803519899904,
+        "heightRatio": 0.9095010800480853
+      },
+      "refined": false
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 3,
+      "component": 1,
+      "maskAspect": 1.054000401663378,
+      "before": {
+        "centerErrorPx": 1.581137023594151,
+        "centerErrorNailWidths": 0.04414173285705936,
+        "iou": 0.8211227402473834,
+        "approxRootErrorPx": 10.71821557454092,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8575573893990357,
+        "heightRatio": 1.043184963006697
+      },
+      "after": {
+        "centerErrorPx": 1.581137023594151,
+        "centerErrorNailWidths": 0.04414173285705936,
+        "iou": 0.8211227402473834,
+        "approxRootErrorPx": 10.71821557454092,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8575573893990357,
+        "heightRatio": 1.043184963006697
+      },
+      "refined": true
+    },
+    {
+      "file": "865a1e90-7ad2-4ceb-b2a1-50b07875c5c7.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 3.346413122822519,
+      "before": {
+        "centerErrorPx": 18.697978100914398,
+        "centerErrorNailWidths": 2.052548199784524,
+        "iou": 0.11081081081081082,
+        "approxRootErrorPx": 28.757786339045733,
+        "angleErrorDeg": 0.5705498127164219,
+        "widthRatio": 2.950236727899169,
+        "heightRatio": 1.661387397897115
+      },
+      "after": {
+        "centerErrorPx": 18.697978100914398,
+        "centerErrorNailWidths": 2.052548199784524,
+        "iou": 0.11081081081081082,
+        "approxRootErrorPx": 28.757786339045733,
+        "angleErrorDeg": 0.5705498127164219,
+        "widthRatio": 2.950236727899169,
+        "heightRatio": 1.661387397897115
+      },
+      "refined": false
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 2.4175665718016717,
+      "before": {
+        "centerErrorPx": 11.072038339338496,
+        "centerErrorNailWidths": 1.4072983486787733,
+        "iou": 0.12009237875288684,
+        "approxRootErrorPx": 14.637659396926203,
+        "angleErrorDeg": 10.091368847956119,
+        "widthRatio": 2.294989271576271,
+        "heightRatio": 1.4450674103371808
+      },
+      "after": {
+        "centerErrorPx": 11.072038339338496,
+        "centerErrorNailWidths": 1.4072983486787733,
+        "iou": 0.12009237875288684,
+        "approxRootErrorPx": 14.637659396926203,
+        "angleErrorDeg": 10.091368847956119,
+        "widthRatio": 2.294989271576271,
+        "heightRatio": 1.4450674103371808
+      },
+      "refined": false
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 4,
+      "component": 1,
+      "maskAspect": 1.2653937736318788,
+      "before": {
+        "centerErrorPx": 11.25351111226851,
+        "centerErrorNailWidths": 0.8555390664645139,
+        "iou": 0.07453416149068323,
+        "approxRootErrorPx": 12.08544387642545,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0261886750404094,
+        "heightRatio": 1.1402021258227704
+      },
+      "after": {
+        "centerErrorPx": 11.25351111226851,
+        "centerErrorNailWidths": 0.8555390664645139,
+        "iou": 0.07453416149068323,
+        "approxRootErrorPx": 12.08544387642545,
+        "angleErrorDeg": null,
+        "widthRatio": 1.0261886750404094,
+        "heightRatio": 1.1402021258227704
+      },
+      "refined": false
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 1,
+      "component": 4,
+      "maskAspect": 1.0502560712336082,
+      "before": {
+        "centerErrorPx": 0.6094209352912462,
+        "centerErrorNailWidths": 0.02487532767974431,
+        "iou": 0.8761384335154827,
+        "approxRootErrorPx": 15.780282897447004,
+        "angleErrorDeg": null,
+        "widthRatio": 1.1760801203677065,
+        "heightRatio": 0.9359728198941539
+      },
+      "after": {
+        "centerErrorPx": 0.6094209352912462,
+        "centerErrorNailWidths": 0.02487532767974431,
+        "iou": 0.8761384335154827,
+        "approxRootErrorPx": 15.780282897447004,
+        "angleErrorDeg": null,
+        "widthRatio": 1.1760801203677065,
+        "heightRatio": 0.9359728198941539
+      },
+      "refined": true
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 2,
+      "component": 3,
+      "maskAspect": 1.0857852900805076,
+      "before": {
+        "centerErrorPx": 2.7502950815720477,
+        "centerErrorNailWidths": 0.11265597641608271,
+        "iou": 0.7582236842105263,
+        "approxRootErrorPx": 16.8274502030151,
+        "angleErrorDeg": null,
+        "widthRatio": 1.1340536048146284,
+        "heightRatio": 0.9726637382545854
+      },
+      "after": {
+        "centerErrorPx": 2.7502950815720477,
+        "centerErrorNailWidths": 0.11265597641608271,
+        "iou": 0.7582236842105263,
+        "approxRootErrorPx": 16.8274502030151,
+        "angleErrorDeg": null,
+        "widthRatio": 1.1340536048146284,
+        "heightRatio": 0.9726637382545854
+      },
+      "refined": true
+    },
+    {
+      "file": "964c11f9-fbe3-420e-8674-9bb356cb5d3f.jpg",
+      "finger": 3,
+      "component": 2,
+      "maskAspect": 1.1320502588970267,
+      "before": {
+        "centerErrorPx": 17.0284086329625,
+        "centerErrorNailWidths": 0.7692361593853827,
+        "iou": 0.138328530259366,
+        "approxRootErrorPx": 19.039709066701477,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7794057972822227,
+        "heightRatio": 1.1653315197653393
+      },
+      "after": {
+        "centerErrorPx": 17.0284086329625,
+        "centerErrorNailWidths": 0.7692361593853827,
+        "iou": 0.138328530259366,
+        "approxRootErrorPx": 19.039709066701477,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7794057972822227,
+        "heightRatio": 1.1653315197653393
+      },
+      "refined": false
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.8657699395152925,
+      "before": {
+        "centerErrorPx": 0.7434249319309267,
+        "centerErrorNailWidths": 0.051189407593639095,
+        "iou": 0.77,
+        "approxRootErrorPx": 1.4799488755766903,
+        "angleErrorDeg": 2.479585451109074,
+        "widthRatio": 0.8385368321654058,
+        "heightRatio": 0.9017851976279005
+      },
+      "after": {
+        "centerErrorPx": 0.7434249319309267,
+        "centerErrorNailWidths": 0.051189407593639095,
+        "iou": 0.77,
+        "approxRootErrorPx": 1.4799488755766903,
+        "angleErrorDeg": 2.479585451109074,
+        "widthRatio": 0.8385368321654058,
+        "heightRatio": 0.9017851976279005
+      },
+      "refined": true
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 1,
+      "component": 0,
+      "maskAspect": 1.5027521445521603,
+      "before": {
+        "centerErrorPx": 2.581063200950571,
+        "centerErrorNailWidths": 0.14651809327026216,
+        "iou": 0.5873015873015873,
+        "approxRootErrorPx": 1.0613963233589119,
+        "angleErrorDeg": 8.467136280578131,
+        "widthRatio": 0.6445772201522435,
+        "heightRatio": 0.9670052678193856
+      },
+      "after": {
+        "centerErrorPx": 2.581063200950571,
+        "centerErrorNailWidths": 0.14651809327026216,
+        "iou": 0.5873015873015873,
+        "approxRootErrorPx": 1.0613963233589119,
+        "angleErrorDeg": 8.467136280578131,
+        "widthRatio": 0.6445772201522435,
+        "heightRatio": 0.9670052678193856
+      },
+      "refined": true
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 3,
+      "component": 2,
+      "maskAspect": 1.7455268721366284,
+      "before": {
+        "centerErrorPx": 0.7750765225336828,
+        "centerErrorNailWidths": 0.04670257478386895,
+        "iou": 0.8661971830985915,
+        "approxRootErrorPx": 0.5963047647244382,
+        "angleErrorDeg": 3.443532129896198,
+        "widthRatio": 1.089640577525239,
+        "heightRatio": 1.0042493017830543
+      },
+      "after": {
+        "centerErrorPx": 0.7750765225336828,
+        "centerErrorNailWidths": 0.04670257478386895,
+        "iou": 0.8661971830985915,
+        "approxRootErrorPx": 0.5963047647244382,
+        "angleErrorDeg": 3.443532129896198,
+        "widthRatio": 1.089640577525239,
+        "heightRatio": 1.0042493017830543
+      },
+      "refined": true
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.8551377559102742,
+      "before": {
+        "centerErrorPx": 1.245070651529975,
+        "centerErrorNailWidths": 0.06303366024322878,
+        "iou": 0.8613138686131386,
+        "approxRootErrorPx": 2.5970413913103623,
+        "angleErrorDeg": 2.001205151295949,
+        "widthRatio": 0.9304189282102973,
+        "heightRatio": 0.9300904754406559
+      },
+      "after": {
+        "centerErrorPx": 1.245070651529975,
+        "centerErrorNailWidths": 0.06303366024322878,
+        "iou": 0.8613138686131386,
+        "approxRootErrorPx": 2.5970413913103623,
+        "angleErrorDeg": 2.001205151295949,
+        "widthRatio": 0.9304189282102973,
+        "heightRatio": 0.9300904754406559
+      },
+      "refined": true
+    },
+    {
+      "file": "9ABD7CB9-7617-4A66-8892-B335FDB0E89F.jpg",
+      "finger": 2,
+      "component": 1,
+      "maskAspect": 1.565029209831257,
+      "before": {
+        "centerErrorPx": 1.6765001799567218,
+        "centerErrorNailWidths": 0.09225399597034466,
+        "iou": 0.6774193548387096,
+        "approxRootErrorPx": 0.9318963937743671,
+        "angleErrorDeg": 9.091435567146505,
+        "widthRatio": 0.7396170643613547,
+        "heightRatio": 0.9092194765168534
+      },
+      "after": {
+        "centerErrorPx": 1.6765001799567218,
+        "centerErrorNailWidths": 0.09225399597034466,
+        "iou": 0.6774193548387096,
+        "approxRootErrorPx": 0.9318963937743671,
+        "angleErrorDeg": 9.091435567146505,
+        "widthRatio": 0.7396170643613547,
+        "heightRatio": 0.9092194765168534
+      },
+      "refined": true
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 4,
+      "component": 0,
+      "maskAspect": 1.3637590434892108,
+      "before": {
+        "centerErrorPx": 6.492376035245323,
+        "centerErrorNailWidths": 0.2961538588277731,
+        "iou": 0.4635879218472469,
+        "approxRootErrorPx": 3.1809382942577313,
+        "angleErrorDeg": 2.963193700829379,
+        "widthRatio": 0.7397201436713676,
+        "heightRatio": 0.7784706118103241
+      },
+      "after": {
+        "centerErrorPx": 6.492376035245323,
+        "centerErrorNailWidths": 0.2961538588277731,
+        "iou": 0.4635879218472469,
+        "approxRootErrorPx": 3.1809382942577313,
+        "angleErrorDeg": 2.963193700829379,
+        "widthRatio": 0.7397201436713676,
+        "heightRatio": 0.7784706118103241
+      },
+      "refined": false
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 3,
+      "component": 1,
+      "maskAspect": 1.1387787178351627,
+      "before": {
+        "centerErrorPx": 7.55848847806203,
+        "centerErrorNailWidths": 0.2610027568314512,
+        "iou": 0.465675057208238,
+        "approxRootErrorPx": 9.110395794786625,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6979321674419231,
+        "heightRatio": 1.0074803293395829
+      },
+      "after": {
+        "centerErrorPx": 1.0206391151854806,
+        "centerErrorNailWidths": 0.035243769116881006,
+        "iou": 0.8525641025641025,
+        "approxRootErrorPx": 4.43403264864313,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9073118176745,
+        "heightRatio": 1.0074803293395829
+      },
+      "refined": true
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.2773667367876633,
+      "before": {
+        "centerErrorPx": 11.132431424436753,
+        "centerErrorNailWidths": 0.3200339573732751,
+        "iou": 0.43364928909952605,
+        "approxRootErrorPx": 15.847716809579188,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7769776000093953,
+        "heightRatio": 0.8559435964499597
+      },
+      "after": {
+        "centerErrorPx": 11.132431424436753,
+        "centerErrorNailWidths": 0.3200339573732751,
+        "iou": 0.43364928909952605,
+        "approxRootErrorPx": 15.847716809579188,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7769776000093953,
+        "heightRatio": 0.8559435964499597
+      },
+      "refined": false
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 2,
+      "component": 2,
+      "maskAspect": 1.0908256207622058,
+      "before": {
+        "centerErrorPx": 16.582688382560285,
+        "centerErrorNailWidths": 0.5280842127006107,
+        "iou": 0.22807017543859648,
+        "approxRootErrorPx": 20.957260793093926,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7035269247600737,
+        "heightRatio": 1.0396416829240254
+      },
+      "after": {
+        "centerErrorPx": 16.582688382560285,
+        "centerErrorNailWidths": 0.5280842127006107,
+        "iou": 0.22807017543859648,
+        "approxRootErrorPx": 20.957260793093926,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7035269247600737,
+        "heightRatio": 1.0396416829240254
+      },
+      "refined": false
+    },
+    {
+      "file": "a3a73edd-1483-4413-addb-9a7264b5d853.jpg",
+      "finger": 1,
+      "component": 3,
+      "maskAspect": 1.1990276654059846,
+      "before": {
+        "centerErrorPx": 22.66798371350772,
+        "centerErrorNailWidths": 0.7910363298524784,
+        "iou": 0.09090909090909091,
+        "approxRootErrorPx": 26.065685741839477,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7381262868111529,
+        "heightRatio": 0.961762394398043
+      },
+      "after": {
+        "centerErrorPx": 22.66798371350772,
+        "centerErrorNailWidths": 0.7910363298524784,
+        "iou": 0.09090909090909091,
+        "approxRootErrorPx": 26.065685741839477,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7381262868111529,
+        "heightRatio": 0.961762394398043
+      },
+      "refined": false
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 2,
+      "component": 4,
+      "maskAspect": 1.1113590460080685,
+      "before": {
+        "centerErrorPx": 2.461898506603727,
+        "centerErrorNailWidths": 0.07653176944021964,
+        "iou": 0.17005988023952096,
+        "approxRootErrorPx": 9.75753851496904,
+        "angleErrorDeg": null,
+        "widthRatio": 0.31152057957644774,
+        "heightRatio": 0.502510243380647
+      },
+      "after": {
+        "centerErrorPx": 1.6774448767617183,
+        "centerErrorNailWidths": 0.05214586393900822,
+        "iou": 0.6110458284371327,
+        "approxRootErrorPx": 9.103369189526756,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6541932171105403,
+        "heightRatio": 0.9045184380851646
+      },
+      "refined": true
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 1,
+      "component": 3,
+      "maskAspect": 1.0691770342340845,
+      "before": {
+        "centerErrorPx": 7.513940358496129,
+        "centerErrorNailWidths": 0.23585519202665872,
+        "iou": 0.2467700258397933,
+        "approxRootErrorPx": 19.97989064217866,
+        "angleErrorDeg": null,
+        "widthRatio": 0.49692566795650406,
+        "heightRatio": 0.44941177184665165
+      },
+      "after": {
+        "centerErrorPx": 7.513940358496129,
+        "centerErrorNailWidths": 0.23585519202665872,
+        "iou": 0.2467700258397933,
+        "approxRootErrorPx": 19.97989064217866,
+        "angleErrorDeg": null,
+        "widthRatio": 0.49692566795650406,
+        "heightRatio": 0.44941177184665165
+      },
+      "refined": true
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 4,
+      "component": 1,
+      "maskAspect": 1.4254545305671265,
+      "before": {
+        "centerErrorPx": 3.4716446129094702,
+        "centerErrorNailWidths": 0.20908834729020898,
+        "iou": 0.27340823970037453,
+        "approxRootErrorPx": 3.29023832650182,
+        "angleErrorDeg": 20.929967672948806,
+        "widthRatio": 0.44302775895527136,
+        "heightRatio": 0.5454865878426286
+      },
+      "after": {
+        "centerErrorPx": 1.103910280283868,
+        "centerErrorNailWidths": 0.06648571550294347,
+        "iou": 0.545774647887324,
+        "approxRootErrorPx": 4.069895075675004,
+        "angleErrorDeg": 20.929967672948806,
+        "widthRatio": 0.5759360866418528,
+        "heightRatio": 0.9818758581167316
+      },
+      "refined": true
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 3,
+      "component": 2,
+      "maskAspect": 1.304280528051424,
+      "before": {
+        "centerErrorPx": 2.4979818569618857,
+        "centerErrorNailWidths": 0.09256719466410088,
+        "iou": 0.6804123711340206,
+        "approxRootErrorPx": 6.960496034162534,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6722621240373423,
+        "heightRatio": 0.9335479898969095
+      },
+      "after": {
+        "centerErrorPx": 2.4979818569618857,
+        "centerErrorNailWidths": 0.09256719466410088,
+        "iou": 0.6804123711340206,
+        "approxRootErrorPx": 6.960496034162534,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6722621240373423,
+        "heightRatio": 0.9335479898969095
+      },
+      "refined": true
+    },
+    {
+      "file": "b25b81b1-d562-4891-ae4f-83a82a2b64b5.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 3.6433760770181407,
+      "before": {
+        "centerErrorPx": 10.299028391293563,
+        "centerErrorNailWidths": 1.3293679952052995,
+        "iou": 0,
+        "approxRootErrorPx": 8.290369741661067,
+        "angleErrorDeg": 5.041590726457457,
+        "widthRatio": 1.2384507825106552,
+        "heightRatio": 0.5920865701089733
+      },
+      "after": {
+        "centerErrorPx": 10.299028391293563,
+        "centerErrorNailWidths": 1.3293679952052995,
+        "iou": 0,
+        "approxRootErrorPx": 8.290369741661067,
+        "angleErrorDeg": 5.041590726457457,
+        "widthRatio": 1.2384507825106552,
+        "heightRatio": 0.5920865701089733
+      },
+      "refined": false
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 2,
+      "component": 7,
+      "maskAspect": 1.2255408877124834,
+      "before": {
+        "centerErrorPx": 0.4010978291676792,
+        "centerErrorNailWidths": 0.012545610777211415,
+        "iou": 0.7935420743639922,
+        "approxRootErrorPx": 0.80133199453779,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8186637965888028,
+        "heightRatio": 1.0231628654156721
+      },
+      "after": {
+        "centerErrorPx": 0.4010978291676792,
+        "centerErrorNailWidths": 0.012545610777211415,
+        "iou": 0.7935420743639922,
+        "approxRootErrorPx": 0.80133199453779,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8186637965888028,
+        "heightRatio": 1.0231628654156721
+      },
+      "refined": true
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 1,
+      "component": 4,
+      "maskAspect": 1.3214426834519553,
+      "before": {
+        "centerErrorPx": 0.5061350138188463,
+        "centerErrorNailWidths": 0.01807609900309535,
+        "iou": 0.8593023255813953,
+        "approxRootErrorPx": 2.0831530057947263,
+        "angleErrorDeg": null,
+        "widthRatio": 0.937606173040432,
+        "heightRatio": 0.9757993815656388
+      },
+      "after": {
+        "centerErrorPx": 0.5061350138188463,
+        "centerErrorNailWidths": 0.01807609900309535,
+        "iou": 0.8593023255813953,
+        "approxRootErrorPx": 2.0831530057947263,
+        "angleErrorDeg": null,
+        "widthRatio": 0.937606173040432,
+        "heightRatio": 0.9757993815656388
+      },
+      "refined": true
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 3,
+      "component": 6,
+      "maskAspect": 1.2425212688267777,
+      "before": {
+        "centerErrorPx": 1.2245603463860457,
+        "centerErrorNailWidths": 0.043160937523842535,
+        "iou": 0.7463942307692307,
+        "approxRootErrorPx": 1.768281655875648,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8038149204202352,
+        "heightRatio": 0.9912151676227624
+      },
+      "after": {
+        "centerErrorPx": 1.2245603463860457,
+        "centerErrorNailWidths": 0.043160937523842535,
+        "iou": 0.7463942307692307,
+        "approxRootErrorPx": 1.768281655875648,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8038149204202352,
+        "heightRatio": 0.9912151676227624
+      },
+      "refined": true
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 4,
+      "component": 5,
+      "maskAspect": 1.441943180752231,
+      "before": {
+        "centerErrorPx": 0.9670443338381695,
+        "centerErrorNailWidths": 0.04320715429469851,
+        "iou": 0.6332179930795848,
+        "approxRootErrorPx": 2.0462197213167754,
+        "angleErrorDeg": 5.706039352345783,
+        "widthRatio": 0.6949030695132479,
+        "heightRatio": 0.9384947208323594
+      },
+      "after": {
+        "centerErrorPx": 0.9670443338381695,
+        "centerErrorNailWidths": 0.04320715429469851,
+        "iou": 0.6332179930795848,
+        "approxRootErrorPx": 2.0462197213167754,
+        "angleErrorDeg": 5.706039352345783,
+        "widthRatio": 0.6949030695132479,
+        "heightRatio": 0.9384947208323594
+      },
+      "refined": true
+    },
+    {
+      "file": "bf93c2e2-7b5f-4108-ae85-4ef68564d418.jpg",
+      "finger": 0,
+      "component": 3,
+      "maskAspect": 1.2251449863426975,
+      "before": {
+        "centerErrorPx": 39.17942794235467,
+        "centerErrorNailWidths": 3.330562869721997,
+        "iou": 0,
+        "approxRootErrorPx": 29.745744714648335,
+        "angleErrorDeg": null,
+        "widthRatio": 1.5892623570837778,
+        "heightRatio": 2.429459008262468
+      },
+      "after": {
+        "centerErrorPx": 39.17942794235467,
+        "centerErrorNailWidths": 3.330562869721997,
+        "iou": 0,
+        "approxRootErrorPx": 29.745744714648335,
+        "angleErrorDeg": null,
+        "widthRatio": 1.5892623570837778,
+        "heightRatio": 2.429459008262468
+      },
+      "refined": false
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 4,
+      "component": 0,
+      "maskAspect": 1.6538367068894098,
+      "before": {
+        "centerErrorPx": 2.7962721171940474,
+        "centerErrorNailWidths": 0.13887183858561616,
+        "iou": 0.3787575150300601,
+        "approxRootErrorPx": 4.27230702774666,
+        "angleErrorDeg": 7.792845097263012,
+        "widthRatio": 0.5664790798069681,
+        "heightRatio": 0.6316222593473346
+      },
+      "after": {
+        "centerErrorPx": 2.7962721171940474,
+        "centerErrorNailWidths": 0.13887183858561616,
+        "iou": 0.3787575150300601,
+        "approxRootErrorPx": 4.27230702774666,
+        "angleErrorDeg": 7.792845097263012,
+        "widthRatio": 0.5664790798069681,
+        "heightRatio": 0.6316222593473346
+      },
+      "refined": false
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 3,
+      "component": 2,
+      "maskAspect": 1.361074770951132,
+      "before": {
+        "centerErrorPx": 2.4772356134104276,
+        "centerErrorNailWidths": 0.07984507024033152,
+        "iou": 0.7352056168505516,
+        "approxRootErrorPx": 1.7038759052373358,
+        "angleErrorDeg": 10.38997450089596,
+        "widthRatio": 0.7897078162827065,
+        "heightRatio": 0.9158928385892894
+      },
+      "after": {
+        "centerErrorPx": 2.4772356134104276,
+        "centerErrorNailWidths": 0.07984507024033152,
+        "iou": 0.7352056168505516,
+        "approxRootErrorPx": 1.7038759052373358,
+        "angleErrorDeg": 10.38997450089596,
+        "widthRatio": 0.7897078162827065,
+        "heightRatio": 0.9158928385892894
+      },
+      "refined": true
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 2,
+      "component": 4,
+      "maskAspect": 1.3274273841793518,
+      "before": {
+        "centerErrorPx": 4.487911518006155,
+        "centerErrorNailWidths": 0.12506852134410465,
+        "iou": 0.6417468541820873,
+        "approxRootErrorPx": 0.29713294413595603,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6910270061118854,
+        "heightRatio": 0.9443156734889405
+      },
+      "after": {
+        "centerErrorPx": 4.487911518006155,
+        "centerErrorNailWidths": 0.12506852134410465,
+        "iou": 0.6417468541820873,
+        "approxRootErrorPx": 0.29713294413595603,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6910270061118854,
+        "heightRatio": 0.9443156734889405
+      },
+      "refined": true
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 0,
+      "component": 1,
+      "maskAspect": 3.571337469991902,
+      "before": {
+        "centerErrorPx": 9.849417042987815,
+        "centerErrorNailWidths": 0.7473815458987242,
+        "iou": 0.10492845786963434,
+        "approxRootErrorPx": 13.811093325408434,
+        "angleErrorDeg": 12.952434329851485,
+        "widthRatio": 1.1289491604283814,
+        "heightRatio": 0.5768211594421624
+      },
+      "after": {
+        "centerErrorPx": 9.849417042987815,
+        "centerErrorNailWidths": 0.7473815458987242,
+        "iou": 0.10492845786963434,
+        "approxRootErrorPx": 13.811093325408434,
+        "angleErrorDeg": 12.952434329851485,
+        "widthRatio": 1.1289491604283814,
+        "heightRatio": 0.5768211594421624
+      },
+      "refined": false
+    },
+    {
+      "file": "cc25f453-04ca-4c24-92bc-f26c5a94e78c.jpg",
+      "finger": 1,
+      "component": 3,
+      "maskAspect": 1.3420263324887582,
+      "before": {
+        "centerErrorPx": 4.59065898621149,
+        "centerErrorNailWidths": 0.13416943203212192,
+        "iou": 0.6752618855761483,
+        "approxRootErrorPx": 3.7679034624216703,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7493906168691714,
+        "heightRatio": 0.9803642663424534
+      },
+      "after": {
+        "centerErrorPx": 4.59065898621149,
+        "centerErrorNailWidths": 0.13416943203212192,
+        "iou": 0.6752618855761483,
+        "approxRootErrorPx": 3.7679034624216703,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7493906168691714,
+        "heightRatio": 0.9803642663424534
+      },
+      "refined": true
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 7,
+      "maskAspect": 1.971663237847443,
+      "before": {
+        "centerErrorPx": 15.987372517979486,
+        "centerErrorNailWidths": 0.8030630286877256,
+        "iou": 0.1962025316455696,
+        "approxRootErrorPx": 9.44564897729084,
+        "angleErrorDeg": 2.369900677405326,
+        "widthRatio": 0.7542985569977723,
+        "heightRatio": 0.6499857725328142
+      },
+      "after": {
+        "centerErrorPx": 15.987372517979486,
+        "centerErrorNailWidths": 0.8030630286877256,
+        "iou": 0.1962025316455696,
+        "approxRootErrorPx": 9.44564897729084,
+        "angleErrorDeg": 2.369900677405326,
+        "widthRatio": 0.7542985569977723,
+        "heightRatio": 0.6499857725328142
+      },
+      "refined": false
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 3,
+      "maskAspect": 1.7006344176397952,
+      "before": {
+        "centerErrorPx": 16.61654827651827,
+        "centerErrorNailWidths": 0.6319350630795298,
+        "iou": 0.3010471204188482,
+        "approxRootErrorPx": 11.820601090014321,
+        "angleErrorDeg": 3.0812942701968495,
+        "widthRatio": 0.711789764875242,
+        "heightRatio": 0.7841203766251132
+      },
+      "after": {
+        "centerErrorPx": 16.61654827651827,
+        "centerErrorNailWidths": 0.6319350630795298,
+        "iou": 0.3010471204188482,
+        "approxRootErrorPx": 11.820601090014321,
+        "angleErrorDeg": 3.0812942701968495,
+        "widthRatio": 0.711789764875242,
+        "heightRatio": 0.7841203766251132
+      },
+      "refined": false
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 8,
+      "maskAspect": 1.7365596677995072,
+      "before": {
+        "centerErrorPx": 18.147192355040964,
+        "centerErrorNailWidths": 0.6371150284719094,
+        "iou": 0.2837243401759531,
+        "approxRootErrorPx": 11.99286518191121,
+        "angleErrorDeg": 2.857655206456002,
+        "widthRatio": 0.6876581024802292,
+        "heightRatio": 0.7478428717472249
+      },
+      "after": {
+        "centerErrorPx": 18.147192355040964,
+        "centerErrorNailWidths": 0.6371150284719094,
+        "iou": 0.2837243401759531,
+        "approxRootErrorPx": 11.99286518191121,
+        "angleErrorDeg": 2.857655206456002,
+        "widthRatio": 0.6876581024802292,
+        "heightRatio": 0.7478428717472249
+      },
+      "refined": false
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 1,
+      "maskAspect": 1.6602783960192629,
+      "before": {
+        "centerErrorPx": 18.848351820756726,
+        "centerErrorNailWidths": 0.7134483197979669,
+        "iou": 0.2761372705506784,
+        "approxRootErrorPx": 16.256080202015955,
+        "angleErrorDeg": 4.726476301749926,
+        "widthRatio": 0.7743523874771001,
+        "heightRatio": 0.8765185842092609
+      },
+      "after": {
+        "centerErrorPx": 18.848351820756726,
+        "centerErrorNailWidths": 0.7134483197979669,
+        "iou": 0.2761372705506784,
+        "approxRootErrorPx": 16.256080202015955,
+        "angleErrorDeg": 4.726476301749926,
+        "widthRatio": 0.7743523874771001,
+        "heightRatio": 0.8765185842092609
+      },
+      "refined": false
+    },
+    {
+      "file": "d60f3ecc-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 4,
+      "maskAspect": 1.7913178066176907,
+      "before": {
+        "centerErrorPx": 19.1762352221358,
+        "centerErrorNailWidths": 0.7815270075878255,
+        "iou": 0.25216637781629114,
+        "approxRootErrorPx": 14.803163884111953,
+        "angleErrorDeg": 3.876956715109941,
+        "widthRatio": 0.7982607947842084,
+        "heightRatio": 0.792943156286915
+      },
+      "after": {
+        "centerErrorPx": 19.1762352221358,
+        "centerErrorNailWidths": 0.7815270075878255,
+        "iou": 0.25216637781629114,
+        "approxRootErrorPx": 14.803163884111953,
+        "angleErrorDeg": 3.876956715109941,
+        "widthRatio": 0.7982607947842084,
+        "heightRatio": 0.792943156286915
+      },
+      "refined": false
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 1,
+      "maskAspect": 1.9376419449684887,
+      "before": {
+        "centerErrorPx": 4.552157335993382,
+        "centerErrorNailWidths": 0.18681994199021884,
+        "iou": 0.24669603524229075,
+        "approxRootErrorPx": 9.115422909236877,
+        "angleErrorDeg": 1.0460711194211854,
+        "widthRatio": 0.5065962471927136,
+        "heightRatio": 0.4908728314701011
+      },
+      "after": {
+        "centerErrorPx": 4.552157335993382,
+        "centerErrorNailWidths": 0.18681994199021884,
+        "iou": 0.24669603524229075,
+        "approxRootErrorPx": 9.115422909236877,
+        "angleErrorDeg": 1.0460711194211854,
+        "widthRatio": 0.5065962471927136,
+        "heightRatio": 0.4908728314701011
+      },
+      "refined": false
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 5,
+      "maskAspect": 1.6863661618906771,
+      "before": {
+        "centerErrorPx": 8.379010086909963,
+        "centerErrorNailWidths": 0.2598419703889094,
+        "iou": 0.297780959198282,
+        "approxRootErrorPx": 7.657529135508009,
+        "angleErrorDeg": 0.6315570056635806,
+        "widthRatio": 0.5214964423120357,
+        "heightRatio": 0.5793260856483737
+      },
+      "after": {
+        "centerErrorPx": 12.736154927984572,
+        "centerErrorNailWidths": 0.3949616431224963,
+        "iou": 0.36277173913043476,
+        "approxRootErrorPx": 3.6266908406009613,
+        "angleErrorDeg": 0.6315570056635806,
+        "widthRatio": 1.095142528855275,
+        "heightRatio": 0.40552825995386166
+      },
+      "refined": true
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 4,
+      "maskAspect": 1.8653273779047237,
+      "before": {
+        "centerErrorPx": 8.899151594191833,
+        "centerErrorNailWidths": 0.3146086881349474,
+        "iou": 0.2865448504983389,
+        "approxRootErrorPx": 5.164197103108874,
+        "angleErrorDeg": 0.8778322148758662,
+        "widthRatio": 0.5439105302068074,
+        "heightRatio": 0.5458718215176875
+      },
+      "after": {
+        "centerErrorPx": 14.02556578121944,
+        "centerErrorNailWidths": 0.49584107024986346,
+        "iou": 0.4011585807385952,
+        "approxRootErrorPx": 3.3426970465264634,
+        "angleErrorDeg": 0.8778322148758662,
+        "widthRatio": 1.1422121134342955,
+        "heightRatio": 0.5458718215176875
+      },
+      "refined": true
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 5.446775228797719,
+      "before": {
+        "centerErrorPx": 8.920715121246486,
+        "centerErrorNailWidths": 0.9593757825280512,
+        "iou": 0.14748784440842788,
+        "approxRootErrorPx": 7.844867633712533,
+        "angleErrorDeg": 3.1515584995581776,
+        "widthRatio": 1.7315638044523292,
+        "heightRatio": 0.589966862082293
+      },
+      "after": {
+        "centerErrorPx": 8.920715121246486,
+        "centerErrorNailWidths": 0.9593757825280512,
+        "iou": 0.14748784440842788,
+        "approxRootErrorPx": 7.844867633712533,
+        "angleErrorDeg": 3.1515584995581776,
+        "widthRatio": 1.7315638044523292,
+        "heightRatio": 0.589966862082293
+      },
+      "refined": false
+    },
+    {
+      "file": "d61a32a0-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 2,
+      "maskAspect": 1.8495227532606755,
+      "before": {
+        "centerErrorPx": 9.288606650853616,
+        "centerErrorNailWidths": 0.3319021515306555,
+        "iou": 0.2684124386252046,
+        "approxRootErrorPx": 10.011687402903476,
+        "angleErrorDeg": 2.880411189581082,
+        "widthRatio": 0.5753192610032289,
+        "heightRatio": 0.5712509585072525
+      },
+      "after": {
+        "centerErrorPx": 9.288606650853616,
+        "centerErrorNailWidths": 0.3319021515306555,
+        "iou": 0.2684124386252046,
+        "approxRootErrorPx": 10.011687402903476,
+        "angleErrorDeg": 2.880411189581082,
+        "widthRatio": 0.5753192610032289,
+        "heightRatio": 0.5712509585072525
+      },
+      "refined": false
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 2.1805895568726714,
+      "before": {
+        "centerErrorPx": 7.903165984488238,
+        "centerErrorNailWidths": 0.32748962484562244,
+        "iou": 0.5370741482965932,
+        "approxRootErrorPx": 14.661770279017217,
+        "angleErrorDeg": 1.9293857411776685,
+        "widthRatio": 0.7626543558783981,
+        "heightRatio": 0.7365155621269038
+      },
+      "after": {
+        "centerErrorPx": 7.903165984488238,
+        "centerErrorNailWidths": 0.32748962484562244,
+        "iou": 0.5370741482965932,
+        "approxRootErrorPx": 14.661770279017217,
+        "angleErrorDeg": 1.9293857411776685,
+        "widthRatio": 0.7626543558783981,
+        "heightRatio": 0.7365155621269038
+      },
+      "refined": true
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 1,
+      "maskAspect": 1.9909827127704984,
+      "before": {
+        "centerErrorPx": 12.091035530139813,
+        "centerErrorNailWidths": 0.40472932592859345,
+        "iou": 0.4979847738468428,
+        "approxRootErrorPx": 24.14695551379918,
+        "angleErrorDeg": 4.275469690624277,
+        "widthRatio": 0.9890142246075105,
+        "heightRatio": 1.403784831187616
+      },
+      "after": {
+        "centerErrorPx": 12.091035530139813,
+        "centerErrorNailWidths": 0.40472932592859345,
+        "iou": 0.4979847738468428,
+        "approxRootErrorPx": 24.14695551379918,
+        "angleErrorDeg": 4.275469690624277,
+        "widthRatio": 0.9890142246075105,
+        "heightRatio": 1.403784831187616
+      },
+      "refined": true
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 2,
+      "maskAspect": 2.1030787335856425,
+      "before": {
+        "centerErrorPx": 14.567536716654478,
+        "centerErrorNailWidths": 0.49099694776337893,
+        "iou": 0.45066991473812423,
+        "approxRootErrorPx": 5.105277393174364,
+        "angleErrorDeg": 0.9453357163671399,
+        "widthRatio": 0.9317654333969649,
+        "heightRatio": 0.6772831754480049
+      },
+      "after": {
+        "centerErrorPx": 14.567536716654478,
+        "centerErrorNailWidths": 0.49099694776337893,
+        "iou": 0.45066991473812423,
+        "approxRootErrorPx": 5.105277393174364,
+        "angleErrorDeg": 0.9453357163671399,
+        "widthRatio": 0.9317654333969649,
+        "heightRatio": 0.6772831754480049
+      },
+      "refined": false
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 0,
+      "maskAspect": 1.9401313742460966,
+      "before": {
+        "centerErrorPx": 16.347293584271632,
+        "centerErrorNailWidths": 0.5017703718929966,
+        "iou": 0.45872245050429583,
+        "approxRootErrorPx": 31.879873162729805,
+        "angleErrorDeg": 0.3947314975715699,
+        "widthRatio": 0.9472090904810031,
+        "heightRatio": 1.5061500076785217
+      },
+      "after": {
+        "centerErrorPx": 16.347293584271632,
+        "centerErrorNailWidths": 0.5017703718929966,
+        "iou": 0.45872245050429583,
+        "approxRootErrorPx": 31.879873162729805,
+        "angleErrorDeg": 0.3947314975715699,
+        "widthRatio": 0.9472090904810031,
+        "heightRatio": 1.5061500076785217
+      },
+      "refined": true
+    },
+    {
+      "file": "d633f320-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 2.5634241494380317,
+      "before": {
+        "centerErrorPx": 20.357889200767634,
+        "centerErrorNailWidths": 0.75053846691725,
+        "iou": 0.3457051961823966,
+        "approxRootErrorPx": 12.393743623152657,
+        "angleErrorDeg": 2.083708652970131,
+        "widthRatio": 1.0665916799409325,
+        "heightRatio": 0.7354195096410494
+      },
+      "after": {
+        "centerErrorPx": 20.357889200767634,
+        "centerErrorNailWidths": 0.75053846691725,
+        "iou": 0.3457051961823966,
+        "approxRootErrorPx": 12.393743623152657,
+        "angleErrorDeg": 2.083708652970131,
+        "widthRatio": 1.0665916799409325,
+        "heightRatio": 0.7354195096410494
+      },
+      "refined": false
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 1,
+      "maskAspect": 1.5402087568001464,
+      "before": {
+        "centerErrorPx": 2.978774424601569,
+        "centerErrorNailWidths": 0.1943973429520628,
+        "iou": 0.5034013605442177,
+        "approxRootErrorPx": 1.681918145018666,
+        "angleErrorDeg": 0.43532752845743516,
+        "widthRatio": 0.6558976319506281,
+        "heightRatio": 0.8305318823424905
+      },
+      "after": {
+        "centerErrorPx": 2.978774424601569,
+        "centerErrorNailWidths": 0.1943973429520628,
+        "iou": 0.5034013605442177,
+        "approxRootErrorPx": 1.681918145018666,
+        "angleErrorDeg": 0.43532752845743516,
+        "widthRatio": 0.6558976319506281,
+        "heightRatio": 0.8305318823424905
+      },
+      "refined": true
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 3.3506463146556626,
+      "before": {
+        "centerErrorPx": 5.1840068364013385,
+        "centerErrorNailWidths": 0.6555849589305555,
+        "iou": 0.2361111111111111,
+        "approxRootErrorPx": 6.8430532718703905,
+        "angleErrorDeg": 20.684103971266836,
+        "widthRatio": 1.3262645938450504,
+        "heightRatio": 0.7405718078181363
+      },
+      "after": {
+        "centerErrorPx": 5.1840068364013385,
+        "centerErrorNailWidths": 0.6555849589305555,
+        "iou": 0.2361111111111111,
+        "approxRootErrorPx": 6.8430532718703905,
+        "angleErrorDeg": 20.684103971266836,
+        "widthRatio": 1.3262645938450504,
+        "heightRatio": 0.7405718078181363
+      },
+      "refined": false
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 3,
+      "component": 7,
+      "maskAspect": 1.5339572053831967,
+      "before": {
+        "centerErrorPx": 7.655971275003913,
+        "centerErrorNailWidths": 0.41052638028198873,
+        "iou": 0.2768878718535469,
+        "approxRootErrorPx": 4.499952285566527,
+        "angleErrorDeg": 3.8609511644749546,
+        "widthRatio": 0.5373577005013218,
+        "heightRatio": 0.65330478708244
+      },
+      "after": {
+        "centerErrorPx": 7.655971275003913,
+        "centerErrorNailWidths": 0.41052638028198873,
+        "iou": 0.2768878718535469,
+        "approxRootErrorPx": 4.499952285566527,
+        "angleErrorDeg": 3.8609511644749546,
+        "widthRatio": 0.5373577005013218,
+        "heightRatio": 0.65330478708244
+      },
+      "refined": false
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 2,
+      "component": 8,
+      "maskAspect": 1.3870424807589812,
+      "before": {
+        "centerErrorPx": 10.289385636509543,
+        "centerErrorNailWidths": 0.48419182462576105,
+        "iou": 0.25092936802973975,
+        "approxRootErrorPx": 5.9824187487293266,
+        "angleErrorDeg": 3.5132913950693023,
+        "widthRatio": 0.5154423665826782,
+        "heightRatio": 0.6924091103247579
+      },
+      "after": {
+        "centerErrorPx": 10.289385636509543,
+        "centerErrorNailWidths": 0.48419182462576105,
+        "iou": 0.25092936802973975,
+        "approxRootErrorPx": 5.9824187487293266,
+        "angleErrorDeg": 3.5132913950693023,
+        "widthRatio": 0.5154423665826782,
+        "heightRatio": 0.6924091103247579
+      },
+      "refined": false
+    },
+    {
+      "file": "d639e532-db67-11e8-9658-0242ac1c0002.jpg",
+      "finger": 1,
+      "component": 4,
+      "maskAspect": 1.3258188359607015,
+      "before": {
+        "centerErrorPx": 10.30212533340441,
+        "centerErrorNailWidths": 0.5057310947680548,
+        "iou": 0.2150313152400835,
+        "approxRootErrorPx": 7.21150794395026,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5148249526478941,
+        "heightRatio": 0.7142772503729534
+      },
+      "after": {
+        "centerErrorPx": 10.30212533340441,
+        "centerErrorNailWidths": 0.5057310947680548,
+        "iou": 0.2150313152400835,
+        "approxRootErrorPx": 7.21150794395026,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5148249526478941,
+        "heightRatio": 0.7142772503729534
+      },
+      "refined": false
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 0,
+      "component": 4,
+      "maskAspect": 1.2425937361772987,
+      "before": {
+        "centerErrorPx": 14.019835627381555,
+        "centerErrorNailWidths": 0.34671997502861013,
+        "iou": 0.41377469300587294,
+        "approxRootErrorPx": 16.380872874971935,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6683355052238561,
+        "heightRatio": 1.0182406598889646
+      },
+      "after": {
+        "centerErrorPx": 14.019835627381555,
+        "centerErrorNailWidths": 0.34671997502861013,
+        "iou": 0.41377469300587294,
+        "approxRootErrorPx": 16.380872874971935,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6683355052238561,
+        "heightRatio": 1.0182406598889646
+      },
+      "refined": false
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 1,
+      "component": 3,
+      "maskAspect": 1.1394814970989948,
+      "before": {
+        "centerErrorPx": 15.055905926219229,
+        "centerErrorNailWidths": 0.4210414401072789,
+        "iou": 0.36770186335403726,
+        "approxRootErrorPx": 18.725917973770805,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7557471928249341,
+        "heightRatio": 1.14630268471055
+      },
+      "after": {
+        "centerErrorPx": 15.055905926219229,
+        "centerErrorNailWidths": 0.4210414401072789,
+        "iou": 0.36770186335403726,
+        "approxRootErrorPx": 18.725917973770805,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7557471928249341,
+        "heightRatio": 1.14630268471055
+      },
+      "refined": false
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 4,
+      "component": 2,
+      "maskAspect": 1.3146804502160339,
+      "before": {
+        "centerErrorPx": 16.393312584917407,
+        "centerErrorNailWidths": 0.6393001525060337,
+        "iou": 0.22905620360551432,
+        "approxRootErrorPx": 18.53228110247617,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8079849325649892,
+        "heightRatio": 0.9841776788655074
+      },
+      "after": {
+        "centerErrorPx": 16.393312584917407,
+        "centerErrorNailWidths": 0.6393001525060337,
+        "iou": 0.22905620360551432,
+        "approxRootErrorPx": 18.53228110247617,
+        "angleErrorDeg": null,
+        "widthRatio": 0.8079849325649892,
+        "heightRatio": 0.9841776788655074
+      },
+      "refined": false
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 3,
+      "component": 0,
+      "maskAspect": 1.0990490283506045,
+      "before": {
+        "centerErrorPx": 17.250098941155514,
+        "centerErrorNailWidths": 0.43078083810256507,
+        "iou": 0.289554062309102,
+        "approxRootErrorPx": 24.47801235929613,
+        "angleErrorDeg": null,
+        "widthRatio": 0.644880613061549,
+        "heightRatio": 1.0207677211905979
+      },
+      "after": {
+        "centerErrorPx": 17.250098941155514,
+        "centerErrorNailWidths": 0.43078083810256507,
+        "iou": 0.289554062309102,
+        "approxRootErrorPx": 24.47801235929613,
+        "angleErrorDeg": null,
+        "widthRatio": 0.644880613061549,
+        "heightRatio": 1.0207677211905979
+      },
+      "refined": false
+    },
+    {
+      "file": "d97db2d2-18ff-456d-8d85-23bfb7109aef.jpg",
+      "finger": 2,
+      "component": 1,
+      "maskAspect": 1.0423881258743528,
+      "before": {
+        "centerErrorPx": 17.65626466589767,
+        "centerErrorNailWidths": 0.42054668672888806,
+        "iou": 0.3147432357813363,
+        "approxRootErrorPx": 27.398860694891695,
+        "angleErrorDeg": null,
+        "widthRatio": 0.672294134769334,
+        "heightRatio": 1.1564842485965279
+      },
+      "after": {
+        "centerErrorPx": 17.65626466589767,
+        "centerErrorNailWidths": 0.42054668672888806,
+        "iou": 0.3147432357813363,
+        "approxRootErrorPx": 27.398860694891695,
+        "angleErrorDeg": null,
+        "widthRatio": 0.672294134769334,
+        "heightRatio": 1.1564842485965279
+      },
+      "refined": false
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 0,
+      "component": 0,
+      "maskAspect": 3.64578142895789,
+      "before": {
+        "centerErrorPx": 3.551813953481634,
+        "centerErrorNailWidths": 0.3912161643167491,
+        "iou": 0.3169734151329243,
+        "approxRootErrorPx": 3.7119901591294235,
+        "angleErrorDeg": 17.6892138772198,
+        "widthRatio": 1.9854179571962294,
+        "heightRatio": 1.0180323161513318
+      },
+      "after": {
+        "centerErrorPx": 3.551813953481634,
+        "centerErrorNailWidths": 0.3912161643167491,
+        "iou": 0.3169734151329243,
+        "approxRootErrorPx": 3.7119901591294235,
+        "angleErrorDeg": 17.6892138772198,
+        "widthRatio": 1.9854179571962294,
+        "heightRatio": 1.0180323161513318
+      },
+      "refined": false
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 4,
+      "component": 2,
+      "maskAspect": 1.1304208098455388,
+      "before": {
+        "centerErrorPx": 2.377633414464493,
+        "centerErrorNailWidths": 0.07793508047275975,
+        "iou": 0.7573435504469987,
+        "approxRootErrorPx": 0.9482941643699035,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7474187388429174,
+        "heightRatio": 0.974895955974573
+      },
+      "after": {
+        "centerErrorPx": 2.377633414464493,
+        "centerErrorNailWidths": 0.07793508047275975,
+        "iou": 0.7573435504469987,
+        "approxRootErrorPx": 0.9482941643699035,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7474187388429174,
+        "heightRatio": 0.974895955974573
+      },
+      "refined": true
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 3,
+      "component": 4,
+      "maskAspect": 1.1239619135835546,
+      "before": {
+        "centerErrorPx": 10.616907536962868,
+        "centerErrorNailWidths": 0.287270299105094,
+        "iou": 0.31993006993006995,
+        "approxRootErrorPx": 9.577877385216727,
+        "angleErrorDeg": null,
+        "widthRatio": 0.46605159345021435,
+        "heightRatio": 0.7748885624656616
+      },
+      "after": {
+        "centerErrorPx": 4.390095635700354,
+        "centerErrorNailWidths": 0.11878638690003872,
+        "iou": 0.671152228763667,
+        "approxRootErrorPx": 12.742283241031247,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9787083462454502,
+        "heightRatio": 0.7748885624656616
+      },
+      "refined": true
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 2,
+      "component": 3,
+      "maskAspect": 1.0427531318446048,
+      "before": {
+        "centerErrorPx": 13.47874945695997,
+        "centerErrorNailWidths": 0.3154511419447252,
+        "iou": 0.25862068965517243,
+        "approxRootErrorPx": 31.217640284148892,
+        "angleErrorDeg": null,
+        "widthRatio": 0.44060884509256226,
+        "heightRatio": 0.7884710014386034
+      },
+      "after": {
+        "centerErrorPx": 1.2252669675903396,
+        "centerErrorNailWidths": 0.02867564719915033,
+        "iou": 0.7898181818181819,
+        "approxRootErrorPx": 22.356261534288034,
+        "angleErrorDeg": null,
+        "widthRatio": 0.9252785746943808,
+        "heightRatio": 0.7884710014386033
+      },
+      "refined": true
+    },
+    {
+      "file": "edff1324-0b02-4471-b449-14cea27f0094.jpg",
+      "finger": 1,
+      "component": 1,
+      "maskAspect": 1.0754063189247638,
+      "before": {
+        "centerErrorPx": 2.992600717127034,
+        "centerErrorNailWidths": 0.08305146712944042,
+        "iou": 0.7111334002006018,
+        "approxRootErrorPx": 2.81787307951804,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7344041626646942,
+        "heightRatio": 0.896783069620774
+      },
+      "after": {
+        "centerErrorPx": 2.992600717127034,
+        "centerErrorNailWidths": 0.08305146712944042,
+        "iou": 0.7111334002006018,
+        "approxRootErrorPx": 2.81787307951804,
+        "angleErrorDeg": null,
+        "widthRatio": 0.7344041626646942,
+        "heightRatio": 0.896783069620774
+      },
+      "refined": true
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 4,
+      "component": 4,
+      "maskAspect": 1.3257998600807215,
+      "before": {
+        "centerErrorPx": 2.7108999827448157,
+        "centerErrorNailWidths": 0.10940857649654337,
+        "iou": 0.4946727549467275,
+        "approxRootErrorPx": 4.811018090069043,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6326916816395625,
+        "heightRatio": 0.8027345645598698
+      },
+      "after": {
+        "centerErrorPx": 2.7108999827448157,
+        "centerErrorNailWidths": 0.10940857649654337,
+        "iou": 0.4946727549467275,
+        "approxRootErrorPx": 4.811018090069043,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6326916816395625,
+        "heightRatio": 0.8027345645598698
+      },
+      "refined": false
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 1,
+      "component": 0,
+      "maskAspect": 1.077124925457027,
+      "before": {
+        "centerErrorPx": 13.902708170985502,
+        "centerErrorNailWidths": 0.40491155240528565,
+        "iou": 0.29759862778730706,
+        "approxRootErrorPx": 20.389852211095857,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5955365649220803,
+        "heightRatio": 1.0197378130442964
+      },
+      "after": {
+        "centerErrorPx": 13.902708170985502,
+        "centerErrorNailWidths": 0.40491155240528565,
+        "iou": 0.29759862778730706,
+        "approxRootErrorPx": 20.389852211095857,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5955365649220803,
+        "heightRatio": 1.0197378130442964
+      },
+      "refined": false
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 0,
+      "component": 3,
+      "maskAspect": 4.580259874800132,
+      "before": {
+        "centerErrorPx": 16.83134005763385,
+        "centerErrorNailWidths": 2.0932239846196032,
+        "iou": 0,
+        "approxRootErrorPx": 19.416450191515015,
+        "angleErrorDeg": 8.78030225027402,
+        "widthRatio": 2.542990152531845,
+        "heightRatio": 1.0459195191230026
+      },
+      "after": {
+        "centerErrorPx": 16.83134005763385,
+        "centerErrorNailWidths": 2.0932239846196032,
+        "iou": 0,
+        "approxRootErrorPx": 19.416450191515015,
+        "angleErrorDeg": 8.78030225027402,
+        "widthRatio": 2.542990152531845,
+        "heightRatio": 1.0459195191230026
+      },
+      "refined": false
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 3,
+      "component": 2,
+      "maskAspect": 1.103024618596133,
+      "before": {
+        "centerErrorPx": 16.930301519244512,
+        "centerErrorNailWidths": 0.4406848549378875,
+        "iou": 0.24259131633356307,
+        "approxRootErrorPx": 15.515097619470497,
+        "angleErrorDeg": null,
+        "widthRatio": 0.50858909621934,
+        "heightRatio": 0.8647756019463692
+      },
+      "after": {
+        "centerErrorPx": 16.930301519244512,
+        "centerErrorNailWidths": 0.4406848549378875,
+        "iou": 0.24259131633356307,
+        "approxRootErrorPx": 15.515097619470497,
+        "angleErrorDeg": null,
+        "widthRatio": 0.50858909621934,
+        "heightRatio": 0.8647756019463692
+      },
+      "refined": false
+    },
+    {
+      "file": "feb2c029-b89c-4ce5-b208-db2114516a40.jpg",
+      "finger": 2,
+      "component": 1,
+      "maskAspect": 1.0458352222301546,
+      "before": {
+        "centerErrorPx": 19.522698845489376,
+        "centerErrorNailWidths": 0.4923886534511214,
+        "iou": 0.20909665192672142,
+        "approxRootErrorPx": 19.3743668547395,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5386432183131317,
+        "heightRatio": 0.9657178159880286
+      },
+      "after": {
+        "centerErrorPx": 19.522698845489376,
+        "centerErrorNailWidths": 0.4923886534511214,
+        "iou": 0.20909665192672142,
+        "approxRootErrorPx": 19.3743668547395,
+        "angleErrorDeg": null,
+        "widthRatio": 0.5386432183131317,
+        "heightRatio": 0.9657178159880286
+      },
+      "refined": false
+    }
+  ],
+  "refinementAudit": [
+    {
+      "finger": 0,
+      "attempted": 28,
+      "beforeAccepted": 2,
+      "afterAccepted": 3,
+      "rejected": {
+        "aspect": 12,
+        "area": 1152,
+        "patch-edge": 954,
+        "fill": 79,
+        "not-long": 15,
+        "contrast": 21,
+        "size": 2
+      }
+    },
+    {
+      "finger": 1,
+      "attempted": 28,
+      "beforeAccepted": 8,
+      "afterAccepted": 8,
+      "rejected": {
+        "fill": 66,
+        "area": 1033,
+        "patch-edge": 779,
+        "not-long": 17,
+        "contrast": 64,
+        "position": 1,
+        "aspect": 2,
+        "size": 19,
+        "cuticle-prior": 1
+      }
+    },
+    {
+      "finger": 2,
+      "attempted": 28,
+      "beforeAccepted": 7,
+      "afterAccepted": 12,
+      "rejected": {
+        "fill": 66,
+        "patch-edge": 724,
+        "area": 1103,
+        "contrast": 94,
+        "size": 8,
+        "not-long": 21,
+        "aspect": 2,
+        "cuticle-prior": 1
+      }
+    },
+    {
+      "finger": 3,
+      "attempted": 28,
+      "beforeAccepted": 6,
+      "afterAccepted": 11,
+      "rejected": {
+        "aspect": 7,
+        "patch-edge": 712,
+        "area": 1135,
+        "contrast": 80,
+        "size": 31,
+        "not-long": 20,
+        "fill": 84,
+        "cuticle-prior": 3
+      }
+    },
+    {
+      "finger": 4,
+      "attempted": 28,
+      "beforeAccepted": 7,
+      "afterAccepted": 10,
+      "rejected": {
+        "fill": 63,
+        "patch-edge": 869,
+        "area": 1113,
+        "size": 21,
+        "contrast": 58,
+        "cuticle-prior": 3,
+        "aspect": 2,
+        "not-long": 16
+      }
+    }
+  ],
+  "baselineCommit": "2f6d866",
+  "date": "2026-10-30",
+  "candidate": "dense-alignment / current-clipped-fragment, chroma-only negative-facing thumb rejected",
+  "changeAudit": {
+    "changedMatchedNails": 13,
+    "iouWorsenedOver001": 0,
+    "definition": "IoU decrease proxy only, not anatomically verified false-correction rate",
+    "centerWorsenedOver1px": 2,
+    "lowestIoUDeltaCase": {
+      "file": "4c48acb6-e402-11e8-97db-0242ac1c0002.jpg",
+      "finger": 4,
+      "component": 3,
+      "maskAspect": 1.318414645387823,
+      "before": {
+        "centerErrorPx": 6.42188760726397,
+        "centerErrorNailWidths": 0.3715029197990086,
+        "iou": 0.4034090909090909,
+        "approxRootErrorPx": 4.366723143513337,
+        "angleErrorDeg": null,
+        "widthRatio": 0.776266752279286,
+        "heightRatio": 0.8312111685267972
+      },
+      "after": {
+        "centerErrorPx": 3.043410034506948,
+        "centerErrorNailWidths": 0.17605971687919925,
+        "iou": 0.4334470989761092,
+        "approxRootErrorPx": 2.6511692691627373,
+        "angleErrorDeg": null,
+        "widthRatio": 0.6986400770513576,
+        "heightRatio": 0.5818478179687578
+      },
+      "refined": true
+    },
+    "lowestIoUDelta": 0.03003800806701834
+  }
+}

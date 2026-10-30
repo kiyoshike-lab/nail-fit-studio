@@ -256,7 +256,7 @@ export async function detectHandNails(image: HTMLImageElement, naturalLength: Na
   const pose = estimateHandPose(landmarks ?? [], result.worldLandmarks?.[0], result.handedness?.[0]?.[0], image.naturalWidth / image.naturalHeight);
   const refiner = new NailFrameRefiner();
   try {
-    const fit = refiner.refine(image, image.naturalWidth, image.naturalHeight, coarse, false, performance.now());
+    const fit = refiner.refine(image, image.naturalWidth, image.naturalHeight, coarse, false, performance.now(), pose.view !== "back" || pose.fingers.some(f => f.facing < 0.3));
     const pixelScale = Math.min(1, 640 / Math.max(image.naturalWidth, image.naturalHeight));
     const visibility = assessNailVisibility(pose, landmarks ?? [], fit.nails, fit.diagnostics, image.naturalWidth * pixelScale, image.naturalHeight * pixelScale, false);
     const visibleNails = withNailVisibility(fit.nails, visibility);

@@ -1,0 +1,332 @@
+{
+  "kind": "unlabelled static-frame replay, NOT hardware/video visibility accuracy",
+  "source": "user supplied local regression controls; transformations not independent hands",
+  "license": "not redistributed",
+  "inputImages": 4,
+  "detectedFrames": 4,
+  "undetectedFiles": [],
+  "views": {
+    "palm": 4
+  },
+  "totalNailProposals": 20,
+  "beforeVisibilityGate": 20,
+  "afterVisibilityGate": 10,
+  "partial": 10,
+  "visibilityCoverage": 0.5,
+  "acceptedImageFits": 14,
+  "orderedCurrentContours": 14,
+  "reasons": {
+    "palm-no-visible-nail-evidence": 7,
+    "thumb-roll-unconfirmed": 3,
+    "pose-and-current-boundary": 10
+  },
+  "candidateRejections": {
+    "contrast": 21,
+    "patch-edge": 577,
+    "area": 729,
+    "not-long": 2,
+    "fill": 77,
+    "size": 71,
+    "cuticle-prior": 14
+  },
+  "contourStatuses": {
+    "closed": 14
+  },
+  "visibilityAccuracy": null,
+  "hiddenNailFalsePaintRate": null,
+  "recoveryMs": null,
+  "centerErrorPx": null,
+  "contourIoU": null,
+  "timing": {
+    "environment": "Node offline postprocess, excludes MediaPipe, decode, camera and rendering; not FPS",
+    "medianMs": 202.82589999999993,
+    "p95Ms": 239.17629999999997
+  },
+  "rows": [
+    {
+      "file": "open-palm-reference.png",
+      "condition": "reference illustration open palm; zero visible nail assumption from provided diagram, not a camera trial",
+      "modelHand": "Right",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9809808731079102,
+      "facing": -0.9840502498490824,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.9350328090887473,
+          "bendDegrees": 64.67621307484039,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.6919556252188156,
+          "bendDegrees": 57.014121650153996,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8554764819364007,
+          "support": 3,
+          "contour": 76,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.7288620414648469,
+          "bendDegrees": 40.63828153523049,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.7576793300114799,
+          "bendDegrees": 28.696374255673504,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.7152109987010015,
+          "bendDegrees": 42.10202309195392,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 202.82589999999993
+    },
+    {
+      "file": "curled-mirror.png",
+      "condition": "raw mirrored same screenshot; not a different hand",
+      "modelHand": "Right",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9887967705726624,
+      "facing": -0.9391462864432057,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "thumb-roll-unconfirmed",
+          "alpha": 0,
+          "facing": -0.5589720859564019,
+          "bendDegrees": 107.10734749017438,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.89008759622304,
+          "support": 3,
+          "contour": 96,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.7151780266043075,
+          "bendDegrees": 117.90378717483136,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8746747359472982,
+          "support": 3,
+          "contour": 56,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.8485655188611291,
+          "bendDegrees": 135.10310040348068,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8787827222732978,
+          "support": 3,
+          "contour": 108,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.7756549053491384,
+          "bendDegrees": 121.2138111111743,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8848658695152206,
+          "support": 3,
+          "contour": 122,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.5033523820674308,
+          "bendDegrees": 133.78355039059286,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8555763493564261,
+          "support": 3,
+          "contour": 116,
+          "contourStatus": "closed"
+        }
+      ],
+      "offlinePostprocessMs": 239.17629999999997
+    },
+    {
+      "file": "curled-rotate.png",
+      "condition": "in-plane rotated same screenshot",
+      "modelHand": "Left",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.98763507604599,
+      "facing": -0.9049428576102052,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "thumb-roll-unconfirmed",
+          "alpha": 0,
+          "facing": -0.6692812299265025,
+          "bendDegrees": 93.07552071427875,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8745886013185242,
+          "support": 3,
+          "contour": 112,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.5852350121679943,
+          "bendDegrees": 122.94208371618802,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8653209304498634,
+          "support": 3,
+          "contour": 122,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.8112002452487292,
+          "bendDegrees": 125.33856820904353,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8747442009486008,
+          "support": 3,
+          "contour": 92,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.7107712039075552,
+          "bendDegrees": 115.94585337939414,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.892431215545292,
+          "support": 3,
+          "contour": 98,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.5802166200866834,
+          "bendDegrees": 146.73018651899923,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 154.36799999999994
+    },
+    {
+      "file": "curled-distant.png",
+      "condition": "downscaled same screenshot; not physical distance",
+      "modelHand": "Left",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9914212226867676,
+      "facing": -0.8952677031598935,
+      "fingers": [
+        {
+          "state": "uncertain",
+          "reason": "thumb-roll-unconfirmed",
+          "alpha": 0,
+          "facing": -0.6722400352242329,
+          "bendDegrees": 97.06144680206269,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8801341829598026,
+          "support": 3,
+          "contour": 98,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.5905792108966055,
+          "bendDegrees": 125.65308266561745,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8564231648838165,
+          "support": 3,
+          "contour": 102,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.769838320392111,
+          "bendDegrees": 128.0730865813471,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8653727525973272,
+          "support": 3,
+          "contour": 108,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "partial",
+          "reason": "pose-and-current-boundary",
+          "alpha": 1,
+          "facing": 0.6536411135618432,
+          "bendDegrees": 113.21329750203014,
+          "boundaryAccepted": true,
+          "boundaryConfidence": 0.8826759039985349,
+          "support": 3,
+          "contour": 78,
+          "contourStatus": "closed"
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.5321952011821806,
+          "bendDegrees": 136.17212824621288,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 64.38930000000005
+    }
+  ],
+  "baselineCommit": "2f6d866",
+  "date": "2026-10-30",
+  "candidate": "dense-alignment / current-clipped-fragment, chroma-only negative-facing thumb rejected"
+}

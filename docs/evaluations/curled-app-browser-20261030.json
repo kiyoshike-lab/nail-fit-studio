@@ -1,0 +1,40 @@
+{
+  "kind": "headless Chrome, actual self-hosted MediaPipe/Canvas, still-driven VIDEO; not a physical camera/recorded rotation or independent accuracy benchmark",
+  "photoCount": 4,
+  "photoStates": [
+    "uncertain",
+    "partial",
+    "partial",
+    "partial",
+    "partial"
+  ],
+  "videoCounts": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "palmCount": 0,
+  "dorsalRecovered": 5,
+  "errors": [],
+  "passed": [
+    "curled photo current clipped cores",
+    "actual Canvas painting",
+    "320/390/1280 widths",
+    "Before/After",
+    "curled PNG save",
+    "curled still-driven VIDEO",
+    "open-palm reference suppressed",
+    "dorsal five recovered",
+    "capture releases stream"
+  ],
+  "baselineCommit": "2f6d866",
+  "date": "2026-10-30",
+  "candidate": "dense-alignment / current-clipped-fragment, chroma-only negative-facing thumb rejected"
+}

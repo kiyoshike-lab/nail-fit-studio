@@ -48,7 +48,7 @@ export class NailFrameRefiner {
       if (this.canvas.height !== height) this.canvas.height = height;
       this.context.drawImage(source, 0, 0, width, height);
       const pixels = this.context.getImageData(0, 0, width, height);
-      const result = refineNailsFromPixels(pixels, nails, mirrored);
+      const result = refineNailsFromPixels(pixels, nails, mirrored, { requireContour: requireFreshContour });
       // Partial nails require today's visible contour, never a held old mask.
       if (!requireFreshContour) result.nails = result.nails.map((nail, index) => {
         if (!result.diagnostics[index].accepted) return nail;

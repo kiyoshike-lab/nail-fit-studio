@@ -1,6 +1,7 @@
 import type { NailPose } from "./types";
 import { traceNailRegion, type ContourPoint } from "./nailContour";
 import { fitNailFromEdges } from "./nailEdgeFit";
+import { fitChromaticNail } from "./nailChromaticFit";
 
 type PixelImage = { width: number; height: number; data: Uint8ClampedArray };
 export type NailFitDiagnostic = {
@@ -12,13 +13,14 @@ export type NailFitDiagnostic = {
   contourStatus?: "closed" | "ambiguous" | "low-confidence" | "stale";
   edgeScore?: number;
   edgeSupport?: number[];
+  chromaticEvidence?: { supportedRays: number; stability: number; contrast: number[] };
 };
 export type NailRefinementResult = { nails: NailPose[]; diagnostics: NailFitDiagnostic[] };
 const patchWidth = 48;
 
 // An image-based proposal, not a trained nail segmentation model. Only a compact,
 // contrasting region supported by the finger prior is eligible to replace it.
-export function refineNailsFromPixels(image: PixelImage, nails: NailPose[], mirrored: boolean): NailRefinementResult {
+export function refineNailsFromPixels(image: PixelImage, nails: NailPose[], mirrored: boolean, options: { requireContour?: boolean } = {}): NailRefinementResult {
   const diagnostics: NailFitDiagnostic[] = [];
   const refined = nails.map((nail, index) => {
     // Preserve the validated standard fit. Search further toward the free edge
@@ -28,16 +30,30 @@ export function refineNailsFromPixels(image: PixelImage, nails: NailPose[], mirr
     const rejected = { ...standard.diagnostic.rejected };
     if (result !== standard) for (const [gate, count] of Object.entries(result.diagnostic.rejected ?? {})) rejected[gate] = (rejected[gate] ?? 0) + count;
     diagnostics.push({ ...result.diagnostic, rejected, candidates: (standard.diagnostic.candidates ?? 0) + (result === standard ? 0 : result.diagnostic.candidates ?? 0) });
+    let fitted = result.nail;
     if (!result.diagnostic.accepted) {
       const edge = fitNailFromEdges(image, nail, mirrored);
       if (edge) {
         // This is a bounded geometric proposal, not a semantic nail mask or a
         // calibrated probability. It must not authorize partial/palm rendering.
         diagnostics[index] = { ...diagnostics[index], accepted: true, confidence: 0.7, reason: "supported-edge-profile", edgeScore: edge.score, edgeSupport: edge.support };
-        return edge.nail;
+        fitted = edge.nail;
       }
     }
-    return result.nail;
+    const fit = diagnostics[index];
+    const bounded = fit.accepted && fit.confidence >= 0.8 && fit.contour && (fit.supportThresholds ?? 0) >= 2;
+    // Do not stop searching at an alignment-only fit when this view needs
+    // independent CURRENT pixel evidence to show a visible fragment.
+    if (!fit.accepted || (options.requireContour && !bounded)) {
+      const core = fitChromaticNail(image, nail, mirrored, { allowFragment: options.requireContour });
+      if (core) {
+        diagnostics[index] = { ...fit, accepted: true, confidence: core.confidence, reason: "chromatic-visible-core", contourStatus: "closed",
+          contour: core.contour, contourHoles: core.holes, supportThresholds: core.supportThresholds,
+          chromaticEvidence: { supportedRays: core.supported, stability: core.stability, contrast: core.gains } };
+        return core.nail;
+      }
+    }
+    return fitted;
   });
   return { nails: refined, diagnostics };
 }

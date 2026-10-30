@@ -93,6 +93,7 @@ export function NailAlignmentDebug({ mode, design, nails, loading, liveNailsRef 
             {summary.visibility?.map((value, index) => <div key={index}>
               {["親指", "人差指", "中指", "薬指", "小指"][index]}: {value.state} / α{summary.stable[index]?.visibility?.toFixed(2) ?? "?"} / 曲げ {summary.pose?.fingers[index]?.bendDegrees.toFixed(0) ?? "?"}° / {value.reason} / 輪郭 {summary.fits[index]?.contourStatus ?? summary.fits[index]?.reason}
               {summary.fits[index]?.edgeSupport && <span> / 境界支持(根元・左・右・先端): {summary.fits[index].edgeSupport!.map(score => score.toFixed(0)).join("/")}</span>}
+              {summary.fits[index]?.chromaticEvidence && <span> / 色境界コア: {summary.fits[index].chromaticEvidence!.supportedRays}/24方向・安定度 {summary.fits[index].chromaticEvidence!.stability.toFixed(2)}（爪の確定ではありません）</span>}
             </div>)}
           </div>}
         </div>

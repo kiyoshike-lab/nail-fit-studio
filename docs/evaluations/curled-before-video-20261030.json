@@ -1,0 +1,252 @@
+{
+  "kind": "unlabelled static-frame replay, NOT hardware/video visibility accuracy",
+  "source": "user-provided screenshots for local regression only; older images contain existing nail overlays, not nail ground truth",
+  "license": "user supplied; not redistributed",
+  "inputImages": 4,
+  "detectedFrames": 3,
+  "undetectedFiles": [
+    "dorsal.png"
+  ],
+  "views": {
+    "palm": 2,
+    "back": 1
+  },
+  "totalNailProposals": 15,
+  "beforeVisibilityGate": 15,
+  "afterVisibilityGate": 5,
+  "partial": 0,
+  "visibilityCoverage": 0.3333333333333333,
+  "acceptedImageFits": 0,
+  "orderedCurrentContours": 0,
+  "reasons": {
+    "palm-no-visible-nail-evidence": 10,
+    "dorsal-pose-prior": 5
+  },
+  "candidateRejections": {
+    "patch-edge": 452,
+    "area": 699,
+    "fill": 72,
+    "cuticle-prior": 6,
+    "position": 2,
+    "size": 16,
+    "contrast": 3,
+    "not-long": 3
+  },
+  "contourStatuses": {},
+  "visibilityAccuracy": null,
+  "hiddenNailFalsePaintRate": null,
+  "recoveryMs": null,
+  "centerErrorPx": null,
+  "contourIoU": null,
+  "timing": {
+    "environment": "Node offline postprocess, excludes MediaPipe, decode, camera and rendering; not FPS",
+    "medianMs": 142.7427,
+    "p95Ms": 165.0566
+  },
+  "rows": [
+    {
+      "file": "new-curled.png",
+      "condition": "new-curled",
+      "modelHand": "Left",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9904133081436157,
+      "facing": -0.899701799912124,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.6728177845218252,
+          "bendDegrees": 95.01428674760749,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.5724837218801572,
+          "bendDegrees": 126.21479533061026,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.7828346903616066,
+          "bendDegrees": 127.30368672124142,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.6572133718406208,
+          "bendDegrees": 112.72472150114076,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.5506676864763497,
+          "bendDegrees": 136.81256779547226,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 165.0566
+    },
+    {
+      "file": "old-curled.png",
+      "condition": "old-curled",
+      "modelHand": "Right",
+      "view": "palm",
+      "source": "world",
+      "confidence": 0.9785425662994385,
+      "facing": -0.8349472677241189,
+      "fingers": [
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": -0.7375082015639804,
+          "bendDegrees": 83.4365064475272,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.35601654309868425,
+          "bendDegrees": 104.4983844271797,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.586968714675464,
+          "bendDegrees": 116.74100987248346,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.6193087339839186,
+          "bendDegrees": 119.71369031096266,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "hidden",
+          "reason": "palm-no-visible-nail-evidence",
+          "alpha": 0,
+          "facing": 0.6962652103108533,
+          "bendDegrees": 143.19918480268927,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 80.97140000000002
+    },
+    {
+      "file": "distant.png",
+      "condition": "distant",
+      "modelHand": "Right",
+      "view": "back",
+      "source": "world",
+      "confidence": 0.9471539855003357,
+      "facing": 0.9698061387402434,
+      "fingers": [
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.699625066735673,
+          "bendDegrees": 47.86577501310602,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9304497678939767,
+          "bendDegrees": 58.70661889329411,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.9169903087339735,
+          "bendDegrees": 57.32631860535702,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8957089864283596,
+          "bendDegrees": 68.854257843499,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        },
+        {
+          "state": "visible",
+          "reason": "dorsal-pose-prior",
+          "alpha": 1,
+          "facing": 0.8922655472258081,
+          "bendDegrees": 93.69968405927249,
+          "boundaryAccepted": false,
+          "boundaryConfidence": 0,
+          "support": 0,
+          "contour": 0
+        }
+      ],
+      "offlinePostprocessMs": 142.7427
+    }
+  ],
+  "baselineCommit": "2f6d866",
+  "date": "2026-10-30",
+  "candidate": "baseline 2f6d866"
+}

@@ -336,8 +336,9 @@ export function NailStudio() {
               lastTrackingUiAtRef.current = now;
               setNails(adjusted);
               const uncertain = adjusted.some((nail) => nail.visibilityState === "uncertain");
+              const holding = adjusted.some((nail) => nail.visibilityState === "uncertain" && (nail.visibility ?? 0) > 0.05);
               setStatus(adjusted.some((nail) => (nail.visibility ?? 1) > 0.05)
-                ? uncertain ? "手を検出しました。向きを確認中のため、直前の爪位置推定を短時間維持しています。" : "手を検出しました。見えている爪を追従しています。"
+                ? holding ? "手を検出しました。向きを確認中のため、直前の爪位置推定を短時間維持しています。" : "手を検出しました。見えている爪を追従しています。"
                 : uncertain ? "手は検出できましたが、向きをまだ判断できません。手全体を写し、少し向きを変えてください。" : "手を検出しました。爪が見えない指は非表示にしています。");
             }
           } else {

@@ -34,13 +34,20 @@ export function assessNailVisibility(pose: HandPose, landmarks: NailLandmark[], 
     // stronger independent image support; a palm plane alone must not show it.
     // Total joint bend includes in-plane spreading: it is not sufficient proof
     // that an open-palm thumb has curled out of the palm plane.
-    const thumbImageOverride = finger === 0 && joint.bendDegrees > 70 && joint.outOfPlaneDegrees > 15 && bounded
+    // A chroma-only natural-plate proposal cannot resolve a negatively facing
+    // thumb's roll: pressure-pink pads can have the same colour. Keep that
+    // ambiguous case hidden rather than treating our new cue as nail identity.
+    const thumbImageOverride = finger === 0 && !fit?.chromaticEvidence && joint.bendDegrees > 70 && joint.outOfPlaneDegrees > 15 && bounded
       && fit.confidence >= 0.88 && (fit.supportThresholds ?? 0) >= 3;
-    const curvedVisible = joint.facing >= 0.4 && (pose.view !== "palm" || joint.bendDegrees > 60);
+    const supportedCore = bounded && (fit.chromaticEvidence?.supportedRays ?? 0) >= 20 && (fit.chromaticEvidence?.stability ?? 0) >= 0.75;
+    if (supportedCore && occluded) return hide("chromatic-core-occluded");
+    const facingVisible = joint.facing >= 0.4 || (supportedCore && joint.facing >= 0.2 && joint.outOfPlaneDegrees > 15);
+    const curvedVisible = facingVisible && (pose.view !== "palm" || joint.bendDegrees > 60);
     if (bounded && (curvedVisible || thumbImageOverride)) {
       return { state: "partial", confidence: Math.min(pose.confidence, fit.confidence, resolutionConfidence),
         reason: occluded ? "bounded-visible-fragment" : "pose-and-current-boundary", hardHidden: false, contour: fit.contour, holes: fit.contourHoles };
     }
+    if (finger === 0 && supportedCore && joint.facing < 0.2) return hide("thumb-roll-unconfirmed", true);
     if (occluded) return hide("overlapping-closer-finger");
     if (pose.view === "palm") return hide("palm-no-visible-nail-evidence");
     return hide("side-or-rolled-nail-unconfirmed", true);
@@ -73,7 +80,7 @@ function overlapsCloserFinger(finger: number, landmarks: NailLandmark[], nails: 
 }
 
 export class NailVisibilityTracker {
-  private states: { alpha: number; since: number; eligible: boolean; lastStrong: number; dorsal: boolean }[] = [];
+  private states: { alpha: number; since: number; eligible: boolean; lastStrong: number; dorsal: boolean; partialSince: number; lastPartial: number }[] = [];
   private lastAt = -Infinity;
   private identity?: string;
 
@@ -92,12 +99,19 @@ export class NailVisibilityTracker {
     const dt = Math.max(0, Math.min(100, now - this.lastAt));
     this.lastAt = now;
     return evidence.map((value, index) => {
-      const previous = this.states[index] ?? { alpha: 0, since: now, eligible: false, lastStrong: -Infinity, dorsal: false };
+      const previous = this.states[index] ?? { alpha: 0, since: now, eligible: false, lastStrong: -Infinity, dorsal: false, partialSince: now, lastPartial: -Infinity };
       const wasVisible = previous.alpha > 0;
       const strong = !value.hardHidden && value.confidence >= 0.6;
+      if (strong && value.state === "partial") {
+        if (now - previous.lastPartial > 250) previous.partialSince = now;
+        previous.lastPartial = now;
+      }
       if (value.hardHidden) {
         previous.alpha = 0; previous.since = now; previous.eligible = false; previous.dorsal = false;
       } else {
+        // Losing current fragment evidence cannot fade a full, UNCLIPPED plate.
+        // Confirmation memory survives a short gap, but permission to paint does not.
+        if (!strong && !previous.dorsal) previous.alpha = 0;
         if (strong) { previous.lastStrong = now; previous.dorsal = value.state === "visible"; }
         // Only a recent, confirmed DORSAL landmark prior may survive a short
         // unknown. Never carry an absolute partial contour into another frame.
@@ -106,7 +120,7 @@ export class NailVisibilityTracker {
         if (eligible !== previous.eligible) previous.since = now;
         previous.eligible = eligible;
         if (hold) { /* keep current alpha, without renewing lastStrong */ }
-        else if (eligible && now - previous.since >= 70) previous.alpha = Math.min(1, previous.alpha + dt / 120);
+        else if (eligible && (now - previous.since >= 70 || (value.state === "partial" && now - previous.partialSince >= 70))) previous.alpha = Math.min(1, previous.alpha + dt / 120);
         else if (!eligible) previous.alpha = Math.max(0, previous.alpha - dt / 80);
       }
       this.states[index] = previous;

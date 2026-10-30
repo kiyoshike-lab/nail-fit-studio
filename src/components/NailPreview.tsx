@@ -14,6 +14,7 @@ type Props = {
   status: string;
   loading?: boolean;
   trackingFailed?: boolean;
+  trackingRetryAvailable?: boolean;
   detectionState?: HandDetectionState;
   onRetryTracking?: () => void;
   imageRef: RefObject<HTMLImageElement | null>;
@@ -28,7 +29,7 @@ type Props = {
   onMoveNail: (index: number, x: number, y: number) => void;
 };
 
-export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, detectionState = "searching", onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, design, liveNailsRef, onSelectNail, onMoveNail }: Props) {
+export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, trackingRetryAvailable, detectionState = "searching", onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, design, liveNailsRef, onSelectNail, onMoveNail }: Props) {
   const [aspectRatio, setAspectRatio] = useState("4 / 3");
   const dragRef = useRef<{ pointerId: number; index: number; offsetX: number; offsetY: number } | null>(null);
 
@@ -72,7 +73,7 @@ export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, d
         <strong>プレビュー</strong>
         <span>{status}</span>
       </div>
-      {mode === "camera" && trackingFailed && onRetryTracking && (
+      {mode === "camera" && (trackingFailed || trackingRetryAvailable) && onRetryTracking && !loading && (
         <div className="tracking-retry-row">
           <button type="button" className="secondary" onClick={onRetryTracking}>自動認識を再試行</button>
           <small>カメラ映像を止めずに、爪認識だけを再起動します。</small>

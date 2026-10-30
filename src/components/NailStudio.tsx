@@ -6,6 +6,8 @@ import { BottomNavigation } from "./BottomNavigation";
 import { CameraDeviceSelector } from "./CameraDeviceSelector";
 import { DesignSelector } from "./DesignSelector";
 import { NailPreview } from "./NailPreview";
+import { TrackingDiagnosticsPanel } from "./TrackingDiagnosticsPanel";
+import { diagnosticError, diagnosticsEnabled, updateTrackingDiagnostics } from "@/lib/trackingDiagnostics";
 import { PhotoUploader } from "./PhotoUploader";
 import { SavePanel } from "./SavePanel";
 import { SettingsPanel } from "./SettingsPanel";
@@ -57,6 +59,7 @@ export function NailStudio() {
   const [cameraDevices, setCameraDevices] = useState<CameraInput[]>([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState(() => readJson(STORAGE_KEYS.cameraDevice, ""));
   const [trackingState, setTrackingState] = useState<"idle" | "starting" | "active" | "failed">("idle");
+  const [trackingRetryAvailable, setTrackingRetryAvailable] = useState(false);
   const [detectionState, setDetectionState] = useState<HandDetectionState>("searching");
   const [toast, setToast] = useState("");
   const [loading, setLoading] = useState(false);
@@ -144,10 +147,14 @@ export function NailStudio() {
       canvas.height = height;
     }
     const ctx = canvas.getContext("2d");
-    if (!ctx) return false;
+    if (!ctx) { diagnosticError("render", new Error(), "canvas-context-unavailable"); updateTrackingDiagnostics(d => { d.stage = "G-render"; }); return false; }
     const drawId = ++drawIdRef.current;
     const visibleNails = mode === "camera" ? liveNailsRef.current ?? nails : nails;
     const now = performance.now();
+    if (mode === "camera" && diagnosticsEnabled()) updateTrackingDiagnostics(d => {
+      d.nails.before = before; d.nails.manual = trackingState === "failed"; d.nails.canvasWidth = width; d.nails.canvasHeight = height;
+      d.nails.canvasOpacity = Number(getComputedStyle(canvas).opacity);
+    });
     if (now - lastLightingAtRef.current >= 250 && visibleNails.length) {
       lastLightingAtRef.current = now;
       const source = mode === "camera" ? videoRef.current : imageRef.current;
@@ -177,6 +184,13 @@ export function NailStudio() {
           ? (hasTrackingPoseRef.current ? trackingOpacity(now - lastDetectedAtRef.current) : 0) : 1,
         lighting: lightingRef.current,
         waitForTexture: mode !== "camera",
+        onPainted: count => {
+          if (mode !== "camera") return;
+          updateTrackingDiagnostics(d => {
+            d.nails.rendered = count; d.nails.drawMs = performance.now() - now;
+            if (d.nails.eligible > 0 && count === 0 && d.stage === "tracking") d.stage = "G-render";
+          });
+        },
         viewport: mode === "camera"
           ? containRect(videoRef.current?.videoWidth ?? 0, videoRef.current?.videoHeight ?? 0, width, height)
           : containRect(imageRef.current?.naturalWidth ?? 0, imageRef.current?.naturalHeight ?? 0, width, height),
@@ -186,6 +200,7 @@ export function NailStudio() {
       });
     } else {
       ctx.clearRect(0, 0, width, height);
+      if (mode === "camera") updateTrackingDiagnostics(d => { d.nails.rendered = 0; });
       return true;
     }
   }, [before, cameraMirrored, design, mode, nails, trackingState]);
@@ -210,10 +225,15 @@ export function NailStudio() {
         pending = true;
         lastDraw = now;
         void drawPreviewRef.current()
-          .catch((error) => debugCamera("Canvas drawing failed", error))
+          .catch((error) => { diagnosticError("render", error, "canvas-draw-failed"); updateTrackingDiagnostics(d => { d.stage = "G-render"; }); debugCamera("Canvas drawing failed", error); })
           .finally(() => { pending = false; });
       }
       if (now - lastLog >= 2000) {
+        updateTrackingDiagnostics(d => {
+          d.nails.drawFps = (paintedFramesRef.current - lastPainted) * 1000 / (now - lastLog);
+          const memory = (performance as Performance & { memory?: { usedJSHeapSize: number } }).memory;
+          d.performance.memoryMB = memory ? memory.usedJSHeapSize / 1048576 : null;
+        });
         debugCamera("Canvas performance", { drawFps: (paintedFramesRef.current - lastPainted) * 1000 / (now - lastLog) });
         lastPainted = paintedFramesRef.current;
         lastLog = now;
@@ -255,6 +275,7 @@ export function NailStudio() {
     trackerRef.current?.stop();
     trackerRef.current = null;
     streamRef.current = null;
+    updateTrackingDiagnostics(d => { d.camera.state = "stopped"; d.nails.rendered = 0; });
     activeDeviceIdRef.current = "";
     if (videoRef.current) videoRef.current.srcObject = null;
     stream?.getTracks().forEach((track) => track.stop());
@@ -303,6 +324,7 @@ export function NailStudio() {
     liveNailsRef.current = null;
     lastDetectedAtRef.current = -Infinity;
     setTrackingState("starting");
+    setTrackingRetryAvailable(false);
     setDetectionState("searching");
     setStatus("カメラを使用中。自動認識を準備しています…");
     debugCamera("MediaPipe initialization start");
@@ -313,7 +335,7 @@ export function NailStudio() {
       hasTrackingPoseRef.current = false;
       setTrackingState("failed");
       setDetectionState("lost");
-      setStatus("自動認識を利用できませんでした。爪を手動で調整できます。");
+      setStatus("認識エンジンの起動または処理に失敗しました。自動認識を再試行するか、写真をアップロードしてください。爪を手動で調整できます。");
       notify("自動認識を利用できませんでした。手動調整を利用できます");
       debugCamera("Hand tracking stopped after repeated errors", error);
     };
@@ -362,6 +384,13 @@ export function NailStudio() {
           }
         },
         () => naturalLengthRef.current,
+        (health) => {
+          if (trackingRequestId !== trackingRequestRef.current || streamRef.current !== stream) return;
+          setTrackingRetryAvailable(health === "no-hand" || health === "waiting-frames");
+          if (health === "no-hand") setStatus("手を認識できませんでした。手の甲と5本の指を明るく写してください。再試行、または写真アップロードも利用できます。");
+          if (health === "waiting-frames") setStatus("動画フレームを待っています。再試行するか、写真をアップロードしてください。");
+          if (health === "recovering") setStatus("認識方式を切り替えています。カメラはそのままお待ちください…");
+        },
       ),
       () => trackingRequestId === trackingRequestRef.current && streamRef.current === stream && stream.active,
     );
@@ -385,6 +414,8 @@ export function NailStudio() {
     requestedFacingMode: "user" | "environment" = facingMode,
   ) => {
     if (!navigator.mediaDevices?.getUserMedia) {
+      diagnosticError("camera", new DOMException("", "SecurityError"), "camera-api-unavailable");
+      updateTrackingDiagnostics(d => { d.stage = "A-camera"; d.camera.state = "unavailable"; });
       const message = "このブラウザではカメラを利用できません。写真をアップロードしてお試しください。";
       setStatus(message);
       notify(message);
@@ -523,9 +554,11 @@ export function NailStudio() {
       trackingMirrored = mirrored;
     } catch (error) {
       if (requestId !== cameraRequestRef.current) return;
+      diagnosticError("camera", error, "camera-start-failed");
       cameraStartingRef.current = false;
       cameraProtectionUntilRef.current = 0;
       releaseCamera("camera-start-failed");
+      updateTrackingDiagnostics(d => { d.stage = "A-camera"; d.camera.state = "failed"; });
       setMode("empty");
       setCameraMirrored(false);
       setTrackingState("idle");
@@ -672,6 +705,15 @@ export function NailStudio() {
       return;
     }
 
+    if (video.paused) {
+      try { await video.play(); }
+      catch (error) {
+        diagnosticError("camera", error, "video-resume-failed");
+        setStatus("映像を再開できませんでした。カメラを一度止めて再起動するか、写真をアップロードしてください。");
+        return;
+      }
+      if (streamRef.current !== stream) return;
+    }
     notify("自動認識を再試行します");
     resetHandTrackingEngine();
     await startTrackingForCamera(video, stream, cameraMirrored);
@@ -1048,6 +1090,7 @@ export function NailStudio() {
           status={status}
           loading={loading || trackingState === "starting"}
           trackingFailed={trackingState === "failed"}
+          trackingRetryAvailable={trackingRetryAvailable}
           detectionState={detectionState}
           onRetryTracking={() => { void retryHandTracking(); }}
           imageRef={imageRef}
@@ -1065,6 +1108,7 @@ export function NailStudio() {
             notify("画像を読み込めませんでした");
           }}
         />
+        <TrackingDiagnosticsPanel />
       </main>
 
       <BottomNavigation mode={mode} onCamera={startCamera} onAutoFit={autoFit} onSave={saveImage} onSettings={() => document.getElementById("settings-panel")?.scrollIntoView({ behavior: "smooth" })} />

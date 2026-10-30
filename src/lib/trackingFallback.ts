@@ -1,6 +1,17 @@
 export type TrackingDelegate = "GPU" | "CPU";
 type StoppableTracker = { stop: () => void };
 
+export function withTrackingTimeout<T>(pending: Promise<T>, milliseconds: number, disposeLate?: (value: T) => void): Promise<T> {
+  return new Promise((resolve, reject) => {
+    let expired = false;
+    const timer = setTimeout(() => {
+      expired = true;
+      const error = new Error("Tracking initialization timed out"); error.name = "TimeoutError"; reject(error);
+    }, milliseconds);
+    pending.then(value => { clearTimeout(timer); if (expired) disposeLate?.(value); else resolve(value); }, error => { clearTimeout(timer); if (!expired) reject(error); });
+  });
+}
+
 export type TrackerInitializationResult<T extends StoppableTracker> =
   | { status: "active"; tracker: T }
   | { status: "failed"; error: unknown }

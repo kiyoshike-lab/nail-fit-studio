@@ -44,11 +44,11 @@ assert.equal(input.nextHandDetectionState(false, 20, false), "searching", "初�
 assert.equal(input.nextHandDetectionState(true, 2, false), "detected", "一時的な欠落で追跡が不安定になります");
 assert.equal(input.nextHandDetectionState(true, 3, false), "lost", "連続欠落を見失い状態にできません");
 
-let mode = "video";
+let mode = "canvas-960";
 mode = input.selectDetectionInputMode(mode, 2500);
-assert.equal(mode, "canvas-native");
+assert.equal(mode, "video");
 mode = input.selectDetectionInputMode(mode, 5000);
-assert.equal(mode, "canvas-960");
+assert.equal(mode, "canvas-native");
 mode = input.selectDetectionInputMode(mode, 8000);
 assert.equal(mode, "canvas-640");
 assert.equal(input.selectDetectionInputMode(mode, 10000), "canvas-640", "10秒未検出でtrackerを停止する設計になっています");

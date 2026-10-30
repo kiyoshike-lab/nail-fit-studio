@@ -1,0 +1,1078 @@
+{
+  "checkedAt": "2026-10-30T13:07:57.919832+00:00",
+  "scope": "Local changes only. No push or deployment. Physical iPhone/Android NOT tested.",
+  "environment": {
+    "next": "16.3.0",
+    "react": "19.2.8",
+    "mediapipe": "1.0.1",
+    "node": "24.16.0"
+  },
+  "gitAtStart": {
+    "branch": "codex/nail-fit-studio-2",
+    "local": "5df9ffed96d90a5a81ca2bf449b72a027de59b17",
+    "pushed": "2f6d86683b97201ee9271afa36ae776d2cc3ca8b",
+    "latestProductionDeploymentRecord": "2f6d86683b97201ee9271afa36ae776d2cc3ca8b",
+    "aliasCommitMapping": "Not verified in private Vercel dashboard; individual deployment redirects to Vercel login, alias is anonymous HTTP 200"
+  },
+  "commands": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "test": "20 scripts passed",
+    "build": "passed, 47 static pages"
+  },
+  "publicHttpAudit": {
+    "origin": "https://nail-fit-studio.vercel.app",
+    "checkedAt": "2026-10-30T12:49:57.042Z",
+    "requests": 54,
+    "indexableSitemapPages": 39,
+    "guideArticles": 30,
+    "botUserAgentStatus": 200,
+    "home": {
+      "path": "/",
+      "status": 200,
+      "url": "https://nail-fit-studio.vercel.app/",
+      "redirected": false,
+      "contentType": "text/html; charset=utf-8",
+      "xRobots": null,
+      "bytes": 43173,
+      "title": "無料ネイル試着｜写真・カメラで似合うネイルをお試し - Nail Fit Studio",
+      "description": "ネイルをする前に、自分の手で似合うデザインをチェック。Nail Fit Studioは、写真やカメラでネイルの色・形・長さを無料で試せるサイトです。アプリのインストール不要で、スマホから気軽にお試しできます。",
+      "canonical": "https://nail-fit-studio.vercel.app",
+      "ogTitle": "無料でネイル試着！自分の手で似合うデザインを探そう｜Nail Fit Studio",
+      "ogImage": "https://nail-fit-studio.vercel.app/og/nail-fit-studio-ja-20261029.png",
+      "structuredData": [
+        {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              "name": "Nail Fit Studio",
+              "url": "https://nail-fit-studio.vercel.app",
+              "description": "ネイルをする前に、自分の手で似合うデザインをチェック。Nail Fit Studioは、写真やカメラでネイルの色・形・長さを無料で試せるサイトです。アプリのインストール不要で、スマホから気軽にお試しできます。",
+              "inLanguage": "ja"
+            },
+            {
+              "@type": "Organization",
+              "name": "Nail Fit Studio",
+              "url": "https://nail-fit-studio.vercel.app",
+              "description": "ネイル選びの失敗を減らすためのバーチャル試着・診断・情報サービス"
+            }
+          ]
+        }
+      ],
+      "internalLinks": [
+        "/",
+        "/",
+        "/try-on",
+        "/diagnosis",
+        "/guide",
+        "/favorites",
+        "/try-on",
+        "/try-on",
+        "/diagnosis",
+        "/try-on",
+        "/try-on",
+        "/try-on",
+        "/try-on",
+        "/try-on",
+        "/diagnosis",
+        "/guide?scene=%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B9",
+        "/guide?scene=%E3%83%87%E3%83%BC%E3%83%88",
+        "/guide?scene=%E7%B5%90%E5%A9%9A%E5%BC%8F",
+        "/guide?scene=%E6%88%90%E4%BA%BA%E5%BC%8F",
+        "/guide?scene=%E5%B0%B1%E6%B4%BB",
+        "/guide?scene=%E3%83%91%E3%83%BC%E3%83%86%E3%82%A3%E3%83%BC",
+        "/guide/hand-beautiful-nail-colors",
+        "/guide",
+        "/guide/how-to-choose-nail-shape",
+        "/guide/short-nail-design",
+        "/guide/office-nail",
+        "/about",
+        "/editorial-policy",
+        "/privacy",
+        "/terms",
+        "/contact",
+        "/",
+        "/try-on",
+        "/diagnosis",
+        "/guide",
+        "/favorites"
+      ]
+    },
+    "statusByPath": [
+      {
+        "path": "/robots.txt",
+        "status": 200,
+        "contentType": "text/plain; charset=utf-8",
+        "xRobots": null
+      },
+      {
+        "path": "/sitemap.xml",
+        "status": 200,
+        "contentType": "application/xml",
+        "xRobots": null
+      },
+      {
+        "path": "/",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app"
+      },
+      {
+        "path": "/try-on",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/try-on"
+      },
+      {
+        "path": "/diagnosis",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/diagnosis"
+      },
+      {
+        "path": "/guide",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide"
+      },
+      {
+        "path": "/about",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/about"
+      },
+      {
+        "path": "/editorial-policy",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/editorial-policy"
+      },
+      {
+        "path": "/privacy",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/privacy"
+      },
+      {
+        "path": "/terms",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/terms"
+      },
+      {
+        "path": "/contact",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/contact"
+      },
+      {
+        "path": "/guide/how-to-choose-nail-shape",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/how-to-choose-nail-shape"
+      },
+      {
+        "path": "/guide/round-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/round-nail"
+      },
+      {
+        "path": "/guide/oval-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/oval-nail"
+      },
+      {
+        "path": "/guide/square-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/square-nail"
+      },
+      {
+        "path": "/guide/almond-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/almond-nail"
+      },
+      {
+        "path": "/guide/ballerina-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/ballerina-nail"
+      },
+      {
+        "path": "/guide/short-nail-design",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/short-nail-design"
+      },
+      {
+        "path": "/guide/make-nails-look-longer",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/make-nails-look-longer"
+      },
+      {
+        "path": "/guide/hand-beautiful-nail-colors",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/hand-beautiful-nail-colors"
+      },
+      {
+        "path": "/guide/pink-beige-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/pink-beige-nail"
+      },
+      {
+        "path": "/guide/warm-tone-nail-colors",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/warm-tone-nail-colors"
+      },
+      {
+        "path": "/guide/cool-tone-nail-colors",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/cool-tone-nail-colors"
+      },
+      {
+        "path": "/guide/skin-friendly-nail-colors",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/skin-friendly-nail-colors"
+      },
+      {
+        "path": "/guide/date-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/date-nail"
+      },
+      {
+        "path": "/guide/university-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/university-nail"
+      },
+      {
+        "path": "/guide/job-hunting-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/job-hunting-nail"
+      },
+      {
+        "path": "/guide/office-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/office-nail"
+      },
+      {
+        "path": "/guide/wedding-guest-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/wedding-guest-nail"
+      },
+      {
+        "path": "/guide/coming-of-age-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/coming-of-age-nail"
+      },
+      {
+        "path": "/guide/spring-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/spring-nail"
+      },
+      {
+        "path": "/guide/summer-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/summer-nail"
+      },
+      {
+        "path": "/guide/autumn-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/autumn-nail"
+      },
+      {
+        "path": "/guide/winter-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/winter-nail"
+      },
+      {
+        "path": "/guide/french-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/french-nail"
+      },
+      {
+        "path": "/guide/gradient-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/gradient-nail"
+      },
+      {
+        "path": "/guide/magnet-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/magnet-nail"
+      },
+      {
+        "path": "/guide/gel-vs-polish",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/gel-vs-polish"
+      },
+      {
+        "path": "/guide/before-nail-salon",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/before-nail-salon"
+      },
+      {
+        "path": "/guide/long-lasting-nail",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/long-lasting-nail"
+      },
+      {
+        "path": "/guide/daily-nail-care",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null,
+        "canonical": "https://nail-fit-studio.vercel.app/guide/daily-nail-care"
+      },
+      {
+        "path": "/favorites",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null
+      },
+      {
+        "path": "/history",
+        "status": 200,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null
+      },
+      {
+        "path": "/__seo_audit_missing__",
+        "status": 404,
+        "contentType": "text/html; charset=utf-8",
+        "xRobots": null
+      },
+      {
+        "path": "/mediapipe/hand_landmarker.task",
+        "status": 200,
+        "contentType": "application/octet-stream",
+        "xRobots": null,
+        "sha256": "fbc2a30080c3c557093b5ddfc334698132eb341044ccee322ccf8bcf3607cde1"
+      },
+      {
+        "path": "/mediapipe/vision_wasm_internal.js",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "xRobots": null,
+        "sha256": "e170ee67dd4e16c1a6fcd8840a206687e5a59b22c20e4a902bc445b095454d73"
+      },
+      {
+        "path": "/mediapipe/vision_wasm_internal.wasm",
+        "status": 200,
+        "contentType": "application/wasm",
+        "xRobots": null,
+        "sha256": "8da277a733926eacd0474b8704b36742d6ec3231c57a860c5b889dff8f1df886"
+      },
+      {
+        "path": "/mediapipe/vision_wasm_module_internal.js",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "xRobots": null,
+        "sha256": "da8934057f147b622e82cfb4c0dbd85461c598e268588b5a8ba9ca963a8ff82d"
+      },
+      {
+        "path": "/mediapipe/vision_wasm_module_internal.wasm",
+        "status": 200,
+        "contentType": "application/wasm",
+        "xRobots": null,
+        "sha256": "2dabd8e23c60984628beb7bb338764c81a08e6837145273f59578684b5d53c1b"
+      },
+      {
+        "path": "/mediapipe/vision_wasm_nosimd_internal.js",
+        "status": 200,
+        "contentType": "application/javascript; charset=utf-8",
+        "xRobots": null,
+        "sha256": "e81d715a3d42cc3373602eb2f7aff795d164934db680e32496b65dab537f9658"
+      },
+      {
+        "path": "/mediapipe/vision_wasm_nosimd_internal.wasm",
+        "status": 200,
+        "contentType": "application/wasm",
+        "xRobots": null,
+        "sha256": "a28483cd42e74e855bf5ebdb6b40d9b66a5b49e35e95020bc97669e6822a3192"
+      },
+      {
+        "path": "/icons/favicon-48.png",
+        "status": 200,
+        "contentType": "image/png",
+        "xRobots": null,
+        "sha256": "affb21a95d75aa63dca45cc7ee3198d2478396ea8cd8ec3a62f6cb5536f7f858"
+      },
+      {
+        "path": "/og/nail-fit-studio-ja-20261029.png",
+        "status": 200,
+        "contentType": "image/png",
+        "xRobots": null,
+        "sha256": "fbaca3084bce69b8568d6ec7d5ae02d4dbf9c498513feb7c7b42fd42e215351f"
+      },
+      {
+        "path": "/ads.txt",
+        "status": 200,
+        "contentType": "text/plain; charset=utf-8",
+        "xRobots": null
+      }
+    ]
+  },
+  "assetIntegrity": [
+    {
+      "file": "vision_wasm_internal.js",
+      "matchesInstalledSDK": true,
+      "sha256": "e170ee67dd4e16c1a6fcd8840a206687e5a59b22c20e4a902bc445b095454d73",
+      "matchesPublicProduction": true
+    },
+    {
+      "file": "vision_wasm_internal.wasm",
+      "matchesInstalledSDK": true,
+      "sha256": "8da277a733926eacd0474b8704b36742d6ec3231c57a860c5b889dff8f1df886",
+      "matchesPublicProduction": true
+    },
+    {
+      "file": "vision_wasm_module_internal.js",
+      "matchesInstalledSDK": true,
+      "sha256": "da8934057f147b622e82cfb4c0dbd85461c598e268588b5a8ba9ca963a8ff82d",
+      "matchesPublicProduction": true
+    },
+    {
+      "file": "vision_wasm_module_internal.wasm",
+      "matchesInstalledSDK": true,
+      "sha256": "2dabd8e23c60984628beb7bb338764c81a08e6837145273f59578684b5d53c1b",
+      "matchesPublicProduction": true
+    },
+    {
+      "file": "vision_wasm_nosimd_internal.js",
+      "matchesInstalledSDK": true,
+      "sha256": "e81d715a3d42cc3373602eb2f7aff795d164934db680e32496b65dab537f9658",
+      "matchesPublicProduction": true
+    },
+    {
+      "file": "vision_wasm_nosimd_internal.wasm",
+      "matchesInstalledSDK": true,
+      "sha256": "a28483cd42e74e855bf5ebdb6b40d9b66a5b49e35e95020bc97669e6822a3192",
+      "matchesPublicProduction": true
+    }
+  ],
+  "localProductionApp": {
+    "kind": "headless Chrome + real bundled MediaPipe + Canvas.captureStream of a real dorsal photo; not physical camera or recorded motion",
+    "photoNails": 5,
+    "videoDrawnNails": 5,
+    "mirroredVideoDrawnNails": 5,
+    "far": {
+      "width": 1.6,
+      "height": 3.3,
+      "x": 50
+    },
+    "near": {
+      "width": 2.3,
+      "height": 4.7,
+      "x": 50
+    },
+    "moved": {
+      "width": 2.3,
+      "height": 4.7,
+      "x": 55.4
+    },
+    "errors": [],
+    "passed": [
+      "photo detection to five actual Canvas nails",
+      "VIDEO detection to five actual Canvas nails",
+      "distance scale",
+      "horizontal tracking",
+      "rear-like unmirrored / front-like mirrored preview",
+      "camera switch releases old stream",
+      "loss and reacquisition",
+      "capture and PNG save"
+    ]
+  },
+  "localProductionDiagnostics": {
+    "kind": "headless desktop Chrome; mobile widths, real model + still-driven captureStream, not iPhone/Android hardware",
+    "rows": [
+      {
+        "width": 320,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "overflow": false
+      },
+      {
+        "width": 430,
+        "overflow": false
+      },
+      {
+        "width": 1280,
+        "overflow": false
+      },
+      {
+        "case": "real model + VIDEO + draw",
+        "snapshot": {
+          "schema": 1,
+          "stage": "tracking",
+          "environment": {
+            "browser": "Chrome",
+            "os": "Windows",
+            "secure": true,
+            "frameCallback": true
+          },
+          "camera": {
+            "state": "live",
+            "width": 640,
+            "height": 480,
+            "readyState": 4,
+            "currentTime": 4.052247,
+            "updates": 5,
+            "paused": false
+          },
+          "engine": {
+            "state": "ready",
+            "delegate": "GPU",
+            "attempts": 1,
+            "initializationMs": 644.6999999992549
+          },
+          "inference": {
+            "attempts": 4,
+            "successes": 4,
+            "errors": 0,
+            "emptyResults": 0,
+            "hands": 1,
+            "landmarks": 21,
+            "input": "canvas-960",
+            "width": 640,
+            "height": 480,
+            "lastMs": 261.1000000005588,
+            "intervalMs": 50,
+            "actualIntervalMs": 714.0999999996275
+          },
+          "nails": {
+            "estimated": 5,
+            "eligible": 5,
+            "rendered": 5,
+            "drawMs": 0.09999999962747097,
+            "drawFps": 3.6972677191552896,
+            "before": false,
+            "manual": false,
+            "canvasWidth": 356,
+            "canvasHeight": 267,
+            "canvasOpacity": 1
+          },
+          "performance": {
+            "cameraFps": null,
+            "detectionFps": 0.9376465072667605,
+            "inferenceMs": 1811.544999999972,
+            "memoryMB": 23.701607704162598
+          },
+          "lastError": null
+        }
+      },
+      {
+        "case": "no hand guidance, stream remains active",
+        "snapshot": {
+          "schema": 1,
+          "stage": "D-no-hands",
+          "environment": {
+            "browser": "Chrome",
+            "os": "Windows",
+            "secure": true,
+            "frameCallback": true
+          },
+          "camera": {
+            "state": "live",
+            "width": 640,
+            "height": 480,
+            "readyState": 4,
+            "currentTime": 10.645805,
+            "updates": 90,
+            "paused": false
+          },
+          "engine": {
+            "state": "ready",
+            "delegate": "GPU",
+            "attempts": 1,
+            "initializationMs": 644.6999999992549
+          },
+          "inference": {
+            "attempts": 28,
+            "successes": 28,
+            "errors": 0,
+            "emptyResults": 23,
+            "hands": 0,
+            "landmarks": 0,
+            "input": "canvas-native",
+            "width": 640,
+            "height": 480,
+            "lastMs": 160.5,
+            "intervalMs": 100,
+            "actualIntervalMs": 263.19999999925494
+          },
+          "nails": {
+            "estimated": 0,
+            "eligible": 0,
+            "rendered": 0,
+            "drawMs": 0.10000000055879354,
+            "drawFps": 11.447912000398192,
+            "before": false,
+            "manual": false,
+            "canvasWidth": 356,
+            "canvasHeight": 267,
+            "canvasOpacity": 0
+          },
+          "performance": {
+            "cameraFps": 12.443382609128468,
+            "detectionFps": 3.484147130555971,
+            "inferenceMs": 245.13569989202193,
+            "memoryMB": 28.187562942504883
+          },
+          "lastError": null
+        }
+      },
+      {
+        "case": "retry recovers five nails without new stream",
+        "passed": true
+      },
+      {
+        "case": "paused video resumes on recognition retry without stream restart",
+        "passed": true
+      },
+      {
+        "case": "permission denial",
+        "snapshot": {
+          "schema": 1,
+          "stage": "A-camera",
+          "environment": {
+            "browser": "Chrome",
+            "os": "Windows",
+            "secure": true,
+            "frameCallback": true
+          },
+          "camera": {
+            "state": "failed",
+            "width": 640,
+            "height": 480,
+            "readyState": 4,
+            "currentTime": 16.9816,
+            "updates": 3,
+            "paused": false
+          },
+          "engine": {
+            "state": "stopped",
+            "delegate": "GPU",
+            "attempts": 1,
+            "initializationMs": 429.29999999981374
+          },
+          "inference": {
+            "attempts": 2,
+            "successes": 2,
+            "errors": 0,
+            "emptyResults": 0,
+            "hands": 1,
+            "landmarks": 21,
+            "input": "canvas-960",
+            "width": 640,
+            "height": 480,
+            "lastMs": 265.79999999981374,
+            "intervalMs": 50,
+            "actualIntervalMs": 2092.7000000001863
+          },
+          "nails": {
+            "estimated": 5,
+            "eligible": 5,
+            "rendered": 0,
+            "drawMs": 0.10000000055879354,
+            "drawFps": 3.404255319148936,
+            "before": false,
+            "manual": false,
+            "canvasWidth": 356,
+            "canvasHeight": 267,
+            "canvasOpacity": 1
+          },
+          "performance": {
+            "cameraFps": null,
+            "detectionFps": 0.48491901852390634,
+            "inferenceMs": 2043,
+            "memoryMB": 21.552943229675293
+          },
+          "lastError": {
+            "phase": "camera",
+            "name": "NotAllowedError",
+            "code": "camera-start-failed"
+          }
+        }
+      }
+    ],
+    "errors": []
+  },
+  "realInputComparison": {
+    "kind": "headless Chrome with software WebGL; real SDK and delegates; still-driven video, NOT physical phone performance",
+    "rows": [
+      {
+        "delegate": "GPU",
+        "mode": "video",
+        "width": 1280,
+        "height": 720,
+        "initializationMs": 512.6999999997206,
+        "samples": [
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 1922.6000000000931
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 172.1999999997206
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 170.60000000009313
+          }
+        ]
+      },
+      {
+        "delegate": "GPU",
+        "mode": "canvas-native",
+        "width": 1280,
+        "height": 720,
+        "initializationMs": 512.6999999997206,
+        "samples": [
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 172.89999999990687
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 171
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 165.89999999990687
+          }
+        ]
+      },
+      {
+        "delegate": "GPU",
+        "mode": "canvas-960",
+        "width": 960,
+        "height": 540,
+        "initializationMs": 512.6999999997206,
+        "samples": [
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 164
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 167.70000000018626
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 163
+          }
+        ]
+      },
+      {
+        "delegate": "GPU",
+        "mode": "canvas-640",
+        "width": 640,
+        "height": 360,
+        "initializationMs": 512.6999999997206,
+        "samples": [
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 160.29999999981374
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 168.1999999997206
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 158.60000000009313
+          }
+        ]
+      },
+      {
+        "delegate": "CPU",
+        "mode": "video",
+        "width": 1280,
+        "height": 720,
+        "initializationMs": 405,
+        "samples": [
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 130.10000000009313
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 172.90000000037253
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 60.89999999990687
+          }
+        ]
+      },
+      {
+        "delegate": "CPU",
+        "mode": "canvas-native",
+        "width": 1280,
+        "height": 720,
+        "initializationMs": 405,
+        "samples": [
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 43.700000000186265
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 39.799999999813735
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 40.39999999990687
+          }
+        ]
+      },
+      {
+        "delegate": "CPU",
+        "mode": "canvas-960",
+        "width": 960,
+        "height": 540,
+        "initializationMs": 405,
+        "samples": [
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 35.799999999813735
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 34.5
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 37.6999999997206
+          }
+        ]
+      },
+      {
+        "delegate": "CPU",
+        "mode": "canvas-640",
+        "width": 640,
+        "height": 360,
+        "initializationMs": 405,
+        "samples": [
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 34.5
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 32.3000000002794
+          },
+          {
+            "hands": 1,
+            "landmarks": 21,
+            "ms": 31.600000000093132
+          }
+        ]
+      }
+    ]
+  },
+  "localProductionSeo": {
+    "layouts": [
+      {
+        "route": "/",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/try-on",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/try-on",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/try-on",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/diagnosis",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/diagnosis",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/diagnosis",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/guide",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/guide",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/guide",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/about",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/about",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/about",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      }
+    ],
+    "sitemapEntries": 39,
+    "errors": [],
+    "passed": [
+      "unique Japanese titles/descriptions",
+      "canonical/OG URLs",
+      "Japanese OGP/Twitter with PNG",
+      "WebSite/Article/Breadcrumb JSON-LD parse and semantics",
+      "no fabricated rating schema",
+      "personal noindex",
+      "sitemap/robots/404",
+      "favicon/manifest",
+      "3 facts above fold",
+      "home to try-on link",
+      "AdSense/GA4/ads.txt retained"
+    ]
+  },
+  "limitations": [
+    "No physical iPhone Safari/Android Chrome verification or device FPS/thermal claims",
+    "Still-driven video is not live/recorded 3D hand motion",
+    "SDK output and timeout/fallback failures mocked in automatic regression tests",
+    "Input benchmark fixed order/3 samples incl cold start, not unbiased mobile performance",
+    "Search Console ownership/indexing/Google-selected canonical unavailable; no promise of index/rank",
+    "No change deployed to public site"
+  ]
+}

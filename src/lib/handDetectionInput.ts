@@ -3,9 +3,9 @@ export type HandDetectionState = "searching" | "detected" | "lost";
 export type DetectionInputMode = "video" | "canvas-native" | "canvas-960" | "canvas-640";
 
 export function selectDetectionInputMode(current: DetectionInputMode, missingForMs: number): DetectionInputMode {
-  if (current === "video" && missingForMs >= 2500) return "canvas-native";
-  if (current === "canvas-native" && missingForMs >= 5000) return "canvas-960";
-  if (current === "canvas-960" && missingForMs >= 8000) return "canvas-640";
+  if (missingForMs >= 8000) return "canvas-640";
+  if (missingForMs >= 5000) return "canvas-native";
+  if (missingForMs >= 2500) return "video";
   return current;
 }
 

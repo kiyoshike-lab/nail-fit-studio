@@ -35,7 +35,7 @@ export async function drawNails(
   canvasHeight: number,
   nails: NailPose[],
   design: NailDesign,
-  options: { isCurrent?: () => boolean; clear?: boolean; opacity?: number; lighting?: SceneLighting; waitForTexture?: boolean; viewport?: { x: number; y: number; width: number; height: number } } = {},
+  options: { isCurrent?: () => boolean; clear?: boolean; opacity?: number; lighting?: SceneLighting; waitForTexture?: boolean; onPainted?: (count: number) => void; viewport?: { x: number; y: number; width: number; height: number } } = {},
 ) {
   // Resolve I/O before touching the shared Canvas state. No await is allowed
   // between save/clip/restore: an older texture frame must never overpaint a new one.
@@ -48,6 +48,7 @@ export async function drawNails(
   if (options.clear) ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   ctx.save();
   ctx.globalAlpha *= options.opacity ?? 1;
+  let painted = 0;
   try {
     const viewport = options.viewport ?? { x: 0, y: 0, width: canvasWidth, height: canvasHeight };
     ctx.beginPath();
@@ -76,11 +77,13 @@ export async function drawNails(
           ctx.clip("evenodd");
         }
         drawNail(ctx, viewport.width, viewport.height, nail, design, index, texture, options.lighting);
+        if (ctx.globalAlpha > 0.01) painted++;
       } finally { ctx.restore(); }
     }
   } finally {
     ctx.restore();
   }
+  options.onPainted?.(painted);
   return true;
 }
 

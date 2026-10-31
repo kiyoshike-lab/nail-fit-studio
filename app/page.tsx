@@ -1,28 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-import { HOME_TITLE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
-import { pageMetadata } from "@/lib/seo";
+import { HOME_TITLE, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
+import { buildWebsiteJsonLd, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata(HOME_TITLE, SITE_DESCRIPTION, "/");
 
 export default function Home() {
-  const websiteJsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      { "@type": "WebSite", name: SITE_NAME, url: SITE_URL, description: SITE_DESCRIPTION, inLanguage: "ja" },
-      { "@type": "Organization", name: SITE_NAME, url: SITE_URL, description: "ネイル選びの失敗を減らすためのバーチャル試着・診断・情報サービス" },
-    ],
-  };
+  const websiteJsonLd = buildWebsiteJsonLd();
 
   return (
     <main className="home-page">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c") }} />
 
       <section className="home-hero page-width">
         <div className="hero-copy">
-          <p className="eyebrow">無料ネイル試着</p>
+          <p className="eyebrow">{SITE_NAME}｜無料ネイル試着</p>
           <h1>自分の手で、<br />似合うネイルを<span style={{ display: "inline-block" }}>試そう。</span></h1>
-          <p className="lead">自分の手の写真やカメラで、ネイルの色・形・長さを無料でお試し。アプリのインストールは不要です。サロンへ行く前に、似合うデザインをチェックできます。</p>
+          <p className="lead">{SITE_NAME}は、自分の手の写真やカメラで、ネイルの色・形・長さを無料で試せるサイトです。アプリのインストールは不要です。サロンへ行く前に、似合うデザインをチェックできます。</p>
           <div className="hero-actions">
             <Link href="/try-on" className="button primary">自分の手で試す</Link>
             <Link href="/diagnosis" className="button ghost">似合うネイルを診断</Link>

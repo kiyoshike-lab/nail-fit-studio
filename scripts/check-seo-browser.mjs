@@ -55,6 +55,9 @@ try{
    assert.equal(head.titles[0],HOME_TITLE);assert.equal(head.description,SITE_DESCRIPTION);
    const schemas=head.jsonLd.flatMap(j=>j['@graph']??[j]);const website=schemas.filter(j=>j['@type']==='WebSite');
    assert.equal(website.length,1);assert.equal(website[0].name,SITE_NAME);assert.equal(website[0].description,SITE_DESCRIPTION);assert.equal(website[0].inLanguage,'ja');assert.equal(normalize(website[0].url),normalize(SITE_URL));
+   assert.equal(website[0]['@id'],`${new URL('/',SITE_URL).href}#website`);
+   assert.equal(website[0].url,new URL('/',SITE_URL).href);
+   assert.equal(website[0].alternateName,undefined,'unverified alternate brands were added');
   }
   assert.ok(!JSON.stringify(head.jsonLd).match(/AggregateRating|ratingValue|reviewCount|award/),route);
   assert.equal(/noindex/.test(head.robots??''),['/favorites','/history'].includes(route),route);
@@ -86,6 +89,7 @@ try{
  }
  await page.goto(`${base}/`,{waitUntil:'networkidle'});await page.setViewportSize({width:390,height:844});
  const lead=await page.locator('.home-hero .lead').innerText();assert.ok(lead.includes('無料')&&lead.includes('写真やカメラ')&&lead.includes('インストールは不要'));
+ assert.ok(lead.startsWith('Nail Fit Studioは、'));
  assert.ok(await page.locator('.home-hero .lead').evaluate(el=>el.getBoundingClientRect().bottom<innerHeight),'three service facts are below the first screen');
  await page.locator('.home-hero a[href="/try-on"]').click();await page.waitForURL('**/try-on');
  // App Router can update the URL before the lazy client studio has mounted.

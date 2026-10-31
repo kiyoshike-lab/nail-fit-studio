@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {importTypescript} from './lib/import-typescript.mjs';
 const site=await importTypescript('src/lib/site.ts');
-const {pageMetadata,socialMetadata,socialImage}=await importTypescript('src/lib/seo.ts');
+const {buildWebsiteJsonLd,pageMetadata,socialMetadata,socialImage}=await importTypescript('src/lib/seo.ts');
 const {guideArticles}=await importTypescript('src/content/guides.ts');
 const HOME='無料ネイル試着｜写真・カメラで似合うネイルをお試し - Nail Fit Studio';
 const DESCRIPTION='ネイルをする前に、自分の手で似合うデザインをチェック。Nail Fit Studioは、写真やカメラでネイルの色・形・長さを無料で試せるサイトです。アプリのインストール不要で、スマホから気軽にお試しできます。';
@@ -41,7 +41,8 @@ for(const [file,width,height]of [['public'+socialImage.url,1200,630],['public/ic
 }
 const home=await readFile('app/page.tsx','utf8'),layout=await readFile('app/layout.tsx','utf8');
 assert.ok(home.includes('pageMetadata(HOME_TITLE, SITE_DESCRIPTION, "/")'));
-assert.ok(home.includes('"@type": "WebSite", name: SITE_NAME, url: SITE_URL, description: SITE_DESCRIPTION, inLanguage: "ja"'));
+assert.ok(home.includes('const websiteJsonLd = buildWebsiteJsonLd();'));
+assert.equal(buildWebsiteJsonLd()['@graph'].find(node=>node['@type']==='WebSite').name,site.SITE_NAME);
 assert.ok(layout.includes('<html lang="ja">'));assert.ok(layout.includes('template: `%s｜${SITE_NAME}`'));
 for(const label of ['VIRTUAL NAIL TRY-ON','HOW IT WORKS','POPULAR DESIGNS','WHY NAIL FIT STUDIO','NAIL GUIDE','FAQ'])assert.ok(!home.includes(`>${label}`));
 assert.ok(home.includes('アプリのインストールは不要'));

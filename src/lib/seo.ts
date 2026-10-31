@@ -1,5 +1,20 @@
 import type { Metadata } from "next";
-import { SHARE_DESCRIPTION, SHARE_TITLE, SITE_NAME } from "./site";
+import { SHARE_DESCRIPTION, SHARE_TITLE, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "./site";
+
+// One home-page graph, not a second global WebSite declaration. Case changes
+// and the hostname slug are search variants, not invented alternate brands.
+export function buildWebsiteJsonLd(siteUrl = SITE_URL) {
+  const home = new URL("/", siteUrl).href;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebSite", "@id": `${home}#website`, name: SITE_NAME, url: home,
+        description: SITE_DESCRIPTION, inLanguage: "ja", publisher: { "@id": `${home}#organization` } },
+      { "@type": "Organization", "@id": `${home}#organization`, name: SITE_NAME, url: home,
+        description: "ネイル選びの失敗を減らすためのバーチャル試着・診断・情報サービス" },
+    ],
+  };
+}
 
 export const socialImage = {
   url: "/og/nail-fit-studio-ja-20261029.png",

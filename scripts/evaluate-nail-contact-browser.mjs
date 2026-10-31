@@ -12,7 +12,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  const page=await browser.newPage();
  const urls={renderer:await typescriptModuleUrl('src/lib/nailRenderer.ts'),surface:await typescriptModuleUrl('scripts/lib/nail-surface-candidate.ts'),
-  geometry:await typescriptModuleUrl('src/lib/nailGeometry.ts'),before:await typescriptModuleUrl(option('--baseline-refiner')),after:await typescriptModuleUrl('src/lib/nailImageRefinement.ts')};
+  geometry:await typescriptModuleUrl('src/lib/nailGeometry.ts'),before:await typescriptModuleUrl(option('--baseline-refiner')),after:await typescriptModuleUrl(option('--refiner')??'src/lib/nailImageRefinement.ts')};
  const cases=JSON.parse(await readFile(option('--cases'),'utf8')),input=JSON.parse(await readFile(option('--input'),'utf8'));
  const result=await page.evaluate(async({urls,cases,input})=>{
   const {buildNailPath}=await import(urls.renderer),{buildSurfacePath}=await import(urls.surface),{buildNailsFromLandmarks}=await import(urls.geometry);
@@ -46,7 +46,7 @@ try{
    const started=performance.now();(stage==='before'?beforeRefine:afterRefine)(item.image,item.nails,false);
    const ms=performance.now()-started;if(pass)samples[stage].push(ms);
   }
-  const mean=xs=>xs.reduce((a,b)=>a+b,0)/xs.length,stats=xs=>{const s=[...xs].sort((a,b)=>a-b);return {samples:s.length,meanMs:mean(s),p50Ms:s[Math.floor(s.length*.5)],p95Ms:s[Math.floor(s.length*.95)]};};
+  const mean=xs=>xs.reduce((a,b)=>a+b,0)/xs.length,stats=xs=>{const s=[...xs].sort((a,b)=>a-b);return {samples:s.length,meanMs:mean(s),p50Ms:s[Math.ceil(s.length*.5)-1],p90Ms:s[Math.ceil(s.length*.9)-1],p95Ms:s[Math.ceil(s.length*.95)-1],maxMs:s.at(-1),rawMs:xs};};
   return {method:'actual Canvas natural design paths at length=1, alpha>=128, baseline-locked per-component masks; silhouette IoU, not photorealism or anatomical cuticle accuracy',nails:rows.length,
    beforeIoU:mean(rows.map(x=>x.before.iou)),afterIoU:mean(rows.map(x=>x.after.iou)),
    experimentalContourIoU:mean(rows.map(x=>x.candidate.iou)),experimentalContourNails:rows.filter(x=>x.candidate.surfaceUsed).length,

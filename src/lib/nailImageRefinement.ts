@@ -6,6 +6,7 @@ import { fitChromaticNail } from "./nailChromaticFit";
 type PixelImage = { width: number; height: number; data: Uint8ClampedArray };
 export type NailFitDiagnostic = {
   accepted: boolean; confidence: number; reason: string;
+  reused?: boolean;
   rejected?: Record<string, number>; candidates?: number; supportThresholds?: number;
   outline?: { x: number; y: number }[];
   contour?: ContourPoint[];

@@ -11,7 +11,7 @@ import { estimateHandPose, type HandPose } from "./handPose";
 import { assessNailVisibility, NailVisibilityTracker, withNailVisibility } from "./nailVisibility";
 import { initializeWithDelegateFallback, withTrackingTimeout, type TrackingDelegate } from "./trackingFallback";
 import { VideoFrameGate } from "./videoFrameGate";
-import { configureDiagnosticEnvironment, diagnosticError, isMobileTrackingEnvironment, resetTrackingDiagnostics, updateTrackingDiagnostics, type TrackingHealth } from "./trackingDiagnostics";
+import { configureDiagnosticEnvironment, diagnosticError, isMobileTrackingEnvironment, recordFrameProfile, resetTrackingDiagnostics, updateTrackingDiagnostics, type TrackingHealth } from "./trackingDiagnostics";
 import {
   calculateProcessingSize,
   nextHandDetectionState,
@@ -152,6 +152,7 @@ export async function startHandTracking(
           d.inference.width = input instanceof HTMLCanvasElement ? input.width : video.videoWidth;
           d.inference.height = input instanceof HTMLCanvasElement ? input.height : video.videoHeight;
           d.inference.intervalMs = Math.max(detectionIntervalMs, metrics.budget.intervalMs); d.inference.actualIntervalMs = actualIntervalMs; });
+        const modelStartedAt = performance.now();
         lastInferenceTimestamp = Math.max(performance.now(), lastInferenceTimestamp + 0.01);
         const result = landmarker.detectForVideo(input, lastInferenceTimestamp);
         const landmarkCompletedAt = performance.now();
@@ -174,12 +175,14 @@ export async function startHandTracking(
         const rawNails = landmarks?.length
           ? buildNailsFromLandmarks(landmarks, mirrored, video.videoWidth / video.videoHeight, naturalLength) : [];
         if (!rawNails.length) visibilityTracker.reset();
+        const geometryCompletedAt = performance.now();
         // The Canvas input is a snapshot: landmark inference and pixel fitting
         // must inspect the same unpainted frame, never the nail overlay.
         const search = pose.view !== "unknown" && (pose.view !== "palm" || pose.fingers.some(f => f.facing >= 0.4 || f.bendDegrees > 70));
         const fit: NailRefinementResult = search && processingContext
           ? refiner.refine(processingCanvas, processingCanvas.width, processingCanvas.height, rawNails, mirrored, performance.now(), pose.view !== "back" || pose.fingers.some(f => f.facing < 0.3))
           : { nails: rawNails, diagnostics: rawNails.map(() => ({ accepted: false, confidence: 0, reason: search ? "no-frame-snapshot" : "nail-visibility-unconfirmed" })) };
+        const pixelsCompletedAt = performance.now();
         const pixelScale = Math.min(1, 640 / Math.max(video.videoWidth, video.videoHeight));
         const evidence = assessNailVisibility(pose, landmarks ?? [], fit.nails, fit.diagnostics, video.videoWidth * pixelScale, video.videoHeight * pixelScale, mirrored);
         const visibility = visibilityTracker.update(evidence, frameTime, identity && identity.score >= 0.75 ? identity.categoryName : undefined);
@@ -190,10 +193,13 @@ export async function startHandTracking(
           landmarks ? handReference(landmarks, mirrored, video.videoWidth / video.videoHeight) : undefined);
         const busyMs = performance.now() - startedAt;
         metrics.recordInference(busyMs, {
-          landmarkMs: landmarkCompletedAt - startedAt,
-          refinementMs: refinementCompletedAt - landmarkCompletedAt,
+          landmarkMs: landmarkCompletedAt - modelStartedAt,
+          refinementMs: pixelsCompletedAt - geometryCompletedAt,
           stabilizationMs: performance.now() - refinementCompletedAt,
         });
+        const phases = { inputMs: modelStartedAt - startedAt, modelMs: landmarkCompletedAt - modelStartedAt,
+          geometryMs: geometryCompletedAt - landmarkCompletedAt, pixelsMs: pixelsCompletedAt - geometryCompletedAt,
+          visibilityMs: refinementCompletedAt - pixelsCompletedAt, stabilizationMs: busyMs - (refinementCompletedAt - startedAt), totalMs: busyMs };
         // Also leave main-thread time after inference and refinement complete.
         lastDetectionAt = frameTime + busyMs;
         const validHandGeometry = rawNails.length === 5 && rawNails.every(nail =>
@@ -218,6 +224,7 @@ export async function startHandTracking(
           drawnNails = visibleNails.filter(nail => (nail.visibility ?? 1) > 0.05).length;
           updateTrackingDiagnostics(d => { d.nails.eligible = drawnNails; d.stage = drawnNails ? "tracking" : "F-visibility"; });
           health("tracking");
+          recordFrameProfile(phases, fit.diagnostics, currentVisibility, search && Boolean(processingContext));
           onUpdate(visibleNails, true);
           if (process.env.NODE_ENV !== "production" && landmarks) publishNailAlignmentDebug({
             landmarks, coarse: rawNails, refined: fit.nails, stable: visibleNails, fits: fit.diagnostics, pose, visibility: currentVisibility,
@@ -225,6 +232,7 @@ export async function startHandTracking(
             sourceMode: "camera",
           });
         } else {
+          recordFrameProfile(phases, fit.diagnostics, visibility, search && Boolean(processingContext));
           failedDetections += 1;
           consecutiveMisses += 1;
           const missingForMs = performance.now() - lastDetectedAt;

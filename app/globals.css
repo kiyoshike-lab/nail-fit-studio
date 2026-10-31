@@ -21,5 +21,6 @@
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
 /* Opt-in diagnostics only: normal studio layout is unchanged. */
-.tracking-diagnostics{min-width:0;max-width:100%;padding:1rem;border:1px solid #ddd;border-radius:1rem;background:#fff;font-size:.85rem;overflow-wrap:anywhere}
+.tracking-diagnostics{position:relative;z-index:6;grid-column:1/-1;min-width:0;width:100%;max-width:100%;padding:1rem;border:1px solid #ddd;border-radius:1rem;background:#fff;font-size:.85rem;overflow-wrap:anywhere}
 .tracking-diagnostics dl{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:.4rem}.tracking-diagnostics dd{margin:0;min-width:0}.tracking-diagnostics textarea{box-sizing:border-box;width:100%;max-width:100%}.tracking-diagnostics button{min-height:44px}.tracking-diagnostics p{margin:.6rem 0}
+@media(max-width:900px){.tracking-diagnostics{order:-1}.tracking-diagnostics button{scroll-margin-block:80px 160px}}

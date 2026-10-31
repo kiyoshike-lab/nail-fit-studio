@@ -35,7 +35,7 @@ export class NailFrameRefiner {
       });
     if (reusable) return {
       nails: nails.map((nail, index) => applyCalibration(nail, this.corrections[index], aspect)),
-      diagnostics: this.result!.diagnostics.map((diagnostic) => ({ ...diagnostic, outline: undefined, contour: undefined, contourHoles: undefined,
+      diagnostics: this.result!.diagnostics.map((diagnostic) => ({ ...diagnostic, reused: true, outline: undefined, contour: undefined, contourHoles: undefined,
         contourStatus: diagnostic.accepted ? "stale" : undefined, reason: diagnostic.accepted ? "recent-relative-fit" : diagnostic.reason })),
     };
     try {

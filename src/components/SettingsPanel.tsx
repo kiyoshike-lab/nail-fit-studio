@@ -109,6 +109,12 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
         <p className="hint">爪の輪郭は推定です。カメラでの指別調整はこの端末に保存され、手の向きや大きさに合わせて追従します。</p>
         {onReset && <button type="button" className="secondary" onClick={onReset}>位置を自動で合わせ直す</button>}
       </details>
+      <details className="setting-block">
+        <summary>手認識がうまくいかないとき</summary>
+        <p className="hint">明るい場所で手の甲と5本の指を写してください。改善しない場合は診断情報をコピーして確認できます。画像やカメラ名は含みません。</p>
+        <a className="button ghost" href="/try-on?diagnostics=1">手認識の診断を開く</a>
+        <p className="hint">診断ページへ移動すると、カメラは一度停止します。移動後に再び起動してください。</p>
+      </details>
     </section>
   );
 }

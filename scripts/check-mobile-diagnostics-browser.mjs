@@ -15,7 +15,8 @@ try{
  await page.route(/googlesyndication|googletagmanager|google-analytics/,r=>r.abort());
  await page.route('**/__qa__/hand.jpg',r=>r.fulfill({path:path.resolve(opt('--image')),contentType:'image/jpeg'}));
  await page.goto(`${base}/try-on`,{waitUntil:'networkidle'});await page.waitForTimeout(800);assert.equal(await page.locator('.tracking-diagnostics').count(),0,'diagnostics always visible');
- await page.goto(`${base}/try-on?diagnostics=1`,{waitUntil:'networkidle'});await page.locator('.tracking-diagnostics').waitFor();
+ await page.getByText('手認識がうまくいかないとき',{exact:true}).click();
+ await page.getByRole('link',{name:'手認識の診断を開く',exact:true}).click();await page.waitForURL('**/try-on?diagnostics=1');await page.locator('.tracking-diagnostics').waitFor();
  const copy=async()=>{await page.getByRole('button',{name:'診断結果をコピー',exact:true}).click();return JSON.parse(await page.evaluate(()=>navigator.clipboard.readText()));};
  for(const width of[320,390,430,1280]){await page.setViewportSize({width,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`horizontal overflow ${width}`);rows.push({width,overflow:false});}
  await page.setViewportSize({width:390,height:844});
@@ -29,8 +30,17 @@ try{
  await page.locator('.bottom-nav').getByRole('button',{name:'カメラ',exact:true}).click();
  await page.waitForFunction(()=>document.querySelector('.tracking-diagnostics')?.textContent.includes('描画呼出 5本'));
  let snapshot=await copy();for(let retry=0;retry<5&&(snapshot.inference.landmarks!==21||snapshot.nails.rendered!==5);retry++){await page.waitForTimeout(400);snapshot=await copy();}assert.equal(snapshot.inference.landmarks,21,JSON.stringify(snapshot));assert.equal(snapshot.nails.rendered,5);assert.equal(snapshot.nails.manual,false);assert.ok(snapshot.inference.actualIntervalMs>=0);assert.equal(snapshot.camera.width,640);assert.ok(snapshot.inference.successes>0);assert.ok(snapshot.engine.initializationMs>=0);
+ assert.equal(snapshot.schema,2);assert.ok(snapshot.profile.frames>0);assert.ok(snapshot.profile.latest.modelMs>=0&&snapshot.profile.latest.pixelsMs>=0);assert.ok(snapshot.profile.timings.totalMs.p90Ms>=snapshot.profile.timings.totalMs.p50Ms);
+ const phases=snapshot.profile.latest;assert.ok(Math.abs(phases.totalMs-['inputMs','modelMs','geometryMs','pixelsMs','visibilityMs','stabilizationMs'].reduce((sum,key)=>sum+phases[key],0))<.01);
  const diagnostic=JSON.stringify(snapshot);assert.ok(!/PRIVATE_CAMERA_LABEL|sensitive-test-device|data:image|landmarks":\[|token=/.test(diagnostic),'private data in copy');
  rows.push({case:'real model + VIDEO + draw',snapshot});
+ for(const [width,height]of[[320,568],[390,664],[844,390]]){
+  await page.setViewportSize({width,height});const button=page.getByRole('button',{name:'診断結果をコピー',exact:true});await button.scrollIntoViewIfNeeded();
+  const hit=await button.evaluate(b=>{const r=b.getBoundingClientRect(),top=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return top===b||b.contains(top);});
+  assert.equal(hit,true,`sticky preview blocked diagnostic copy at ${width}x${height}`);await button.click();rows.push({case:'diagnostic copy hit target',width,height,hit});
+ }
+ await page.setViewportSize({width:390,height:844});
+
  await page.evaluate(()=>window.__blank=true);
  await page.waitForFunction(()=>document.querySelector('.preview-header')?.textContent.includes('手を認識できませんでした'));
  await page.getByRole('button',{name:'自動認識を再試行',exact:true}).waitFor();

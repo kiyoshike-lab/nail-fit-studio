@@ -1,0 +1,3320 @@
+{
+  "date": "2026-11-01 Asia/Tokyo",
+  "baselineCommit": "bdd93039d58071a560299d44c39e6f61a5a52401",
+  "scope": "local quality audit, small reliability/UX fixes; no push or deployment",
+  "limits": [
+    "No physical iPhone/Android verification of this patch",
+    "No new independent labelled nail dataset, no new accuracy claims",
+    "Software-GPU local lab timings are not hardware phone or field performance",
+    "AdSense/GA network blocked in browser QA; account-managed auto-ad exclusions not verified",
+    "Exported baseline QA copy has only Turbopack filesystem root widened for shared node_modules"
+  ],
+  "siteBefore": {
+    "kind": "headless Chrome, local production, ads/GA network blocked, not physical phone QA",
+    "after": false,
+    "rows": [
+      {
+        "route": "/",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/try-on",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/try-on",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/try-on",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/try-on",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/diagnosis",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/diagnosis",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/diagnosis",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/diagnosis",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/favorites",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/favorites",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/favorites",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/favorites",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/history",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/history",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/history",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/history",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/guide",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/guide",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/guide",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/guide",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/about",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/about",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/about",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/about",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/contact",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/contact",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/contact",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/contact",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/privacy",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/privacy",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/privacy",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/privacy",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/terms",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/terms",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/terms",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/terms",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/editorial-policy",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/editorial-policy",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/editorial-policy",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/editorial-policy",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "case": "Before control hit test",
+        "width": 320,
+        "height": 568,
+        "clickable": false,
+        "blockedBy": "media-source",
+        "previewPosition": "sticky"
+      },
+      {
+        "case": "Before control hit test",
+        "width": 390,
+        "height": 844,
+        "clickable": false,
+        "blockedBy": "media-source",
+        "previewPosition": "sticky"
+      },
+      {
+        "case": "Before control hit test",
+        "width": 844,
+        "height": 390,
+        "clickable": false,
+        "blockedBy": "media-source",
+        "previewPosition": "sticky"
+      },
+      {
+        "case": "storage denied favorite",
+        "message": "お気に入りに追加しました"
+      },
+      {
+        "case": "malformed favorites",
+        "errors": [
+          "Cannot read properties of null (reading 'design')"
+        ]
+      },
+      {
+        "case": "invalid image retry",
+        "passed": true
+      }
+    ],
+    "problems": [
+      {
+        "case": "mobile Before control covered",
+        "width": 320,
+        "height": 568
+      },
+      {
+        "case": "mobile Before control covered",
+        "width": 390,
+        "height": 844
+      },
+      {
+        "case": "mobile Before control covered",
+        "width": 844,
+        "height": 390
+      },
+      {
+        "case": "false save success"
+      },
+      {
+        "case": "malformed favorites crash"
+      }
+    ],
+    "errors": []
+  },
+  "siteAfter": {
+    "kind": "headless Chrome, local production, ads/GA network blocked, not physical phone QA",
+    "after": true,
+    "rows": [
+      {
+        "route": "/",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/try-on",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/try-on",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/try-on",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/try-on",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/diagnosis",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/diagnosis",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/diagnosis",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/diagnosis",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/favorites",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/favorites",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/favorites",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/favorites",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/history",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/history",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/history",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/history",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/guide",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/guide",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/guide",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/guide",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/about",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/about",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/about",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/about",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/contact",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/contact",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/contact",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/contact",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/privacy",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/privacy",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/privacy",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/privacy",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/terms",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/terms",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/terms",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/terms",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/editorial-policy",
+        "width": 320,
+        "height": 568,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/editorial-policy",
+        "width": 390,
+        "height": 844,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/editorial-policy",
+        "width": 844,
+        "height": 390,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "route": "/editorial-policy",
+        "width": 1280,
+        "height": 900,
+        "overflow": false,
+        "h1": 1,
+        "missingLabels": []
+      },
+      {
+        "case": "Before control hit test",
+        "width": 320,
+        "height": 568,
+        "clickable": true,
+        "blockedBy": "toggle is-on",
+        "previewPosition": "relative"
+      },
+      {
+        "case": "Before control hit test",
+        "width": 390,
+        "height": 844,
+        "clickable": true,
+        "blockedBy": "toggle is-on",
+        "previewPosition": "sticky"
+      },
+      {
+        "case": "Before control hit test",
+        "width": 844,
+        "height": 390,
+        "clickable": true,
+        "blockedBy": "toggle is-on",
+        "previewPosition": "relative"
+      },
+      {
+        "case": "storage denied favorite",
+        "message": "お気に入りを保存できませんでした。ブラウザの保存設定や空き容量を確認してください。"
+      },
+      {
+        "case": "PNG still downloadable when history storage fails, truthful notice",
+        "passed": true
+      },
+      {
+        "case": "malformed favorites",
+        "errors": []
+      },
+      {
+        "case": "legacy item, denied deletion retained, successful last deletion announced",
+        "passed": true
+      },
+      {
+        "case": "diagnosis completion, persisted result, try-on navigation",
+        "passed": true
+      },
+      {
+        "case": "settings return to preview",
+        "passed": true
+      },
+      {
+        "case": "native keyboard comparison toggle",
+        "passed": true
+      },
+      {
+        "case": "preset preview, selected state, real favorite save and retry link",
+        "passed": true
+      },
+      {
+        "case": "invalid image retry",
+        "passed": true
+      }
+    ],
+    "problems": [],
+    "errors": []
+  },
+  "uploadBefore": {
+    "latestWidthExpected": 480,
+    "actualWidth": 640,
+    "latestSelectionRetained": false,
+    "sampleNotOverwritten": false
+  },
+  "uploadAfter": {
+    "latestWidthExpected": 480,
+    "actualWidth": 480,
+    "latestSelectionRetained": true,
+    "sampleNotOverwritten": true,
+    "bottomCameraErrorNotOverwritten": true,
+    "unmountedPhotoUrlsReleased": true
+  },
+  "initialSingleRuns": {
+    "before": {
+      "kind": "local production headless desktop Chrome; software GPU; 640x480 still-photo captureStream; no network throttling, ads/GA blocked; not iPhone/Android or physical camera timing",
+      "navigation": [
+        {
+          "route": "/",
+          "run": 0,
+          "ttfbMs": 9.100000000034925,
+          "domContentLoadedMs": 42.29999999998836,
+          "loadMs": 87.79999999998836,
+          "fcpMs": null,
+          "transferredBytes": 328279
+        },
+        {
+          "route": "/",
+          "run": 1,
+          "ttfbMs": 6.100000000034925,
+          "domContentLoadedMs": 240.60000000003492,
+          "loadMs": 287.5,
+          "fcpMs": 336,
+          "transferredBytes": 328279
+        },
+        {
+          "route": "/",
+          "run": 2,
+          "ttfbMs": 8.099999999976717,
+          "domContentLoadedMs": 240.5,
+          "loadMs": 287.4000000000233,
+          "fcpMs": 284,
+          "transferredBytes": 328279
+        },
+        {
+          "route": "/try-on",
+          "run": 0,
+          "ttfbMs": 8,
+          "domContentLoadedMs": 198.30000000004657,
+          "loadMs": 267.80000000004657,
+          "fcpMs": 464,
+          "transferredBytes": 292627
+        },
+        {
+          "route": "/try-on",
+          "run": 1,
+          "ttfbMs": 5.5,
+          "domContentLoadedMs": 172.20000000001164,
+          "loadMs": 234.09999999997672,
+          "fcpMs": 208,
+          "transferredBytes": 292627
+        },
+        {
+          "route": "/try-on",
+          "run": 2,
+          "ttfbMs": 6.2999999999883585,
+          "domContentLoadedMs": 190.59999999997672,
+          "loadMs": 263.5999999999767,
+          "fcpMs": 228,
+          "transferredBytes": 292627
+        }
+      ],
+      "camera": {
+        "syntheticVideoReadyMs": 174,
+        "firstFiveMs": 3877,
+        "recoveryMs": 539,
+        "snapshot": {
+          "schema": 2,
+          "stage": "tracking",
+          "environment": {
+            "browser": "Chrome",
+            "os": "Windows",
+            "secure": true,
+            "frameCallback": true
+          },
+          "camera": {
+            "state": "live",
+            "width": 640,
+            "height": 480,
+            "readyState": 4,
+            "currentTime": 7.526019,
+            "updates": 36,
+            "paused": false
+          },
+          "engine": {
+            "state": "ready",
+            "delegate": "GPU",
+            "attempts": 1,
+            "initializationMs": 672.2000000000116
+          },
+          "inference": {
+            "attempts": 14,
+            "successes": 14,
+            "errors": 0,
+            "emptyResults": 0,
+            "hands": 1,
+            "landmarks": 21,
+            "input": "canvas-640",
+            "width": 640,
+            "height": 480,
+            "lastMs": 240.70000000001164,
+            "intervalMs": 100,
+            "actualIntervalMs": 349
+          },
+          "nails": {
+            "estimated": 5,
+            "eligible": 5,
+            "rendered": 5,
+            "drawMs": 0.20000000001164153,
+            "drawFps": 13.493927732520369,
+            "before": false,
+            "manual": false,
+            "canvasWidth": 356,
+            "canvasHeight": 267,
+            "canvasOpacity": 1
+          },
+          "performance": {
+            "cameraFps": 10.995052226498078,
+            "detectionFps": 2.9986506072267485,
+            "inferenceMs": 582.7787632902032,
+            "memoryMB": 30.266350746154785
+          },
+          "profile": {
+            "windowSize": 120,
+            "frames": 14,
+            "latest": {
+              "inputMs": 0.9000000000232831,
+              "modelMs": 168.09999999997672,
+              "geometryMs": 0.09999999997671694,
+              "pixelsMs": 71.5,
+              "visibilityMs": 0,
+              "stabilizationMs": 0.1000000000349246,
+              "totalMs": 240.70000000001164
+            },
+            "timings": {
+              "inputMs": {
+                "samples": 14,
+                "meanMs": 0.9071428571478464,
+                "p50Ms": 0.8999999999650754,
+                "p90Ms": 1.3000000000465661,
+                "maxMs": 1.599999999976717
+              },
+              "modelMs": {
+                "samples": 14,
+                "meanMs": 317.4000000000025,
+                "p50Ms": 168.09999999997672,
+                "p90Ms": 369.6000000000349,
+                "maxMs": 2015.2999999999884
+              },
+              "geometryMs": {
+                "samples": 14,
+                "meanMs": 0.1142857142882089,
+                "p50Ms": 0.09999999997671694,
+                "p90Ms": 0.1000000000349246,
+                "maxMs": 0.8000000000465661
+              },
+              "pixelsMs": {
+                "samples": 14,
+                "meanMs": 91.1999999999867,
+                "p50Ms": 71.5,
+                "p90Ms": 143.09999999997672,
+                "maxMs": 185.69999999995343
+              },
+              "visibilityMs": {
+                "samples": 14,
+                "meanMs": 0.07142857143272911,
+                "p50Ms": 0,
+                "p90Ms": 0.1000000000349246,
+                "maxMs": 0.40000000002328306
+              },
+              "stabilizationMs": {
+                "samples": 14,
+                "meanMs": 0.092857142860469,
+                "p50Ms": 0.09999999997671694,
+                "p90Ms": 0.19999999995343387,
+                "maxMs": 0.5
+              },
+              "totalMs": {
+                "samples": 14,
+                "meanMs": 409.7857142857184,
+                "p50Ms": 246.29999999998836,
+                "p90Ms": 468.69999999995343,
+                "maxMs": 2203.7000000000116
+              }
+            },
+            "fingers": [
+              {
+                "finger": 0,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 14
+                }
+              },
+              {
+                "finger": 1,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 14
+                }
+              },
+              {
+                "finger": 2,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 14
+                }
+              },
+              {
+                "finger": 3,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 8,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 6
+                }
+              },
+              {
+                "finger": 4,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 14
+                }
+              }
+            ]
+          },
+          "lastError": null
+        }
+      },
+      "imagePostRequests": [],
+      "errors": []
+    },
+    "after": {
+      "kind": "local production headless desktop Chrome; software GPU; 640x480 still-photo captureStream; no network throttling, ads/GA blocked; not iPhone/Android or physical camera timing",
+      "navigation": [
+        {
+          "route": "/",
+          "run": 0,
+          "ttfbMs": 8.20000000006985,
+          "domContentLoadedMs": 240,
+          "loadMs": 280.20000000006985,
+          "fcpMs": 692,
+          "transferredBytes": 330429
+        },
+        {
+          "route": "/",
+          "run": 1,
+          "ttfbMs": 5.699999999953434,
+          "domContentLoadedMs": 222.79999999993015,
+          "loadMs": 264.5,
+          "fcpMs": 316,
+          "transferredBytes": 330429
+        },
+        {
+          "route": "/",
+          "run": 2,
+          "ttfbMs": 9.400000000023283,
+          "domContentLoadedMs": 230.80000000004657,
+          "loadMs": 272.70000000006985,
+          "fcpMs": 268,
+          "transferredBytes": 330429
+        },
+        {
+          "route": "/try-on",
+          "run": 0,
+          "ttfbMs": 5.5,
+          "domContentLoadedMs": 168.5,
+          "loadMs": 229.10000000009313,
+          "fcpMs": 400,
+          "transferredBytes": 294777
+        },
+        {
+          "route": "/try-on",
+          "run": 1,
+          "ttfbMs": 4.900000000023283,
+          "domContentLoadedMs": 168,
+          "loadMs": 231.59999999997672,
+          "fcpMs": 208,
+          "transferredBytes": 294777
+        },
+        {
+          "route": "/try-on",
+          "run": 2,
+          "ttfbMs": 6.099999999976717,
+          "domContentLoadedMs": 163.09999999997672,
+          "loadMs": 224.19999999995343,
+          "fcpMs": 196,
+          "transferredBytes": 294777
+        }
+      ],
+      "camera": {
+        "syntheticVideoReadyMs": 170,
+        "firstFiveMs": 3145,
+        "recoveryMs": 515,
+        "snapshot": {
+          "schema": 2,
+          "stage": "tracking",
+          "environment": {
+            "browser": "Chrome",
+            "os": "Windows",
+            "secure": true,
+            "frameCallback": true
+          },
+          "camera": {
+            "state": "live",
+            "width": 640,
+            "height": 480,
+            "readyState": 4,
+            "currentTime": 7.172685,
+            "updates": 36,
+            "paused": false
+          },
+          "engine": {
+            "state": "ready",
+            "delegate": "GPU",
+            "attempts": 1,
+            "initializationMs": 554.6999999999534
+          },
+          "inference": {
+            "attempts": 14,
+            "successes": 14,
+            "errors": 0,
+            "emptyResults": 0,
+            "hands": 1,
+            "landmarks": 21,
+            "input": "canvas-640",
+            "width": 640,
+            "height": 480,
+            "lastMs": 221,
+            "intervalMs": 100,
+            "actualIntervalMs": 342.30000000004657
+          },
+          "nails": {
+            "estimated": 5,
+            "eligible": 5,
+            "rendered": 5,
+            "drawMs": 0.09999999986030161,
+            "drawFps": 11.0573600552868,
+            "before": false,
+            "manual": false,
+            "canvasWidth": 356,
+            "canvasHeight": 267,
+            "canvasOpacity": 1
+          },
+          "performance": {
+            "cameraFps": 10.59663671964985,
+            "detectionFps": 3.22506334945865,
+            "inferenceMs": 510.73699929750677,
+            "memoryMB": 36.59105682373047
+          },
+          "profile": {
+            "windowSize": 120,
+            "frames": 14,
+            "latest": {
+              "inputMs": 1.1999999999534339,
+              "modelMs": 157.80000000004657,
+              "geometryMs": 0.09999999986030161,
+              "pixelsMs": 61.800000000046566,
+              "visibilityMs": 0.10000000009313226,
+              "stabilizationMs": 0,
+              "totalMs": 221
+            },
+            "timings": {
+              "inputMs": {
+                "samples": 14,
+                "meanMs": 0.8714285714252453,
+                "p50Ms": 0.8000000000465661,
+                "p90Ms": 1.3000000000465661,
+                "maxMs": 1.3000000000465661
+              },
+              "modelMs": {
+                "samples": 14,
+                "meanMs": 303.54999999998006,
+                "p50Ms": 161.39999999990687,
+                "p90Ms": 367.20000000018626,
+                "maxMs": 1916.5
+              },
+              "geometryMs": {
+                "samples": 14,
+                "meanMs": 0.14285714285714285,
+                "p50Ms": 0.10000000009313226,
+                "p90Ms": 0.20000000018626451,
+                "maxMs": 0.6999999999534339
+              },
+              "pixelsMs": {
+                "samples": 14,
+                "meanMs": 91.88571428575753,
+                "p50Ms": 63,
+                "p90Ms": 134.39999999990687,
+                "maxMs": 189.10000000009313
+              },
+              "visibilityMs": {
+                "samples": 14,
+                "meanMs": 0.09999999997671694,
+                "p50Ms": 0.09999999986030161,
+                "p90Ms": 0.19999999995343387,
+                "maxMs": 0.5
+              },
+              "stabilizationMs": {
+                "samples": 14,
+                "meanMs": 0.057142857112921774,
+                "p50Ms": 0,
+                "p90Ms": 0.10000000009313226,
+                "maxMs": 0.39999999990686774
+              },
+              "totalMs": {
+                "samples": 14,
+                "meanMs": 396.6071428571096,
+                "p50Ms": 225.5,
+                "p90Ms": 497.30000000004657,
+                "maxMs": 2108.2999999998137
+              }
+            },
+            "fingers": [
+              {
+                "finger": 0,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 14
+                }
+              },
+              {
+                "finger": 1,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 14
+                }
+              },
+              {
+                "finger": 2,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 14
+                }
+              },
+              {
+                "finger": 3,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 8,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 6
+                }
+              },
+              {
+                "finger": 4,
+                "frames": 14,
+                "fresh": 14,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 14
+                }
+              }
+            ]
+          },
+          "lastError": null
+        }
+      },
+      "imagePostRequests": [],
+      "errors": []
+    }
+  },
+  "alternatingSteadyRuns": {
+    "before": [
+      {
+        "run": 1,
+        "navigation": [
+          {
+            "route": "/",
+            "dclMedianMs": 239.10000000009313,
+            "fcpMedianMs": 316,
+            "transferredBytes": 328381
+          },
+          {
+            "route": "/try-on",
+            "dclMedianMs": 170.69999999995343,
+            "fcpMedianMs": 224,
+            "transferredBytes": 292729
+          }
+        ],
+        "videoReadyMs": 182,
+        "firstFiveMs": 3427,
+        "initializationMs": 593.8999999999069,
+        "recoveryMs": 642,
+        "profileFrames": 36,
+        "steadyObservations": 9,
+        "steadyMedian": {
+          "drawFps": 12.151762005490799,
+          "detectionFps": 2.7260336210813256,
+          "modelMs": 188,
+          "pixelsMs": 67.10000000009313,
+          "totalMs": 252.60000000009313,
+          "drawMs": 0.10000000009313226
+        },
+        "heapAfterGcMB": 8.693946838378906,
+        "fullProfile": {
+          "inputMs": {
+            "samples": 36,
+            "meanMs": 0.9722222222222222,
+            "p50Ms": 0.9000000001396984,
+            "p90Ms": 1.3999999999068677,
+            "maxMs": 2.300000000046566
+          },
+          "modelMs": {
+            "samples": 36,
+            "meanMs": 247.53888888890572,
+            "p50Ms": 189.10000000009313,
+            "p90Ms": 227.20000000018626,
+            "maxMs": 2052.3000000000466
+          },
+          "geometryMs": {
+            "samples": 36,
+            "meanMs": 0.1083333333242788,
+            "p50Ms": 0.09999999986030161,
+            "p90Ms": 0.19999999995343387,
+            "maxMs": 0.9000000001396984
+          },
+          "pixelsMs": {
+            "samples": 36,
+            "meanMs": 82.14166666665632,
+            "p50Ms": 69.5,
+            "p90Ms": 118.69999999995343,
+            "maxMs": 248.5
+          },
+          "visibilityMs": {
+            "samples": 36,
+            "meanMs": 0.04444444445349897,
+            "p50Ms": 0,
+            "p90Ms": 0.10000000009313226,
+            "maxMs": 0.5
+          },
+          "stabilizationMs": {
+            "samples": 36,
+            "meanMs": 0.09166666667442769,
+            "p50Ms": 0.09999999986030161,
+            "p90Ms": 0.19999999995343387,
+            "maxMs": 0.5
+          },
+          "totalMs": {
+            "samples": 36,
+            "meanMs": 330.89722222223645,
+            "p50Ms": 262.30000000004657,
+            "p90Ms": 343.19999999995343,
+            "maxMs": 2303.600000000093
+          }
+        }
+      },
+      {
+        "run": 2,
+        "navigation": [
+          {
+            "route": "/",
+            "dclMedianMs": 229.19999999995343,
+            "fcpMedianMs": 308,
+            "transferredBytes": 328381
+          },
+          {
+            "route": "/try-on",
+            "dclMedianMs": 176.89999999990687,
+            "fcpMedianMs": 244,
+            "transferredBytes": 292729
+          }
+        ],
+        "videoReadyMs": 156,
+        "firstFiveMs": 3777,
+        "initializationMs": 592.4000000001397,
+        "recoveryMs": 642,
+        "profileFrames": 36,
+        "steadyObservations": 9,
+        "steadyMedian": {
+          "drawFps": 13.409485969704495,
+          "detectionFps": 2.9859659599880564,
+          "modelMs": 172,
+          "pixelsMs": 62.299999999813735,
+          "totalMs": 236.0999999998603,
+          "drawMs": 0.09999999986030161
+        },
+        "heapAfterGcMB": 8.684696197509766,
+        "fullProfile": {
+          "inputMs": {
+            "samples": 36,
+            "meanMs": 0.7749999999650754,
+            "p50Ms": 0.7999999998137355,
+            "p90Ms": 1,
+            "maxMs": 1.1999999999534339
+          },
+          "modelMs": {
+            "samples": 36,
+            "meanMs": 229.6972222222636,
+            "p50Ms": 171.29999999981374,
+            "p90Ms": 244.80000000004657,
+            "maxMs": 1960.3999999999069
+          },
+          "geometryMs": {
+            "samples": 36,
+            "meanMs": 0.07777777775966872,
+            "p50Ms": 0.09999999986030161,
+            "p90Ms": 0.10000000009313226,
+            "maxMs": 0.8000000000465661
+          },
+          "pixelsMs": {
+            "samples": 36,
+            "meanMs": 74.04722222221446,
+            "p50Ms": 63.199999999953434,
+            "p90Ms": 112.39999999990687,
+            "maxMs": 190.30000000004657
+          },
+          "visibilityMs": {
+            "samples": 36,
+            "meanMs": 0.04444444443409642,
+            "p50Ms": 0,
+            "p90Ms": 0.10000000009313226,
+            "maxMs": 0.5
+          },
+          "stabilizationMs": {
+            "samples": 36,
+            "meanMs": 0.06944444443797693,
+            "p50Ms": 0,
+            "p90Ms": 0.10000000009313226,
+            "maxMs": 0.5
+          },
+          "totalMs": {
+            "samples": 36,
+            "meanMs": 304.7111111110749,
+            "p50Ms": 235.5999999998603,
+            "p90Ms": 314.4000000001397,
+            "maxMs": 2153.5999999998603
+          }
+        }
+      }
+    ],
+    "after": [
+      {
+        "run": 1,
+        "navigation": [
+          {
+            "route": "/",
+            "dclMedianMs": 228.5,
+            "fcpMedianMs": 340,
+            "transferredBytes": 330429
+          },
+          {
+            "route": "/try-on",
+            "dclMedianMs": 174.4000000001397,
+            "fcpMedianMs": 228,
+            "transferredBytes": 294777
+          }
+        ],
+        "videoReadyMs": 178,
+        "firstFiveMs": 3920,
+        "initializationMs": 596.5,
+        "recoveryMs": 604,
+        "profileFrames": 36,
+        "steadyObservations": 9,
+        "steadyMedian": {
+          "drawFps": 12.728251823566854,
+          "detectionFps": 2.9436294951675404,
+          "modelMs": 177.69999999995343,
+          "pixelsMs": 67,
+          "totalMs": 242.69999999995343,
+          "drawMs": 0.19999999995343387
+        },
+        "heapAfterGcMB": 8.702411651611328,
+        "fullProfile": {
+          "inputMs": {
+            "samples": 36,
+            "meanMs": 0.9388888888772473,
+            "p50Ms": 0.8999999999068677,
+            "p90Ms": 1.1999999999534339,
+            "maxMs": 2.199999999953434
+          },
+          "modelMs": {
+            "samples": 36,
+            "meanMs": 234.4527777777726,
+            "p50Ms": 175.10000000009313,
+            "p90Ms": 199.5999999998603,
+            "maxMs": 2067
+          },
+          "geometryMs": {
+            "samples": 36,
+            "meanMs": 0.09722222224162477,
+            "p50Ms": 0.10000000009313226,
+            "p90Ms": 0.19999999995343387,
+            "maxMs": 0.8999999999068677
+          },
+          "pixelsMs": {
+            "samples": 36,
+            "meanMs": 76.17222222223387,
+            "p50Ms": 67,
+            "p90Ms": 117.4000000001397,
+            "maxMs": 192.5
+          },
+          "visibilityMs": {
+            "samples": 36,
+            "meanMs": 0.03888888887983436,
+            "p50Ms": 0,
+            "p90Ms": 0.10000000009313226,
+            "maxMs": 0.5
+          },
+          "stabilizationMs": {
+            "samples": 36,
+            "meanMs": 0.052777777755788215,
+            "p50Ms": 0,
+            "p90Ms": 0.10000000009313226,
+            "maxMs": 0.5
+          },
+          "totalMs": {
+            "samples": 36,
+            "meanMs": 311.75277777776097,
+            "p50Ms": 242.69999999995343,
+            "p90Ms": 309.30000000004657,
+            "maxMs": 2262.399999999907
+          }
+        }
+      },
+      {
+        "run": 2,
+        "navigation": [
+          {
+            "route": "/",
+            "dclMedianMs": 260.4000000001397,
+            "fcpMedianMs": 368,
+            "transferredBytes": 330429
+          },
+          {
+            "route": "/try-on",
+            "dclMedianMs": 174.0999999998603,
+            "fcpMedianMs": 220,
+            "transferredBytes": 294777
+          }
+        ],
+        "videoReadyMs": 187,
+        "firstFiveMs": 3884,
+        "initializationMs": 613.6999999999534,
+        "recoveryMs": 589,
+        "profileFrames": 37,
+        "steadyObservations": 9,
+        "steadyMedian": {
+          "drawFps": 13.301030829889314,
+          "detectionFps": 2.9434850863422284,
+          "modelMs": 162.4000000001397,
+          "pixelsMs": 63,
+          "totalMs": 231.69999999995343,
+          "drawMs": 0.10000000009313226
+        },
+        "heapAfterGcMB": 8.708728790283203,
+        "fullProfile": {
+          "inputMs": {
+            "samples": 37,
+            "meanMs": 0.8729729729679387,
+            "p50Ms": 0.8000000000465661,
+            "p90Ms": 1.2999999998137355,
+            "maxMs": 1.7999999998137355
+          },
+          "modelMs": {
+            "samples": 37,
+            "meanMs": 228.3810810810773,
+            "p50Ms": 172.5999999998603,
+            "p90Ms": 191.60000000009313,
+            "maxMs": 2024.6000000000931
+          },
+          "geometryMs": {
+            "samples": 37,
+            "meanMs": 0.08918918918415501,
+            "p50Ms": 0.09999999986030161,
+            "p90Ms": 0.10000000009313226,
+            "maxMs": 0.8000000000465661
+          },
+          "pixelsMs": {
+            "samples": 37,
+            "meanMs": 77.01081081082089,
+            "p50Ms": 65.70000000018626,
+            "p90Ms": 123.30000000004657,
+            "maxMs": 187.19999999995343
+          },
+          "visibilityMs": {
+            "samples": 37,
+            "meanMs": 0.0405405405279551,
+            "p50Ms": 0,
+            "p90Ms": 0.10000000009313226,
+            "maxMs": 0.39999999990686774
+          },
+          "stabilizationMs": {
+            "samples": 37,
+            "meanMs": 0.054054054047761334,
+            "p50Ms": 0,
+            "p90Ms": 0.10000000009313226,
+            "maxMs": 0.5
+          },
+          "totalMs": {
+            "samples": 37,
+            "meanMs": 306.448648648626,
+            "p50Ms": 240.5999999998603,
+            "p90Ms": 311,
+            "maxMs": 2214.6999999999534
+          }
+        }
+      }
+    ]
+  },
+  "protected": {
+    "baselineCommit": "bdd93039d58071a560299d44c39e6f61a5a52401",
+    "protected": [
+      {
+        "file": "src/lib/analytics.ts",
+        "sha256Normalized": "eff921ec606c30cbf7ad756aa6ca11c481411bb303a3c5b39cc0dd0a53d5d1a0",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/cameraDevices.ts",
+        "sha256Normalized": "c2b45b833d0eb87837d5f6003082e6246ffa20a3f3c6889b85ef1ecc8a042dc0",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/defaults.ts",
+        "sha256Normalized": "1b192159820038aa88db47786de425c2f2d66c6d5d95ffdc5d1500ae07ba9ad8",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/googleConfig.ts",
+        "sha256Normalized": "13dee60a229b3f5e916ece9e2aa0d4fbdf4dd9bc30d6e479cd55bf6b71fed5f6",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/handDetectionInput.ts",
+        "sha256Normalized": "cbf43869ba735c074a1ec9ef7c09a57810cfc78568ceacdcb6cafe70d8fdee22",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/handPose.ts",
+        "sha256Normalized": "ff2c395f43f83c32e3f97972b10e43b71d1dd30496e364a3c32172189ebf93b4",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/handReference.ts",
+        "sha256Normalized": "26ae59d2d80ff140fdf86f939179dd990a9536beef9869f86045e118825d520f",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/handTracking.ts",
+        "sha256Normalized": "982cfeb7f9ed433bd6c63a4aef8da3c514719281f41305d26380b26f4e86a748",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailAlignmentDebug.ts",
+        "sha256Normalized": "148b087565d7b17584bd17d018c82e5ebe7b9cc3d31c80db9565d2d4c3750243",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailCalibration.ts",
+        "sha256Normalized": "6ecdb35fd238b5b8d298a7b590ddf09f28e330ff019971649b36153f19b88762",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailChromaticFit.ts",
+        "sha256Normalized": "e3b3f9c2645b52f3a018a88c95647ec9393f5ceb17c21d0acab2ddaef81408e5",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailContour.ts",
+        "sha256Normalized": "4c3787e25f029511c2c3a6a0e3331640aee8dda7dcaf9803f25c5c9504ffbaf8",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailCorrectionGate.ts",
+        "sha256Normalized": "37fc0e3eec241b37a5527bc22cba9bfdb72718fe14a6a360d9f851f66e48e16a",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailEdgeFit.ts",
+        "sha256Normalized": "cd5800d5acf879591cc5b49a9cbe19cfb08d930d22d62779bf06651230a788f1",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailFrameRefiner.ts",
+        "sha256Normalized": "b2e1cbb7af5b5173506efc2f94acaa9de73260bc72524e6f55c9949917948414",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailGeometry.ts",
+        "sha256Normalized": "953597857d3d08215ed2fe3ec8e30c35f0008aa1cb4638983d23476c76c9b0b9",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailImageRefinement.ts",
+        "sha256Normalized": "65c5fa5a6b39b78321384a33bf9f929c750ba438c98157e7c36855881f6fae1a",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailPoseMetrics.ts",
+        "sha256Normalized": "87b4ab357b82d3415fe260412372fc20c6e8d67b6458a5c4f89638da5b9378aa",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailRenderer.ts",
+        "sha256Normalized": "bd9eb75c1f9a902e425702a330097a70ea21be462e40076a6c96a9f97cd807aa",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailSmoothing.ts",
+        "sha256Normalized": "1b82792e59bb9eff7bacae4926e8d6db6ad00e0f9acde17efa0280d90b76f4b2",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/nailVisibility.ts",
+        "sha256Normalized": "75bb527ae9315cd23b0514d050bb2869819543d92119645530404e002c779521",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/naturalNailLength.ts",
+        "sha256Normalized": "e058f3d8d433c81bf322db846d3a0bbddf27e3b490b8bf092545c2880c80ef24",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/presets.ts",
+        "sha256Normalized": "d4c66d88fe17d704ac9274676adc86abd322512e6129e5f93bc4a1193aefc0f2",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/previewGeometry.ts",
+        "sha256Normalized": "7e4cfb24babb7221216862fc1642ef9abbaf12699bfe91221b5e5f62b38b8faa",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/sceneLighting.ts",
+        "sha256Normalized": "6d2278e6c7593330135a9620b98b17d0a0fcfdd171c631f6d1373f210126f11e",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/seo.ts",
+        "sha256Normalized": "2e447f3e471ee8097a027b0a528ef0006115968fe68a220f3352c0cf92104687",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/site.ts",
+        "sha256Normalized": "5eb73e813e7d0ed99c9f4518c3ad778b7cfff85050254bc66479300658c28c31",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/trackingDiagnostics.ts",
+        "sha256Normalized": "f41ef5978323a48052d72185da27cedfac41cc0be9545b821ac8dd382f6268fb",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/trackingFallback.ts",
+        "sha256Normalized": "5cbb52f448119516e4590cc81cf0ebf3eb1f611d0e8a08c2b934c21c3e661f47",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/trackingQuality.ts",
+        "sha256Normalized": "57242214643b3fe7a5432abc41b4b59cc133fd1a0f3f224bfd0884a5f158dd31",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/types.ts",
+        "sha256Normalized": "1993c3133a1d3351fae910adfba03ee541ab3be274a6bc6f5be4743bb689bf50",
+        "unchanged": true
+      },
+      {
+        "file": "src/lib/videoFrameGate.ts",
+        "sha256Normalized": "214619f872b2dd64f7736e5c7ccaf55a9da76d1864ba4c52b08e8c083ad43cba",
+        "unchanged": true
+      },
+      {
+        "file": "app/layout.tsx",
+        "sha256Normalized": "0085e5a09a03fda4a4883866d6613ae3e699fb6038f14ffb9c2ba685eb4f1fa9",
+        "unchanged": true
+      },
+      {
+        "file": "app/privacy/page.tsx",
+        "sha256Normalized": "5dd126860f8815778113a347afaa80a21080cdfebce019c9a65efcfbe71dd217",
+        "unchanged": true
+      },
+      {
+        "file": "app/contact/page.tsx",
+        "sha256Normalized": "c6570d358d02721abf99d8f6cf8d40c8bbce284dca5c871342a679032147775b",
+        "unchanged": true
+      },
+      {
+        "file": "app/terms/page.tsx",
+        "sha256Normalized": "fa4236cbdf395a55eb42a4c5e0015333372dede966890b8d179984cebfbede68",
+        "unchanged": true
+      },
+      {
+        "file": "app/robots.ts",
+        "sha256Normalized": "9919627577aa0b49a2089416608e07e1041a515187ab7f78f323b3dc6c019061",
+        "unchanged": true
+      },
+      {
+        "file": "app/sitemap.ts",
+        "sha256Normalized": "f13798fd7f5120d4f3dd68424684843afc359568342f1d2ace4ccf187efd25de",
+        "unchanged": true
+      },
+      {
+        "file": "src/components/GoogleAnalytics.tsx",
+        "sha256Normalized": "f1a0476512fc53981511446e9a3592de42f3e01df53bc0e786d046fb565a52e5",
+        "unchanged": true
+      },
+      {
+        "file": "src/components/AdSlot.tsx",
+        "sha256Normalized": "38718b7723769d5b1c8d49112dd449a7729fdc9b598e200d93083a7b8ce7f01c",
+        "unchanged": true
+      },
+      {
+        "file": "public/googlef4620872cc6591de.html",
+        "sha256Normalized": "5369a8a49953a460b0623b7cf14eb00872aa1d3858ae449ba6e9b68281aa018f",
+        "unchanged": true
+      }
+    ],
+    "searchConsoleFile": {
+      "status": 200,
+      "bytes": 53,
+      "byteExact": true
+    },
+    "warning": "Source equivalence is not a new accuracy measurement or physical-phone validation",
+    "studioSections": [
+      {
+        "start": "const drawPreview =",
+        "end": "const releaseCamera =",
+        "unchanged": true,
+        "sha256": "bd2f3b179c81b7a42f29616a56b1b7446e50f6db6909090ccaa290654b5177de"
+      },
+      {
+        "start": "const releaseCamera =",
+        "end": "const saveFavorite =",
+        "unchanged": true,
+        "sha256": "98eef5c826cf4dd53a731cae0967b2ae84be81ae565022e6edcf5ce1f772642b"
+      },
+      {
+        "start": "const updateNail =",
+        "end": "const saveImage =",
+        "unchanged": true,
+        "sha256": "a8b8df67d117954efc329dcce99b4144200b13dba182d1d2bb192bd26074c0f9"
+      },
+      {
+        "start": "const selectCamera =",
+        "end": "const quality =",
+        "unchanged": true,
+        "sha256": "d4a7ea6b88442c6cab16ece0d3ed6194e6bb79ffc05f4b087ef60501f09b79b4"
+      }
+    ]
+  },
+  "tracking": {
+    "kind": "headless Chrome + real bundled MediaPipe + Canvas.captureStream of a real dorsal photo; not physical camera or recorded motion",
+    "photoNails": 5,
+    "videoDrawnNails": 5,
+    "mirroredVideoDrawnNails": 5,
+    "far": {
+      "width": 1.6,
+      "height": 3.3,
+      "x": 50
+    },
+    "near": {
+      "width": 2.3,
+      "height": 4.7,
+      "x": 50
+    },
+    "moved": {
+      "width": 2.3,
+      "height": 4.7,
+      "x": 55.4
+    },
+    "errors": [],
+    "passed": [
+      "photo detection to five actual Canvas nails",
+      "VIDEO detection to five actual Canvas nails",
+      "distance scale",
+      "horizontal tracking",
+      "rear-like unmirrored / front-like mirrored preview",
+      "camera switch releases old stream",
+      "loss and reacquisition",
+      "capture and PNG save"
+    ]
+  },
+  "visibility": {
+    "kind": "headless Chrome static-image UI regression, NOT physical camera or labelled nail accuracy",
+    "backPixels": 1333,
+    "palmPixels": 0,
+    "palmStates": [
+      "hidden",
+      "hidden",
+      "hidden",
+      "hidden",
+      "hidden"
+    ],
+    "errors": [],
+    "passed": [
+      "320/390/1280 overflow",
+      "dorsal rendering",
+      "Before/After tap and hold (desktop pointer)",
+      "new palm hides saved poses",
+      "explicit manual photo adjustment",
+      "auto-fit restores gating",
+      "PNG download",
+      "no-hand photo stays hidden",
+      "illustration demo preserved"
+    ]
+  },
+  "curled": {
+    "kind": "headless Chrome, actual self-hosted MediaPipe/Canvas, still-driven VIDEO; not a physical camera/recorded rotation or independent accuracy benchmark",
+    "photoCount": 4,
+    "photoStates": [
+      "uncertain",
+      "partial",
+      "partial",
+      "partial",
+      "partial"
+    ],
+    "videoCounts": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "palmCount": 0,
+    "dorsalRecovered": 5,
+    "errors": [],
+    "passed": [
+      "curled photo current clipped cores",
+      "actual Canvas painting",
+      "320/390/1280 widths",
+      "Before/After",
+      "curled PNG save",
+      "curled still-driven VIDEO",
+      "open-palm reference suppressed",
+      "dorsal five recovered",
+      "capture releases stream"
+    ]
+  },
+  "diagnostics": {
+    "kind": "headless desktop Chrome; mobile widths, real model + still-driven captureStream, not iPhone/Android hardware",
+    "rows": [
+      {
+        "width": 320,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "overflow": false
+      },
+      {
+        "width": 430,
+        "overflow": false
+      },
+      {
+        "width": 1280,
+        "overflow": false
+      },
+      {
+        "case": "real model + VIDEO + draw",
+        "snapshot": {
+          "schema": 2,
+          "stage": "tracking",
+          "environment": {
+            "browser": "Chrome",
+            "os": "Windows",
+            "secure": true,
+            "frameCallback": true
+          },
+          "camera": {
+            "state": "live",
+            "width": 640,
+            "height": 480,
+            "readyState": 4,
+            "currentTime": 3.62989,
+            "updates": 4,
+            "paused": false
+          },
+          "engine": {
+            "state": "ready",
+            "delegate": "GPU",
+            "attempts": 1,
+            "initializationMs": 553.3999999999069
+          },
+          "inference": {
+            "attempts": 3,
+            "successes": 3,
+            "errors": 0,
+            "emptyResults": 0,
+            "hands": 1,
+            "landmarks": 21,
+            "input": "canvas-960",
+            "width": 640,
+            "height": 480,
+            "lastMs": 256.80000000004657,
+            "intervalMs": 50,
+            "actualIntervalMs": 634.8000000000466
+          },
+          "nails": {
+            "estimated": 5,
+            "eligible": 5,
+            "rendered": 5,
+            "drawMs": 0.19999999995343387,
+            "drawFps": 2.9819591471595808,
+            "before": false,
+            "manual": false,
+            "canvasWidth": 356,
+            "canvasHeight": 267,
+            "canvasOpacity": 1
+          },
+          "performance": {
+            "cameraFps": null,
+            "detectionFps": 0.4546281142025823,
+            "inferenceMs": 2152.2999999998137,
+            "memoryMB": 25.56387996673584
+          },
+          "profile": {
+            "windowSize": 120,
+            "frames": 3,
+            "latest": {
+              "inputMs": 0,
+              "modelMs": 189.30000000004657,
+              "geometryMs": 0.09999999986030161,
+              "pixelsMs": 67.30000000004657,
+              "visibilityMs": 0,
+              "stabilizationMs": 0.10000000009313226,
+              "totalMs": 256.80000000004657
+            },
+            "timings": {
+              "inputMs": {
+                "samples": 3,
+                "meanMs": 0.8666666666201005,
+                "p50Ms": 1.1999999999534339,
+                "p90Ms": 1.3999999999068677,
+                "maxMs": 1.3999999999068677
+              },
+              "modelMs": {
+                "samples": 3,
+                "meanMs": 779.3333333334109,
+                "p50Ms": 189.30000000004657,
+                "p90Ms": 1960.5,
+                "maxMs": 1960.5
+              },
+              "geometryMs": {
+                "samples": 3,
+                "meanMs": 0.3666666665424903,
+                "p50Ms": 0.09999999986030161,
+                "p90Ms": 0.8999999999068677,
+                "maxMs": 0.8999999999068677
+              },
+              "pixelsMs": {
+                "samples": 3,
+                "meanMs": 131.2666666666822,
+                "p50Ms": 138,
+                "p90Ms": 188.5,
+                "maxMs": 188.5
+              },
+              "visibilityMs": {
+                "samples": 3,
+                "meanMs": 0.23333333331781128,
+                "p50Ms": 0.19999999995343387,
+                "p90Ms": 0.5,
+                "maxMs": 0.5
+              },
+              "stabilizationMs": {
+                "samples": 3,
+                "meanMs": 0.2333333333954215,
+                "p50Ms": 0.10000000009313226,
+                "p90Ms": 0.5,
+                "maxMs": 0.5
+              },
+              "totalMs": {
+                "samples": 3,
+                "meanMs": 912.2999999999689,
+                "p50Ms": 327.80000000004657,
+                "p90Ms": 2152.2999999998137,
+                "maxMs": 2152.2999999998137
+              }
+            },
+            "fingers": [
+              {
+                "finger": 0,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 3
+                }
+              },
+              {
+                "finger": 1,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 3
+                }
+              },
+              {
+                "finger": 2,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 3
+                }
+              },
+              {
+                "finger": 3,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 2,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 1
+                }
+              },
+              {
+                "finger": 4,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 3
+                }
+              }
+            ]
+          },
+          "lastError": null
+        }
+      },
+      {
+        "case": "diagnostic copy hit target",
+        "width": 320,
+        "height": 568,
+        "hit": true
+      },
+      {
+        "case": "diagnostic copy hit target",
+        "width": 390,
+        "height": 664,
+        "hit": true
+      },
+      {
+        "case": "diagnostic copy hit target",
+        "width": 844,
+        "height": 390,
+        "hit": true
+      },
+      {
+        "case": "no hand guidance, stream remains active",
+        "snapshot": {
+          "schema": 2,
+          "stage": "D-no-hands",
+          "environment": {
+            "browser": "Chrome",
+            "os": "Windows",
+            "secure": true,
+            "frameCallback": true
+          },
+          "camera": {
+            "state": "live",
+            "width": 640,
+            "height": 480,
+            "readyState": 4,
+            "currentTime": 11.555782,
+            "updates": 102,
+            "paused": false
+          },
+          "engine": {
+            "state": "ready",
+            "delegate": "GPU",
+            "attempts": 1,
+            "initializationMs": 553.3999999999069
+          },
+          "inference": {
+            "attempts": 31,
+            "successes": 31,
+            "errors": 0,
+            "emptyResults": 23,
+            "hands": 0,
+            "landmarks": 0,
+            "input": "canvas-native",
+            "width": 640,
+            "height": 480,
+            "lastMs": 158.10000000009313,
+            "intervalMs": 100,
+            "actualIntervalMs": 262.30000000004657
+          },
+          "nails": {
+            "estimated": 0,
+            "eligible": 0,
+            "rendered": 0,
+            "drawMs": 0.19999999995343387,
+            "drawFps": 12.333965844402277,
+            "before": false,
+            "manual": false,
+            "canvasWidth": 356,
+            "canvasHeight": 267,
+            "canvasOpacity": 0
+          },
+          "performance": {
+            "cameraFps": 14.705882352941176,
+            "detectionFps": 3.795066413662239,
+            "inferenceMs": 185.11302585405727,
+            "memoryMB": 30.707256317138672
+          },
+          "profile": {
+            "windowSize": 120,
+            "frames": 31,
+            "latest": {
+              "inputMs": 0.6999999999534339,
+              "modelMs": 157.30000000004657,
+              "geometryMs": 0,
+              "pixelsMs": 0.10000000009313226,
+              "visibilityMs": 0,
+              "stabilizationMs": 0,
+              "totalMs": 158.10000000009313
+            },
+            "timings": {
+              "inputMs": {
+                "samples": 31,
+                "meanMs": 0.8258064516159075,
+                "p50Ms": 0.7000000001862645,
+                "p90Ms": 1.1000000000931323,
+                "maxMs": 1.3999999999068677
+              },
+              "modelMs": {
+                "samples": 31,
+                "meanMs": 227.69677419358143,
+                "p50Ms": 161.80000000004657,
+                "p90Ms": 205.69999999995343,
+                "maxMs": 1960.5
+              },
+              "geometryMs": {
+                "samples": 31,
+                "meanMs": 0.04516129031206571,
+                "p50Ms": 0,
+                "p90Ms": 0.09999999986030161,
+                "maxMs": 0.8999999999068677
+              },
+              "pixelsMs": {
+                "samples": 31,
+                "meanMs": 24.00967741936385,
+                "p50Ms": 0,
+                "p90Ms": 71.5,
+                "maxMs": 188.5
+              },
+              "visibilityMs": {
+                "samples": 31,
+                "meanMs": 0.03870967741785271,
+                "p50Ms": 0,
+                "p90Ms": 0.10000000009313226,
+                "maxMs": 0.5
+              },
+              "stabilizationMs": {
+                "samples": 31,
+                "meanMs": 0.03225806451612903,
+                "p50Ms": 0,
+                "p90Ms": 0.10000000009313226,
+                "maxMs": 0.5
+              },
+              "totalMs": {
+                "samples": 31,
+                "meanMs": 252.64838709680723,
+                "p50Ms": 162.69999999995343,
+                "p90Ms": 279.9000000001397,
+                "maxMs": 2152.2999999998137
+              }
+            },
+            "fingers": [
+              {
+                "finger": 0,
+                "frames": 8,
+                "fresh": 8,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 8
+                }
+              },
+              {
+                "finger": 1,
+                "frames": 8,
+                "fresh": 8,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 8
+                }
+              },
+              {
+                "finger": 2,
+                "frames": 8,
+                "fresh": 8,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 8
+                }
+              },
+              {
+                "finger": 3,
+                "frames": 8,
+                "fresh": 8,
+                "accepted": 5,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 3
+                }
+              },
+              {
+                "finger": 4,
+                "frames": 8,
+                "fresh": 8,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 8
+                }
+              }
+            ]
+          },
+          "lastError": null
+        }
+      },
+      {
+        "case": "retry recovers five nails without new stream",
+        "passed": true
+      },
+      {
+        "case": "paused video resumes on recognition retry without stream restart",
+        "passed": true
+      },
+      {
+        "case": "permission denial",
+        "snapshot": {
+          "schema": 2,
+          "stage": "A-camera",
+          "environment": {
+            "browser": "Chrome",
+            "os": "Windows",
+            "secure": true,
+            "frameCallback": true
+          },
+          "camera": {
+            "state": "failed",
+            "width": 640,
+            "height": 480,
+            "readyState": 4,
+            "currentTime": 17.96435,
+            "updates": 8,
+            "paused": false
+          },
+          "engine": {
+            "state": "stopped",
+            "delegate": "GPU",
+            "attempts": 1,
+            "initializationMs": 394
+          },
+          "inference": {
+            "attempts": 3,
+            "successes": 3,
+            "errors": 0,
+            "emptyResults": 0,
+            "hands": 1,
+            "landmarks": 21,
+            "input": "canvas-960",
+            "width": 640,
+            "height": 480,
+            "lastMs": 237.80000000004657,
+            "intervalMs": 50,
+            "actualIntervalMs": 315
+          },
+          "nails": {
+            "estimated": 5,
+            "eligible": 5,
+            "rendered": 0,
+            "drawMs": 0.4000000001396984,
+            "drawFps": 3.4414522928675924,
+            "before": false,
+            "manual": false,
+            "canvasWidth": 356,
+            "canvasHeight": 267,
+            "canvasOpacity": 1
+          },
+          "performance": {
+            "cameraFps": null,
+            "detectionFps": 0.48790007806401287,
+            "inferenceMs": 2029.5999999998603,
+            "memoryMB": 25.26020908355713
+          },
+          "profile": {
+            "windowSize": 120,
+            "frames": 3,
+            "latest": {
+              "inputMs": 0.9000000001396984,
+              "modelMs": 166,
+              "geometryMs": 0,
+              "pixelsMs": 70.79999999981374,
+              "visibilityMs": 0,
+              "stabilizationMs": 0.10000000009313226,
+              "totalMs": 237.80000000004657
+            },
+            "timings": {
+              "inputMs": {
+                "samples": 3,
+                "meanMs": 0.8666666666977108,
+                "p50Ms": 0.8999999999068677,
+                "p90Ms": 0.9000000001396984,
+                "maxMs": 0.9000000001396984
+              },
+              "modelMs": {
+                "samples": 3,
+                "meanMs": 764.6666666666666,
+                "p50Ms": 178,
+                "p90Ms": 1950,
+                "maxMs": 1950
+              },
+              "geometryMs": {
+                "samples": 3,
+                "meanMs": 0.06666666672875483,
+                "p50Ms": 0.10000000009313226,
+                "p90Ms": 0.10000000009313226,
+                "maxMs": 0.10000000009313226
+              },
+              "pixelsMs": {
+                "samples": 3,
+                "meanMs": 77.16666666651145,
+                "p50Ms": 78.39999999990687,
+                "p90Ms": 82.29999999981374,
+                "maxMs": 82.29999999981374
+              },
+              "visibilityMs": {
+                "samples": 3,
+                "meanMs": 0.06666666672875483,
+                "p50Ms": 0.10000000009313226,
+                "p90Ms": 0.10000000009313226,
+                "maxMs": 0.10000000009313226
+              },
+              "stabilizationMs": {
+                "samples": 3,
+                "meanMs": 0.06666666665114462,
+                "p50Ms": 0.09999999986030161,
+                "p90Ms": 0.10000000009313226,
+                "maxMs": 0.10000000009313226
+              },
+              "totalMs": {
+                "samples": 3,
+                "meanMs": 842.8999999999845,
+                "p50Ms": 261.30000000004657,
+                "p90Ms": 2029.5999999998603,
+                "maxMs": 2029.5999999998603
+              }
+            },
+            "fingers": [
+              {
+                "finger": 0,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 3
+                }
+              },
+              {
+                "finger": 1,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 3
+                }
+              },
+              {
+                "finger": 2,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 3
+                }
+              },
+              {
+                "finger": 3,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 2,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 1
+                }
+              },
+              {
+                "finger": 4,
+                "frames": 3,
+                "fresh": 3,
+                "accepted": 0,
+                "cached": 0,
+                "held": 0,
+                "skipped": 0,
+                "fitReason": "no-reliable-boundary",
+                "visibility": "visible",
+                "visibilityReason": "dorsal-pose-prior",
+                "rejections": {
+                  "no-reliable-boundary": 3
+                }
+              }
+            ]
+          },
+          "lastError": {
+            "phase": "camera",
+            "name": "NotAllowedError",
+            "code": "camera-start-failed"
+          }
+        }
+      }
+    ],
+    "errors": []
+  },
+  "seo": {
+    "kind": "local production head + headless Chrome viewport QA; not real SERP, social-service cache or physical phone validation",
+    "rows": [
+      {
+        "route": "/",
+        "title": "無料ネイル試着｜写真・カメラで似合うネイルをお試し - Nail Fit Studio",
+        "description": "ネイルをする前に、自分の手で似合うデザインをチェック。Nail Fit Studioは、写真やカメラでネイルの色・形・長さを無料で試せるサイトです。アプリのインストール不要で、スマホから気軽にお試しできます。",
+        "canonical": "https://nail-fit-studio.vercel.app/",
+        "ogUrl": "https://nail-fit-studio.vercel.app",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "WebSite",
+          "Organization"
+        ]
+      },
+      {
+        "route": "/try-on",
+        "title": "ネイルシミュレーター｜写真・カメラで無料試着｜Nail Fit Studio",
+        "description": "自分の手の写真やカメラでネイルを無料シミュレーション。色・形・長さやデザインを変えて比較し、気に入った試着画像を保存できます。アプリ不要。",
+        "canonical": "https://nail-fit-studio.vercel.app/try-on",
+        "ogUrl": "https://nail-fit-studio.vercel.app/try-on",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/diagnosis",
+        "title": "似合うネイル診断｜好み・シーンから無料で提案｜Nail Fit Studio",
+        "description": "8つの質問で、好みや使う場面に合うネイルの色・形・長さを無料で提案。診断結果から自分の手でネイル試着もできます。",
+        "canonical": "https://nail-fit-studio.vercel.app/diagnosis",
+        "ogUrl": "https://nail-fit-studio.vercel.app/diagnosis",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/guide",
+        "title": "ネイルの選び方・デザインガイド｜Nail Fit Studio",
+        "description": "ネイルの形・色・長さの選び方から、オフィスや季節に合うデザイン、サロン前の準備まで。自分の手で試着しながら選べる日本語ネイルガイドです。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/about",
+        "title": "Nail Fit Studioとは｜無料ネイル試着サイト",
+        "description": "Nail Fit Studioは、写真やカメラで自分に似合うネイルを無料で試せるサイトです。アプリ不要で使える機能や、試着結果の見方、写真の取り扱いをご案内します。",
+        "canonical": "https://nail-fit-studio.vercel.app/about",
+        "ogUrl": "https://nail-fit-studio.vercel.app/about",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/contact",
+        "title": "お問い合わせ｜Nail Fit Studio",
+        "description": "Nail Fit Studioへのご意見・不具合報告の窓口です。",
+        "canonical": "https://nail-fit-studio.vercel.app/contact",
+        "ogUrl": "https://nail-fit-studio.vercel.app/contact",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/editorial-policy",
+        "title": "編集方針｜Nail Fit Studio",
+        "description": "Nail Fit Studioのガイド記事の制作・更新方針です。",
+        "canonical": "https://nail-fit-studio.vercel.app/editorial-policy",
+        "ogUrl": "https://nail-fit-studio.vercel.app/editorial-policy",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/privacy",
+        "title": "プライバシーポリシー｜Nail Fit Studio",
+        "description": "画像、端末内保存、Cookie、Google Analytics、広告の取り扱いについて。",
+        "canonical": "https://nail-fit-studio.vercel.app/privacy",
+        "ogUrl": "https://nail-fit-studio.vercel.app/privacy",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/terms",
+        "title": "利用規約｜Nail Fit Studio",
+        "description": "Nail Fit Studioのサービス利用条件です。",
+        "canonical": "https://nail-fit-studio.vercel.app/terms",
+        "ogUrl": "https://nail-fit-studio.vercel.app/terms",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/favorites",
+        "title": "お気に入り｜Nail Fit Studio",
+        "description": "保存したネイルデザインを端末内で見返せます。",
+        "canonical": "https://nail-fit-studio.vercel.app/favorites",
+        "ogUrl": "https://nail-fit-studio.vercel.app/favorites",
+        "robots": "noindex, nofollow",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/history",
+        "title": "試着履歴｜Nail Fit Studio",
+        "description": "最近試したネイル設定を端末内で見返せます。",
+        "canonical": "https://nail-fit-studio.vercel.app/history",
+        "ogUrl": "https://nail-fit-studio.vercel.app/history",
+        "robots": "noindex, nofollow",
+        "jsonLdTypes": []
+      },
+      {
+        "route": "/guide/how-to-choose-nail-shape",
+        "title": "自分に似合うネイルの形の選び方｜Nail Fit Studio",
+        "description": "指の見え方だけでなく、生活のしやすさまで含めたネイル形状の選び方を解説します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/how-to-choose-nail-shape",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/how-to-choose-nail-shape",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/round-nail",
+        "title": "ラウンドネイルとは？似合う指の特徴｜Nail Fit Studio",
+        "description": "丸みのあるラウンドネイルの特徴、扱いやすさ、きれいに見せる色を紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/round-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/round-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/oval-nail",
+        "title": "オーバルネイルとは？特徴とおすすめデザイン｜Nail Fit Studio",
+        "description": "上品で指先をすっきり見せやすいオーバルの特徴と選び方を解説します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/oval-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/oval-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/square-nail",
+        "title": "スクエアネイルが似合う人とは？｜Nail Fit Studio",
+        "description": "直線的なスクエアネイルの魅力と、幅広く見せないデザインのコツを紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/square-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/square-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/almond-nail",
+        "title": "アーモンドネイルの特徴と似合う手｜Nail Fit Studio",
+        "description": "先細りのアーモンド形で、指をしなやかに見せるバランスを解説します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/almond-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/almond-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/ballerina-nail",
+        "title": "バレリーナネイルとは？｜Nail Fit Studio",
+        "description": "先細りと平らな先端を組み合わせたバレリーナ形の魅力と注意点を解説します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/ballerina-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/ballerina-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/short-nail-design",
+        "title": "短い爪でも似合うネイルデザイン｜Nail Fit Studio",
+        "description": "短い爪のかわいさを生かし、すっきり見せる色と模様の選び方を紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/short-nail-design",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/short-nail-design",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/make-nails-look-longer",
+        "title": "爪を長く見せるネイルデザイン｜Nail Fit Studio",
+        "description": "縦の流れ、余白、光の置き方で爪をすっきり見せる方法を紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/make-nails-look-longer",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/make-nails-look-longer",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/hand-beautiful-nail-colors",
+        "title": "手がきれいに見えるネイルカラー｜Nail Fit Studio",
+        "description": "手全体を明るく、清潔感のある印象に見せるカラー選びの考え方です。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/hand-beautiful-nail-colors",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/hand-beautiful-nail-colors",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/pink-beige-nail",
+        "title": "ピンクベージュネイルの選び方｜Nail Fit Studio",
+        "description": "定番のピンクベージュを、白浮きやくすみを避けて選ぶポイントを解説します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/pink-beige-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/pink-beige-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/warm-tone-nail-colors",
+        "title": "黄みが似合いやすい人のネイルカラー選び｜Nail Fit Studio",
+        "description": "黄みのある色が心地よく感じる人向けに、温かみのあるカラーを紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/warm-tone-nail-colors",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/warm-tone-nail-colors",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/cool-tone-nail-colors",
+        "title": "青みが似合いやすい人のネイルカラー選び｜Nail Fit Studio",
+        "description": "青みのある色が心地よく感じる人向けに、透明感を生かすカラーを紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/cool-tone-nail-colors",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/cool-tone-nail-colors",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/skin-friendly-nail-colors",
+        "title": "肌なじみのいいネイルカラーとは？｜Nail Fit Studio",
+        "description": "肌なじみを色相・明るさ・透明感の三つから考える方法を紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/skin-friendly-nail-colors",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/skin-friendly-nail-colors",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/date-nail",
+        "title": "デートにおすすめのネイル｜Nail Fit Studio",
+        "description": "近くで見たときにきれいで、服装にも合わせやすいデートネイルを紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/date-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/date-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/university-nail",
+        "title": "大学生におすすめのネイルデザイン｜Nail Fit Studio",
+        "description": "授業、アルバイト、休日を行き来しやすい大学生向けデザインの選び方です。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/university-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/university-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/job-hunting-nail",
+        "title": "就活で好印象なネイルとは？｜Nail Fit Studio",
+        "description": "就職活動で清潔感を優先した手元の整え方と、ネイルをする場合の考え方です。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/job-hunting-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/job-hunting-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/office-nail",
+        "title": "オフィスで使いやすいネイル｜Nail Fit Studio",
+        "description": "仕事中も扱いやすく、きちんと見えるオフィスネイルの選び方です。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/office-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/office-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/wedding-guest-nail",
+        "title": "結婚式のお呼ばれネイルの選び方｜Nail Fit Studio",
+        "description": "ドレスやアクセサリーになじむ、上品なお呼ばれネイルの考え方です。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/wedding-guest-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/wedding-guest-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/coming-of-age-nail",
+        "title": "成人式におすすめのネイル｜Nail Fit Studio",
+        "description": "振袖の色柄と調和し、写真にも残しやすい成人式ネイルの選び方です。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/coming-of-age-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/coming-of-age-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/spring-nail",
+        "title": "春におすすめのネイルデザイン｜Nail Fit Studio",
+        "description": "春の光と服に合わせやすい、軽やかな色とデザインを紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/spring-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/spring-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/summer-nail",
+        "title": "夏におすすめのネイルデザイン｜Nail Fit Studio",
+        "description": "光の強い夏に映える、透明感・ブルー・きらめきの使い方を紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/summer-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/summer-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/autumn-nail",
+        "title": "秋におすすめのネイルデザイン｜Nail Fit Studio",
+        "description": "秋服になじむ深みカラーを、重く見せずに使う方法を紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/autumn-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/autumn-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/winter-nail",
+        "title": "冬におすすめのネイルデザイン｜Nail Fit Studio",
+        "description": "冬の素材やイルミネーションに合う、深色と光のデザインを紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/winter-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/winter-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/french-nail",
+        "title": "フレンチネイルとは？｜Nail Fit Studio",
+        "description": "定番のフレンチネイルを、爪の長さや形に合わせる方法を解説します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/french-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/french-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/gradient-nail",
+        "title": "グラデーションネイルとは？｜Nail Fit Studio",
+        "description": "根元から先端へ色を変えるグラデーションの魅力と選び方を解説します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/gradient-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/gradient-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/magnet-nail",
+        "title": "マグネットネイルとは？｜Nail Fit Studio",
+        "description": "光の筋が動いて見えるマグネットネイルの特徴と、色の選び方を紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/magnet-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/magnet-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/gel-vs-polish",
+        "title": "ジェルネイルとマニキュアの違い｜Nail Fit Studio",
+        "description": "ジェルとマニキュアの仕上がり、持ち、落とし方の違いを整理します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/gel-vs-polish",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/gel-vs-polish",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/before-nail-salon",
+        "title": "ネイルサロンへ行く前に準備すること｜Nail Fit Studio",
+        "description": "希望を伝えやすくし、当日を安心して迎えるための準備をまとめます。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/before-nail-salon",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/before-nail-salon",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/long-lasting-nail",
+        "title": "ネイルを長持ちさせるための基本｜Nail Fit Studio",
+        "description": "施術後のネイルをきれいに保つために、日常で気をつけたい基本を紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/long-lasting-nail",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/long-lasting-nail",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      },
+      {
+        "route": "/guide/daily-nail-care",
+        "title": "爪をきれいに見せる日常ケア｜Nail Fit Studio",
+        "description": "色を塗らない日にも役立つ、爪と指先を整えて見せる日常習慣を紹介します。",
+        "canonical": "https://nail-fit-studio.vercel.app/guide/daily-nail-care",
+        "ogUrl": "https://nail-fit-studio.vercel.app/guide/daily-nail-care",
+        "robots": "index allowed (no noindex)",
+        "jsonLdTypes": [
+          "Article",
+          "BreadcrumbList"
+        ]
+      }
+    ],
+    "layouts": [
+      {
+        "route": "/",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/try-on",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/try-on",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/try-on",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/diagnosis",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/diagnosis",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/diagnosis",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/guide",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/guide",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/guide",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/about",
+        "width": 320,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/about",
+        "width": 390,
+        "overflow": false,
+        "headingClipped": false
+      },
+      {
+        "route": "/about",
+        "width": 1280,
+        "overflow": false,
+        "headingClipped": false
+      }
+    ],
+    "sitemapEntries": 39,
+    "robots": "User-Agent: *\nAllow: /\n\nHost: https://nail-fit-studio.vercel.app\nSitemap: https://nail-fit-studio.vercel.app/sitemap.xml\n",
+    "notFoundStatus": 404,
+    "errors": [],
+    "passed": [
+      "unique Japanese titles/descriptions",
+      "canonical/OG URLs",
+      "Japanese OGP/Twitter with PNG",
+      "WebSite/Article/Breadcrumb JSON-LD parse and semantics",
+      "no fabricated rating schema",
+      "personal noindex",
+      "sitemap/robots/404",
+      "favicon/manifest",
+      "3 facts above fold",
+      "home to try-on link",
+      "AdSense/GA4/ads.txt retained"
+    ]
+  },
+  "links": {
+    "pages": 41,
+    "indexablePages": 39,
+    "indexableReachableFromHome": true,
+    "errors": []
+  },
+  "checks": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "testScripts": 24,
+    "test": "passed",
+    "build": "passed",
+    "buildPages": 47
+  },
+  "conclusion": "No algorithm adoption and no asserted speedup. Confirmed false-success, malformed-list crash, stale-photo race, comparison hit targets fixed; repeated lab ranges do not reproduce a consistent FPS regression."
+}

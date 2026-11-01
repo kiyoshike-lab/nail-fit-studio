@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type RefObject } from "react";
+import { useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import type { SourceMode } from "@/lib/types";
 import type { NailPose } from "@/lib/types";
 import type { HandDetectionState } from "@/lib/handTracking";
@@ -12,6 +12,7 @@ type Props = {
   mode: SourceMode;
   photoUrl?: string;
   status: string;
+  comparison?: ReactNode;
   loading?: boolean;
   trackingFailed?: boolean;
   trackingRetryAvailable?: boolean;
@@ -29,9 +30,24 @@ type Props = {
   onMoveNail: (index: number, x: number, y: number) => void;
 };
 
-export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, trackingRetryAvailable, detectionState = "searching", onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, design, liveNailsRef, onSelectNail, onMoveNail }: Props) {
+export function NailPreview({ mode, photoUrl, status, comparison, loading, trackingFailed, trackingRetryAvailable, detectionState = "searching", onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, design, liveNailsRef, onSelectNail, onMoveNail }: Props) {
   const [aspectRatio, setAspectRatio] = useState("4 / 3");
+  const cardRef = useRef<HTMLElement | null>(null);
   const dragRef = useRef<{ pointerId: number; index: number; offsetX: number; offsetY: number } | null>(null);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    const shell = card?.closest<HTMLElement>(".studio-shell");
+    if (!card || !shell) return;
+    // Scroll alignment only. Source/video/Canvas coordinates are untouched.
+    const update = () => shell.style.setProperty("--preview-obstruction",
+      getComputedStyle(card).position === "sticky" ? `${Math.ceil(card.getBoundingClientRect().height) + 80}px` : "80px");
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(update);
+    observer?.observe(card);
+    window.addEventListener("resize", update);
+    update();
+    return () => { observer?.disconnect(); window.removeEventListener("resize", update); shell.style.removeProperty("--preview-obstruction"); };
+  }, []);
 
   function pointerPosition(event: React.PointerEvent<HTMLDivElement>) {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -68,7 +84,7 @@ export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, t
     if (dragRef.current?.pointerId === event.pointerId) dragRef.current = null;
   }
   return (
-    <section className="preview-card" aria-label="ネイル試着プレビュー">
+    <section ref={cardRef} className="preview-card" id="nail-preview" tabIndex={-1} aria-label="ネイル試着プレビュー">
       <div className="preview-header">
         <strong>プレビュー</strong>
         <span>{status}</span>
@@ -130,9 +146,10 @@ export function NailPreview({ mode, photoUrl, status, loading, trackingFailed, t
             </div>
           </>
         )}
-        {loading && <div className="loading-badge">手を認識しています…</div>}
+        {loading && <div className="loading-badge" role="status">手を認識しています…</div>}
         {mode !== "empty" && <div className="drag-guide">爪をドラッグして微調整</div>}
       </div>
+      {comparison && <div className="preview-comparison">{comparison}</div>}
     </section>
   );
 }

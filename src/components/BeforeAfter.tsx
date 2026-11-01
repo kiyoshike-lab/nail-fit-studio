@@ -24,6 +24,8 @@ export function BeforeAfter({ enabled, onToggle, onHoldStart, onHoldEnd }: Props
       <button
         type="button"
         className={enabled ? "toggle is-on" : "toggle"}
+        aria-pressed={!enabled}
+        aria-label={enabled ? "ネイルあり / 長押しでBefore" : "Before表示中"}
         onClick={() => {
           if (suppressClick.current) { suppressClick.current = false; return; }
           onToggle();

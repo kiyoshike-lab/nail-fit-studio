@@ -20,7 +20,17 @@
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
-/* Opt-in diagnostics only: normal studio layout is unchanged. */
+.preview-comparison .compact-card{padding:0;border:0;margin-top:8px}
+.preview-comparison .toggle{min-height:44px;padding-block:8px;font-size:.78rem}
+.preview-card{scroll-margin-top:80px}
+.panel-card summary,.finger-tabs button{min-height:44px}
+.panel-card summary{display:block;padding-block:8px}
+.upload-button:focus-within{outline:3px solid var(--wine);outline-offset:3px}
+@media(max-width:900px){.control-column :is(button,a,summary,input,select),#settings-panel{scroll-margin-top:var(--preview-obstruction,80px);scroll-margin-bottom:160px}}
+/* A pinned video cannot leave room for controls on a short landscape/keyboard
+   viewport. Keep normal portrait pinning; allow scrolling in this case only. */
+@media(max-width:900px) and (max-height:650px){.preview-card{position:relative;top:auto}}
+/* Opt-in diagnostics only. */
 .tracking-diagnostics{position:relative;z-index:6;grid-column:1/-1;min-width:0;width:100%;max-width:100%;padding:1rem;border:1px solid #ddd;border-radius:1rem;background:#fff;font-size:.85rem;overflow-wrap:anywhere}
 .tracking-diagnostics dl{display:grid;grid-template-columns:5.5rem minmax(0,1fr);gap:.4rem}.tracking-diagnostics dd{margin:0;min-width:0}.tracking-diagnostics textarea{box-sizing:border-box;width:100%;max-width:100%}.tracking-diagnostics button{min-height:44px}.tracking-diagnostics p{margin:.6rem 0}
 @media(max-width:900px){.tracking-diagnostics{order:-1}.tracking-diagnostics button{scroll-margin-block:80px 160px}}

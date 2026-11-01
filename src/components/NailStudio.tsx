@@ -23,7 +23,7 @@ import { readJson, writeJson } from "@/lib/storage";
 import { detectHandNails, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
 import { trackEvent } from "@/lib/analytics";
 import { initializeTrackerSafely } from "@/lib/trackingFallback";
-import { createLocalId, STORAGE_KEYS } from "@/lib/storage";
+import { createLocalId, readSavedLooks, STORAGE_KEYS, tryWriteJson } from "@/lib/storage";
 import {
   cameraErrorMessage,
   getCameraStreamWithFallback,
@@ -833,8 +833,11 @@ export function NailStudio() {
   const saveFavorite = useCallback(() => {
     if (mode === "empty") { notify("先に写真かカメラを入れてください"); return; }
     const favorite: SavedNailLook = { id: createLocalId("favorite"), designId: activePresetId, design, nails: mode === "camera" ? liveNailsRef.current ?? nails : nails, savedAt: new Date().toISOString() };
-    const current = readJson<SavedNailLook[]>(STORAGE_KEYS.favorites, []);
-    writeJson(STORAGE_KEYS.favorites, [favorite, ...current].slice(0, 50));
+    const current = readSavedLooks("favorites");
+    if (!tryWriteJson(STORAGE_KEYS.favorites, [favorite, ...current].slice(0, 50))) {
+      notify("お気に入りを保存できませんでした。ブラウザの保存設定や空き容量を確認してください。");
+      return;
+    }
     notify("お気に入りに追加しました");
     trackEvent("favorite_added", { shape: design.shape, pattern: design.pattern });
   }, [activePresetId, design, mode, nails, notify]);
@@ -842,8 +845,8 @@ export function NailStudio() {
   const addHistory = useCallback((savedNails: NailPose[]) => {
     const now = new Date().toISOString();
     const item: TryOnHistory = { id: createLocalId("history"), designId: activePresetId, design, nails: savedNails, savedAt: now, createdAt: now };
-    const current = readJson<TryOnHistory[]>(STORAGE_KEYS.history, []);
-    writeJson(STORAGE_KEYS.history, [item, ...current].slice(0, 20));
+    const current = readSavedLooks("history");
+    return tryWriteJson(STORAGE_KEYS.history, [item, ...current].slice(0, 20));
   }, [activePresetId, design]);
 
   const updateNail = useCallback((index: number, patch: Partial<NailPose>) => {
@@ -981,12 +984,13 @@ export function NailStudio() {
         return;
       }
       const file = new File([blob], "nail-fit-studio.png", { type: "image/png" });
-      addHistory(savedNails);
+      const historySaved = addHistory(savedNails);
+      const historyNotice = historySaved ? "" : "（履歴は保存できませんでした）";
       const nav = navigator as Navigator & { canShare?: (data: ShareData) => boolean };
       if (nav.canShare?.({ files: [file] })) {
         try {
           await navigator.share({ files: [file], title: "Nail Fit Studio" });
-          notify("画像を保存/共有しました");
+          notify(`画像を保存/共有しました${historyNotice}`);
           trackEvent("tryon_shared");
           return;
         } catch {
@@ -999,7 +1003,7 @@ export function NailStudio() {
       link.download = "nail-fit-studio.png";
       link.click();
       window.setTimeout(() => URL.revokeObjectURL(url), 1200);
-      notify("画像を保存しました");
+      notify(`画像を保存しました${historyNotice}`);
       trackEvent("tryon_saved");
     }, "image/png");
   }, [addHistory, cameraMirrored, design, mode, nails, notify, trackingState]);
@@ -1055,7 +1059,7 @@ export function NailStudio() {
 
       <main className="studio-layout">
         <div className="control-column">
-          <PhotoUploader onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} onError={(message) => { setStatus(message); notify(message); }} />
+          <PhotoUploader getSourceRevision={() => photoRequestRef.current} onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} onError={(message) => { setStatus(message); notify(message); }} />
           <CameraDeviceSelector
             devices={cameraDevices}
             selectedDeviceId={selectedDeviceId}
@@ -1072,12 +1076,6 @@ export function NailStudio() {
             onNail={updateSelectedNail}
             onReset={() => { void autoFit(); }}
           />
-          <BeforeAfter
-            enabled={!before}
-            onToggle={() => setBefore((value) => !value)}
-            onHoldStart={() => setBefore(true)}
-            onHoldEnd={() => setBefore(false)}
-          />
           <SavePanel canSave={mode !== "empty"} onSave={saveImage} onCapture={capturePhoto} onAutoFit={autoFit} onFavorite={saveFavorite} isCamera={mode === "camera"} />
           <button type="button" className="secondary wide" onClick={switchCamera}>
             {facingMode === "user" ? "外カメラ優先にする" : "内カメラ優先にする"}
@@ -1085,6 +1083,12 @@ export function NailStudio() {
         </div>
 
         <NailPreview
+          comparison={mode !== "empty" ? <BeforeAfter
+            enabled={!before}
+            onToggle={() => setBefore((value) => !value)}
+            onHoldStart={() => setBefore(true)}
+            onHoldEnd={() => setBefore(false)}
+          /> : undefined}
           mode={mode}
           photoUrl={photoUrl}
           status={status}

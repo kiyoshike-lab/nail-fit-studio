@@ -88,6 +88,7 @@ export function DesignSelector({ presets, activePresetId, onSelectPreset, design
               className={`preset-card ${activePresetId === preset.id ? "is-selected" : ""}`}
               onClick={() => onSelectPreset(preset)}
               aria-label={`${preset.name}を選ぶ`}
+              aria-pressed={activePresetId === preset.id}
             >
               {preset.previewImage ? <Image src={assetPath(preset.previewImage)!} alt={`${preset.name}の見本`} width={180} height={220} loading="lazy" /> : <span />}
               <small>{preset.genre ?? preset.pattern}</small>

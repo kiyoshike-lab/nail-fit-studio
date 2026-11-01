@@ -1,15 +1,23 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+import { preparePhoto } from "@/lib/photoPreparation";
+
 type Props = {
   onPhoto: (url: string) => void;
   onSample: () => void;
   onCamera: () => void;
   onError: (message: string) => void;
+  getSourceRevision: () => number;
 };
 
 const supportedTypes = ["image/jpeg", "image/png", "image/webp"];
 
-export function PhotoUploader({ onPhoto, onSample, onCamera, onError }: Props) {
+export function PhotoUploader({ onPhoto, onSample, onCamera, onError, getSourceRevision }: Props) {
+  const request = useRef(0);
+  const [preparing, setPreparing] = useState(false);
+  useEffect(() => () => { request.current += 1; }, []);
+  const cancelPreparation = () => { request.current += 1; setPreparing(false); };
   return (
     <section className="panel-card intro-actions" aria-labelledby="start-title">
       <div>
@@ -26,6 +34,10 @@ export function PhotoUploader({ onPhoto, onSample, onCamera, onError }: Props) {
             const file = event.currentTarget.files?.[0];
             event.currentTarget.value = "";
             if (!file) return;
+            const id = ++request.current;
+            const sourceRevision = getSourceRevision();
+            const isCurrent = () => id === request.current && sourceRevision === getSourceRevision();
+            setPreparing(false);
             if (!supportedTypes.includes(file.type)) {
               onError("画像を読み込めませんでした。JPEG、PNG、WebP画像をもう一度選択してください。");
               return;
@@ -34,36 +46,27 @@ export function PhotoUploader({ onPhoto, onSample, onCamera, onError }: Props) {
               onError("画像が10MBを超えています。少し小さい画像を選択してください。");
               return;
             }
+            setPreparing(true);
             try {
-              onPhoto(await resizePhoto(file));
+              const url = await preparePhoto(file);
+              if (!isCurrent()) { URL.revokeObjectURL(url); return; }
+              onPhoto(url);
             } catch {
-              onError("画像を準備できませんでした。別の画像でもう一度お試しください。");
+              if (isCurrent()) onError("画像を準備できませんでした。別の画像でもう一度お試しください。");
+            } finally {
+              if (id === request.current) setPreparing(false);
             }
           }}
         />
       </label>
-      <button type="button" onClick={onSample}>
+      {preparing && <p className="hint" role="status">画像を準備しています…</p>}
+      <button type="button" onClick={() => { cancelPreparation(); onSample(); }}>
         サンプル写真で試す
       </button>
-      <button type="button" className="secondary" onClick={onCamera}>
+      <button type="button" className="secondary" onClick={() => { cancelPreparation(); onCamera(); }}>
         カメラで試す
       </button>
       <p className="hint">きれいに試すコツ：手全体を写し、指を少し開いて、明るい場所で真上から撮影。</p>
     </section>
   );
-}
-
-async function resizePhoto(file: File) {
-  const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
-  const maxSide = 2200;
-  const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
-  const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(bitmap.width * scale));
-  canvas.height = Math.max(1, Math.round(bitmap.height * scale));
-  const context = canvas.getContext("2d");
-  if (!context) throw new Error("Canvas unavailable");
-  context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-  bitmap.close();
-  const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob((value) => value ? resolve(value) : reject(new Error("Image conversion failed")), "image/jpeg", .9));
-  return URL.createObjectURL(blob);
 }

@@ -67,9 +67,9 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
 
       <details className="setting-block">
         <summary>詳細調整</summary>
-        <div className="finger-tabs" role="tablist" aria-label="指を選択">
+        <div className="finger-tabs" role="group" aria-label="指を選択">
           {fingers.map((name, index) => (
-            <button type="button" key={name} className={selectedFinger === index ? "is-selected" : ""} onClick={() => onSelectFinger(index)}>
+            <button type="button" key={name} aria-pressed={selectedFinger === index} className={selectedFinger === index ? "is-selected" : ""} onClick={() => onSelectFinger(index)}>
               {name}
             </button>
           ))}
@@ -115,6 +115,7 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
         <a className="button ghost" href="/try-on?diagnostics=1">手認識の診断を開く</a>
         <p className="hint">診断ページへ移動すると、カメラは一度停止します。移動後に再び起動してください。</p>
       </details>
+      <a className="button ghost" href="#nail-preview">プレビューに戻る</a>
     </section>
   );
 }

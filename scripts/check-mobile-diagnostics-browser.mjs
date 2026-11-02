@@ -18,7 +18,7 @@ try{
  await page.getByText('手認識がうまくいかないとき',{exact:true}).click();
  await page.getByRole('link',{name:'手認識の診断を開く',exact:true}).click();await page.waitForURL('**/try-on?diagnostics=1');await page.locator('.tracking-diagnostics').waitFor();
  const copy=async()=>{await page.getByRole('button',{name:'診断結果をコピー',exact:true}).click();return JSON.parse(await page.evaluate(()=>navigator.clipboard.readText()));};
- for(const width of[320,390,430,1280]){await page.setViewportSize({width,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`horizontal overflow ${width}`);rows.push({width,overflow:false});}
+ for(const width of[320,375,390,430,1280]){await page.setViewportSize({width,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`horizontal overflow ${width}`);rows.push({width,overflow:false});}
  await page.setViewportSize({width:390,height:844});
  // Camera success + real MediaPipe VIDEO on Canvas.captureStream. Not a physical device.
  await page.evaluate(async()=>{
@@ -34,7 +34,7 @@ try{
  const phases=snapshot.profile.latest;assert.ok(Math.abs(phases.totalMs-['inputMs','modelMs','geometryMs','pixelsMs','visibilityMs','stabilizationMs'].reduce((sum,key)=>sum+phases[key],0))<.01);
  const diagnostic=JSON.stringify(snapshot);assert.ok(!/PRIVATE_CAMERA_LABEL|sensitive-test-device|data:image|landmarks":\[|token=/.test(diagnostic),'private data in copy');
  rows.push({case:'real model + VIDEO + draw',snapshot});
- for(const [width,height]of[[320,568],[390,664],[844,390]]){
+ for(const [width,height]of[[320,568],[375,812],[390,664],[430,932],[844,390]]){
   await page.setViewportSize({width,height});const button=page.getByRole('button',{name:'診断結果をコピー',exact:true});await button.scrollIntoViewIfNeeded();
   const hit=await button.evaluate(b=>{const r=b.getBoundingClientRect(),top=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return top===b||b.contains(top);});
   assert.equal(hit,true,`sticky preview blocked diagnostic copy at ${width}x${height}`);await button.click();rows.push({case:'diagnostic copy hit target',width,height,hit});
@@ -58,5 +58,5 @@ try{
  await page.locator('.bottom-nav').getByRole('button',{name:'カメラ',exact:true}).click();await page.waitForTimeout(800);snapshot=await copy();assert.equal(snapshot.stage,'A-camera');assert.equal(snapshot.lastError.name,'NotAllowedError');assert.ok(!JSON.stringify(snapshot).includes('PRIVATE_TOKEN'));
  rows.push({case:'permission denial',snapshot});assert.deepEqual(errors,[]);
  if(opt('--output'))await writeFile(opt('--output'),JSON.stringify({kind:'headless desktop Chrome; mobile widths, real model + still-driven captureStream, not iPhone/Android hardware',rows,errors},null,2));
- console.log(JSON.stringify({layouts:4,diagnosticsOptIn:true,copy:true,realModelVideoNails:5,noHandRetry:true,cameraDenial:true,errors}));
+ console.log(JSON.stringify({layouts:5,diagnosticsOptIn:true,copy:true,realModelVideoNails:5,noHandRetry:true,cameraDenial:true,errors}));
 }finally{await browser.close();}

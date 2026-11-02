@@ -9,6 +9,18 @@ const nextConfig: NextConfig = {
   turbopack: {
     root,
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/mediapipe/hand_landmarker.task",
+          destination: "/model-assets/hand-landmarker",
+          // Leave the public identity representation available to other clients.
+          has: [{ type: "header", key: "accept-encoding", value: "(?:^|.*,\\s*)gzip(?:\\s*,.*|$)" }],
+        },
+      ],
+    };
+  },
 };
 
 export default nextConfig;

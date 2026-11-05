@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import Link from "next/link";
 import { BeforeAfter } from "./BeforeAfter";
 import { BottomNavigation } from "./BottomNavigation";
 import { CameraDeviceSelector } from "./CameraDeviceSelector";
@@ -37,6 +39,12 @@ import {
   type CameraInput,
 } from "@/lib/cameraDevices";
 import type { DesignPreset, NailDesign, NailPose, SavedNailLook, SourceMode, TryOnHistory } from "@/lib/types";
+import { createDocument, documentFromLegacy, findWorkshopDocument, parseDocument, patchAllBases, readWorkshopDraft } from "@/lib/workshopData";
+import type { DesignDocument } from "@/lib/workshopTypes";
+
+const WorkshopEditor = dynamic(() => import("./workshop/WorkshopEditor"), {
+  ssr: false, loading: () => <p role="status">デザインエディターを準備しています…</p>,
+});
 
 const DESIGN_KEY = "nail-fit-studio-next.design.v1";
 const NAILS_KEY = "nail-fit-studio-next.nails.v1";
@@ -63,6 +71,10 @@ export function NailStudio() {
   const [detectionState, setDetectionState] = useState<HandDetectionState>("searching");
   const [toast, setToast] = useState("");
   const [loading, setLoading] = useState(false);
+  const [artwork, setArtwork] = useState<DesignDocument | null>(null);
+  const [editorOpen, setEditorOpen] = useState(false);
+  const editorSnapshot = useRef<DesignDocument | null>(null);
+  const editorDesignSnapshot = useRef<NailDesign>(design);
 
   const imageRef = useRef<HTMLImageElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -100,6 +112,22 @@ export function NailStudio() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    if (params.has("artwork") || params.has("draft") || params.has("look")) {
+      const timer = window.setTimeout(() => {
+        const id = params.get("artwork");
+        const look = params.has("look") ? readSavedLooks(params.get("store") === "history" ? "history" : "favorites").find(item => item.id === params.get("look")) : undefined;
+        const doc = id ? findWorkshopDocument(id) : params.has("draft") ? readWorkshopDraft().document : look?.artwork ? parseDocument(look.artwork) : null;
+        const legacy = look ? documentFromLegacy(look.design) : null;
+        if (doc) {
+          setArtwork(doc); setDesign(doc.fingers[0].base);
+          setStatus("保存した5本のデザインを読み込みました。写真かカメラを入れて試せます。");
+        } else if (legacy) {
+          setDesign(legacy.fingers[0].base);
+          setStatus(look?.artwork ? "装飾を復元できませんでした。基本の色・形・長さだけを読み込みました。元の保存は保持しています。" : "保存した色・形・長さ・仕上げを読み込みました。写真かカメラを入れて試せます。");
+        } else setStatus("この端末に保存デザインが見つからないか、形式を読み込めません。元のデータは保持しています。");
+      }, 0);
+      return () => window.clearTimeout(timer);
+    }
     const shape = params.get("shape") as NailDesign["shape"] | null;
     const pattern = params.get("pattern") as NailDesign["pattern"] | null;
     const color = params.get("color");
@@ -178,6 +206,8 @@ export function NailStudio() {
     }
     if (!before && mode !== "empty") {
       return drawNails(ctx, width, height, visibleNails, design, {
+        fingers: artwork?.fingers,
+        lightParts: artwork?.detail === "light",
         clear: true,
         isCurrent: () => drawId === drawIdRef.current,
         opacity: mode === "camera" && trackingState !== "failed"
@@ -203,7 +233,7 @@ export function NailStudio() {
       if (mode === "camera") updateTrackingDiagnostics(d => { d.nails.rendered = 0; });
       return true;
     }
-  }, [before, cameraMirrored, design, mode, nails, trackingState]);
+  }, [artwork, before, cameraMirrored, design, mode, nails, trackingState]);
 
   useEffect(() => {
     drawPreviewRef.current = drawPreview;
@@ -789,6 +819,7 @@ export function NailStudio() {
   const updateDesign = useCallback((patch: Partial<NailDesign>) => {
     setActivePresetId(undefined);
     setDesign((current) => ({ ...current, ...patch }));
+    setArtwork(current => current ? patchAllBases(current, patch) : null);
     if (patch.naturalNailLength !== undefined) {
       naturalLengthRef.current = naturalNailLength(patch.naturalNailLength);
       const image = imageRef.current;
@@ -827,12 +858,23 @@ export function NailStudio() {
       textureUrl: assetPath(preset.textureImage),
       realism: Math.max(current.realism, 0.84),
     }));
+    setArtwork(current => current ? patchAllBases(current, {
+      color: preset.colorHint ?? current.fingers[0].base.color,
+      material: preset.material ?? current.fingers[0].base.material,
+      pattern: preset.pattern ?? current.fingers[0].base.pattern,
+      finish: normalizeFinish(preset.finish) ?? current.fingers[0].base.finish,
+      motif: preset.motif ?? current.fingers[0].base.motif,
+      motifColor: preset.motifColor ?? current.fingers[0].base.motifColor,
+      textureUrl: assetPath(preset.textureImage),
+      realism: Math.max(current.fingers[0].base.realism, .84),
+    }) : null);
     trackEvent("nail_design_selected", { design_id: preset.id });
   }, []);
 
   const saveFavorite = useCallback(() => {
     if (mode === "empty") { notify("先に写真かカメラを入れてください"); return; }
-    const favorite: SavedNailLook = { id: createLocalId("favorite"), designId: activePresetId, design, nails: mode === "camera" ? liveNailsRef.current ?? nails : nails, savedAt: new Date().toISOString() };
+    if (artwork && !parseDocument(artwork)) { notify("デザイン名・パーツを確認してから保存してください"); return; }
+    const favorite: SavedNailLook = { id: createLocalId("favorite"), designId: activePresetId, design, ...(artwork ? {artwork} : {}), nails: mode === "camera" ? liveNailsRef.current ?? nails : nails, savedAt: new Date().toISOString() };
     const current = readSavedLooks("favorites");
     if (!tryWriteJson(STORAGE_KEYS.favorites, [favorite, ...current].slice(0, 50))) {
       notify("お気に入りを保存できませんでした。ブラウザの保存設定や空き容量を確認してください。");
@@ -840,14 +882,15 @@ export function NailStudio() {
     }
     notify("お気に入りに追加しました");
     trackEvent("favorite_added", { shape: design.shape, pattern: design.pattern });
-  }, [activePresetId, design, mode, nails, notify]);
+  }, [activePresetId, artwork, design, mode, nails, notify]);
 
   const addHistory = useCallback((savedNails: NailPose[]) => {
     const now = new Date().toISOString();
-    const item: TryOnHistory = { id: createLocalId("history"), designId: activePresetId, design, nails: savedNails, savedAt: now, createdAt: now };
+    if (artwork && !parseDocument(artwork)) return false;
+    const item: TryOnHistory = { id: createLocalId("history"), designId: activePresetId, design, ...(artwork ? {artwork} : {}), nails: savedNails, savedAt: now, createdAt: now };
     const current = readSavedLooks("history");
     return tryWriteJson(STORAGE_KEYS.history, [item, ...current].slice(0, 20));
-  }, [activePresetId, design]);
+  }, [activePresetId, artwork, design]);
 
   const updateNail = useCallback((index: number, patch: Partial<NailPose>) => {
     if (mode === "camera" && baseTrackedNailsRef.current[index]) {
@@ -970,6 +1013,8 @@ export function NailStudio() {
     const savedNails = mode === "camera" ? liveNailsRef.current ?? nails : nails;
     try {
       await drawNails(ctx, canvas.width, canvas.height, savedNails, design, {
+        fingers: artwork?.fingers,
+        lightParts: artwork?.detail === "light",
         lighting: lightingRef.current,
         opacity: mode === "camera" && trackingState !== "failed"
           ? (hasTrackingPoseRef.current ? trackingOpacity(performance.now() - lastDetectedAtRef.current) : 0) : 1,
@@ -1006,7 +1051,7 @@ export function NailStudio() {
       notify(`画像を保存しました${historyNotice}`);
       trackEvent("tryon_saved");
     }, "image/png");
-  }, [addHistory, cameraMirrored, design, mode, nails, notify, trackingState]);
+  }, [addHistory, artwork, cameraMirrored, design, mode, nails, notify, trackingState]);
 
   const selectCamera = useCallback(async (deviceId: string) => {
     selectedDeviceIdRef.current = deviceId;
@@ -1066,8 +1111,20 @@ export function NailStudio() {
             disabled={loading}
             onChange={(deviceId) => { void selectCamera(deviceId); }}
           />
-          <DesignSelector presets={presets} activePresetId={activePresetId} onSelectPreset={selectPreset} design={design} onDesign={updateDesign} />
-          <SettingsPanel
+          <section className="workshop-launch panel-card">
+            <h2>{artwork ? artwork.name : "自分でデザインを作る"}</h2>
+            <p className="hint">指ごとに色やパーツを編集できます。カメラを止めずに試せます。</p>
+            {!editorOpen && <div className="workshop-toolbar"><button type="button" onClick={() => {
+              editorSnapshot.current = artwork; editorDesignSnapshot.current = design; if (!artwork) setArtwork(createDocument(design)); setEditorOpen(true); trackEvent("design_editor_started");
+            }}>{artwork ? "5本のデザインを編集" : "デザインエディターを開く"}</button><Link prefetch={false} href="/collections">保存した自作ネイルを見る →</Link>
+            {artwork && <button type="button" className="secondary" onClick={() => { setArtwork(null); notify("共通デザインに戻しました。コレクションの保存は残っています。"); }}>装飾を外して共通デザインに戻す</button>}</div>}
+            {artwork && !editorOpen && <p className="hint">下の共通設定は5本すべてに適用します。指別の変更はエディターから。</p>}
+          </section>
+          {editorOpen && <WorkshopEditor initial={artwork ?? createDocument(design)} onChange={doc => { setArtwork(doc); setDesign(doc.fingers[0].base); }}
+            onDone={(doc, persisted) => { setArtwork(doc); setDesign(doc.fingers[0].base); setEditorOpen(false); notify(persisted ? "5本のデザインを試着へ反映しました" : "試着へ反映しましたが、下書きは保存できませんでした。再読み込みすると失われます。"); document.getElementById("nail-preview")?.scrollIntoView({block:"start"}); }}
+            onCancel={() => { setArtwork(editorSnapshot.current); setDesign(editorDesignSnapshot.current); setEditorOpen(false); }} />}
+          {!editorOpen && <DesignSelector presets={presets} activePresetId={activePresetId} onSelectPreset={selectPreset} design={design} onDesign={updateDesign} />}
+          {!editorOpen && <SettingsPanel
             design={design}
             selectedFinger={selectedFinger}
             nail={nails[selectedFinger]}
@@ -1075,7 +1132,7 @@ export function NailStudio() {
             onSelectFinger={setSelectedFinger}
             onNail={updateSelectedNail}
             onReset={() => { void autoFit(); }}
-          />
+          />}
           <SavePanel canSave={mode !== "empty"} onSave={saveImage} onCapture={capturePhoto} onAutoFit={autoFit} onFavorite={saveFavorite} isCamera={mode === "camera"} />
           <button type="button" className="secondary wide" onClick={switchCamera}>
             {facingMode === "user" ? "外カメラ優先にする" : "内カメラ優先にする"}

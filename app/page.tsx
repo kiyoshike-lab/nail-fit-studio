@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { HOME_TITLE, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import { buildWebsiteJsonLd, pageMetadata } from "@/lib/seo";
+import { WorkshopResume } from "@/components/workshop/WorkshopResume";
 
 export const metadata = pageMetadata(HOME_TITLE, SITE_DESCRIPTION, "/");
 
@@ -30,6 +31,7 @@ export default function Home() {
         </div>
       </section>
 
+      <WorkshopResume />
       <section className="steps-section page-width" aria-labelledby="steps-title">
         <div className="section-heading"><p className="eyebrow">使い方</p><h2 id="steps-title">3ステップで、仕上がりをイメージ</h2></div>
         <ol className="steps-list">

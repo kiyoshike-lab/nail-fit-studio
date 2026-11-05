@@ -9,7 +9,7 @@ const args=process.argv.slice(2),option=name=>args.includes(name)?args[args.inde
 if(!option('--playwright-module'))throw Error('--playwright-module <QA Playwright/index.mjs> is required');
 const base=option('--base-url')??'http://127.0.0.1:4193';
 if(!['127.0.0.1','localhost'].includes(new URL(base).hostname))throw Error('Only local QA servers may be tested');
-const {SITE_URL,SITE_NAME,HOME_TITLE,SITE_DESCRIPTION,SHARE_TITLE,SHARE_DESCRIPTION,SEO_UPDATED_AT}=await importTypescript('src/lib/site.ts');
+const {SITE_URL,SITE_NAME,HOME_TITLE,SITE_DESCRIPTION,SHARE_TITLE,SHARE_DESCRIPTION}=await importTypescript('src/lib/site.ts');
 const {socialImage}=await importTypescript('src/lib/seo.ts');
 const {guideArticles}=await importTypescript('src/content/guides.ts');
 const {chromium}=await import(pathToFileURL(path.resolve(option('--playwright-module'))).href);
@@ -21,7 +21,7 @@ try{
  page.on('pageerror',error=>errors.push(error.message));
  await page.route(/googlesyndication|googletagmanager|google-analytics/,route=>route.abort());
  await page.goto(`${base}/`,{waitUntil:'networkidle'});
- const routes=['/','/try-on','/diagnosis','/guide','/about','/contact','/editorial-policy','/privacy','/terms','/favorites','/history',...guideArticles.map(a=>`/guide/${a.slug}`)];
+ const routes=['/','/try-on','/diagnosis','/guide','/about','/contact','/editorial-policy','/privacy','/terms','/favorites','/history','/create','/collections',...guideArticles.map(a=>`/guide/${a.slug}`)];
  for(const route of routes){
   const response=await page.request.get(`${base}${route}`,{headers:{'User-Agent':'Googlebot'}});
   assert.equal(response.status(),200,route);
@@ -60,16 +60,16 @@ try{
    assert.equal(website[0].alternateName,undefined,'unverified alternate brands were added');
   }
   assert.ok(!JSON.stringify(head.jsonLd).match(/AggregateRating|ratingValue|reviewCount|award/),route);
-  assert.equal(/noindex/.test(head.robots??''),['/favorites','/history'].includes(route),route);
+  assert.equal(/noindex/.test(head.robots??''),['/favorites','/history','/collections'].includes(route),route);
   rows.push({route,title:head.titles[0],description:head.description,canonical:head.canonicals[0],ogUrl:head.ogUrl,robots:head.robots??'index allowed (no noindex)',jsonLdTypes:head.jsonLd.flatMap(j=>j['@graph']??[j]).map(j=>j['@type'])});
  }
  assert.equal(new Set(rows.map(r=>r.title)).size,rows.length,'duplicate page titles');
  const xml=await (await page.request.get(`${base}/sitemap.xml`)).text();
  const sitemap=await page.evaluate(text=>{const doc=new DOMParser().parseFromString(text,'application/xml');return{errors:doc.querySelectorAll('parsererror').length,entries:[...doc.querySelectorAll('url')].map(u=>({url:u.querySelector('loc')?.textContent,date:u.querySelector('lastmod')?.textContent}))};},xml);
- assert.equal(sitemap.errors,0);assert.equal(sitemap.entries.length,guideArticles.length+9);
+ assert.equal(sitemap.errors,0);assert.equal(sitemap.entries.length,guideArticles.length+10);
  assert.equal(new Set(sitemap.entries.map(e=>e.url)).size,sitemap.entries.length);
- assert.ok(sitemap.entries.every(e=>!e.url.includes('/favorites')&&!e.url.includes('/history')&&e.url.startsWith(SITE_URL)));
- assert.equal(sitemap.entries.find(e=>normalize(e.url)===normalize(SITE_URL)).date.slice(0,10),SEO_UPDATED_AT);
+ assert.ok(sitemap.entries.every(e=>!e.url.includes('/favorites')&&!e.url.includes('/history')&&!e.url.includes('/collections')&&e.url.startsWith(SITE_URL)));
+ assert.equal(sitemap.entries.find(e=>normalize(e.url)===normalize(SITE_URL)).date.slice(0,10),'2026-11-06');
  const robots=await (await page.request.get(`${base}/robots.txt`)).text();assert.match(robots,/Allow: \/\s/);assert.ok(!robots.includes('Disallow: /favorites'));assert.ok(robots.includes(`Sitemap: ${SITE_URL}/sitemap.xml`));
  const notFound=await page.request.get(`${base}/__seo_missing_page__`);assert.equal(notFound.status(),404);assert.match(await notFound.text(),/noindex/);
  const manifest=await (await page.request.get(`${base}/manifest.webmanifest`)).json();assert.equal(manifest.name,SITE_NAME);assert.equal(manifest.description,SITE_DESCRIPTION);assert.equal(manifest.lang,'ja');

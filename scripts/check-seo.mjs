@@ -25,10 +25,11 @@ const aliases={'@/lib/site':moduleUrl(`export const SITE_URL=${JSON.stringify(si
  '@/content/guides':moduleUrl(`export const guideArticles=${JSON.stringify(guideArticles)};`)};
 const {default:sitemap}=await importTypescript('app/sitemap.ts',aliases);
 const entries=sitemap(),urls=entries.map(e=>e.url);
-assert.equal(urls.length,guideArticles.length+9);assert.equal(new Set(urls).size,urls.length);
+assert.equal(urls.length,guideArticles.length+10);assert.equal(new Set(urls).size,urls.length);
+assert.ok(urls.includes(`${site.SITE_URL}/create`));assert.ok(!urls.includes(`${site.SITE_URL}/collections`));
 assert.ok(urls.includes(`${site.SITE_URL}/try-on`));
 assert.ok(urls.every(url=>url.startsWith(site.SITE_URL)&&!url.includes('?')&&!/\/(favorites|history)(?:\/|$)/.test(url)));
-assert.equal(entries[0].lastModified.toISOString().slice(0,10),site.SEO_UPDATED_AT);
+assert.equal(entries[0].lastModified.toISOString().slice(0,10),'2026-11-06');
 for(const article of guideArticles){
  const entry=entries.find(e=>e.url.endsWith(`/guide/${article.slug}`));
  assert.equal(entry.lastModified.toISOString().slice(0,10),article.updatedAt,'unchanged article date was fabricated');

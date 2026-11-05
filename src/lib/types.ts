@@ -64,6 +64,7 @@ export type SavedNailLook = {
   design: NailDesign;
   nails: NailPose[];
   savedAt: string;
+  artwork?: import("./workshopTypes").DesignDocument;
 };
 
 export type TryOnHistory = SavedNailLook & {

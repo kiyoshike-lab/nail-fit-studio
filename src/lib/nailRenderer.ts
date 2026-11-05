@@ -1,6 +1,8 @@
 import type { NailDesign, NailPose } from "./types";
 import { neutralLighting, type SceneLighting } from "./sceneLighting";
 import { nailCanvasGeometry } from "./nailPoseMetrics";
+import type { FingerArt } from "./workshopTypes";
+import { drawNailParts, drawSurfaceEffect } from "./workshopDrawing";
 
 const textureCache = new Map<string, Promise<HTMLImageElement>>();
 const readyTextures = new Map<string, HTMLImageElement>();
@@ -35,15 +37,20 @@ export async function drawNails(
   canvasHeight: number,
   nails: NailPose[],
   design: NailDesign,
-  options: { isCurrent?: () => boolean; clear?: boolean; opacity?: number; lighting?: SceneLighting; waitForTexture?: boolean; onPainted?: (count: number) => void; viewport?: { x: number; y: number; width: number; height: number } } = {},
+  options: { fingers?: readonly FingerArt[]; lightParts?: boolean; isCurrent?: () => boolean; clear?: boolean; opacity?: number; lighting?: SceneLighting; waitForTexture?: boolean; onPainted?: (count: number) => void; viewport?: { x: number; y: number; width: number; height: number } } = {},
 ) {
   // Resolve I/O before touching the shared Canvas state. No await is allowed
   // between save/clip/restore: an older texture frame must never overpaint a new one.
-  let texture: HTMLImageElement | undefined;
-  if (design.textureUrl) {
-    const pending = loadImage(design.textureUrl).catch(() => undefined);
-    texture = options.waitForTexture === false ? readyTextures.get(design.textureUrl) : await pending;
-  }
+  const designs = nails.map((_,index)=>options.fingers?.[index]?.base??design);
+  const textures: (HTMLImageElement|undefined)[] = [];
+  const pendingTextures: Promise<void>[] = [];
+  designs.forEach((active,index)=>{
+    if(!active.textureUrl) return;
+    const pending=loadImage(active.textureUrl).catch(()=>undefined);
+    if(options.waitForTexture===false) textures[index]=readyTextures.get(active.textureUrl);
+    else pendingTextures.push(pending.then(texture=>{textures[index]=texture;}));
+  });
+  if(pendingTextures.length) await Promise.all(pendingTextures);
   if (options.isCurrent && !options.isCurrent()) return false;
   if (options.clear) ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   ctx.save();
@@ -76,7 +83,7 @@ export async function drawNails(
           }
           ctx.clip("evenodd");
         }
-        drawNail(ctx, viewport.width, viewport.height, nail, design, index, texture, options.lighting);
+        drawNail(ctx, viewport.width, viewport.height, nail, designs[index], index, textures[index], options.lighting, options.fingers?.[index], options.lightParts);
         if (ctx.globalAlpha > 0.01) painted++;
       } finally { ctx.restore(); }
     }
@@ -96,6 +103,8 @@ function drawNail(
   index = 0,
   texture?: HTMLImageElement,
   lighting: SceneLighting = neutralLighting,
+  art?: FingerArt,
+  lightParts = false,
 ) {
   const widthScale = design.shape === "square" || design.shape === "squoval" ? 1.05 : design.shape === "coffin" ? 1.1 : 1;
   const geometry = nailCanvasGeometry(nail, canvasWidth, canvasHeight, design.length, widthScale);
@@ -103,13 +112,19 @@ function drawNail(
   const { x: rootX, y: rootY } = geometry.root;
   const { x: centerX, y: centerY } = geometry.center;
 
-  drawRootShadow(ctx, rootX, rootY, nail.rotation, width, design);
+  if (art) {
+    ctx.save();
+    try { ctx.globalAlpha *= art.opacity; drawRootShadow(ctx, rootX, rootY, nail.rotation, width, design); }
+    finally { ctx.restore(); }
+  } else drawRootShadow(ctx, rootX, rootY, nail.rotation, width, design);
   ctx.save();
   try {
     ctx.translate(centerX, centerY);
     ctx.rotate((nail.rotation * Math.PI) / 180);
     buildNailPath(ctx, width, height, design.shape);
     ctx.clip();
+    const originalAlpha = ctx.globalAlpha;
+    if(art) ctx.globalAlpha *= art.opacity;
 
     const rootBlend = ctx.createLinearGradient(0, -height / 2, 0, height / 2);
     const sheer = design.material === "sheer" || design.material === "jelly" || design.finish === "sheer";
@@ -132,7 +147,9 @@ function drawNail(
 
     drawPattern(ctx, width, height, design);
     drawMaterial(ctx, width, height, design);
+    if(art) drawSurfaceEffect(ctx,width,height,art);
     drawDepth(ctx, width, height, design, lighting);
+    if(art){ctx.globalAlpha=originalAlpha;drawNailParts(ctx,width,height,art.parts,lightParts,lighting.brightness);}
   } finally {
     ctx.restore();
   }

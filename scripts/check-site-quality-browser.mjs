@@ -13,7 +13,7 @@ const after=args.includes('--assert-fixed'),rows=[],problems=[];
 const prepare=async()=>{const c=await browser.newContext({viewport:{width:390,height:844}});const p=await c.newPage();await p.route(/googlesyndication|googletagmanager|google-analytics/,r=>r.abort());return p;};
 try{
  const page=await prepare();const errors=[];page.on('pageerror',e=>errors.push(e.message));
- for(const route of ['/','/try-on','/diagnosis','/favorites','/history','/guide','/about','/contact','/privacy','/terms','/editorial-policy']){
+ for(const route of ['/','/try-on','/diagnosis','/favorites','/history','/guide','/about','/contact','/privacy','/terms','/editorial-policy','/create','/collections']){
   await page.goto(base+route,{waitUntil:'networkidle'});
   for(const [width,height]of[[320,568],[375,812],[390,844],[430,932],[844,390],[1280,900]]){
    await page.setViewportSize({width,height});
@@ -80,5 +80,5 @@ try{
  // Invalid image decoding must remain retryable.
  await page.setViewportSize({width:1280,height:900});await page.locator('input[type=file]').setInputFiles({name:'broken.jpg',mimeType:'image/jpeg',buffer:Buffer.from('not a jpeg')});await page.waitForFunction(()=>document.querySelector('.toast')?.textContent.includes('画像を準備できません'));rows.push({case:'invalid image retry',passed:true});
  const report={kind:'headless Chrome, local production, ads/GA network blocked, not physical phone QA',after,rows,problems,errors};
- await writeFile(opt('--output'),JSON.stringify(report,null,2));console.log(JSON.stringify({pages:11,layouts:rows.filter(r=>r.route).length,problems,errors}));
+ await writeFile(opt('--output'),JSON.stringify(report,null,2));console.log(JSON.stringify({pages:new Set(rows.filter(r=>r.route).map(r=>r.route)).size,layouts:rows.filter(r=>r.route).length,problems,errors}));
 }finally{await browser.close();}

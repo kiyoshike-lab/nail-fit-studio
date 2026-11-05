@@ -3,11 +3,11 @@ import { guideArticles } from "@/content/guides";
 import { SEO_UPDATED_AT, SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/try-on", "/diagnosis", "/guide", "/about", "/editorial-policy", "/privacy", "/terms", "/contact"];
+  const pages = ["", "/try-on", "/diagnosis", "/guide", "/about", "/editorial-policy", "/privacy", "/terms", "/contact", "/create"];
   return [
     ...pages.map((path, index) => ({
       url: `${SITE_URL}${path}`,
-      lastModified: new Date(["/try-on", "/contact", "/privacy"].includes(path) ? "2026-11-02" : SEO_UPDATED_AT),
+      lastModified: new Date(["", "/create", "/try-on", "/privacy"].includes(path) ? "2026-11-06" : path === "/contact" ? "2026-11-02" : SEO_UPDATED_AT),
       changeFrequency: (index === 0 ? "weekly" : "monthly") as "weekly" | "monthly",
       priority: index === 0 ? 1 : path === "/try-on" || path === "/guide" ? 0.9 : 0.6,
     })),

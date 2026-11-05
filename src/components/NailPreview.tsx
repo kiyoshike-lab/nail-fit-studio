@@ -7,6 +7,7 @@ import type { HandDetectionState } from "@/lib/handTracking";
 import { containRect, pointInSource } from "@/lib/previewGeometry";
 import { NailAlignmentDebug } from "./NailAlignmentDebug";
 import type { NailDesign } from "@/lib/types";
+import { previewPresentation } from "@/lib/previewPresentation";
 
 type Props = {
   mode: SourceMode;
@@ -32,6 +33,12 @@ type Props = {
 
 export function NailPreview({ mode, photoUrl, status, comparison, loading, trackingFailed, trackingRetryAvailable, detectionState = "searching", onRetryTracking, imageRef, videoRef, canvasRef, onImageError, mirrored, nails, design, liveNailsRef, onSelectNail, onMoveNail }: Props) {
   const [aspectRatio, setAspectRatio] = useState("4 / 3");
+  const [presentation, setPresentation] = useState(() => previewPresentation(undefined, mode));
+  const currentPresentation = previewPresentation(presentation, mode);
+  // Guarded render adjustment avoids an extra paint with the old mode's default.
+  // UI-only state: it never enters the camera/tracker lifecycle.
+  if (presentation !== currentPresentation) setPresentation(currentPresentation);
+  const expanded = currentPresentation.expanded;
   const cardRef = useRef<HTMLElement | null>(null);
   const dragRef = useRef<{ pointerId: number; index: number; offsetX: number; offsetY: number } | null>(null);
 
@@ -58,6 +65,11 @@ export function NailPreview({ mode, photoUrl, status, comparison, loading, track
   }
 
   function startDrag(event: React.PointerEvent<HTMLDivElement>) {
+    if (!expanded && window.matchMedia("(max-width: 900px)").matches) {
+      // Keep the thumbnail scrollable. A touch/scroll is not an instruction to
+      // override the user's compact choice; use the explicit expand button.
+      return;
+    }
     if (mode === "empty") return;
     const point = pointerPosition(event);
     if (point.x < 0 || point.x > 100 || point.y < 0 || point.y > 100) return;
@@ -84,11 +96,15 @@ export function NailPreview({ mode, photoUrl, status, comparison, loading, track
     if (dragRef.current?.pointerId === event.pointerId) dragRef.current = null;
   }
   return (
-    <section ref={cardRef} className="preview-card" id="nail-preview" tabIndex={-1} aria-label="ネイル試着プレビュー">
+    <section ref={cardRef} className={`preview-card ${expanded ? "is-expanded" : "is-compact"}`} id="nail-preview" tabIndex={-1} aria-label="ネイル試着プレビュー">
       <div className="preview-header">
-        <strong>プレビュー</strong>
-        <span>{status}</span>
+        <div className="preview-heading"><strong>プレビュー</strong><span>{status}</span></div>
+        <button type="button" className="preview-toggle secondary" aria-expanded={expanded} aria-controls="preview-content"
+          onClick={() => setPresentation({ mode, expanded: !expanded })}>
+          {expanded ? "収納する" : "プレビューを広げる"}
+        </button>
       </div>
+      <div id="preview-content">
       {mode === "camera" && (trackingFailed || trackingRetryAvailable) && onRetryTracking && !loading && (
         <div className="tracking-retry-row">
           <button type="button" className="secondary" onClick={onRetryTracking}>自動認識を再試行</button>
@@ -108,6 +124,7 @@ export function NailPreview({ mode, photoUrl, status, comparison, loading, track
           ref={imageRef}
           src={photoUrl}
           alt="手の写真"
+          draggable={false}
           className={mode === "photo" ? "media-source" : "media-source is-hidden"}
           onError={onImageError}
           onLoad={(event) => {
@@ -120,6 +137,7 @@ export function NailPreview({ mode, photoUrl, status, comparison, loading, track
           autoPlay
           playsInline
           muted
+          draggable={false}
           className={`${mode === "camera" ? "media-source" : "media-source is-hidden"} ${mirrored ? "is-mirrored" : ""}`}
           onLoadedMetadata={(event) => {
             const video = event.currentTarget;
@@ -150,6 +168,7 @@ export function NailPreview({ mode, photoUrl, status, comparison, loading, track
         {mode !== "empty" && <div className="drag-guide">爪をドラッグして微調整</div>}
       </div>
       {comparison && <div className="preview-comparison">{comparison}</div>}
+      </div>
     </section>
   );
 }

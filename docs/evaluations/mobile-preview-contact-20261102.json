@@ -1,0 +1,137 @@
+{
+  "dateJst": "2026-11-02",
+  "baseline": "3713d514021a3498bd70c3a22c7104f878c226b6",
+  "branch": "codex/mobile-preview-contact",
+  "method": "local production headless Chrome, touch-enabled mobile viewport widths; real self-hosted MediaPipe + still-driven captureStream. Contact widget and outbound provider are mocked, never actual mail.",
+  "ui": {
+    "kind": "local production Chrome mobile viewports + still-driven real MediaPipe; Formspree/Turnstile mocks, no delivery or phone verification",
+    "rows": [
+      {
+        "case": "photo compact/expanded, compare, stable elements/settings, no overflow",
+        "width": 320,
+        "height": 568,
+        "compact": 84,
+        "expanded": 295.359375
+      },
+      {
+        "case": "photo compact/expanded, compare, stable elements/settings, no overflow",
+        "width": 375,
+        "height": 812,
+        "compact": 84,
+        "expanded": 422.234375
+      },
+      {
+        "case": "photo compact/expanded, compare, stable elements/settings, no overflow",
+        "width": 390,
+        "height": 844,
+        "compact": 84,
+        "expanded": 438.875
+      },
+      {
+        "case": "photo compact/expanded, compare, stable elements/settings, no overflow",
+        "width": 430,
+        "height": 932,
+        "compact": 84,
+        "expanded": 484.625
+      },
+      {
+        "case": "expanded photo drag follows intrinsic-source contain coordinates",
+        "expectedDelta": 3.3015217952024765,
+        "actualDelta": 3.3015217952024827
+      },
+      {
+        "case": "export retains full source resolution",
+        "w": 384,
+        "h": 512
+      },
+      {
+        "case": "desktop remains full size",
+        "passed": true
+      },
+      {
+        "case": "real VIDEO five, compact keeps same live stream/elements/inference, editor keeps preference, expand five, stop defaults compact",
+        "before": 2,
+        "after": 9
+      },
+      {
+        "case": "real unconfigured form disabled and API 503, no challenge loaded",
+        "passed": true
+      },
+      {
+        "case": "mock CAPTCHA/provider through real API; client errors, provider 500/false-ok/quota, retained text, acknowledged success, double-submit, no photo/persistence, cleanup",
+        "posts": 4
+      }
+    ],
+    "errors": []
+  },
+  "regression": {
+    "majorPageLayouts": 66,
+    "layoutProblems": [],
+    "photo": 5,
+    "video": 5,
+    "mirror": 5,
+    "distanceFar": {
+      "width": 1.6,
+      "height": 3.3,
+      "x": 50
+    },
+    "distanceNear": {
+      "width": 2.3,
+      "height": 4.7,
+      "x": 50
+    },
+    "moved": {
+      "width": 2.3,
+      "height": 4.7,
+      "x": 55.4
+    },
+    "palmPaintedPixels": 0,
+    "curledPhoto": 4,
+    "curledVideo": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "dorsalRecovery": 5,
+    "seoPages": 41,
+    "sitemapEntries": 39,
+    "googleVerification": "53 original bytes and HTTP200; unchanged",
+    "ga4AdsenseAdsTxt": "regression passed, no real ads served during QA",
+    "modelTransport": "unchanged lossless gzip; HTTP regression passed",
+    "lint": "passed",
+    "typecheck": "passed",
+    "testScripts": 27,
+    "build": "passed; /contact and /api/contact dynamic, 48 static generation entries",
+    "reducedMotion": "actual computed transitionDuration 0s in Chrome",
+    "privateFormId": "not present in configured page SSR",
+    "getContactApi": "405, no inquiry read/list endpoint",
+    "contactFallbackStyle": "readable existing ghost button, computed ink color rgb(36,29,32), tap target >=44px"
+  },
+  "contact": {
+    "providerSelectedByUser": "Formspree",
+    "realFormIdConfigured": false,
+    "realRecipientConfigured": false,
+    "realSecretSupplied": false,
+    "mailDeliveryTest": "NOT PERFORMED",
+    "productionDefault": "disabled UI and HTTP503 until Form ID, Site Key and CAPTCHA confirmation flag supplied",
+    "tokenVerification": "forward once as cf-turnstile-response; Formspree server verifies with secret in private provider settings. Actual provider configuration unverified.",
+    "localRateLimit": "best-effort per-instance hashed client 5/10min and total20/min; not distributed"
+  },
+  "unverified": [
+    "physical iPhone Safari",
+    "physical Android Chrome",
+    "actual live camera motion",
+    "real OS save/share UI",
+    "real Formspree delivery and CAPTCHA settings",
+    "Vercel deployment",
+    "actual Google auto ad placement"
+  ],
+  "verifiedAtJst": "2026-11-05"
+}

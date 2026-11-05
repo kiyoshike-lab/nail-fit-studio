@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {readFile}from'node:fs/promises';
+import{importTypescript}from'./lib/import-typescript.mjs';
+const{previewPresentation}=await importTypescript('src/lib/previewPresentation.ts');
+for(const mode of ['empty','photo'])assert.equal(previewPresentation(undefined,mode).expanded,false);
+let state=previewPresentation(undefined,'camera');assert.equal(state.expanded,true);
+state={...state,expanded:false};for(let frame=0;frame<60;frame++)assert.equal(previewPresentation(state,'camera'),state,'tracking frames reset manual choice');
+state=previewPresentation(state,'photo');assert.equal(state.expanded,false);state={...state,expanded:true};assert.equal(previewPresentation(state,'photo'),state);
+state=previewPresentation(state,'empty');assert.equal(state.expanded,false);assert.equal(previewPresentation(state,'camera').expanded,true);
+const source=await readFile('src/components/NailPreview.tsx','utf8');assert.ok(source.includes('aria-expanded={expanded}'));assert.ok(source.includes('aria-controls="preview-content"'));assert.ok(!source.includes('releaseCamera')&&!source.includes('getUserMedia')&&!source.includes('startHandTracking'));
+const css=await readFile('app/globals.css','utf8');assert.ok(css.includes('.preview-toggle{display:none}'));assert.ok(css.includes('.preview-card.is-compact .preview-stage{height:84px'));assert.ok(css.includes('prefers-reduced-motion:reduce'));
+console.log('preview-presentation: camera/photo/stop defaults, explicit per-mode preference, unchanged recognition lifecycle, mobile-only compact CSS, ARIA and reduced motion contracts passed (browser tests verify stream identity/coordinates)');

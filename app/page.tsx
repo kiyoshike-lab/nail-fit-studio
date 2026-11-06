@@ -42,13 +42,13 @@ export default function Home() {
       </section>
 
       <section className="popular-section page-width" aria-labelledby="popular-title">
-        <div className="section-heading row"><div><p className="eyebrow">人気のネイルデザイン</p><h2 id="popular-title">今、試したいネイル</h2></div><Link href="/try-on">すべて試す →</Link></div>
+        <div className="section-heading row"><div><p className="eyebrow">おすすめのネイルデザイン</p><h2 id="popular-title">今、試したいネイル</h2></div><Link href="/try-on">試着画面へ →</Link></div>
         <div className="design-showcase">
           {[
-            ["design_001.jpg", "透明感ピンク", "オフィス"],
-            ["design_016.jpg", "きらめきブルー", "季節"],
-            ["design_030.jpg", "ニュアンス", "大人"],
-            ["design_043.jpg", "アートデザイン", "華やか"],
+            ["design_001.jpg", "シアーピンクとリボン", "フェミニン"],
+            ["design_016.jpg", "つややかなレッド", "ワンカラー"],
+            ["design_007.jpg", "ピンクとホワイトのアート", "アート"],
+            ["design_025.jpg", "パープルのきらめき", "きらめき"],
           ].map(([file, name, tag]) => (
             <Link href="/try-on" className="design-tile" key={file}>
               <div><Image src={`/assets/preset-previews/${file}`} alt={`${name}のネイル見本`} fill sizes="(max-width: 720px) 46vw, 260px" /></div>
@@ -56,6 +56,7 @@ export default function Home() {
             </Link>
           ))}
         </div>
+        <p className="hint">写真はデザイン選びの参考です。試着画面では色・形・長さを調整できます。</p>
       </section>
 
       <section className="diagnosis-banner page-width">
@@ -64,7 +65,11 @@ export default function Home() {
       </section>
 
       <section className="discover-grid page-width">
-        <article><p className="eyebrow">シーン別の選び方</p><h2>シーンに合わせる</h2><div className="chip-links">{["オフィス", "デート", "結婚式", "成人式", "就活", "パーティー"].map((item) => <Link key={item} href={`/guide?scene=${encodeURIComponent(item)}`}>{item}</Link>)}</div></article>
+        <article><p className="eyebrow">シーン別の選び方</p><h2>シーンに合わせる</h2><div className="chip-links">{[
+          ["オフィス", "office-nail"], ["デート", "date-nail"],
+          ["結婚式", "wedding-guest-nail"], ["成人式", "coming-of-age-nail"],
+          ["就活", "job-hunting-nail"], ["サロン前", "before-nail-salon"],
+        ].map(([label, slug]) => <Link key={slug} href={`/guide/${slug}`}>{label}</Link>)}</div></article>
         <article><p className="eyebrow">肌なじみのよい色</p><h2>肌なじみから選ぶ</h2><p>黄み・青みを断定せず、自分が心地よく感じる色から探せます。</p><div className="tone-swatches" aria-label="おすすめカラーファミリー"><span /><span /><span /><span /><span /></div><Link href="/guide/hand-beautiful-nail-colors">カラーの選び方 →</Link></article>
       </section>
 

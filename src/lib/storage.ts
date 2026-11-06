@@ -1,4 +1,4 @@
-import type { SavedNailLook, TryOnHistory } from "./types";
+import type { DiagnosisResult, SavedNailLook, TryOnHistory } from "./types";
 
 export function readJson<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback;
@@ -32,6 +32,22 @@ export const STORAGE_KEYS = {
   diagnosis: "nail-fit-studio-next.diagnosis.v1",
   cameraDevice: "nail-fit-studio-next.camera-device.v1",
 } as const;
+
+export function readDiagnosisResult(): DiagnosisResult | null {
+  const v = readJson<unknown>(STORAGE_KEYS.diagnosis, null);
+  if (!v || typeof v !== "object" || Array.isArray(v)) return null;
+  const r = v as Record<string, unknown>;
+  const text = (s: unknown, max: number): s is string => typeof s === "string" && s.length > 0 && s.length <= max;
+  if (!text(r.title, 200) || !text(r.description, 2000) || !validDate(r.completedAt)
+    || typeof r.color !== "string" || !/^#[0-9a-f]{6}$/i.test(r.color)
+    || !["natural","round","oval","squoval","almond","coffin","square","stiletto"].includes(r.shape as string)
+    || !["solid","gradient","french","floral","marble","patterned"].includes(r.pattern as string)
+    || !["short","medium","long"].includes(r.length as string)
+    || !Array.isArray(r.tags) || r.tags.length > 20 || !r.tags.every(t => text(t,100))) return null;
+  return { title:r.title, description:r.description, completedAt:r.completedAt as string,
+    color:r.color, shape:r.shape as DiagnosisResult["shape"], pattern:r.pattern as DiagnosisResult["pattern"],
+    length:r.length as DiagnosisResult["length"], tags:[...r.tags] };
+}
 
 export function readSavedLooks(kind: "favorites"): SavedNailLook[];
 export function readSavedLooks(kind: "history"): TryOnHistory[];

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
-import { readJson, STORAGE_KEYS, writeJson } from "@/lib/storage";
+import { readDiagnosisResult, STORAGE_KEYS, writeJson } from "@/lib/storage";
 import type { DiagnosisResult, NailPattern, NailShape } from "@/lib/types";
 
 const questions = [
@@ -23,7 +23,7 @@ export function DiagnosisQuiz() {
   const [result, setResult] = useState<DiagnosisResult | null>(null);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setResult(readJson<DiagnosisResult | null>(STORAGE_KEYS.diagnosis, null)), 0);
+    const timer = window.setTimeout(() => setResult(readDiagnosisResult()), 0);
     return () => window.clearTimeout(timer);
   }, []);
   const question = questions[step];

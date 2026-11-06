@@ -13,7 +13,7 @@ import { diagnosticError, diagnosticsEnabled, updateTrackingDiagnostics } from "
 import { PhotoUploader } from "./PhotoUploader";
 import { SavePanel } from "./SavePanel";
 import { SettingsPanel } from "./SettingsPanel";
-import { defaultDesign, defaultPhotoNails } from "@/lib/defaults";
+import { defaultPhotoNails } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
 import { trackingOpacity } from "@/lib/trackingQuality";
 import { applyCalibration, calibrateNail, defaultCalibration, sanitizeCalibration } from "@/lib/nailCalibration";
@@ -22,6 +22,7 @@ import { containRect } from "@/lib/previewGeometry";
 import { naturalNailLength } from "@/lib/naturalNailLength";
 import { assetPath, loadDesignPresets } from "@/lib/presets";
 import { readJson, writeJson } from "@/lib/storage";
+import { DESIGN_KEY, NAILS_KEY, readStudioDesign, readStudioNails, studioQueryPatch } from "@/lib/studioSettings";
 import { detectHandNails, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
 import { trackEvent } from "@/lib/analytics";
 import { initializeTrackerSafely } from "@/lib/trackingFallback";
@@ -46,8 +47,6 @@ const WorkshopEditor = dynamic(() => import("./workshop/WorkshopEditor"), {
   ssr: false, loading: () => <p role="status">デザインエディターを準備しています…</p>,
 });
 
-const DESIGN_KEY = "nail-fit-studio-next.design.v1";
-const NAILS_KEY = "nail-fit-studio-next.nails.v1";
 // Corrections tuned against the old geometry must not offset a newly fitted
 // image boundary. Keep the v1 data intact; new manual adjustments use v2.
 const CALIBRATION_KEY = "nail-fit-studio-next.calibration.v2";
@@ -56,8 +55,9 @@ export function NailStudio() {
   const [mode, setMode] = useState<SourceMode>("empty");
   const [photoUrl, setPhotoUrl] = useState<string | undefined>();
   const [status, setStatus] = useState("写真かカメラを入れると、ここに試着が表示されます。");
-  const [design, setDesign] = useState<NailDesign>(() => readJson(DESIGN_KEY, defaultDesign));
-  const [nails, setNails] = useState<NailPose[]>(() => readJson(NAILS_KEY, defaultPhotoNails));
+  const [design, setDesign] = useState<NailDesign>(readStudioDesign);
+  const [nails, setNails] = useState<NailPose[]>(readStudioNails);
+  const initialDesignRef = useRef(design);
   const [selectedFinger, setSelectedFinger] = useState(1);
   const [presets, setPresets] = useState<DesignPreset[]>([]);
   const [activePresetId, setActivePresetId] = useState<string | undefined>();
@@ -65,7 +65,10 @@ export function NailStudio() {
   const [facingMode, setFacingMode] = useState<"user" | "environment">("environment");
   const [cameraMirrored, setCameraMirrored] = useState(false);
   const [cameraDevices, setCameraDevices] = useState<CameraInput[]>([]);
-  const [selectedDeviceId, setSelectedDeviceId] = useState(() => readJson(STORAGE_KEYS.cameraDevice, ""));
+  const [selectedDeviceId, setSelectedDeviceId] = useState(() => {
+    const value = readJson<unknown>(STORAGE_KEYS.cameraDevice, "");
+    return typeof value === "string" && value.length <= 512 ? value : "";
+  });
   const [trackingState, setTrackingState] = useState<"idle" | "starting" | "active" | "failed">("idle");
   const [trackingRetryAvailable, setTrackingRetryAvailable] = useState(false);
   const [detectionState, setDetectionState] = useState<HandDetectionState>("searching");
@@ -130,27 +133,20 @@ export function NailStudio() {
       }, 0);
       return () => window.clearTimeout(timer);
     }
-    const shape = params.get("shape") as NailDesign["shape"] | null;
-    const pattern = params.get("pattern") as NailDesign["pattern"] | null;
-    const color = params.get("color");
-    const length = params.get("length");
-    const naturalLength = params.get("naturalNailLength");
-    if (!shape && !pattern && !color && !length && !naturalLength) return;
+    const patch = studioQueryPatch(params);
+    if (Object.keys(patch).length === 0) return;
     const timer = window.setTimeout(() => {
-      setDesign((current) => ({
-        ...current,
-        ...(shape ? { shape } : {}),
-        ...(pattern ? { pattern } : {}),
-        ...(color && /^#[0-9a-f]{6}$/i.test(color) ? { color } : {}),
-        ...(length ? { length: length === "short" ? .84 : length === "long" ? 1.55 : 1.08 } : {}),
-        ...(naturalLength ? { naturalNailLength: naturalNailLength(naturalLength) } : {}),
-      }));
+      setDesign((current) => ({ ...current, ...patch }));
       setStatus("診断・保存した条件を試着画面へ反映しました。写真を選んで確認してください。");
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
 
-  useEffect(() => writeJson(DESIGN_KEY, design), [design]);
+  useEffect(() => {
+    // A fallback read is not an explicit edit. Preserve corrupt/legacy source
+    // bytes until the user actually changes or restores a design.
+    if (design !== initialDesignRef.current) writeJson(DESIGN_KEY, design);
+  }, [design]);
   useEffect(() => { naturalLengthRef.current = naturalNailLength(design.naturalNailLength); }, [design.naturalNailLength]);
   useEffect(() => {
     if (mode !== "photo") return;
@@ -768,7 +764,7 @@ export function NailStudio() {
       setMode("photo");
       setBefore(false);
       // A saved position is not evidence that a nail is visible in a NEW photo.
-      setNails(readJson<NailPose[]>(NAILS_KEY, defaultPhotoNails).map((nail) => ({
+      setNails(readStudioNails().map((nail) => ({
         ...nail, visibility: 0, visibilityState: "uncertain", clipContour: undefined, clipHoles: undefined,
       })));
       setStatus("写真を読み込みました。必要なら指ごとに微調整してください。");

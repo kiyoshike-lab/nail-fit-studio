@@ -5,7 +5,7 @@ const{securityHeaders,cspReportOnly}=await importTypescript('src/lib/securityHea
 const headers=Object.fromEntries(securityHeaders.map(h=>[h.key,h.value]));assert.equal(headers['X-Content-Type-Options'],'nosniff');assert.equal(headers['X-Frame-Options'],'SAMEORIGIN');assert.ok(headers['Permissions-Policy'].includes('camera=(self)'));assert.ok(headers['Content-Security-Policy-Report-Only']);assert.equal(headers['Content-Security-Policy'],undefined);
 for(const origin of ['googlesyndication.com','googletagmanager.com','challenges.cloudflare.com'])assert.ok(cspReportOnly.includes(origin));assert.ok(cspReportOnly.includes("'wasm-unsafe-eval'"));assert.equal(/report-uri|report-to/.test(cspReportOnly),false);
 const pkg=JSON.parse(await readFile('package.json','utf8'));assert.equal(pkg.dependencies.next,'16.4.5');assert.equal(pkg.devDependencies['eslint-config-next'],'16.4.5');assert.equal(pkg.dependencies['onnxruntime-web'],undefined);
-const ignore=await readFile('.gitignore','utf8');for(const rule of ['.env\n','.env.*','!.env.example'])assert.ok(ignore.includes(rule));
+const ignore=(await readFile('.gitignore','utf8')).replace(/\r\n/g,'\n');for(const rule of ['.env\n','.env.*','!.env.example'])assert.ok(ignore.includes(rule));
 const guide=await readFile('app/guide/[slug]/page.tsx','utf8');assert.equal(guide.split('.replace(/</g, "\\\\u003c")').length-1,2,'both JSON-LD blocks must escape a literal less-than');
 const values=new Map([['nail-fit-studio-next.workshop-library.v1','bad JSON'],['nail-fit-studio-next.design.v1','{}'],['third-party','retain']]);
 const storage={get length(){return values.size;},key:i=>[...values.keys()][i]??null,removeItem:k=>values.delete(k),getItem:k=>values.get(k)??null};

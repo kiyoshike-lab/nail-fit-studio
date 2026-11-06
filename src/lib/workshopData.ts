@@ -3,6 +3,7 @@ import { createLocalId, tryWriteJson } from "./storage";
 import { collectionNames, partNames, type CollectionEntry, type CollectionKind, type DesignDocument, type FingerArt, type NailPart, type LayerState } from "./workshopTypes";
 import type { NailDesign } from "./types";
 import { parsePaintLayers } from "./paintData";
+import { parseSurface } from "./surfaceTypes";
 
 export const WORKSHOP_DRAFT = "nail-fit-studio-next.workshop-draft.v1";
 export const WORKSHOP_LIBRARY = "nail-fit-studio-next.workshop-library.v1";
@@ -31,27 +32,31 @@ export function validBase(v: unknown): v is NailDesign {
     && (v.naturalNailLength === undefined || oneOf(v.naturalNailLength, ["auto", "short", "standard", "long"]));
 }
 export function parseDocument(v: unknown): DesignDocument | null {
-  if (!record(v) || ![1,2,3].includes(v.schema as number) || !text(v.id, 120) || !text(v.name, 80) || !date(v.createdAt) || !date(v.updatedAt)
+  if (!record(v) || ![1,2,3,4].includes(v.schema as number) || !text(v.id, 120) || !text(v.name, 80) || !date(v.createdAt) || !date(v.updatedAt)
     || !oneOf(v.detail, ["standard", "light"]) || !Array.isArray(v.fingers) || v.fingers.length !== 5) return null;
   const fingers: FingerArt[] = [];
+  const modern = v.schema===3 || v.schema===4;
   for (const f of v.fingers) {
     if (!record(f) || !validBase(f.base) || !range(f.opacity, 0, 1) || !oneOf(f.effect, ["none", "dots", "lines", "magnetic"]) || !Array.isArray(f.parts) || f.parts.length > MAX_PARTS) return null;
     const ids = new Set<string>();
+    if (v.schema!==4 && f.surface!==undefined) return null;
+    const surface = f.surface===undefined ? undefined : parseSurface(f.surface);
+    if (surface===null) return null;
     for (const p of f.parts) {
       if (!record(p) || !text(p.id, 120) || ["__proto__","prototype","constructor"].includes(p.id) || ids.has(p.id) || !(typeof p.kind === "string" && Object.hasOwn(partNames, p.kind)) || !color(p.color)
-        || !range(p.x, v.schema===3?-.7:-.45, v.schema===3?.7:.45) || !range(p.y, v.schema===3?-.7:-.45, v.schema===3?.7:.45) || !range(p.size, .06, .6) || !range(p.rotation, -180, 180)) return null;
+        || !range(p.x, modern?-.7:-.45, modern?.7:.45) || !range(p.y, modern?-.7:-.45, modern?.7:.45) || !range(p.size, .06, .6) || !range(p.rotation, -180, 180)) return null;
       ids.add(p.id);
     }
-    const layers = v.schema!==1 ? parsePaintLayers(f.layers,v.schema===3) : undefined;
+    const layers = v.schema!==1 ? parsePaintLayers(f.layers,modern) : undefined;
     if (v.schema===1 && (f.layers!==undefined || f.order!==undefined)) return null;
-    if(v.schema!==3 && f.layerMeta!==undefined)return null;
+    if(!modern && f.layerMeta!==undefined)return null;
     if(v.schema!==1){
       if(!layers || !Array.isArray(f.order)) return null;
       for(const layer of layers){if(ids.has(layer.id))return null;ids.add(layer.id);}
       if(f.order.length!==ids.size || new Set(f.order).size!==ids.size || !f.order.every(id=>typeof id==="string"&&ids.has(id)))return null;
     }
     let layerMeta:Record<string,LayerState>|undefined;
-    if(v.schema===3){
+    if(modern){
       if(!record(f.layerMeta)||Object.keys(f.layerMeta).length!==ids.size)return null;
       const entries:[string,LayerState][]=[];
       for(const id of ids){const m=Object.hasOwn(f.layerMeta,id)?f.layerMeta[id]:null;
@@ -61,7 +66,7 @@ export function parseDocument(v: unknown): DesignDocument | null {
     }
     // Copy only the defined schema: do not retain arbitrary objects/URLs.
     const b = f.base;
-    fingers.push({ base: { color:b.color, shape:b.shape, finish:b.finish, material:b.material, pattern:b.pattern, motif:b.motif, motifColor:b.motifColor, tipColor:b.tipColor, tipAmount:b.tipAmount, length:b.length, thickness:b.thickness, realism:b.realism, ...(b.textureUrl ? {textureUrl:b.textureUrl}:{}), ...(b.naturalNailLength ? {naturalNailLength:b.naturalNailLength}:{}) }, opacity:f.opacity, effect:f.effect as FingerArt["effect"], parts:f.parts.map(p => ({id:p.id,kind:p.kind,color:p.color,x:p.x,y:p.y,size:p.size,rotation:p.rotation} as NailPart)),...(v.schema!==1?{layers:layers!,order:[...f.order as string[]]}:{}),...(layerMeta?{layerMeta}:{}) });
+    fingers.push({ base: { color:b.color, shape:b.shape, finish:b.finish, material:b.material, pattern:b.pattern, motif:b.motif, motifColor:b.motifColor, tipColor:b.tipColor, tipAmount:b.tipAmount, length:b.length, thickness:b.thickness, realism:b.realism, ...(b.textureUrl ? {textureUrl:b.textureUrl}:{}), ...(b.naturalNailLength ? {naturalNailLength:b.naturalNailLength}:{}) }, opacity:f.opacity, effect:f.effect as FingerArt["effect"], parts:f.parts.map(p => ({id:p.id,kind:p.kind,color:p.color,x:p.x,y:p.y,size:p.size,rotation:p.rotation} as NailPart)),...(v.schema!==1?{layers:layers!,order:[...f.order as string[]]}:{}),...(layerMeta?{layerMeta}:{}),...(surface?{surface}:{}) });
   }
   return { schema:v.schema as DesignDocument["schema"],id:v.id,name:v.name,createdAt:v.createdAt,updatedAt:v.updatedAt,detail:v.detail as DesignDocument["detail"],fingers };
 }
@@ -71,7 +76,10 @@ export function createDocument(base: NailDesign = defaultDesign): DesignDocument
   return { schema:1,id:createLocalId("design"),name:"マイネイル",createdAt:now,updatedAt:now,detail:"standard",fingers:Array.from({length:5},()=>({base:{...safe},opacity:1,effect:"none",parts:[]})) };
 }
 export function patchAllBases(doc: DesignDocument, patch: Partial<NailDesign>): DesignDocument {
-  return { ...doc, updatedAt:new Date().toISOString(), fingers:doc.fingers.map(f=>({...f,base:{...f.base,...patch}})) };
+  // Explicit legacy finish/pattern/texture choices must remain functional, not
+  // be silently hidden under a newer procedural finish. Color/fit edits keep it.
+  const legacySurface = ["finish","material","pattern","textureUrl"].some(k=>Object.hasOwn(patch,k));
+  return { ...doc, updatedAt:new Date().toISOString(), fingers:doc.fingers.map(f=>({...f,base:{...f.base,...patch},...(legacySurface&&f.surface?{surface:undefined}:{})})) };
 }
 export type DocumentHistory = { past: DesignDocument[]; present: DesignDocument; future: DesignDocument[] };
 export function historyChange(h: DocumentHistory, next: DesignDocument): DocumentHistory { return {past:[...h.past,h.present].slice(-40),present:next,future:[]}; }

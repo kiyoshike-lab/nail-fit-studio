@@ -1,5 +1,6 @@
 import type { NailDesign } from "./types";
 import type { PaintLayer } from "./paintTypes";
+import type { NailSurface } from "./surfaceTypes";
 
 export const partNames = {
   "silver-holo": "シルバーホログラム", "gold-holo": "ゴールドホログラム",
@@ -10,8 +11,8 @@ export const partNames = {
 export type PartKind = keyof typeof partNames;
 export type NailPart = { id: string; kind: PartKind; color: string; x: number; y: number; size: number; rotation: number };
 export type LayerState = { name: string; visible: boolean; locked: boolean; opacity: number };
-export type FingerArt = { base: NailDesign; opacity: number; effect: "none" | "dots" | "lines" | "magnetic"; parts: NailPart[]; layers?: PaintLayer[]; order?: string[]; layerMeta?: Record<string, LayerState> };
-export type DesignDocument = { schema: 1 | 2 | 3; id: string; name: string; createdAt: string; updatedAt: string; fingers: FingerArt[]; detail: "standard" | "light" };
+export type FingerArt = { base: NailDesign; opacity: number; effect: "none" | "dots" | "lines" | "magnetic"; parts: NailPart[]; layers?: PaintLayer[]; order?: string[]; layerMeta?: Record<string, LayerState>; surface?: NailSurface };
+export type DesignDocument = { schema: 1 | 2 | 3 | 4; id: string; name: string; createdAt: string; updatedAt: string; fingers: FingerArt[]; detail: "standard" | "light" };
 export const collectionNames = { created: "自分で作ったデザイン", favorite: "お気に入り", next: "次にやりたい", salon: "サロン持ち込み候補" } as const;
 export type CollectionKind = keyof typeof collectionNames;
 export type CollectionEntry = { folder: CollectionKind; document: DesignDocument };

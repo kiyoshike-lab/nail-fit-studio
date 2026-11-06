@@ -9,7 +9,7 @@ const stroke={...p.defaultPaintStyle,id:'line-1',type:'stroke',tool:'pen',x:0,y:
 const shape=p.makeShape('circle',{x:-.2,y:-.2},{x:.1,y:.2},1.3,p.defaultPaintStyle,false);
 doc.fingers[0]=p.withLayerMeta({...doc.fingers[0],parts:[{id:'pearl',kind:'pearl',color:'#ffffff',x:0,y:0,size:.2,rotation:0}],layers:[stroke,shape],order:[stroke.id,'pearl',shape.id]});
 assert.deepEqual(w.parseDocument(doc),doc);
-for(const patch of[{schema:4},{schema:1},{fingers:[]},{schema:'2'}])assert.equal(w.parseDocument({...doc,...patch}),null);
+for(const patch of[{schema:5},{schema:1},{fingers:[]},{schema:'2'}])assert.equal(w.parseDocument({...doc,...patch}),null);
 for(const mutate of[
  d=>d.fingers[0].layers[0].points[0].x=Infinity,d=>d.fingers[0].layers[0].tool=['pen'],d=>d.fingers[0].layers[0].opacity=2,
  d=>d.fingers[0].layers[0].color='url(attack)',d=>d.fingers[0].layers[0].scale=99,d=>d.fingers[0].layers[0].points=Array(257).fill({x:0,y:0}),

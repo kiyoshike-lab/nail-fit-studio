@@ -39,7 +39,7 @@ export function artOrder(art: FingerArt): string[] {
   return [...order,...ids.filter(id=>!order.includes(id))];
 }
 export function upgradePaintDocument(doc: DesignDocument): DesignDocument {
-  if(doc.schema===3)return doc;
+  if(doc.schema>=3)return doc;
   return {...doc,schema:3,fingers:doc.fingers.map(f=>withLayerMeta({...f,layers:f.layers??[],order:artOrder(f)}))};
 }
 export function layerState(art:FingerArt,id:string):LayerState {
@@ -59,7 +59,7 @@ export function cloneFingerArt(art: FingerArt): FingerArt {
   const fresh = (id:string) => {const next=createLocalId("layer");ids.set(id,next);return next;};
   const parts=art.parts.map(p=>({...p,id:fresh(p.id)}));
   const layers=art.layers?.map(l=>({...l,id:fresh(l.id),...(l.type==="stroke"?{points:l.points.map(p=>({...p}))}:{})}) as PaintLayer);
-  return {...art,base:{...art.base},parts,...(layers?{layers,order:artOrder(art).map(id=>ids.get(id)!)}:{}),...(art.layerMeta?{layerMeta:Object.fromEntries(artOrder(art).map(id=>[ids.get(id)!,{...layerState(art,id)}]))}:{})};
+  return {...art,base:{...art.base},...(art.surface?{surface:{...art.surface}}:{}),parts,...(layers?{layers,order:artOrder(art).map(id=>ids.get(id)!)}:{}),...(art.layerMeta?{layerMeta:Object.fromEntries(artOrder(art).map(id=>[ids.get(id)!,{...layerState(art,id)}]))}:{})};
 }
 export const defaultPaintStyle: PaintStyle = {color:"#83324e",strokeColor:"#83324e",secondary:"#fff7fa",opacity:1,lineWidth:.035,fill:true,stroke:true,spacing:1.8};
 export const boundedPoint = (p:PaintPoint): PaintPoint => ({x:Math.round(Math.max(-4,Math.min(4,p.x))*100000)/100000,y:Math.round(Math.max(-4,Math.min(4,p.y))*100000)/100000});

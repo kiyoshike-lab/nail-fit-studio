@@ -4,6 +4,7 @@ import { nailCanvasGeometry } from "./nailPoseMetrics";
 import type { FingerArt } from "./workshopTypes";
 import { drawSurfaceEffect } from "./workshopDrawing";
 import { drawMixedArt, drawVisibleParts } from "./paintRenderer";
+import { drawGelBase, drawGelPattern, drawGelTopcoat } from "./gelSurface";
 
 const textureCache = new Map<string, Promise<HTMLImageElement>>();
 const readyTextures = new Map<string, HTMLImageElement>();
@@ -129,6 +130,8 @@ function drawNail(
     const originalAlpha = ctx.globalAlpha;
     if(art) ctx.globalAlpha *= art.opacity;
 
+    if (art?.surface) drawGelBase(ctx,width,height,design,art.surface);
+    else {
     const rootBlend = ctx.createLinearGradient(0, -height / 2, 0, height / 2);
     const sheer = design.material === "sheer" || design.material === "jelly" || design.finish === "sheer";
     rootBlend.addColorStop(0, withAlpha(design.color, sheer ? 0.5 : 0.94));
@@ -136,6 +139,7 @@ function drawNail(
     rootBlend.addColorStop(1, withAlpha(design.color, sheer ? 0.16 : 0.4));
     ctx.fillStyle = rootBlend;
     ctx.fillRect(-width / 2, -height / 2, width, height);
+    }
 
     if (texture) {
       const scale = Math.max(width / texture.width, height / texture.height) * 1.25;
@@ -148,10 +152,13 @@ function drawNail(
       ctx.globalAlpha = opacity;
     }
 
-    drawPattern(ctx, width, height, design);
-    drawMaterial(ctx, width, height, design);
-    if(art) drawSurfaceEffect(ctx,width,height,art);
-    drawDepth(ctx, width, height, design, lighting);
+    if (art?.surface) drawGelPattern(ctx,width,height,design,art.surface);
+    else {
+      drawPattern(ctx, width, height, design);
+      drawMaterial(ctx, width, height, design);
+      if(art) drawSurfaceEffect(ctx,width,height,art);
+      drawDepth(ctx, width, height, design, lighting);
+    }
     if (art) {
       ctx.globalAlpha = originalAlpha;
       try { drawMixedArt(ctx, width, height, art, lightParts, lighting.brightness); }
@@ -161,6 +168,10 @@ function drawNail(
         // of falsely reporting success with the user's drawing missing.
         if (!tolerateArtworkFailure) throw error;
         drawVisibleParts(ctx, width, height, art, lightParts, lighting.brightness);
+      }
+      if (art.surface) {
+        ctx.globalAlpha = originalAlpha * art.opacity;
+        drawGelTopcoat(ctx,width,height,art.surface,lighting,nail.rotation,design);
       }
     }
   } finally {

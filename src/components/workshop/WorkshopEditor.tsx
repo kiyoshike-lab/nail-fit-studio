@@ -11,6 +11,7 @@ import { ArtworkCanvas } from "./ArtworkCanvas";
 import { trackEvent } from "@/lib/analytics";
 import { artOrder, cloneFingerArt, layerState, withLayerMeta } from "@/lib/paintData";
 const NailPaintEditor = dynamic(() => import("./NailPaintEditor").then(m=>m.NailPaintEditor), {ssr:false,loading:()=> <p role="status">素材・描画エディターを準備しています…</p>});
+const NailStylePanel = dynamic(() => import("./NailStylePanel").then(m=>m.NailStylePanel), {ssr:false,loading:()=> <p role="status">質感の見本を準備しています…</p>});
 
 const fingerNames=["親指","人差し指","中指","薬指","小指"];
 const shapes={natural:"ナチュラル",round:"ラウンド",oval:"オーバル",squoval:"スクオバル",almond:"アーモンド",coffin:"バレリーナ",square:"スクエア",stiletto:"スティレット"};
@@ -23,13 +24,14 @@ export default function WorkshopEditor({initial,onChange,onDone,onCancel}:Props)
   const drag=useRef<{id:number;start:DocumentHistory;partId:string}|null>(null);
   const paintStart=useRef<DocumentHistory|null>(null);
   const [paintOpen,setPaintOpen]=useState(false);
+  const [stylesOpen,setStylesOpen]=useState(false);
   const [clipboard,setClipboard]=useState<FingerArt|null>(null);
   const current=history.present,art=current.fingers[finger],part=art.parts.find(p=>p.id===partId);
   function apply(next:DesignDocument,record=true){const updated={...next,updatedAt:new Date().toISOString()};setHistory(h=>record?historyChange(h,updated):{...h,present:updated,future:[]});onChange?.(updated);setNotice("");}
-  function fingerPatch(patch:Partial<FingerArt>){let next={...art,...patch};if(current.schema!==1)next.order=artOrder(next);if(current.schema===3)next=withLayerMeta(next);apply({...current,fingers:current.fingers.map((f,i)=>i===finger?next:f)});}
+  function fingerPatch(patch:Partial<FingerArt>){let next={...art,...patch};if(current.schema!==1)next.order=artOrder(next);if(current.schema>=3)next=withLayerMeta(next);apply({...current,fingers:current.fingers.map((f,i)=>i===finger?next:f)});}
   function basePatch(patch:Partial<NailDesign>){fingerPatch({base:{...art.base,...patch}});}
   function partPatch(patch:Partial<NailPart>){if(part&&!layerState(art,part.id).locked)fingerPatch({parts:art.parts.map(p=>p.id===partId?{...p,...patch}:p)});}
-  function duplicatePart(){if(!part||layerState(art,part.id).locked||art.parts.length>=MAX_PARTS)return;const copy={...part,id:createLocalId("part"),x:Math.min(current.schema===3?.7:.45,part.x+.05)};fingerPatch({parts:[...art.parts,copy],...(current.schema===3?{layerMeta:{...art.layerMeta,[copy.id]:{...layerState(art,part.id)}}}:{})});setPartId(copy.id);}
+  function duplicatePart(){if(!part||layerState(art,part.id).locked||art.parts.length>=MAX_PARTS)return;const copy={...part,id:createLocalId("part"),x:Math.min(current.schema>=3?.7:.45,part.x+.05)};fingerPatch({parts:[...art.parts,copy],...(current.schema>=3?{layerMeta:{...art.layerMeta,[copy.id]:{...layerState(art,part.id)}}}:{})});setPartId(copy.id);}
   function add(){if(art.parts.length>=MAX_PARTS){setNotice(`1本につき${MAX_PARTS}個までです。`);return;}const p:NailPart={id:createLocalId("part"),kind,color:kind==="gold-holo"?"#e6bc65":kind==="pearl"?"#fff1e6":"#d9dfed",x:0,y:0,size:.26,rotation:0};fingerPatch({parts:[...art.parts,p]});setPartId(p.id);trackEvent("nail_part_added",{part_kind:kind});}
   function movePart(delta:number){if(!part||layerState(art,part.id).locked)return;if(current.schema!==1){const order=artOrder(art),i=order.indexOf(part.id),to=i+delta;if(to<0||to>=order.length)return;[order[i],order[to]]=[order[to],order[i]];fingerPatch({order});return;}const list=[...art.parts],index=list.findIndex(p=>p.id===partId),to=index+delta;if(to<0||to>=list.length)return;[list[index],list[to]]=[list[to],list[index]];fingerPatch({parts:list});}
   function dragPosition(event:PointerEvent<HTMLDivElement>){const canvas=event.currentTarget.querySelector("canvas");if(!canvas)return null;const r=canvas.getBoundingClientRect(),w=canvas.width,h=canvas.height;const g=nailCanvasGeometry({x:50,y:84,width:45,height:32,rotation:0},w,h,art.base.length,["square","squoval"].includes(art.base.shape)?1.05:art.base.shape==="coffin"?1.1:1);return{x:Math.max(-.45,Math.min(.45,((event.clientX-r.left)/r.width*w-g.center.x)/g.width)),y:Math.max(-.45,Math.min(.45,((event.clientY-r.top)/r.height*h-g.center.y)/g.height))};}
@@ -55,6 +57,8 @@ export default function WorkshopEditor({initial,onChange,onDone,onCancel}:Props)
     <label>デザイン名<input maxLength={80} value={current.name} onChange={e=>apply({...current,name:e.target.value})}/></label>
     <div className="workshop-toolbar"><button type="button" disabled={!history.past.length} onClick={()=>{const next=historyUndo(history);setHistory(next);onChange?.(next.present);}}>元に戻す</button><button type="button" disabled={!history.future.length} onClick={()=>{const next=historyRedo(history);setHistory(next);onChange?.(next.present);}}>やり直す</button><button type="button" onClick={()=>apply({...createDocument(),id:current.id,createdAt:current.createdAt,name:current.name})}>初期化（取り消せます）</button></div>
     <div className="finger-tabs" role="group" aria-label="制作する指">{fingerNames.map((name,i)=><button type="button" key={name} aria-pressed={i===finger} className={i===finger?"is-selected":""} onClick={()=>{setFinger(i);setPartId(null);}}>{name}</button>)}</div>
+    <div className="workshop-toolbar"><button type="button" className="secondary" aria-expanded={stylesOpen} aria-controls="nail-style-library" onClick={()=>setStylesOpen(v=>!v)}>質感・デザインを探す（19種類）</button></div>
+    {stylesOpen&&<div id="nail-style-library"><NailStylePanel document={current} finger={finger} onChange={next=>apply(next)}/></div>}
     <div className="workshop-toolbar"><button type="button" aria-expanded={paintOpen} aria-controls="paint-editor-area" onClick={()=>{setPaintOpen(v=>!v);if(!paintOpen)requestAnimationFrame(()=>document.querySelector("#paint-editor-area .paint-viewport")?.scrollIntoView({block:"center"}));}}>{paintOpen?"基本設定・パーツに戻る":"拡大して絵を描く"}</button></div>
     {paintOpen&&<div id="paint-editor-area"><NailPaintEditor key={finger} document={current} finger={finger} clipboard={clipboard} onClipboard={setClipboard}
       onBegin={()=>{paintStart.current=history;}}
@@ -69,10 +73,10 @@ export default function WorkshopEditor({initial,onChange,onDone,onCancel}:Props)
     <div className="workshop-fields"><details open><summary>色・形・基本の模様</summary><div className="field-grid">
       <label>ベースカラー<input type="color" value={art.base.color} onChange={e=>basePatch({color:e.target.value})}/></label>
       <label>透明度（不透明にするほど右）<input type="range" min="0" max="1" step=".05" value={art.opacity} onChange={e=>fingerPatch({opacity:Number(e.target.value)})}/></label>
-      <label>模様<select value={art.base.pattern} onChange={e=>basePatch({pattern:e.target.value as NailDesign["pattern"]})}><option value="solid">ワンカラー</option><option value="gradient">グラデーション</option><option value="french">フレンチ</option><option value="floral">小さな模様</option><option value="marble">マーブル</option>{art.base.textureUrl&&<option value="patterned">実写柄（読み込んだ素材）</option>}</select></label>
+      <label>従来の模様<select disabled={!!art.surface} value={art.base.pattern} onChange={e=>basePatch({pattern:e.target.value as NailDesign["pattern"]})}><option value="solid">ワンカラー</option><option value="gradient">グラデーション</option><option value="french">フレンチ</option><option value="floral">小さな模様</option><option value="marble">マーブル</option>{art.base.textureUrl&&<option value="patterned">実写柄（読み込んだ素材）</option>}</select></label>
       <label>模様・爪先の色<input type="color" value={art.base.tipColor} onChange={e=>basePatch({tipColor:e.target.value,motifColor:e.target.value})}/></label>
-      <label>表面アート<select value={art.effect} onChange={e=>fingerPatch({effect:e.target.value as FingerArt["effect"]})}><option value="none">なし</option><option value="dots">ドット</option><option value="lines">ライン</option><option value="magnetic">マグネット風</option></select></label>
-      <label>仕上げ<select value={art.base.finish} onChange={e=>basePatch({finish:e.target.value as NailDesign["finish"]})}><option value="gloss">つや</option><option value="sheer">透明感</option><option value="sparkle">ラメ</option><option value="chrome">ミラー風</option><option value="pearl">パール調</option></select></label>
+      <label>従来の表面アート<select disabled={!!art.surface} value={art.effect} onChange={e=>fingerPatch({effect:e.target.value as FingerArt["effect"]})}><option value="none">なし</option><option value="dots">ドット</option><option value="lines">ライン</option><option value="magnetic">マグネット風</option></select></label>
+      <label>従来の仕上げ<select disabled={!!art.surface} value={art.base.finish} onChange={e=>basePatch({finish:e.target.value as NailDesign["finish"]})}><option value="gloss">つや</option><option value="sheer">透明感</option><option value="sparkle">ラメ</option><option value="chrome">ミラー風</option><option value="pearl">パール調</option></select></label>
       <label>形<select value={art.base.shape} onChange={e=>basePatch({shape:e.target.value as NailDesign["shape"]})}>{Object.entries(shapes).map(([value,name])=><option key={value} value={value}>{name}</option>)}</select></label>
       <label>仕上がりの長さ<input type="range" min=".75" max="2.5" step=".05" value={art.base.length} onChange={e=>basePatch({length:Number(e.target.value)})}/></label>
     </div></details>

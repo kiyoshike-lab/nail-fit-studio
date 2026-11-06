@@ -57,7 +57,7 @@ export function NailStudio() {
   const [status, setStatus] = useState("写真かカメラを入れると、ここに試着が表示されます。");
   const [design, setDesign] = useState<NailDesign>(readStudioDesign);
   const [nails, setNails] = useState<NailPose[]>(readStudioNails);
-  const initialDesignRef = useRef(design);
+  const previousDesignRef = useRef(design);
   const [selectedFinger, setSelectedFinger] = useState(1);
   const [presets, setPresets] = useState<DesignPreset[]>([]);
   const [activePresetId, setActivePresetId] = useState<string | undefined>();
@@ -145,7 +145,10 @@ export function NailStudio() {
   useEffect(() => {
     // A fallback read is not an explicit edit. Preserve corrupt/legacy source
     // bytes until the user actually changes or restores a design.
-    if (design !== initialDesignRef.current) writeJson(DESIGN_KEY, design);
+    if (design !== previousDesignRef.current) {
+      previousDesignRef.current = design;
+      writeJson(DESIGN_KEY, design);
+    }
   }, [design]);
   useEffect(() => { naturalLengthRef.current = naturalNailLength(design.naturalNailLength); }, [design.naturalNailLength]);
   useEffect(() => {

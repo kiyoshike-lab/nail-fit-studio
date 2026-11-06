@@ -15,7 +15,10 @@ try{
   await p.goto(base+'/try-on',{waitUntil:'networkidle'});await p.waitForTimeout(200);
   const usable=await p.getByRole('button',{name:'サンプル写真で試す',exact:true}).isVisible();
   const preserved=await p.evaluate(({key,raw})=>localStorage.getItem(key)===raw,{key,raw});
-  let sample=false;if(usable&&args.includes('--assert-fixed')){await p.getByRole('button',{name:'サンプル写真で試す',exact:true}).click();await p.locator('.nail-canvas').waitFor({state:'visible'});await p.waitForTimeout(250);sample=await p.locator('.nail-canvas').count()>0;}
+  let sample=false;if(usable&&args.includes('--assert-fixed')){
+   await p.getByRole('button',{name:'サンプル写真で試す',exact:true}).click();
+   await p.waitForFunction(()=>{const c=document.querySelector('.nail-canvas'),i=document.querySelector('img[alt="手の写真"]');return i?.naturalWidth>0&&c?.width>0&&c.height>0&&c.getContext('2d').getImageData(0,0,c.width,c.height).data.some((v,i)=>i%4===3&&v>0);});sample=true;
+  }
   rows.push({name,usable,preserved,sample,errors});if(args.includes('--assert-fixed')){assert.equal(usable,true,name);assert.equal(preserved,true,name+' source overwritten');assert.equal(sample,true,name+' photo unusable');assert.deepEqual(errors,[],name);}
   await context.close();
  }
@@ -30,4 +33,10 @@ try{
   const usable=await p.locator('.diagnosis-card').isVisible(),preserved=await p.evaluate(raw=>localStorage.getItem('nail-fit-studio-next.diagnosis.v1')===raw,raw);rows.push({name:'corrupt diagnosis',raw,usable,preserved,errors});
   if(args.includes('--assert-fixed')){assert.equal(usable,true);assert.equal(preserved,true);assert.deepEqual(errors,[]);}await c.close();
  }
+ const context=await browser.newContext(),p2=await context.newPage();p2.on('dialog',d=>d.accept());await p2.route(/googlesyndication|googletagmanager|google-analytics/,r=>r.abort());
+ await p2.goto(base+'/try-on',{waitUntil:'networkidle'});await p2.getByRole('button',{name:'デザインエディターを開く',exact:true}).click();const ed=p2.locator('.workshop-editor');
+ await ed.getByLabel('ベースカラー',{exact:true}).fill('#123456');await p2.waitForFunction(k=>JSON.parse(localStorage.getItem(k))?.color==='#123456',dk);
+ await ed.getByRole('button',{name:'開いた時の状態に戻す',exact:true}).click();await p2.waitForTimeout(150);
+ const resetColor=await p2.evaluate(k=>JSON.parse(localStorage.getItem(k))?.color,dk);rows.push({name:'cancel inline editor restores persisted initial design',resetColor});
+ if(args.includes('--assert-fixed')){assert.equal(resetColor,'#d9829b');await p2.reload({waitUntil:'networkidle'});assert.equal(await p2.getByLabel('カラー',{exact:true}).inputValue(),'#d9829b');}await context.close();
 }finally{await browser.close();await writeFile(path.join(out,'result.json'),JSON.stringify({rows,ended:new Date().toISOString()},null,2));console.log(JSON.stringify(rows));}

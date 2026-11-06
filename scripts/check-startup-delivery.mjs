@@ -21,6 +21,7 @@ const config = await readFile("next.config.ts", "utf8");
 assert.ok(config.includes("beforeFiles:"));
 assert.ok(config.includes('source: "/mediapipe/hand_landmarker.task"'));
 assert.ok(config.includes('key: "accept-encoding"'));
+assert.ok(config.includes('key:"Content-Encoding",value:"gzip"'),"pre-rendered gzip transport must be declared in Next headers too");
 const pattern = new RegExp(JSON.parse(config.match(/value: ("(?:[^"\\]|\\.)*")/)[1]));
 for (const value of ["gzip", "gzip, deflate, br", "br, gzip", "deflate, gzip, br, zstd"])
   assert.ok(pattern.test(value), value);
@@ -45,7 +46,9 @@ if (args.includes("--base-url")) {
     assert.equal(result.headers.get("content-encoding"), encoding.startsWith("gzip,") ? "gzip" : null);
     assert.ok(Buffer.from(await result.arrayBuffer()).equals(source), "HTTP-decoded model changed");
     if (encoding.startsWith("gzip,")) {
-      assert.equal(Number(result.headers.get("content-length")), encoded.length);
+      // Next 16.4 may use a chunked body instead of preserving Content-Length.
+      // Decoded byte equality above, not a particular framing, is the contract.
+      if(result.headers.has("content-length"))assert.equal(Number(result.headers.get("content-length")), encoded.length);
       assert.match(result.headers.get("vary"), /accept-encoding/i);
     }
   }

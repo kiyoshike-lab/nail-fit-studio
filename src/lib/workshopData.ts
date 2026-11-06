@@ -1,6 +1,6 @@
 import { defaultDesign } from "./defaults";
 import { createLocalId, tryWriteJson } from "./storage";
-import { collectionNames, partNames, type CollectionEntry, type CollectionKind, type DesignDocument, type FingerArt, type NailPart } from "./workshopTypes";
+import { collectionNames, partNames, type CollectionEntry, type CollectionKind, type DesignDocument, type FingerArt, type NailPart, type LayerState } from "./workshopTypes";
 import type { NailDesign } from "./types";
 import { parsePaintLayers } from "./paintData";
 
@@ -31,29 +31,39 @@ export function validBase(v: unknown): v is NailDesign {
     && (v.naturalNailLength === undefined || oneOf(v.naturalNailLength, ["auto", "short", "standard", "long"]));
 }
 export function parseDocument(v: unknown): DesignDocument | null {
-  if (!record(v) || (v.schema !== 1 && v.schema !== 2) || !text(v.id, 120) || !text(v.name, 80) || !date(v.createdAt) || !date(v.updatedAt)
+  if (!record(v) || ![1,2,3].includes(v.schema as number) || !text(v.id, 120) || !text(v.name, 80) || !date(v.createdAt) || !date(v.updatedAt)
     || !oneOf(v.detail, ["standard", "light"]) || !Array.isArray(v.fingers) || v.fingers.length !== 5) return null;
   const fingers: FingerArt[] = [];
   for (const f of v.fingers) {
     if (!record(f) || !validBase(f.base) || !range(f.opacity, 0, 1) || !oneOf(f.effect, ["none", "dots", "lines", "magnetic"]) || !Array.isArray(f.parts) || f.parts.length > MAX_PARTS) return null;
     const ids = new Set<string>();
     for (const p of f.parts) {
-      if (!record(p) || !text(p.id, 120) || ids.has(p.id) || !(typeof p.kind === "string" && Object.hasOwn(partNames, p.kind)) || !color(p.color)
-        || !range(p.x, -.45, .45) || !range(p.y, -.45, .45) || !range(p.size, .06, .6) || !range(p.rotation, -180, 180)) return null;
+      if (!record(p) || !text(p.id, 120) || ["__proto__","prototype","constructor"].includes(p.id) || ids.has(p.id) || !(typeof p.kind === "string" && Object.hasOwn(partNames, p.kind)) || !color(p.color)
+        || !range(p.x, v.schema===3?-.7:-.45, v.schema===3?.7:.45) || !range(p.y, v.schema===3?-.7:-.45, v.schema===3?.7:.45) || !range(p.size, .06, .6) || !range(p.rotation, -180, 180)) return null;
       ids.add(p.id);
     }
-    const layers = v.schema===2 ? parsePaintLayers(f.layers) : undefined;
+    const layers = v.schema!==1 ? parsePaintLayers(f.layers,v.schema===3) : undefined;
     if (v.schema===1 && (f.layers!==undefined || f.order!==undefined)) return null;
-    if(v.schema===2){
+    if(v.schema!==3 && f.layerMeta!==undefined)return null;
+    if(v.schema!==1){
       if(!layers || !Array.isArray(f.order)) return null;
       for(const layer of layers){if(ids.has(layer.id))return null;ids.add(layer.id);}
       if(f.order.length!==ids.size || new Set(f.order).size!==ids.size || !f.order.every(id=>typeof id==="string"&&ids.has(id)))return null;
     }
+    let layerMeta:Record<string,LayerState>|undefined;
+    if(v.schema===3){
+      if(!record(f.layerMeta)||Object.keys(f.layerMeta).length!==ids.size)return null;
+      const entries:[string,LayerState][]=[];
+      for(const id of ids){const m=Object.hasOwn(f.layerMeta,id)?f.layerMeta[id]:null;
+        if(!record(m)||!text(m.name,64)||typeof m.visible!=="boolean"||typeof m.locked!=="boolean"||!range(m.opacity,0,1))return null;
+        entries.push([id,{name:m.name,visible:m.visible,locked:m.locked,opacity:m.opacity}]);
+      }layerMeta=Object.fromEntries(entries);
+    }
     // Copy only the defined schema: do not retain arbitrary objects/URLs.
     const b = f.base;
-    fingers.push({ base: { color:b.color, shape:b.shape, finish:b.finish, material:b.material, pattern:b.pattern, motif:b.motif, motifColor:b.motifColor, tipColor:b.tipColor, tipAmount:b.tipAmount, length:b.length, thickness:b.thickness, realism:b.realism, ...(b.textureUrl ? {textureUrl:b.textureUrl}:{}), ...(b.naturalNailLength ? {naturalNailLength:b.naturalNailLength}:{}) }, opacity:f.opacity, effect:f.effect as FingerArt["effect"], parts:f.parts.map(p => ({id:p.id,kind:p.kind,color:p.color,x:p.x,y:p.y,size:p.size,rotation:p.rotation} as NailPart)),...(v.schema===2?{layers:layers!,order:[...f.order as string[]]}:{}) });
+    fingers.push({ base: { color:b.color, shape:b.shape, finish:b.finish, material:b.material, pattern:b.pattern, motif:b.motif, motifColor:b.motifColor, tipColor:b.tipColor, tipAmount:b.tipAmount, length:b.length, thickness:b.thickness, realism:b.realism, ...(b.textureUrl ? {textureUrl:b.textureUrl}:{}), ...(b.naturalNailLength ? {naturalNailLength:b.naturalNailLength}:{}) }, opacity:f.opacity, effect:f.effect as FingerArt["effect"], parts:f.parts.map(p => ({id:p.id,kind:p.kind,color:p.color,x:p.x,y:p.y,size:p.size,rotation:p.rotation} as NailPart)),...(v.schema!==1?{layers:layers!,order:[...f.order as string[]]}:{}),...(layerMeta?{layerMeta}:{}) });
   }
-  return { schema:v.schema,id:v.id,name:v.name,createdAt:v.createdAt,updatedAt:v.updatedAt,detail:v.detail as DesignDocument["detail"],fingers };
+  return { schema:v.schema as DesignDocument["schema"],id:v.id,name:v.name,createdAt:v.createdAt,updatedAt:v.updatedAt,detail:v.detail as DesignDocument["detail"],fingers };
 }
 export function createDocument(base: NailDesign = defaultDesign): DesignDocument {
   const safe = validBase(base) ? base : defaultDesign;

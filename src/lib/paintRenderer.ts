@@ -49,13 +49,28 @@ function shapePath(ctx:CanvasRenderingContext2D,l:ShapeLayer) {
   else if(l.tool==="diamond"){ctx.moveTo(0,-h/2);ctx.lineTo(w/2,0);ctx.lineTo(0,h/2);ctx.lineTo(-w/2,0);ctx.closePath();}
   else if(l.tool==="triangle"){ctx.moveTo(0,-h/2);ctx.lineTo(w/2,h/2);ctx.lineTo(-w/2,h/2);ctx.closePath();}
   else if(l.tool==="star"){for(let i=0;i<10;i++){const a=i*Math.PI/5-Math.PI/2,r=i%2?.45:1,x=Math.cos(a)*w/2*r,y=Math.sin(a)*h/2*r;if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);}ctx.closePath();}
+  else if(l.tool==="pentagon"||l.tool==="hexagon"){const sides=l.tool==="pentagon"?5:6;for(let i=0;i<sides;i++){const a=i*Math.PI*2/sides-Math.PI/2,x=Math.cos(a)*w/2,y=Math.sin(a)*h/2;if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);}ctx.closePath();}
+  else if(l.tool==="crescent"){ctx.moveTo(0,-h/2);ctx.ellipse(0,0,w/2,h/2,0,-Math.PI/2,Math.PI/2);ctx.closePath();}
+  else if(l.tool==="sparkle"){for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/2,r=i%2?.18:1,x=Math.cos(a)*w/2*r,y=Math.sin(a)*h/2*r;if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);}ctx.closePath();}
+  else if(l.tool==="bow"){for(const side of[-1,1]){ctx.moveTo(0,0);ctx.lineTo(side*w/2,-h/2);ctx.quadraticCurveTo(side*w*.6,0,side*w/2,h/2);ctx.closePath();}ctx.moveTo(w*.13,0);ctx.ellipse(0,0,w*.13,h*.23,0,0,Math.PI*2);}
+  else if(l.tool==="flower"){for(let i=0;i<5;i++){const a=i*Math.PI*2/5,cx=Math.sin(a)*w*.25,cy=Math.cos(a)*h*.25;ctx.moveTo(cx+w*.23,cy);ctx.ellipse(cx,cy,w*.23,h*.23,0,0,Math.PI*2);}}
+  else if(l.tool==="wave"){ctx.moveTo(-w/2,0);for(let i=0;i<6;i++){const x=-w/2+i*w/6;ctx.quadraticCurveTo(x+w/12,(i%2?-1:1)*h*l.bend,x+w/6,0);}}
+  else if(["tinyStars","check","stripes","lace","hearts"].includes(l.tool))ctx.rect(-w/2,-h/2,w,h);
   else if(l.tool==="heart"){ctx.moveTo(0,h/2);ctx.bezierCurveTo(-w,-h*.1,-w*.4,-h*.8,0,-h*.25);ctx.bezierCurveTo(w*.4,-h*.8,w,-h*.1,0,h/2);ctx.closePath();}
   else{ctx.moveTo(-w/2,0);if(l.tool==="line")ctx.lineTo(w/2,0);else ctx.quadraticCurveTo(0,h*l.bend,w/2,0);}
 }
 function paintShape(ctx:CanvasRenderingContext2D,l:ShapeLayer) {
   ctx.fillStyle=l.color;ctx.strokeStyle=l.strokeColor;ctx.lineWidth=l.lineWidth;ctx.lineJoin="round";ctx.lineCap="round";
   shapePath(ctx,l);
-  if(["line","curve","french"].includes(l.tool)){ctx.stroke();return;}
+  if(["line","curve","french","wave"].includes(l.tool)){ctx.stroke();return;}
+  if(["tinyStars","check","stripes","lace","hearts"].includes(l.tool)){
+    ctx.save();try{ctx.clip();const step=Math.max(.04,l.lineWidth*l.spacing*3,Math.sqrt(l.width*l.height/100));
+      if(l.tool==="stripes"){for(let x=-l.width/2;x<l.width/2;x+=step)ctx.fillRect(x,-l.height/2,Math.min(l.lineWidth,step*.7),l.height);}
+      else if(l.tool==="check"){for(let y=-l.height/2,row=0;y<l.height/2;y+=step,row++)for(let x=-l.width/2,col=0;x<l.width/2;x+=step,col++)if((row+col)%2===0)ctx.fillRect(x,y,step,step);}
+      else if(l.tool==="lace"){ctx.strokeStyle=l.color;for(let y=-l.height/2;y<=l.height/2;y+=step)for(let x=-l.width/2;x<=l.width/2;x+=step){ctx.beginPath();ctx.arc(x,y,step*.45,0,Math.PI);ctx.stroke();ctx.beginPath();ctx.arc(x,y,Math.min(l.lineWidth,step*.1),0,Math.PI*2);ctx.fill();}}
+      else for(let y=-l.height/2+step/2;y<l.height/2;y+=step)for(let x=-l.width/2+step/2;x<l.width/2;x+=step){ctx.save();try{ctx.translate(x,y);shapePath(ctx,{...l,tool:l.tool==="hearts"?"heart":"star",width:step*.75,height:step*.75});ctx.fill();}finally{ctx.restore();}}
+    }finally{ctx.restore();}return;
+  }
   if(l.tool==="polka"){
     ctx.save();try{ctx.clip();const gap=Math.max(.01,l.lineWidth*l.spacing,Math.sqrt(l.width*l.height/900));let count=0;
       for(let y=-l.height/2;y<=l.height/2&&count<1024;y+=gap)for(let x=-l.width/2;x<=l.width/2&&count<1024;x+=gap){ctx.beginPath();ctx.arc(x,y,l.lineWidth/2,0,Math.PI*2);ctx.fill();count++;}
@@ -77,6 +92,11 @@ type CacheEntry={art:FingerArt;surface:HTMLCanvasElement;w:number;h:number;light
 const cache:CacheEntry[]=[];
 // Bounded by both count and pixels; no growing per-frame history of surfaces.
 const MAX_CACHE_PIXELS=4_000_000;
+const defaultVisual={visible:true,opacity:1};
+const visual=(art:FingerArt,id:string)=>art.layerMeta&&Object.hasOwn(art.layerMeta,id)?art.layerMeta[id]:defaultVisual;
+export function drawVisibleParts(ctx:CanvasRenderingContext2D,w:number,h:number,art:FingerArt,light=false,brightness=.65){
+  const parts=new Map(art.parts.map(p=>[p.id,p]));for(const id of art.order??art.parts.map(p=>p.id)){const p=parts.get(id),m=visual(art,id);if(!p||!m.visible||m.opacity===0)continue;if(m.opacity===1)drawNailParts(ctx,w,h,[p],light,brightness);else{ctx.save();try{ctx.globalAlpha*=m.opacity;drawNailParts(ctx,w,h,[p],light,brightness);}finally{ctx.restore();}}}
+}
 function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:number) {
   // Quantize by 0.1 destination pixel, not by aspect ratio. Blit at 1:1 below:
   // ceil(width)/ceil(height) must not turn a mathematical circle into an ellipse.
@@ -87,9 +107,9 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
   if(found){cache.splice(cache.indexOf(found),1);cache.push(found);return found.surface;}
   const surface=document.createElement("canvas"),scratch=document.createElement("canvas");
   surface.width=scratch.width=bw;surface.height=scratch.height=bh;
-  const out=surface.getContext("2d"),ink=scratch.getContext("2d");if(!out||!ink)throw new Error("Paint Canvas unavailable");
-  const order=artOrder(art),parts=new Map(art.parts.map(p=>[p.id,p])),layers=new Map((art.layers??[]).map(l=>[l.id,l]));
-  const erasers=(art.layers??[]).filter(l=>l.type==="stroke"&&l.tool==="eraser");
+  const out=surface.getContext("2d"),ink=scratch.getContext("2d");if(!out||!ink){surface.width=surface.height=scratch.width=scratch.height=1;throw new Error("Paint Canvas unavailable");}
+  const order=artOrder(art).filter(id=>visual(art,id).visible),parts=new Map(art.parts.map(p=>[p.id,p])),layers=new Map((art.layers??[]).map(l=>[l.id,l]));
+  const erasers=(art.layers??[]).filter(l=>l.type==="stroke"&&l.tool==="eraser"&&visual(art,l.id).visible);
   const masks=new Map<string,HTMLCanvasElement>(),temporary:HTMLCanvasElement[]=[];
   try {
   // Union later eraser alpha once per suffix instead of replaying every path
@@ -101,23 +121,24 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
       const l=layers.get(order[i]);if(!l)continue;
       if(l.type==="stroke"&&l.tool==="eraser"){
         if(!mask||used){const next=document.createElement("canvas");temporary.push(next);next.width=bw;next.height=bh;const x=next.getContext("2d");if(!x)throw new Error("Eraser Canvas unavailable");if(mask)x.drawImage(mask,0,0);mask=next;used=false;}
-        const x=mask.getContext("2d")!;x.save();try{x.translate(bw/2,bh/2);drawPaintLayer(x,nw,nh,l);}finally{x.restore();}
+        const x=mask.getContext("2d")!;x.save();try{x.translate(bw/2,bh/2);x.globalAlpha*=visual(art,l.id).opacity;drawPaintLayer(x,nw,nh,l);}finally{x.restore();}
       }else if(mask){masks.set(l.id,mask);used=true;}
     }
   }
   out.translate(bw/2,bh/2);
   for(let i=0;i<order.length;i++){
-    const p=parts.get(order[i]);if(p){drawNailParts(out,nw,nh,[p],light,level);continue;}
+    const m=visual(art,order[i]),p=parts.get(order[i]);if(p){out.save();try{out.globalAlpha*=m.opacity;drawNailParts(out,nw,nh,[p],light,level);}finally{out.restore();}continue;}
     const l=layers.get(order[i]);if(!l||l.type==="stroke"&&l.tool==="eraser")continue;
+    if(!erasers.length){out.save();try{out.globalAlpha*=m.opacity;drawPaintLayer(out,nw,nh,l);}finally{out.restore();}continue;}
     ink.clearRect(0,0,bw,bh);ink.save();try{
-      ink.translate(bw/2,bh/2);drawPaintLayer(ink,nw,nh,l);
+      ink.translate(bw/2,bh/2);ink.globalAlpha*=m.opacity;drawPaintLayer(ink,nw,nh,l);ink.globalAlpha=1;
       const mask=masks.get(l.id);
       if(mask){ink.globalCompositeOperation="destination-out";ink.drawImage(mask,-bw/2,-bh/2);}
-      else if(!temporary.length)for(let j=i+1;j<order.length;j++){const eraser=layers.get(order[j]);if(eraser?.type==="stroke"&&eraser.tool==="eraser")drawPaintLayer(ink,nw,nh,eraser,true);}
+      else if(!temporary.length)for(let j=i+1;j<order.length;j++){const eraser=layers.get(order[j]);if(eraser?.type==="stroke"&&eraser.tool==="eraser"){ink.save();try{ink.globalAlpha*=visual(art,eraser.id).opacity;drawPaintLayer(ink,nw,nh,eraser,true);}finally{ink.restore();}}}
     }finally{ink.restore();}
     out.drawImage(scratch,-bw/2,-bh/2);
   }
-  }finally{scratch.width=scratch.height=1;for(const mask of temporary)mask.width=mask.height=1;}
+  }catch(error){surface.width=surface.height=1;throw error;}finally{scratch.width=scratch.height=1;for(const mask of temporary)mask.width=mask.height=1;}
   const entry={art,surface,w:nw,h:nh,light,brightness:level};
   // Replace old sizes for the same art instead of retaining every tracked scale.
   for(let i=cache.length-1;i>=0;i--)if(cache[i].art===art){const [old]=cache.splice(i,1);old.surface.width=old.surface.height=1;}
@@ -126,7 +147,7 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
   return surface;
 }
 export function drawMixedArt(ctx:CanvasRenderingContext2D,w:number,h:number,art:FingerArt,light=false,brightness=.65) {
-  if(!art.layers?.length){const parts=art.order?artOrder(art).flatMap(id=>{const p=art.parts.find(p=>p.id===id);return p?[p]:[];}):art.parts;drawNailParts(ctx,w,h,parts,light,brightness);return;}
+  if(!art.layers?.length){if(!art.layerMeta&&!art.order)drawNailParts(ctx,w,h,art.parts,light,brightness);else drawVisibleParts(ctx,w,h,art,light,brightness);return;}
   // Regenerate vectors at the destination nail resolution, never stretch a small
   // editor screenshot for export. Outer nail/visibility clips stay in force.
   const surface=artSurface(art,w,h,light,brightness);ctx.drawImage(surface,-surface.width/2,-surface.height/2);

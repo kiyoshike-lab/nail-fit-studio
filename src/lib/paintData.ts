@@ -1,16 +1,16 @@
 import { createLocalId } from "./storage";
-import { drawingTools, isStrokeTool, MAX_ERASERS, MAX_FINGER_POINTS, MAX_PAINT_LAYERS, MAX_STROKE_POINTS, type DrawingTool, type PaintLayer, type PaintPoint, type PaintStyle, type ShapeLayer, type StrokeTool } from "./paintTypes";
-import type { DesignDocument, FingerArt } from "./workshopTypes";
+import { drawingTools, isStrokeTool, legacyShapeTools, MAX_ERASERS, MAX_FINGER_POINTS, MAX_PAINT_LAYERS, MAX_STROKE_POINTS, type DrawingTool, type PaintLayer, type PaintPoint, type PaintStyle, type ShapeLayer, type StrokeTool } from "./paintTypes";
+import { partNames, type DesignDocument, type FingerArt, type LayerState } from "./workshopTypes";
 
 const record = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "object" && !Array.isArray(v);
 const range = (v: unknown, min: number, max: number): v is number => typeof v === "number" && Number.isFinite(v) && v >= min && v <= max;
 const hex = (v: unknown): v is string => typeof v === "string" && /^#[\da-f]{6}$/i.test(v);
-export function parsePaintLayers(value: unknown): PaintLayer[] | null {
+export function parsePaintLayers(value: unknown, modern=false): PaintLayer[] | null {
   if (!Array.isArray(value) || value.length > MAX_PAINT_LAYERS) return null;
   let points = 0, erasers = 0;
   const result: PaintLayer[] = [], ids = new Set<string>();
   for (const v of value) {
-    if (!record(v) || typeof v.id !== "string" || !v.id.trim() || v.id.length > 120 || /[\u0000-\u001f]/.test(v.id) || ids.has(v.id)
+    if (!record(v) || typeof v.id !== "string" || !v.id.trim() || v.id.length > 120 || /[\u0000-\u001f]/.test(v.id) || ["__proto__","prototype","constructor"].includes(v.id) || ids.has(v.id)
       || typeof v.tool !== "string" || v.tool === "select" || !Object.hasOwn(drawingTools, v.tool)
       || !range(v.x, -.7, .7) || !range(v.y, -.7, .7) || !range(v.scale, .1, 3) || !range(v.rotation, -180, 180)
       || typeof v.mirror !== "boolean" || !hex(v.color) || !hex(v.strokeColor) || !hex(v.secondary) || !range(v.opacity, 0, 1)
@@ -24,6 +24,7 @@ export function parsePaintLayers(value: unknown): PaintLayer[] | null {
       points += path.length; if (v.tool === "eraser") erasers++;
       result.push({...shared,type:"stroke",tool:v.tool as StrokeTool,points:path});
     } else if (v.type === "shape" && !isStrokeTool(v.tool as DrawingTool)) {
+      if(!modern && !(legacyShapeTools as readonly string[]).includes(v.tool))return null;
       if (!range(v.width,.01,4) || !range(v.height,.01,4) || !range(v.bend,-1,1)
         || (["circle","square"].includes(v.tool) && Math.abs(v.width-v.height)>1e-8)) return null;
       result.push({...shared,type:"shape",tool:v.tool as ShapeLayer["tool"],width:v.width,height:v.height,bend:v.bend});
@@ -38,19 +39,27 @@ export function artOrder(art: FingerArt): string[] {
   return [...order,...ids.filter(id=>!order.includes(id))];
 }
 export function upgradePaintDocument(doc: DesignDocument): DesignDocument {
-  if(doc.schema===2)return doc;
-  return {...doc,schema:2,fingers:doc.fingers.map(f=>({...f,layers:f.layers??[],order:artOrder(f)}))};
+  if(doc.schema===3)return doc;
+  return {...doc,schema:3,fingers:doc.fingers.map(f=>withLayerMeta({...f,layers:f.layers??[],order:artOrder(f)}))};
+}
+export function layerState(art:FingerArt,id:string):LayerState {
+  if(art.layerMeta&&Object.hasOwn(art.layerMeta,id))return art.layerMeta[id];
+  const l=art.layers?.find(l=>l.id===id),p=art.parts.find(p=>p.id===id);
+  return {name:l?drawingTools[l.tool]:p?partNames[p.kind]:"レイヤー",visible:true,locked:false,opacity:1};
+}
+export function withLayerMeta(art:FingerArt):FingerArt {
+  return {...art,layerMeta:Object.fromEntries(artOrder(art).map(id=>[id,layerState(art,id)]))};
 }
 export function replacePaintArt(doc: DesignDocument, finger: number, art: FingerArt): DesignDocument {
   const upgraded=upgradePaintDocument(doc);
-  return {...upgraded,fingers:upgraded.fingers.map((f,i)=>i===finger?{...art,layers:art.layers??[],order:artOrder(art)}:f)};
+  return {...upgraded,fingers:upgraded.fingers.map((f,i)=>i===finger?withLayerMeta({...art,layers:art.layers??[],order:artOrder(art)}):f)};
 }
 export function cloneFingerArt(art: FingerArt): FingerArt {
   const ids = new Map<string,string>();
   const fresh = (id:string) => {const next=createLocalId("layer");ids.set(id,next);return next;};
   const parts=art.parts.map(p=>({...p,id:fresh(p.id)}));
   const layers=art.layers?.map(l=>({...l,id:fresh(l.id),...(l.type==="stroke"?{points:l.points.map(p=>({...p}))}:{})}) as PaintLayer);
-  return {...art,base:{...art.base},parts,...(layers?{layers,order:artOrder(art).map(id=>ids.get(id)!)}:{})};
+  return {...art,base:{...art.base},parts,...(layers?{layers,order:artOrder(art).map(id=>ids.get(id)!)}:{}),...(art.layerMeta?{layerMeta:Object.fromEntries(artOrder(art).map(id=>[ids.get(id)!,{...layerState(art,id)}]))}:{})};
 }
 export const defaultPaintStyle: PaintStyle = {color:"#83324e",strokeColor:"#83324e",secondary:"#fff7fa",opacity:1,lineWidth:.035,fill:true,stroke:true,spacing:1.8};
 export const boundedPoint = (p:PaintPoint): PaintPoint => ({x:Math.round(Math.max(-4,Math.min(4,p.x))*100000)/100000,y:Math.round(Math.max(-4,Math.min(4,p.y))*100000)/100000});

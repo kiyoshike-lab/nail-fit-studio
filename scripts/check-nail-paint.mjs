@@ -4,12 +4,12 @@ const w=await importTypescript('src/lib/workshopData.ts'),p=await importTypescri
 const {drawingTools,MAX_STROKE_POINTS}=await importTypescript('src/lib/paintTypes.ts');
 const {defaultDesign}=await importTypescript('src/lib/defaults.ts');
 const legacy=w.createDocument(),original=JSON.stringify(legacy),doc=p.upgradePaintDocument(legacy);
-assert.equal(doc.schema,2);assert.ok(w.parseDocument(doc));assert.equal(JSON.stringify(legacy),original);assert.equal(w.parseDocument({...legacy,schema:2}),null,'incomplete v2 must not drop paint');
+assert.equal(doc.schema,3);assert.ok(w.parseDocument(doc));assert.equal(JSON.stringify(legacy),original);assert.equal(w.parseDocument({...legacy,schema:2}),null,'incomplete v2 must not drop paint');
 const stroke={...p.defaultPaintStyle,id:'line-1',type:'stroke',tool:'pen',x:0,y:0,scale:1,rotation:0,mirror:false,points:[{x:-.2,y:0},{x:.2,y:.1}]};
 const shape=p.makeShape('circle',{x:-.2,y:-.2},{x:.1,y:.2},1.3,p.defaultPaintStyle,false);
-doc.fingers[0]={...doc.fingers[0],parts:[{id:'pearl',kind:'pearl',color:'#ffffff',x:0,y:0,size:.2,rotation:0}],layers:[stroke,shape],order:[stroke.id,'pearl',shape.id]};
+doc.fingers[0]=p.withLayerMeta({...doc.fingers[0],parts:[{id:'pearl',kind:'pearl',color:'#ffffff',x:0,y:0,size:.2,rotation:0}],layers:[stroke,shape],order:[stroke.id,'pearl',shape.id]});
 assert.deepEqual(w.parseDocument(doc),doc);
-for(const patch of[{schema:3},{schema:1},{fingers:[]},{schema:'2'}])assert.equal(w.parseDocument({...doc,...patch}),null);
+for(const patch of[{schema:4},{schema:1},{fingers:[]},{schema:'2'}])assert.equal(w.parseDocument({...doc,...patch}),null);
 for(const mutate of[
  d=>d.fingers[0].layers[0].points[0].x=Infinity,d=>d.fingers[0].layers[0].tool=['pen'],d=>d.fingers[0].layers[0].opacity=2,
  d=>d.fingers[0].layers[0].color='url(attack)',d=>d.fingers[0].layers[0].scale=99,d=>d.fingers[0].layers[0].points=Array(257).fill({x:0,y:0}),

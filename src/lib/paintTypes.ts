@@ -4,7 +4,11 @@ export const drawingTools = {
   circle: "正円", ellipse: "楕円", square: "正方形", rectangle: "長方形",
   diamond: "ひし形", triangle: "三角形", star: "星", heart: "ハート",
   line: "直線", curve: "曲線", polka: "水玉模様", french: "フレンチ曲線", gradient: "グラデーション",
+  pentagon: "五角形", hexagon: "六角形", crescent: "半月", tinyStars: "小さな星",
+  flower: "花模様", check: "チェック", stripes: "ストライプ", wave: "波線",
+  lace: "レース風", sparkle: "キラキラ", bow: "リボン模様", hearts: "ハートの連続",
 } as const;
+export const legacyShapeTools = ["circle","ellipse","square","rectangle","diamond","triangle","star","heart","line","curve","polka","french","gradient"] as const;
 export type DrawingTool = keyof typeof drawingTools;
 export type StrokeTool = "pen" | "brush" | "dots" | "eraser" | "glitter" | "holo";
 export type ShapeTool = Exclude<DrawingTool, StrokeTool | "select">;

@@ -2,8 +2,8 @@ import type { NailDesign, NailPose } from "./types";
 import { neutralLighting, type SceneLighting } from "./sceneLighting";
 import { nailCanvasGeometry } from "./nailPoseMetrics";
 import type { FingerArt } from "./workshopTypes";
-import { drawNailParts, drawSurfaceEffect } from "./workshopDrawing";
-import { drawMixedArt } from "./paintRenderer";
+import { drawSurfaceEffect } from "./workshopDrawing";
+import { drawMixedArt, drawVisibleParts } from "./paintRenderer";
 
 const textureCache = new Map<string, Promise<HTMLImageElement>>();
 const readyTextures = new Map<string, HTMLImageElement>();
@@ -160,7 +160,7 @@ function drawNail(
         // Live preview survives a scratch Canvas failure; exports fail instead
         // of falsely reporting success with the user's drawing missing.
         if (!tolerateArtworkFailure) throw error;
-        drawNailParts(ctx, width, height, art.parts, lightParts, lighting.brightness);
+        drawVisibleParts(ctx, width, height, art, lightParts, lighting.brightness);
       }
     }
   } finally {

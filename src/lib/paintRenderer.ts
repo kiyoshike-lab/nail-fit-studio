@@ -2,6 +2,7 @@ import type { FingerArt } from "./workshopTypes";
 import type { PaintLayer, PaintPoint, ShapeLayer, StrokeLayer } from "./paintTypes";
 import { artOrder } from "./paintData";
 import { drawNailParts } from "./workshopDrawing";
+import { paintCommands, PaintSurfaceCache } from "./paintSurfaceCache";
 
 function smoothPath(ctx:Pick<CanvasRenderingContext2D,"moveTo"|"lineTo"|"quadraticCurveTo">,points:readonly PaintPoint[]) {
   ctx.moveTo(points[0].x,points[0].y);
@@ -88,8 +89,11 @@ export function drawPaintLayer(ctx:CanvasRenderingContext2D,w:number,h:number,la
   render();if(layer.mirror){ctx.save();try{ctx.scale(-1,1);render();}finally{ctx.restore();}}
 }
 
-type CacheEntry={art:FingerArt;surface:HTMLCanvasElement;w:number;h:number;light:boolean;brightness:number};
-const cache:CacheEntry[]=[];
+const cache=new PaintSurfaceCache();
+// Aggregate local counters only; no design names, coordinates, images or network.
+export const paintRenderCacheStats=()=>cache.stats();
+export const clearPaintRenderCache=()=>cache.clear();
+let cacheLifecycleInstalled=false;
 // Bounded by both count and pixels; no growing per-frame history of surfaces.
 const MAX_CACHE_PIXELS=4_000_000;
 const defaultVisual={visible:true,opacity:1};
@@ -98,17 +102,22 @@ export function drawVisibleParts(ctx:CanvasRenderingContext2D,w:number,h:number,
   const parts=new Map(art.parts.map(p=>[p.id,p]));for(const id of art.order??art.parts.map(p=>p.id)){const p=parts.get(id),m=visual(art,id);if(!p||!m.visible||m.opacity===0)continue;if(m.opacity===1)drawNailParts(ctx,w,h,[p],light,brightness);else{ctx.save();try{ctx.globalAlpha*=m.opacity;drawNailParts(ctx,w,h,[p],light,brightness);}finally{ctx.restore();}}}
 }
 function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:number) {
+  if(!cacheLifecycleInstalled&&typeof window!=="undefined"){window.addEventListener("pagehide",clearPaintRenderCache);cacheLifecycleInstalled=true;}
   // Quantize by 0.1 destination pixel, not by aspect ratio. Blit at 1:1 below:
   // ceil(width)/ceil(height) must not turn a mathematical circle into an ellipse.
   const nw=Math.max(.1,Math.round(w*10)/10),nh=Math.max(.1,Math.round(h*10)/10);
   const bw=Math.ceil(nw)+2*Math.ceil(nw*.08+2),bh=Math.ceil(nh)+2*Math.ceil(nh*.08+2),level=Math.round(brightness*10)/10;
   if(!Number.isFinite(bw*bh)||bw>4096||bh>4096||bw*bh>MAX_CACHE_PIXELS)throw new Error("Paint surface exceeds safety limit");
-  const found=cache.find(e=>e.art===art&&e.w===nw&&e.h===nh&&e.light===light&&e.brightness===level);
-  if(found){cache.splice(cache.indexOf(found),1);cache.push(found);return found.surface;}
+  const commands=paintCommands(art),allowPrefix=commands.length>1&&bw*bh*2<=MAX_CACHE_PIXELS,found=cache.find(commands,nw,nh,light,level,allowPrefix);
+  if(found.surface)return found.surface;
+  // Preserve exact source-over/eraser semantics. Reuse an already-composited
+  // prefix only when EVERY visual dependency (including later erasers) matches.
+  let prefix=allowPrefix?found.prefix:undefined,createdPrefix=false;
+  const skip=prefix?commands.length-1:0;
   const surface=document.createElement("canvas"),scratch=document.createElement("canvas");
   surface.width=scratch.width=bw;surface.height=scratch.height=bh;
   const out=surface.getContext("2d"),ink=scratch.getContext("2d");if(!out||!ink){surface.width=surface.height=scratch.width=scratch.height=1;throw new Error("Paint Canvas unavailable");}
-  const order=artOrder(art).filter(id=>visual(art,id).visible),parts=new Map(art.parts.map(p=>[p.id,p])),layers=new Map((art.layers??[]).map(l=>[l.id,l]));
+  const order=artOrder(art).filter(id=>visual(art,id).visible&&visual(art,id).opacity>0),parts=new Map(art.parts.map(p=>[p.id,p])),layers=new Map((art.layers??[]).map(l=>[l.id,l]));
   const erasers=(art.layers??[]).filter(l=>l.type==="stroke"&&l.tool==="eraser"&&visual(art,l.id).visible);
   const masks=new Map<string,HTMLCanvasElement>(),temporary:HTMLCanvasElement[]=[];
   try {
@@ -126,7 +135,12 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
     }
   }
   out.translate(bw/2,bh/2);
+  if(prefix)out.drawImage(prefix,-bw/2,-bh/2);
+  let drawn=0;
   for(let i=0;i<order.length;i++){
+    const layer=layers.get(order[i]);if(layer?.type==="stroke"&&layer.tool==="eraser")continue;
+    if(drawn++<skip)continue;
+    if(allowPrefix&&!prefix&&drawn===commands.length){const candidate=document.createElement("canvas");candidate.width=bw;candidate.height=bh;const x=candidate.getContext("2d");if(x){x.drawImage(surface,0,0);prefix=candidate;createdPrefix=true;}else candidate.width=candidate.height=1;}
     const m=visual(art,order[i]),p=parts.get(order[i]);if(p){out.save();try{out.globalAlpha*=m.opacity;drawNailParts(out,nw,nh,[p],light,level);}finally{out.restore();}continue;}
     const l=layers.get(order[i]);if(!l||l.type==="stroke"&&l.tool==="eraser")continue;
     if(!erasers.length){out.save();try{out.globalAlpha*=m.opacity;drawPaintLayer(out,nw,nh,l);}finally{out.restore();}continue;}
@@ -138,11 +152,8 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
     }finally{ink.restore();}
     out.drawImage(scratch,-bw/2,-bh/2);
   }
-  }catch(error){surface.width=surface.height=1;throw error;}finally{scratch.width=scratch.height=1;for(const mask of temporary)mask.width=mask.height=1;}
-  const entry={art,surface,w:nw,h:nh,light,brightness:level};
-  // Replace old sizes for the same art instead of retaining every tracked scale.
-  for(let i=cache.length-1;i>=0;i--)if(cache[i].art===art){const [old]=cache.splice(i,1);old.surface.width=old.surface.height=1;}
-  if(bw*bh<=MAX_CACHE_PIXELS){cache.push(entry);while(cache.length>6||cache.reduce((n,e)=>n+e.surface.width*e.surface.height,0)>MAX_CACHE_PIXELS){const old=cache.shift()!;old.surface.width=old.surface.height=1;}}
+  }catch(error){surface.width=surface.height=1;if(createdPrefix)prefix!.width=prefix!.height=1;throw error;}finally{scratch.width=scratch.height=1;for(const mask of temporary)mask.width=mask.height=1;}
+  cache.add({commands,surface,prefix,w:nw,h:nh,light,brightness:level});
   // Temporary scratch backing memory is explicitly released after composition.
   return surface;
 }

@@ -39,7 +39,13 @@ try{
  await panel(page).getByRole('button',{name:'質感・色だけ5本へ適用',exact:true}).click();let saved=await save(page);assert.ok(saved.fingers.every(f=>f.surface.kind==='cat-eye'&&f.surface.angle===55&&f.base.color==='#466eaa'));assert.ok(saved.fingers.every(f=>f.layers.length===1&&f.parts.length===1));
  await editor(page).getByRole('button',{name:'元に戻す',exact:true}).click();assert.equal((await save(page)).fingers[1].surface,undefined);await editor(page).getByRole('button',{name:'やり直す',exact:true}).click();saved=await save(page);
  // Remove the init script by opening a fresh page in the same context for reload.
- const restored=await page.context().newPage();await restored.route(/googlesyndication|googletagmanager|google-analytics/,r=>r.abort());await restored.goto(base+'/create?id='+doc.id,{waitUntil:'networkidle'});await open(restored);assert.equal(await panel(restored).getByLabel('光の筋の方向',{exact:true}).inputValue(),'55');await panel(restored).getByLabel('お気に入りだけ',{exact:true}).check();assert.equal(await panel(restored).locator('.nail-style-grid button').count(),1);await restored.close();
+ // Validate the saved source before opening another tab; a stale success toast
+ // must not let a broken/missing saved document pass unnoticed.
+ const persisted=await page.evaluate(key=>JSON.parse(localStorage.getItem(key)),lib);
+ assert.equal(persisted.entries.find(e=>e.document.id===doc.id)?.document.schema,4);
+ assert.ok(w.parseDocument(persisted.entries.find(e=>e.document.id===doc.id)?.document));
+ const restored=await page.context().newPage();restored.setDefaultTimeout(60000);restored.on('pageerror',e=>errors.push('restored: '+e.message));
+ await restored.route(/googlesyndication|googletagmanager|google-analytics/,r=>r.abort());await restored.goto(base+'/create?id='+doc.id,{waitUntil:'networkidle'});await open(restored);assert.equal(await panel(restored).getByLabel('光の筋の方向',{exact:true}).inputValue(),'55');await panel(restored).getByLabel('お気に入りだけ',{exact:true}).check();assert.equal(await panel(restored).locator('.nail-style-grid button').count(),1);await restored.close();
  rows.push({case:'keyword + facets AND, reset/favorites persistence, per-finger copy, parameter edits, Undo/Redo and reload',passed:true});
  for(const width of[320,375,390,430]){await page.setViewportSize({width,height:844});await panel(page).scrollIntoViewIfNeeded();assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));const box=await panel(page).locator('.nail-style-grid button').first().boundingBox();assert.ok(box.width>=44&&box.height>=44);assert.equal(await panel(page).locator('.nail-style-grid').evaluate(n=>getComputedStyle(n).gridTemplateColumns.split(' ').length),3);}
  await panel(page).locator('.nail-style-grid').scrollIntoViewIfNeeded();if(opt('--screenshot'))await page.screenshot({path:opt('--screenshot')});rows.push({case:'320/375/390/430px: three-column scrollable library, no page overflow, >=44px targets',passed:true});
@@ -63,7 +69,7 @@ try{
  rows.push({case:'real photo and still-derived VIDEO, five modern nails, Before/After, original-resolution PNG + favorite4, live edits/collapse keep same stream, stop releases tracks',passed:true});
  assert.deepEqual(errors,[]);assert.deepEqual(posts,[]);await writeFile(opt('--output'),JSON.stringify({scope:'Chrome desktop and emulated touch; actual phone cameras untested',rows,errors,posts},null,2));console.log(rows.map(r=>r.case).join('\n'));
 }catch(error){
- const pages=browser.contexts().flatMap(c=>c.pages()),page=pages[0];
- if(page){await page.screenshot({path:opt('--output')+'.failure.png'}).catch(()=>{});await writeFile(opt('--output')+'.failure.json',JSON.stringify({errors,posts,url:page.url(),debug:await page.evaluate(()=>({preview:document.querySelector('.preview-card')?.textContent,statuses:[...document.querySelectorAll('[role=status],[role=alert]')].map(n=>n.textContent),draft:localStorage.getItem('nail-fit-studio-next.workshop-draft.v1'),nails:localStorage.getItem('nail-fit-studio-next.nails.v1')}))},null,2));}
+ const pages=browser.contexts().flatMap(c=>c.pages()),page=pages.at(-1);
+ if(page){await page.screenshot({path:opt('--output')+'.failure.png'}).catch(()=>{});await writeFile(opt('--output')+'.failure.json',JSON.stringify({errors,posts,url:page.url(),debug:await page.evaluate(()=>({preview:document.querySelector('.preview-card')?.textContent,statuses:[...document.querySelectorAll('[role=status],[role=alert]')].map(n=>n.textContent),body:document.body.innerText,library:localStorage.getItem('nail-fit-studio-next.workshop-library.v1'),draft:localStorage.getItem('nail-fit-studio-next.workshop-draft.v1'),nails:localStorage.getItem('nail-fit-studio-next.nails.v1')}))},null,2));}
  throw error;
 }finally{await browser.close();}

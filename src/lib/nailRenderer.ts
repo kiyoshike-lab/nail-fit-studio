@@ -3,6 +3,7 @@ import { neutralLighting, type SceneLighting } from "./sceneLighting";
 import { nailCanvasGeometry } from "./nailPoseMetrics";
 import type { FingerArt } from "./workshopTypes";
 import { drawNailParts, drawSurfaceEffect } from "./workshopDrawing";
+import { drawMixedArt } from "./paintRenderer";
 
 const textureCache = new Map<string, Promise<HTMLImageElement>>();
 const readyTextures = new Map<string, HTMLImageElement>();
@@ -37,7 +38,7 @@ export async function drawNails(
   canvasHeight: number,
   nails: NailPose[],
   design: NailDesign,
-  options: { fingers?: readonly FingerArt[]; lightParts?: boolean; isCurrent?: () => boolean; clear?: boolean; opacity?: number; lighting?: SceneLighting; waitForTexture?: boolean; onPainted?: (count: number) => void; viewport?: { x: number; y: number; width: number; height: number } } = {},
+  options: { fingers?: readonly FingerArt[]; lightParts?: boolean; tolerateArtworkFailure?: boolean; onArtworkError?: () => void; isCurrent?: () => boolean; clear?: boolean; opacity?: number; lighting?: SceneLighting; waitForTexture?: boolean; onPainted?: (count: number) => void; viewport?: { x: number; y: number; width: number; height: number } } = {},
 ) {
   // Resolve I/O before touching the shared Canvas state. No await is allowed
   // between save/clip/restore: an older texture frame must never overpaint a new one.
@@ -83,7 +84,7 @@ export async function drawNails(
           }
           ctx.clip("evenodd");
         }
-        drawNail(ctx, viewport.width, viewport.height, nail, designs[index], index, textures[index], options.lighting, options.fingers?.[index], options.lightParts);
+        drawNail(ctx, viewport.width, viewport.height, nail, designs[index], index, textures[index], options.lighting, options.fingers?.[index], options.lightParts, options.tolerateArtworkFailure, options.onArtworkError);
         if (ctx.globalAlpha > 0.01) painted++;
       } finally { ctx.restore(); }
     }
@@ -105,6 +106,8 @@ function drawNail(
   lighting: SceneLighting = neutralLighting,
   art?: FingerArt,
   lightParts = false,
+  tolerateArtworkFailure = false,
+  onArtworkError?: () => void,
 ) {
   const widthScale = design.shape === "square" || design.shape === "squoval" ? 1.05 : design.shape === "coffin" ? 1.1 : 1;
   const geometry = nailCanvasGeometry(nail, canvasWidth, canvasHeight, design.length, widthScale);
@@ -149,7 +152,17 @@ function drawNail(
     drawMaterial(ctx, width, height, design);
     if(art) drawSurfaceEffect(ctx,width,height,art);
     drawDepth(ctx, width, height, design, lighting);
-    if(art){ctx.globalAlpha=originalAlpha;drawNailParts(ctx,width,height,art.parts,lightParts,lighting.brightness);}
+    if (art) {
+      ctx.globalAlpha = originalAlpha;
+      try { drawMixedArt(ctx, width, height, art, lightParts, lighting.brightness); }
+      catch (error) {
+        onArtworkError?.();
+        // Live preview survives a scratch Canvas failure; exports fail instead
+        // of falsely reporting success with the user's drawing missing.
+        if (!tolerateArtworkFailure) throw error;
+        drawNailParts(ctx, width, height, art.parts, lightParts, lighting.brightness);
+      }
+    }
   } finally {
     ctx.restore();
   }

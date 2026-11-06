@@ -2,6 +2,7 @@ import { defaultDesign } from "./defaults";
 import { createLocalId, tryWriteJson } from "./storage";
 import { collectionNames, partNames, type CollectionEntry, type CollectionKind, type DesignDocument, type FingerArt, type NailPart } from "./workshopTypes";
 import type { NailDesign } from "./types";
+import { parsePaintLayers } from "./paintData";
 
 export const WORKSHOP_DRAFT = "nail-fit-studio-next.workshop-draft.v1";
 export const WORKSHOP_LIBRARY = "nail-fit-studio-next.workshop-library.v1";
@@ -30,7 +31,7 @@ export function validBase(v: unknown): v is NailDesign {
     && (v.naturalNailLength === undefined || oneOf(v.naturalNailLength, ["auto", "short", "standard", "long"]));
 }
 export function parseDocument(v: unknown): DesignDocument | null {
-  if (!record(v) || v.schema !== 1 || !text(v.id, 120) || !text(v.name, 80) || !date(v.createdAt) || !date(v.updatedAt)
+  if (!record(v) || (v.schema !== 1 && v.schema !== 2) || !text(v.id, 120) || !text(v.name, 80) || !date(v.createdAt) || !date(v.updatedAt)
     || !oneOf(v.detail, ["standard", "light"]) || !Array.isArray(v.fingers) || v.fingers.length !== 5) return null;
   const fingers: FingerArt[] = [];
   for (const f of v.fingers) {
@@ -41,11 +42,18 @@ export function parseDocument(v: unknown): DesignDocument | null {
         || !range(p.x, -.45, .45) || !range(p.y, -.45, .45) || !range(p.size, .06, .6) || !range(p.rotation, -180, 180)) return null;
       ids.add(p.id);
     }
+    const layers = v.schema===2 ? parsePaintLayers(f.layers) : undefined;
+    if (v.schema===1 && (f.layers!==undefined || f.order!==undefined)) return null;
+    if(v.schema===2){
+      if(!layers || !Array.isArray(f.order)) return null;
+      for(const layer of layers){if(ids.has(layer.id))return null;ids.add(layer.id);}
+      if(f.order.length!==ids.size || new Set(f.order).size!==ids.size || !f.order.every(id=>typeof id==="string"&&ids.has(id)))return null;
+    }
     // Copy only the defined schema: do not retain arbitrary objects/URLs.
     const b = f.base;
-    fingers.push({ base: { color:b.color, shape:b.shape, finish:b.finish, material:b.material, pattern:b.pattern, motif:b.motif, motifColor:b.motifColor, tipColor:b.tipColor, tipAmount:b.tipAmount, length:b.length, thickness:b.thickness, realism:b.realism, ...(b.textureUrl ? {textureUrl:b.textureUrl}:{}), ...(b.naturalNailLength ? {naturalNailLength:b.naturalNailLength}:{}) }, opacity:f.opacity, effect:f.effect as FingerArt["effect"], parts:f.parts.map(p => ({id:p.id,kind:p.kind,color:p.color,x:p.x,y:p.y,size:p.size,rotation:p.rotation} as NailPart)) });
+    fingers.push({ base: { color:b.color, shape:b.shape, finish:b.finish, material:b.material, pattern:b.pattern, motif:b.motif, motifColor:b.motifColor, tipColor:b.tipColor, tipAmount:b.tipAmount, length:b.length, thickness:b.thickness, realism:b.realism, ...(b.textureUrl ? {textureUrl:b.textureUrl}:{}), ...(b.naturalNailLength ? {naturalNailLength:b.naturalNailLength}:{}) }, opacity:f.opacity, effect:f.effect as FingerArt["effect"], parts:f.parts.map(p => ({id:p.id,kind:p.kind,color:p.color,x:p.x,y:p.y,size:p.size,rotation:p.rotation} as NailPart)),...(v.schema===2?{layers:layers!,order:[...f.order as string[]]}:{}) });
   }
-  return { schema:1,id:v.id,name:v.name,createdAt:v.createdAt,updatedAt:v.updatedAt,detail:v.detail as DesignDocument["detail"],fingers };
+  return { schema:v.schema,id:v.id,name:v.name,createdAt:v.createdAt,updatedAt:v.updatedAt,detail:v.detail as DesignDocument["detail"],fingers };
 }
 export function createDocument(base: NailDesign = defaultDesign): DesignDocument {
   const safe = validBase(base) ? base : defaultDesign;

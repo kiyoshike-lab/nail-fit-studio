@@ -73,6 +73,8 @@ export function NailStudio() {
   const [loading, setLoading] = useState(false);
   const [artwork, setArtwork] = useState<DesignDocument | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
+  const artworkErrorNotified = useRef(false);
+  useEffect(() => { artworkErrorNotified.current = false; }, [artwork]);
   const editorSnapshot = useRef<DesignDocument | null>(null);
   const editorDesignSnapshot = useRef<NailDesign>(design);
 
@@ -208,6 +210,13 @@ export function NailStudio() {
       return drawNails(ctx, width, height, visibleNails, design, {
         fingers: artwork?.fingers,
         lightParts: artwork?.detail === "light",
+        tolerateArtworkFailure: true,
+        onArtworkError: () => {
+          if (!artworkErrorNotified.current) {
+            artworkErrorNotified.current = true;
+            setStatus("手描きの表示に失敗したため、ベースと装飾を表示しています。レイヤーを減らして再試行してください。カメラは継続できます。");
+          }
+        },
         clear: true,
         isCurrent: () => drawId === drawIdRef.current,
         opacity: mode === "camera" && trackingState !== "failed"

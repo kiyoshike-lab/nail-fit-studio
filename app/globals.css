@@ -85,3 +85,14 @@
 .workshop-home{padding-block:32px}.workshop-home h2{font-size:clamp(1.2rem,3vw,1.8rem)}
 .control-column .workshop-grid{grid-template-columns:minmax(0,1fr)}
 @media(max-width:600px){.workshop-page{width:calc(100% - 24px);padding-top:22px}.workshop-editor,.workshop-launch{padding:14px}.workshop-grid,.workshop-library{grid-template-columns:minmax(0,1fr)}.workshop-fields .field-grid{grid-template-columns:minmax(0,1fr)}.workshop-toolbar>button,.workshop-toolbar>.button{flex:1 1 140px}.workshop-editor .finger-tabs{display:flex;flex-wrap:wrap;overflow:visible}.workshop-editor .finger-tabs button{flex:1 1 75px;min-height:44px}.workshop-drawing .artwork-canvas{max-height:300px;width:auto;max-width:100%}}
+
+/* Freehand paint: only the canvas captures touch; forms/page remain scrollable. */
+.nail-paint-editor{min-width:0;padding:12px;border:1px solid var(--line);border-radius:18px;background:var(--paper)}
+.nail-paint-editor h3{margin:0;font-size:1.15rem}.paint-tools{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.paint-tools>label{flex:1 1 160px}.paint-tools .workshop-toolbar{flex:1 1 220px}
+.paint-viewport{width:100%;height:min(520px,65svh);min-height:280px;overflow:auto;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,#f3eaed,#fcf7f9);overscroll-behavior:contain}
+.paint-canvas{display:block;max-width:none;background:var(--surface);outline-offset:-3px;margin-inline:auto;cursor:crosshair}
+.paint-style-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}.nail-paint-editor summary{min-height:48px;padding:12px 2px;font-weight:800;cursor:pointer}
+.nail-paint-editor .paint-check{display:flex;align-items:center;min-height:44px;gap:10px}.paint-check input[type=checkbox]{width:22px;min-height:22px;height:22px;flex:0 0 22px;accent-color:var(--wine)}
+.paint-layer-list{display:flex;gap:8px;flex-wrap:wrap;max-height:240px;overflow:auto;padding:6px}.paint-layer-list button{min-height:44px;color:var(--ink);background:var(--surface);border:1px solid var(--line)}.paint-layer-list button[aria-pressed=true]{color:#fff;background:var(--wine)}
+.nail-paint-editor output{min-width:48px;text-align:center}.workshop-editor:has(.nail-paint-editor) .workshop-toolbar{gap:8px}
+@media(max-width:600px){.paint-style-grid{grid-template-columns:minmax(0,1fr)}.nail-paint-editor{padding:8px}.paint-tools .workshop-toolbar{margin-block:4px}.paint-tools .workshop-toolbar button{flex:1 1 65px;padding-inline:10px}.paint-viewport{height:60svh}}

@@ -1,0 +1,608 @@
+{
+  "schema": 1,
+  "presets": 83,
+  "uniqueSources": 47,
+  "completedProductionReplacements": 0,
+  "sources": [
+    {
+      "file": "design_001.jpg",
+      "fileId": "001",
+      "presetIds": [
+        "real_001",
+        "real_064"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:G%C3%A5yotaedje_di_troes_ongues.jpg",
+      "reportedLicense": "CC BY-SA 4.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_002.jpg",
+      "fileId": "002",
+      "presetIds": [
+        "real_002",
+        "real_048",
+        "real_056"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:French_tip_nail_art.jpg",
+      "reportedLicense": "CC BY-SA 4.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_003.jpg",
+      "fileId": "003",
+      "presetIds": [
+        "real_003",
+        "real_049",
+        "real_057"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg",
+      "reportedLicense": "CC BY-SA 4.0",
+      "licenseRechecked": true,
+      "selectionStatus": "draft cutouts built, awaiting visual acceptance",
+      "reason": ""
+    },
+    {
+      "file": "design_004.jpg",
+      "fileId": "004",
+      "presetIds": [
+        "real_004",
+        "real_058",
+        "real_065",
+        "real_076"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hologram_nail_art.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_005.jpg",
+      "fileId": "005",
+      "presetIds": [
+        "real_005",
+        "real_066",
+        "real_077"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Galaxies_nail_art.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_006.jpg",
+      "fileId": "006",
+      "presetIds": [
+        "real_006",
+        "real_059",
+        "real_067"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flower_nail_art.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_007.jpg",
+      "fileId": "007",
+      "presetIds": [
+        "real_007",
+        "real_068"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gel_Nails_Pink_Orange_and_White_Design.jpg",
+      "reportedLicense": "CC BY-SA 3.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_008.jpg",
+      "fileId": "008",
+      "presetIds": [
+        "real_008",
+        "real_060",
+        "real_069",
+        "real_078"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_nails_and_glitter_manicure.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_009.jpg",
+      "fileId": "009",
+      "presetIds": [
+        "real_009",
+        "real_070",
+        "real_079"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_art_-_Glitter_Diamond.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_010.jpg",
+      "fileId": "010",
+      "presetIds": [
+        "real_010",
+        "real_071"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_art.jpg",
+      "reportedLicense": "CC0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_011.jpg",
+      "fileId": "011",
+      "presetIds": [
+        "real_011",
+        "real_072"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_Art.JPG",
+      "reportedLicense": "Public domain",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_013.jpg",
+      "fileId": "013",
+      "presetIds": [
+        "real_012",
+        "real_061"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_nail_polish.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_014.jpg",
+      "fileId": "014",
+      "presetIds": [
+        "real_013",
+        "real_062",
+        "real_073",
+        "real_080"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_nail_polish_(4).jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs reselection",
+      "reason": "polish bottle, not a nail"
+    },
+    {
+      "file": "design_015.jpg",
+      "fileId": "015",
+      "presetIds": [
+        "real_014",
+        "real_081"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Shimmering_nail_polish.jpg",
+      "reportedLicense": "CC BY-SA 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs reselection",
+      "reason": "polish bottle, not a nail"
+    },
+    {
+      "file": "design_016.jpg",
+      "fileId": "016",
+      "presetIds": [
+        "real_015"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neon_nail_polish.jpg",
+      "reportedLicense": "CC BY-SA 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_017.jpg",
+      "fileId": "017",
+      "presetIds": [
+        "real_016"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_Nail_Polish_(2269375893).jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs reselection",
+      "reason": "sculpture, not a live nail"
+    },
+    {
+      "file": "design_018.jpg",
+      "fileId": "018",
+      "presetIds": [
+        "real_017",
+        "real_074"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cracking_nail_polish.jpg",
+      "reportedLicense": "CC BY-SA 3.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_020.jpg",
+      "fileId": "020",
+      "presetIds": [
+        "real_018",
+        "real_082"
+      ],
+      "sourceUrl": "https://pixabay.com/photos/nail-polish-metallic-manicure-7480029/",
+      "reportedLicense": "Pixabay Content License",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_021.jpg",
+      "fileId": "021",
+      "presetIds": [
+        "real_019",
+        "real_063"
+      ],
+      "sourceUrl": "https://negativespace.co/woman-manicure-nails/",
+      "reportedLicense": "CC0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs reselection",
+      "reason": "tiny/occluded salon nail; reselect sharper source"
+    },
+    {
+      "file": "design_023.jpg",
+      "fileId": "023",
+      "presetIds": [
+        "real_020",
+        "real_083"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Blue_polish_with_shimmer.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_024.jpg",
+      "fileId": "024",
+      "presetIds": [
+        "real_021",
+        "real_075"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(blue).jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_025.jpg",
+      "fileId": "025",
+      "presetIds": [
+        "real_022"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(purple).jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_026.jpg",
+      "fileId": "026",
+      "presetIds": [
+        "real_023"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_glue_on_nails_over_polish.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_027.jpg",
+      "fileId": "027",
+      "presetIds": [
+        "real_024",
+        "real_050"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Frenchmanicurewiki.jpg",
+      "reportedLicense": "CC BY-SA 3.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_028.jpg",
+      "fileId": "028",
+      "presetIds": [
+        "real_025",
+        "real_051"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Natural_French_manicure.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs reselection",
+      "reason": "face/hand distance; select closer nail view"
+    },
+    {
+      "file": "design_029.png",
+      "fileId": "029",
+      "presetIds": [
+        "real_026",
+        "real_052"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Manicure_rossu_%C3%A8_rosa.webp",
+      "reportedLicense": "CC BY-SA 4.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_030.jpg",
+      "fileId": "030",
+      "presetIds": [
+        "real_027"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Getting_her_nails_painted_(Unsplash).jpg",
+      "reportedLicense": "CC0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs reselection",
+      "reason": "tiny salon nail; reselect sharper source"
+    },
+    {
+      "file": "design_031.jpg",
+      "fileId": "031",
+      "presetIds": [
+        "real_028"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_art_with_toothpick.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_032.jpg",
+      "fileId": "032",
+      "presetIds": [
+        "real_029"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_nail_polish_in_application.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_033.jpg",
+      "fileId": "033",
+      "presetIds": [
+        "real_030"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nails_polished.jpg",
+      "reportedLicense": "CC BY-SA 4.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_034.jpg",
+      "fileId": "034",
+      "presetIds": [
+        "real_031"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_2_(purple).jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_035.jpg",
+      "fileId": "035",
+      "presetIds": [
+        "real_032"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Acrylic_Nails.jpg",
+      "reportedLicense": "CC0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_036.jpg",
+      "fileId": "036",
+      "presetIds": [
+        "real_033"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Art_fingers_-1_(277309408).jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_037.jpg",
+      "fileId": "037",
+      "presetIds": [
+        "real_034",
+        "real_053"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gel-lac-gel-polish-by-diamond-nails.jpg",
+      "reportedLicense": "CC0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs reselection",
+      "reason": "shop display, not a nail"
+    },
+    {
+      "file": "design_038.jpg",
+      "fileId": "038",
+      "presetIds": [
+        "real_035",
+        "real_054"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Polygel-diamond-nails-result.jpg",
+      "reportedLicense": "CC0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_039.jpg",
+      "fileId": "039",
+      "presetIds": [
+        "real_036"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_Nail_Polish_-_Flickr_-_spurekar.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs reselection",
+      "reason": "polish bottle, not a nail"
+    },
+    {
+      "file": "design_040.jpg",
+      "fileId": "040",
+      "presetIds": [
+        "real_037"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_Art!_(5393685549).jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_041.jpg",
+      "fileId": "041",
+      "presetIds": [
+        "real_038"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Poto_nail_art_55.jpg",
+      "reportedLicense": "CC BY-SA 4.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_042.png",
+      "fileId": "042",
+      "presetIds": [
+        "real_039"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:%D0%9F%D1%80%D0%BE%D1%84%D0%B5%D1%81%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D0%BD%D0%B0_%D0%BD%D0%BE%D0%BA%D1%82%D0%BE%D0%BF%D0%BB%D0%B0%D1%81%D1%82%D0%B8%D0%BA%D0%B0.png",
+      "reportedLicense": "CC BY 4.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_043.jpg",
+      "fileId": "043",
+      "presetIds": [
+        "real_040",
+        "real_055"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Toe_nail_art.jpg",
+      "reportedLicense": "CC BY-SA 3.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_044.jpg",
+      "fileId": "044",
+      "presetIds": [
+        "real_041"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Polished_purple_nails_with_nail_art_on.jpg",
+      "reportedLicense": "CC BY-SA 4.0",
+      "licenseRechecked": true,
+      "selectionStatus": "draft cutouts built, awaiting visual acceptance",
+      "reason": ""
+    },
+    {
+      "file": "design_045.jpg",
+      "fileId": "045",
+      "presetIds": [
+        "real_042"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_Art_Butterfly.jpg",
+      "reportedLicense": "CC BY 4.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_046.jpg",
+      "fileId": "046",
+      "presetIds": [
+        "real_043"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_Art_NP_02.JPG",
+      "reportedLicense": "CC BY-SA 3.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_047.jpg",
+      "fileId": "047",
+      "presetIds": [
+        "real_044"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Color-options-for-nail-gel-polish-gel-lac-by-diamond-nails.jpg",
+      "reportedLicense": "CC0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_048.jpg",
+      "fileId": "048",
+      "presetIds": [
+        "real_045"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Multicolor_nail_polish.jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    },
+    {
+      "file": "design_049.jpg",
+      "fileId": "049",
+      "presetIds": [
+        "real_046"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Colourful_nail_polishes.jpg",
+      "reportedLicense": "CC BY-SA 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs reselection",
+      "reason": "polish bottles, not nails"
+    },
+    {
+      "file": "design_050.jpg",
+      "fileId": "050",
+      "presetIds": [
+        "real_047"
+      ],
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:First_time_my_nails_have_been_painted_with_nail_polish_(5932582082).jpg",
+      "reportedLicense": "CC BY 2.0",
+      "licenseRechecked": false,
+      "selectionStatus": "needs single nail annotation and review",
+      "reason": ""
+    }
+  ]
+}

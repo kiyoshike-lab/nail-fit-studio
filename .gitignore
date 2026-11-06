@@ -9,3 +9,7 @@ out
 !.env.*.example
 .DS_Store
 *.tsbuildinfo
+
+# Offline material authoring (never deploy Python bytecode)
+__pycache__/
+*.py[cod]

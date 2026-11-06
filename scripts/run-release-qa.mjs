@@ -53,5 +53,6 @@ if(round===3){
  if(!opt('--before-root'))throw Error('--before-root required for independent final rendering comparison');
  await run('render-equality',['scripts/check-render-cache-browser.mjs','--base-url',base,'--playwright-module',pm,'--before-root',opt('--before-root'),'--output',path.join(out,'render-equality.json')]);
  await run('visual-recheck',['scripts/check-release-visual-browser.mjs','--base-url',base,'--playwright-module',pm,'--output-dir',path.join(out,'visual-recheck'),'--strict']);
+ await run('legacy-material-quality',['scripts/check-legacy-preset-quality-browser.mjs','--base-url',base,'--playwright-module',pm,'--output-dir',path.join(out,'legacy-material-quality'),'--strict']);
 }
 report.ended=now();report.summary={planned:report.jobs.length+report.unexecuted.length,executed:report.jobs.length,passed:report.jobs.filter(j=>j.status==='passed').length,failed:report.jobs.filter(j=>j.status==='failed').length,unexecuted:report.unexecuted.length};await flush();console.log(JSON.stringify(report.summary));if(report.summary.failed)process.exitCode=1;

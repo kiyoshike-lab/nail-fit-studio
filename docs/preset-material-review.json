@@ -1,0 +1,286 @@
+{
+  "schema": 1,
+  "status": "draft-selection-not-production",
+  "sourceCount": 47,
+  "presetCount": 83,
+  "note": "No automatic approval. Source IDs are file IDs, NOT sequential real_ preset IDs. All remaining sources require per-image selection, licensing and visual review. No browser hand tracking changes.",
+  "entries": [
+    {
+      "id": "french-003-candidate",
+      "file": "source_003.jpg",
+      "sourceSize": [
+        3024,
+        4032
+      ],
+      "sourceSha256": "c75ae80f82af0b4dd7c6b193fccba661713dd71c13004ccb17011824f04aa386",
+      "polygon": [
+        [
+          1411.2,
+          1644.3
+        ],
+        [
+          1515.15,
+          1568.7
+        ],
+        [
+          1609.65,
+          1546.65
+        ],
+        [
+          1656.9,
+          1578.15
+        ],
+        [
+          1691.55,
+          1647.45
+        ],
+        [
+          1678.95,
+          1713.6
+        ],
+        [
+          1631.7,
+          1776.6
+        ],
+        [
+          1556.1,
+          1845.9
+        ],
+        [
+          1480.5,
+          1899.45
+        ],
+        [
+          1414.35,
+          1930.95
+        ],
+        [
+          1370.25,
+          1921.5
+        ],
+        [
+          1323.0,
+          1877.4
+        ],
+        [
+          1297.8,
+          1830.15
+        ],
+        [
+          1297.8,
+          1786.05
+        ],
+        [
+          1335.6,
+          1719.9
+        ]
+      ],
+      "root": [
+        1615.95,
+        1615.95
+      ],
+      "tip": [
+        1395.45,
+        1896.3
+      ],
+      "reviewStatus": "candidate",
+      "author": "Theknowhau",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenseCheckedAt": "2026-11-07",
+      "sourceDatasetFile": "design_003.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3b/French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg"
+    },
+    {
+      "id": "glitter-003-candidate",
+      "file": "source_003.jpg",
+      "sourceSize": [
+        3024,
+        4032
+      ],
+      "sourceSha256": "c75ae80f82af0b4dd7c6b193fccba661713dd71c13004ccb17011824f04aa386",
+      "polygon": [
+        [
+          1269.45,
+          2583.0
+        ],
+        [
+          1398.6,
+          2554.65
+        ],
+        [
+          1515.15,
+          2535.75
+        ],
+        [
+          1584.45,
+          2545.2
+        ],
+        [
+          1625.4,
+          2598.75
+        ],
+        [
+          1647.45,
+          2683.8
+        ],
+        [
+          1641.15,
+          2746.8
+        ],
+        [
+          1584.45,
+          2806.65
+        ],
+        [
+          1477.35,
+          2844.45
+        ],
+        [
+          1354.5,
+          2879.1
+        ],
+        [
+          1266.3,
+          2913.75
+        ],
+        [
+          1215.9,
+          2907.45
+        ],
+        [
+          1174.95,
+          2863.35
+        ],
+        [
+          1152.9,
+          2800.35
+        ],
+        [
+          1146.6,
+          2737.35
+        ],
+        [
+          1171.8,
+          2668.05
+        ],
+        [
+          1212.75,
+          2620.8
+        ]
+      ],
+      "root": [
+        1590.75,
+        2680.65
+      ],
+      "tip": [
+        1212.75,
+        2790.9
+      ],
+      "reviewStatus": "candidate",
+      "author": "Theknowhau",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenseCheckedAt": "2026-11-07",
+      "sourceDatasetFile": "design_003.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3b/French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg"
+    },
+    {
+      "id": "floral-044-candidate",
+      "file": "source_044.jpg",
+      "sourceSize": [
+        2423,
+        2684
+      ],
+      "sourceSha256": "5ee3b105eec6b254542610274c1765dbbb2c0f0cc856963b430a867eba0d8583",
+      "polygon": [
+        [
+          1181.213,
+          1062.995
+        ],
+        [
+          1244.311,
+          1057.945
+        ],
+        [
+          1292.267,
+          1080.67
+        ],
+        [
+          1325.078,
+          1131.168
+        ],
+        [
+          1340.222,
+          1191.767
+        ],
+        [
+          1314.982,
+          1254.89
+        ],
+        [
+          1279.647,
+          1320.538
+        ],
+        [
+          1224.12,
+          1421.535
+        ],
+        [
+          1166.069,
+          1517.483
+        ],
+        [
+          1115.59,
+          1560.406
+        ],
+        [
+          1049.967,
+          1542.732
+        ],
+        [
+          984.344,
+          1512.433
+        ],
+        [
+          949.008,
+          1474.559
+        ],
+        [
+          964.152,
+          1426.585
+        ],
+        [
+          1009.583,
+          1330.638
+        ],
+        [
+          1072.682,
+          1222.066
+        ],
+        [
+          1128.209,
+          1131.168
+        ]
+      ],
+      "root": [
+        1246.835,
+        1105.919
+      ],
+      "tip": [
+        1087.826,
+        1527.582
+      ],
+      "reviewStatus": "candidate",
+      "author": "Köttbulleledaren",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Polished_purple_nails_with_nail_art_on.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "licenseCheckedAt": "2026-11-07",
+      "sourceDatasetFile": "design_044.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/3/38/Polished_purple_nails_with_nail_art_on.jpg"
+    }
+  ]
+}

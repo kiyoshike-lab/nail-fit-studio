@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { createLocalId } from "@/lib/storage";
 import { artOrder, cloneFingerArt, defaultPaintStyle, layerState, replacePaintArt } from "@/lib/paintData";
 import { editorMaterials, patchLayerState, placeMaterial } from "@/lib/editorMaterials";
@@ -8,17 +8,25 @@ import { drawingTools, MAX_ERASERS, MAX_FINGER_POINTS, MAX_PAINT_LAYERS, type Dr
 import type { DesignDocument, FingerArt } from "@/lib/workshopTypes";
 import { canvasDropPoint, PaintCanvas } from "./PaintCanvas";
 import { MaterialPalette } from "./MaterialPalette";
+import { PaintViewControls } from "./PaintViewControls";
+import { usePaintFocus } from "./usePaintFocus";
+import type { PaintView, PaintViewCommand } from "@/lib/paintViewport";
 
-type Props={document:DesignDocument;finger:number;clipboard:FingerArt|null;onClipboard:(art:FingerArt)=>void;onBegin:()=>void;onPreview:(d:DesignDocument)=>void;onCommit:(d:DesignDocument)=>void;onCancel:()=>void;onUndo:()=>void;onRedo:()=>void;canUndo:boolean;canRedo:boolean;onClose:()=>void};
+type Props={document:DesignDocument;finger:number;clipboard:FingerArt|null;onClipboard:(art:FingerArt)=>void;getInitialView?:()=>PaintView|undefined;onView?:(view:PaintView)=>void;onSave?:()=>{ok:boolean;message:string};onTryOn?:()=>{ok:boolean;message:string};onBegin:()=>void;onPreview:(d:DesignDocument)=>void;onCommit:(d:DesignDocument)=>void;onCancel:()=>void;onUndo:()=>void;onRedo:()=>void;canUndo:boolean;canRedo:boolean;onClose:()=>void};
 const fingerNames=["親指","人差し指","中指","薬指","小指"];
-export function NailPaintEditor({document:doc,finger,clipboard,onClipboard,onBegin,onPreview,onCommit,onCancel,onUndo,onRedo,canUndo,canRedo,onClose}:Props){
-  const [tool,setTool]=useState<DrawingTool|"pan">("pen"),[brush,setBrush]=useState<PaintStyle>(defaultPaintStyle),[mirror,setMirror]=useState(false),[zoom,setZoom]=useState(1.5),[resetView,setResetView]=useState(0),[selectedId,setSelectedId]=useState<string|null>(null),[notice,setNotice]=useState(""),[copyTo,setCopyTo]=useState((finger+1)%5);
+export function NailPaintEditor({document:doc,finger,clipboard,onClipboard,getInitialView,onView,onSave,onTryOn,onBegin,onPreview,onCommit,onCancel,onUndo,onRedo,canUndo,canRedo,onClose}:Props){
+  const [tool,setTool]=useState<DrawingTool|"pan">("pen"),[brush,setBrush]=useState<PaintStyle>(defaultPaintStyle),[mirror,setMirror]=useState(false),[zoom,setZoom]=useState(1),[viewCommand,setViewCommand]=useState<PaintViewCommand>({id:0,action:"fit"}),[selectedId,setSelectedId]=useState<string|null>(null),[notice,setNotice]=useState(""),[copyTo,setCopyTo]=useState((finger+1)%5);
+  const [focused,setFocused]=useState(false),[optionsOpen,setOptionsOpen]=useState(true),[materialsOpen,setMaterialsOpen]=useState(false);
   const [guide,setGuide]=useState(false),[guideDepth,setGuideDepth]=useState(.22);
   const [material,setMaterial]=useState<string|null>(null),[snap,setSnap]=useState(false),[grid,setGrid]=useState(false);
-  const root=useRef<HTMLElement>(null);
+  const exitFocus=useCallback(()=>setFocused(false),[]);
+  const root=usePaintFocus(focused,exitFocus);
   const art=doc.fingers[finger],layers=art.layers??[],layer=layers.find(l=>l.id===selectedId),part=art.parts.find(p=>p.id===selectedId),editingLayer=tool==="select"?layer:undefined,selectedStyle=editingLayer??brush,order=artOrder(art),index=selectedId?order.indexOf(selectedId):-1;
   const meta=selectedId?layerState(art,selectedId):null,locked=!!meta?.locked;
   const focusCanvas=()=>requestAnimationFrame(()=>root.current?.querySelector(".paint-viewport")?.scrollIntoView({block:"center"}));
+  function chooseTool(value:DrawingTool|"pan"){setMaterial(null);setMaterialsOpen(false);setTool(value);if(value!=="select")setSelectedId(null);}
+  function openMaterials(){setMaterialsOpen(true);if(focused)setOptionsOpen(false);setMaterial(null);setTool("select");requestAnimationFrame(()=>{const palette=root.current?.querySelector<HTMLDetailsElement>(".material-palette");if(palette){palette.open=true;palette.scrollIntoView({block:"nearest"});}});}
+  function changeView(action:PaintViewCommand["action"]){setViewCommand(c=>({id:c.id+1,action}));focusCanvas();}
   function commitArt(next:FingerArt){onCommit(replacePaintArt(doc,finger,next));setNotice("");}
   function patchLayer(patch:Partial<PaintLayer>){if(layer&&!locked)commitArt({...art,layers:layers.map(l=>l.id===layer.id?{...l,...patch} as PaintLayer:l)});}
   function styleChange(patch:Partial<PaintStyle>){if(editingLayer)patchLayer(patch);else setBrush(s=>({...s,...patch}));}
@@ -28,7 +36,7 @@ export function NailPaintEditor({document:doc,finger,clipboard,onClipboard,onBeg
     else if(part){if(art.parts.length>=12){setNotice("装飾パーツは1本12個までです。");return;}const copy={...part,id:createLocalId("part"),x:Math.min(.7,part.x+.04)};commitArt({...art,parts:[...art.parts,copy],order:[...order,copy.id],layerMeta:{...art.layerMeta,[copy.id]:{...layerState(art,part.id)}}});setSelectedId(copy.id);}
   }
   function moveOrder(delta:number){if(locked||index<0||index+delta<0||index+delta>=order.length)return;const next=[...order];[next[index],next[index+delta]]=[next[index+delta],next[index]];commitArt({...art,order:next});}
-  function place(id:string,point:{x:number;y:number}){const p=snap?{x:Math.abs(point.x)<.025?0:point.x,y:Math.abs(point.y)<.025?0:point.y}:point;const result=placeMaterial(doc,finger,id,p,brush);if(!result){setNotice("素材を配置できません。レイヤー上限または配置位置を確認してください。");return;}onCommit(result.document);setSelectedId(result.id);setTool("select");setMaterial(null);setNotice("素材を配置しました。ハンドルまたは設定で調整できます。");}
+  function place(id:string,point:{x:number;y:number}){const p=snap?{x:Math.abs(point.x)<.025?0:point.x,y:Math.abs(point.y)<.025?0:point.y}:point;const result=placeMaterial(doc,finger,id,p,brush);if(!result){setNotice("素材を配置できません。レイヤー上限または配置位置を確認してください。");return;}onCommit(result.document);setSelectedId(result.id);setTool("select");setMaterial(null);setMaterialsOpen(false);setNotice("素材を配置しました。ハンドルまたは設定で調整できます。");}
   function drop(id:string,client:{x:number;y:number}){const c=root.current?.querySelector<HTMLCanvasElement>(".paint-canvas"),p=c?canvasDropPoint(c,client,art.base):null;if(!p){setNotice("配置を取り消しました。素材を爪の内側へ置いてください。");return;}place(id,p);}
   function copySelection(){if(!selectedId)return;onClipboard(cloneFingerArt({...art,parts:part?[part]:[],layers:layer?[layer]:[],order:[selectedId],layerMeta:{[selectedId]:{...layerState(art,selectedId)}}}));setNotice("選択レイヤーをコピーしました。この編集画面内で別の指にも貼り付けできます。");}
   function paste(){if(!clipboard)return;const copy=cloneFingerArt(clipboard),added=copy.layers?.[0],p=copy.parts[0];if(art.parts.length+copy.parts.length>12||layers.length+(copy.layers?.length??0)>MAX_PAINT_LAYERS||layers.reduce((n,l)=>n+(l.type==="stroke"?l.points.length:0),0)+(added?.type==="stroke"?added.points.length:0)>MAX_FINGER_POINTS||layers.filter(l=>l.tool==="eraser").length+(added?.tool==="eraser"?1:0)>MAX_ERASERS){setNotice("レイヤー・装飾・点数の上限のため貼り付けできません。");return;}const id=added?.id??p?.id;if(!id)return;const shifted=added?{...added,x:Math.min(.7,added.x+.04)}:undefined;commitArt({...art,parts:p?[...art.parts,{...p,x:Math.min(.7,p.x+.04)}]:art.parts,layers:shifted?[...layers,shifted]:layers,order:[...order,id],layerMeta:{...art.layerMeta,[id]:{...layerState(copy,id),visible:true,locked:false}}});setSelectedId(id);setTool("select");setMaterial(null);}
@@ -38,16 +46,17 @@ export function NailPaintEditor({document:doc,finger,clipboard,onClipboard,onBeg
     // Upgrade every finger together; old v1 data is not mutated in place.
     onCommit(replacePaintArt(next,finger,all?next.fingers[finger]:art));setNotice(all?"5本へコピーしました。元に戻すで取り消せます。":`${fingerNames[copyTo]}へコピーしました。`);
   }
-  return <section ref={root} className="nail-paint-editor" aria-label="手描きと図形の拡大編集">
-    <header><h3>{fingerNames[finger]}に描く</h3><p className="hint">ペンでなぞる／図形をドラッグして作成。爪の外は切り抜きます。移動モードでは拡大した画面を動かせます。ライブ試着で画面が狭い場合は試着プレビューを収納してください（カメラは継続します）。</p></header>
-    <div className="paint-tools">
-      <label>描画ツール<select value={tool} onChange={e=>{setMaterial(null);setTool(e.target.value as DrawingTool|"pan");if(e.target.value!=="select")setSelectedId(null);}}>{Object.entries(drawingTools).map(([value,label])=><option key={value} value={value}>{label}</option>)}<option value="pan">表示を移動（描かない）</option></select></label>
-      <div className="workshop-toolbar"><button type="button" className="secondary" disabled={zoom<=1} onClick={()=>{setZoom(z=>Math.max(1,z-.5));focusCanvas();}}>縮小</button><output aria-label="編集の表示倍率">{zoom.toFixed(1)}倍</output><button type="button" className="secondary" disabled={zoom>=2.5} onClick={()=>{setZoom(z=>Math.min(2.5,z+.5));focusCanvas();}}>拡大</button><button type="button" className="secondary" onClick={()=>{setZoom(1);setResetView(n=>n+1);focusCanvas();}}>表示をリセット</button></div>
-    </div>
-    <MaterialPalette selected={material} onChoose={id=>{setMaterial(id);setNotice(`${editorMaterials.find(m=>m.id===id)?.name??"素材"}の配置位置を爪の内側でタップしてください。`);focusCanvas();}} onDrop={drop}/>
+  return <section ref={root} className={`nail-paint-editor${focused?" is-focused":""}`} role={focused?"dialog":undefined} aria-modal={focused?true:undefined} aria-label="手描きと図形の拡大編集">
+    <header className="paint-heading"><h3>{fingerNames[finger]}に描く</h3><button type="button" className="secondary" aria-pressed={focused} onClick={()=>{if(!focused)setOptionsOpen(false);setFocused(v=>!v);}}>{focused?"通常表示に戻る":"画面を広く使う"}</button></header>
+    <p className="hint paint-input-help">1本指で描画、「移動」で画面をドラッグ。2本指ならどのモードでも移動・ピンチできます。「全体表示」で爪先から根元まで戻せます。</p>
+    <PaintViewControls tool={tool} placing={!!material} zoom={zoom} onTool={chooseTool} onMaterials={openMaterials} onView={changeView}/>
+    <div className="paint-materials" hidden={!materialsOpen}><MaterialPalette selected={material} onChoose={id=>{setMaterial(id);setMaterialsOpen(false);setTool("select");setNotice(`${editorMaterials.find(m=>m.id===id)?.name??"素材"}の配置位置を爪の内側でタップしてください。`);focusCanvas();}} onDrop={drop}/></div>
     {material&&<p role="status">素材の配置待ちです。<button type="button" className="secondary" onClick={()=>setMaterial(null)}>素材配置をやめる</button></p>}
-    <PaintCanvas document={doc} finger={finger} tool={tool} style={brush} mirror={mirror} zoom={zoom} resetView={resetView} guide={guide} guideDepth={guideDepth} selectedId={selectedId} material={material} snap={snap} grid={grid} onPlace={place} onSelect={id=>{setSelectedId(id);if(!id)setMaterial(null);}} onBegin={onBegin} onPreview={onPreview} onCommit={onCommit} onCancel={onCancel} onNotice={setNotice} onUndo={onUndo} onRedo={onRedo} onDelete={remove} onCopy={copySelection} onPaste={paste}/>
-    <div className="workshop-toolbar"><button type="button" onClick={onUndo} disabled={!canUndo}>描画を元に戻す</button><button type="button" onClick={onRedo} disabled={!canRedo}>描画をやり直す</button><button type="button" className="secondary" onClick={onClose}>5本一覧に戻る</button></div>
+    <div className="paint-stage-shell"><PaintCanvas document={doc} finger={finger} tool={tool} style={brush} mirror={mirror} viewCommand={viewCommand} getInitialView={getInitialView} onView={onView} onZoom={setZoom} guide={guide} guideDepth={guideDepth} selectedId={selectedId} material={material} snap={snap} grid={grid} onPlace={place} onSelect={id=>{setSelectedId(id);if(!id)setMaterial(null);}} onBegin={onBegin} onPreview={onPreview} onCommit={onCommit} onCancel={onCancel} onNotice={setNotice} onUndo={onUndo} onRedo={onRedo} onDelete={remove} onCopy={copySelection} onPaste={paste}/></div>
+    <div className="paint-quick-actions"><button type="button" aria-label="描画を元に戻す" onClick={onUndo} disabled={!canUndo}>元に戻す</button><button type="button" aria-label="描画をやり直す" onClick={onRedo} disabled={!canRedo}>やり直す</button>{onSave&&<button type="button" aria-label="制作データを保存" onClick={()=>{const r=onSave();setNotice(r.message);}}>保存</button>}{onTryOn&&<button type="button" aria-label="制作中の模様で試着" onClick={()=>{const r=onTryOn();if(!r.ok)setNotice(r.message);}}>試着</button>}<button type="button" className="secondary" aria-label="5本一覧に戻る" onClick={onClose}>一覧へ</button></div>
+    {notice&&<p role="status" className="notice paint-notice">{notice}</p>}
+    <details className="paint-options" open={optionsOpen} onToggle={e=>{setOptionsOpen(e.currentTarget.open);if(focused&&e.currentTarget.open)setMaterialsOpen(false);}}><summary>ブラシ・図形・レイヤーの設定</summary><div className="paint-options-scroll">
+    <label>描画ツール<select value={tool} onChange={e=>chooseTool(e.target.value as DrawingTool|"pan")}>{Object.entries(drawingTools).map(([value,label])=><option key={value} value={value}>{label}</option>)}<option value="pan">表示を移動（描かない）</option></select></label>
     <details open><summary>{editingLayer?"選んだ線・図形の見た目":"ブラシ・図形の設定"}</summary><fieldset disabled={!!editingLayer&&locked} className="paint-style-grid">
       <label className="paint-check"><input type="checkbox" checked={snap} onChange={e=>setSnap(e.target.checked)}/>中央揃え・回転スナップ</label><label className="paint-check"><input type="checkbox" checked={grid} onChange={e=>setGrid(e.target.checked)}/>グリッド（保存しない）</label>
       <label className="paint-check"><input type="checkbox" checked={guide} onChange={e=>setGuide(e.target.checked)}/>フレンチガイド（保存しない）</label>
@@ -79,6 +88,6 @@ export function NailPaintEditor({document:doc,finger,clipboard,onClipboard,onBeg
     </details>
     <details><summary>ほかの指へ模様をコピー</summary><label>コピー先の指<select value={copyTo} onChange={e=>setCopyTo(Number(e.target.value))}>{fingerNames.map((name,i)=><option key={i} value={i} disabled={i===finger}>{name}</option>)}</select></label><div className="workshop-toolbar"><button type="button" onClick={()=>copy(false)}>この指へデザインをコピー</button><button type="button" onClick={()=>copy(true)}>手描きも装飾も5本へコピー</button></div><p className="hint">色・形・装飾もコピーします。コピー前のデザインはUndoで戻せます。</p></details>
     <p className="hint">1本につき手描き32レイヤー・4096点まで。長い線は最大256点へ間引いて滑らかにつなぎます。消しゴムは8本まで。拡大率と表示位置はデザインに保存しません。</p>
-    {notice&&<p role="status">{notice}</p>}
+    </div></details>
   </section>;
 }

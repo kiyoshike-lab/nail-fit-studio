@@ -7,34 +7,32 @@ import { clientToPaint, hitPaintLayer, layerBounds, paintGeometry, paintNailPose
 import { editorObject, objectBounds, objectHandles, objectScale, replaceEditorObject, selectableObject, transformObject, type EditorObject } from "@/lib/editorObjects";
 import { isStrokeTool, MAX_ERASERS, MAX_FINGER_POINTS, MAX_PAINT_LAYERS, MAX_STROKE_POINTS, type DrawingTool, type PaintLayer, type PaintPoint, type PaintStyle, type StrokeLayer } from "@/lib/paintTypes";
 import type { DesignDocument } from "@/lib/workshopTypes";
+import type { PaintView, PaintViewCommand } from "@/lib/paintViewport";
+import { usePaintViewport } from "./usePaintViewport";
 
-type Props={document:DesignDocument;finger:number;tool:DrawingTool|"pan";style:PaintStyle;mirror:boolean;zoom:number;resetView:number;guide:boolean;guideDepth:number;selectedId:string|null;material:string|null;snap:boolean;grid:boolean;onPlace:(id:string,point:PaintPoint)=>void;onSelect:(id:string|null)=>void;onBegin:()=>void;onPreview:(d:DesignDocument)=>void;onCommit:(d:DesignDocument)=>void;onCancel:()=>void;onNotice:(message:string)=>void;onUndo:()=>void;onRedo:()=>void;onDelete:()=>void;onCopy:()=>void;onPaste:()=>void};
-type Gesture={pointer:number;start:DesignDocument;from:PaintPoint;last:PaintPoint;layer:PaintLayer|null;object?:EditorObject;action?:"move"|"scale"|"rotate";snap?:boolean;moving:boolean;mirrorGrab?:boolean;pan?:{x:number;y:number;left:number;top:number};points:PaintPoint[];limit?:number};
+type Props={document:DesignDocument;finger:number;tool:DrawingTool|"pan";style:PaintStyle;mirror:boolean;viewCommand:PaintViewCommand;getInitialView?:()=>PaintView|undefined;onView?:(view:PaintView)=>void;onZoom:(zoom:number)=>void;guide:boolean;guideDepth:number;selectedId:string|null;material:string|null;snap:boolean;grid:boolean;onPlace:(id:string,point:PaintPoint)=>void;onSelect:(id:string|null)=>void;onBegin:()=>void;onPreview:(d:DesignDocument)=>void;onCommit:(d:DesignDocument)=>void;onCancel:()=>void;onNotice:(message:string)=>void;onUndo:()=>void;onRedo:()=>void;onDelete:()=>void;onCopy:()=>void;onPaste:()=>void};
+type Gesture={pointer:number;start:DesignDocument;from:PaintPoint;last:PaintPoint;layer:PaintLayer|null;object?:EditorObject;action?:"move"|"scale"|"rotate";snap?:boolean;moving:boolean;mirrorGrab?:boolean;placement?:{id:string;x:number;y:number};ignored?:"draw"|"select";points:PaintPoint[];limit?:number};
 
 // CSS scroll/zoom and backing DPR are consumed exactly once. Reject drops
 // outside the visible viewport or real nail path instead of silently clamping.
 export function canvasDropPoint(canvas:HTMLCanvasElement,client:PaintPoint,base:DesignDocument["fingers"][number]["base"]):PaintPoint|null {
-  const r=canvas.getBoundingClientRect(),v=canvas.parentElement!.getBoundingClientRect();
+  const r=canvas.getBoundingClientRect(),box=canvas.closest<HTMLElement>(".paint-viewport");if(!box)return null;const v=box.getBoundingClientRect();
   if(client.x<Math.max(r.left,v.left)||client.x>Math.min(r.right,v.right)||client.y<Math.max(r.top,v.top)||client.y>Math.min(r.bottom,v.bottom))return null;
   const point=clientToPaint(client,r,{width:canvas.width,height:canvas.height},base),g=paintGeometry(canvas.width,canvas.height,base),ctx=canvas.getContext("2d");if(!ctx)return null;
   ctx.save();try{ctx.translate(g.center.x,g.center.y);buildNailPath(ctx,g.width,g.height,base.shape);return ctx.isPointInPath(g.center.x+point.x*g.width,g.center.y+point.y*g.width)?point:null;}finally{ctx.restore();}
 }
 
 export function PaintCanvas(props:Props){
-  const {document:doc,finger,tool,style,mirror,zoom,resetView,guide,guideDepth,selectedId,material,snap,grid,onPlace,onSelect,onBegin,onPreview,onCommit,onCancel,onNotice,onUndo,onRedo,onDelete,onCopy,onPaste}=props;
-  const node=useRef<HTMLCanvasElement>(null),viewport=useRef<HTMLDivElement>(null),gesture=useRef<Gesture|null>(null),frame=useRef(0),alive=useRef(true);
-  const [cssWidth,setCssWidth]=useState(280),[failed,setFailed]=useState(false),[retry,setRetry]=useState(0);
-  const initialScroll=useRef(false),previousZoom=useRef(zoom),previousReset=useRef(resetView),cancelRef=useRef(onCancel);
+  const {document:doc,finger,tool,style,mirror,viewCommand,getInitialView,onView,onZoom,guide,guideDepth,selectedId,material,snap,grid,onPlace,onSelect,onBegin,onPreview,onCommit,onCancel,onNotice,onUndo,onRedo,onDelete,onCopy,onPaste}=props;
+  const node=useRef<HTMLCanvasElement>(null),viewport=useRef<HTMLDivElement>(null),world=useRef<HTMLDivElement>(null),gesture=useRef<Gesture|null>(null),frame=useRef(0),alive=useRef(true);
+  const [failed,setFailed]=useState(false),[retry,setRetry]=useState(0);
+  const cancelRef=useRef(onCancel);
   useEffect(()=>{cancelRef.current=onCancel;},[onCancel]);
-  const art=doc.fingers[finger],width=cssWidth*zoom,height=width*1.6;
-  useEffect(()=>{const box=viewport.current;if(!box)return;const resize=()=>{if(box.clientWidth>0)setCssWidth(Math.min(400,box.clientWidth));};const observer=new ResizeObserver(resize);observer.observe(box);resize();return()=>observer.disconnect();},[]);
-  useEffect(()=>{const box=viewport.current;if(!box)return;
-    if(!initialScroll.current||previousReset.current!==resetView){if(cssWidth!==Math.min(400,box.clientWidth))return;box.scrollTop=box.scrollHeight;box.scrollLeft=(box.scrollWidth-box.clientWidth)/2;initialScroll.current=true;}
-    else if(previousZoom.current!==zoom){const ratio=zoom/previousZoom.current;box.scrollLeft=(box.scrollLeft+box.clientWidth/2)*ratio-box.clientWidth/2;box.scrollTop=(box.scrollTop+box.clientHeight/2)*ratio-box.clientHeight/2;}
-    previousZoom.current=zoom;previousReset.current=resetView;
-  },[cssWidth,zoom,resetView]);
+  const art=doc.fingers[finger];
+  const navigation=usePaintViewport({getCanvas:()=>node.current,getViewport:()=>viewport.current,getWorld:()=>world.current,base:art.base,command:viewCommand,getInitialView,onView,onZoom,cancelPaint:cancelPaintGesture});
+  const {width,height,dpr}=navigation.raster;
   useEffect(()=>{let current=true;const canvas=node.current;if(!canvas)return;
-    const dpr=Math.min(window.devicePixelRatio||1,2),scale=Math.min(dpr,Math.sqrt(4_000_000/(width*height)));
+    const scale=Math.min(dpr,Math.sqrt(4_000_000/(width*height)));
     const bw=Math.max(1,Math.round(width*scale)),bh=Math.max(1,Math.round(height*scale));
     if(canvas.width!==bw)canvas.width=bw;if(canvas.height!==bh)canvas.height=bh;
     async function paint(){const ctx=canvas!.getContext("2d");if(!ctx)throw Error("Canvas unavailable");
@@ -54,8 +52,8 @@ export function PaintCanvas(props:Props){
       setFailed(false);
     }
     void paint().catch(()=>{if(current)setFailed(true);});return()=>{current=false;};
-  },[art,doc.detail,width,height,selectedId,retry,guide,guideDepth,grid,snap]);
-  useEffect(()=>{alive.current=true;return()=>{alive.current=false;cancelAnimationFrame(frame.current);if(gesture.current&&!gesture.current.pan){gesture.current=null;cancelRef.current();}};},[]);
+  },[node,art,doc.detail,width,height,dpr,selectedId,retry,guide,guideDepth,grid,snap]);
+  useEffect(()=>{alive.current=true;return()=>{alive.current=false;cancelAnimationFrame(frame.current);if(gesture.current&&!gesture.current.placement&&!gesture.current.ignored){gesture.current=null;cancelRef.current();}};},[]);
   function point(e:Pick<PointerEvent<HTMLCanvasElement>,"clientX"|"clientY">){const c=node.current!;return boundedPoint(clientToPaint({x:e.clientX,y:e.clientY},c.getBoundingClientRect(),{width:c.width,height:c.height},art.base));}
   function nextDocument(active:Gesture):DesignDocument {
     const f=active.start.fingers[finger],g=paintGeometry(node.current!.width,node.current!.height,f.base),aspect=g.height/g.width;
@@ -64,19 +62,23 @@ export function PaintCanvas(props:Props){
     if(layer.type==="stroke")layer={...layer,points:active.points};else layer={...makeShape(layer.tool,active.from,active.last,aspect,layer,layer.mirror),id:layer.id};
     const layers=[...(f.layers??[]),layer];return replacePaintArt(active.start,finger,{...f,layers,order:artOrder({...f,layers})});
   }
-  function down(e:PointerEvent<HTMLCanvasElement>){
-    if(!e.isPrimary||gesture.current||(e.pointerType==="mouse"&&e.button!==0)||e.currentTarget.width===0)return;
-    const from=point(e),g=paintGeometry(e.currentTarget.width,e.currentTarget.height,art.base),aspect=g.height/g.width;
-    e.currentTarget.focus({preventScroll:true});e.preventDefault();
-    if(material){const p=canvasDropPoint(e.currentTarget,{x:e.clientX,y:e.clientY},art.base);if(p)onPlace(material,p);else onNotice("爪の内側をタップしてください。");return;}
-    if(tool==="pan"){gesture.current={pointer:e.pointerId,start:doc,from,last:from,layer:null,moving:false,points:[],pan:{x:e.clientX,y:e.clientY,left:viewport.current!.scrollLeft,top:viewport.current!.scrollTop}};e.currentTarget.setPointerCapture(e.pointerId);return;}
-    if(tool!=="select"&&!canvasDropPoint(e.currentTarget,{x:e.clientX,y:e.clientY},art.base)){onNotice("爪の内側から描き始めてください。");return;}
+  function down(e:PointerEvent<HTMLDivElement>){
+    const c=node.current;if(!c||(e.pointerType==="mouse"&&e.button!==0)||c.width===0)return;
+    c.focus({preventScroll:true});e.preventDefault();e.currentTarget.setPointerCapture(e.pointerId);
+    if(navigation.pointerDown(e,tool==="pan"))return;
+    if(tool==="pan")return;
+    if(!e.isPrimary||gesture.current)return;
+    const from=point(e),g=paintGeometry(c.width,c.height,art.base),aspect=g.height/g.width;
+    // A second finger must be able to turn a pending tap into a pinch without
+    // ever placing an unwanted part or adding a history entry.
+    if(material){gesture.current={pointer:e.pointerId,start:doc,from,last:from,layer:null,moving:false,points:[],placement:{id:material,x:e.clientX,y:e.clientY}};return;}
+    if(tool!=="select"&&!canvasDropPoint(c,{x:e.clientX,y:e.clientY},art.base)){gesture.current={pointer:e.pointerId,start:doc,from,last:from,layer:null,moving:false,points:[],ignored:"draw"};return;}
     let layer:PaintLayer|null=null,object:EditorObject|undefined,action:"move"|"scale"|"rotate"="move",mirrorGrab=false;
     if(tool==="select"){
-      const selected=editorObject(art,selectedId),cssNail=g.width/e.currentTarget.width*e.currentTarget.getBoundingClientRect().width;
+      const selected=editorObject(art,selectedId),cssNail=g.width/c.width*c.getBoundingClientRect().width;
       if(selected&&layerState(art,selected.id).visible&&!layerState(art,selected.id).locked){const h=objectHandles(selected,aspect,28/cssNail),radius=e.pointerType==="touch"?22:14;for(const kind of["rotate","scale"] as const)if(Math.hypot(from.x-h[kind].x,from.y-h[kind].y)<=radius/cssNail){object=selected;action=kind;break;}}
       object??=selectableObject(art,from,aspect,selectedId);
-      if(!object){onSelect(null);return;}onSelect(object.id);
+      if(!object){gesture.current={pointer:e.pointerId,start:doc,from,last:from,layer:null,moving:false,points:[],ignored:"select"};return;}onSelect(object.id);
       mirrorGrab=action==="move"&&!("kind"in object)&&object.mirror&&!hitPaintLayer(from,{...object,mirror:false},aspect);
     }else{
       const layers=art.layers??[];
@@ -85,16 +87,17 @@ export function PaintCanvas(props:Props){
       layer=isStrokeTool(tool)?{...style,id:createLocalId("stroke"),type:"stroke",tool,x:0,y:0,rotation:0,scale:1,mirror,points:[from]}:makeShape(tool,from,from,aspect,style,mirror);onSelect(layer.id);
     }
     const limit=Math.min(MAX_STROKE_POINTS,MAX_FINGER_POINTS-(art.layers??[]).reduce((n,l)=>n+(l.type==="stroke"?l.points.length:0),0));
-    onBegin();gesture.current={pointer:e.pointerId,start:doc,from,last:from,layer,object,action,snap,mirrorGrab,moving:!!object,limit,points:layer?.type==="stroke"?[from]:[]};e.currentTarget.setPointerCapture(e.pointerId);onPreview(nextDocument(gesture.current));
+    onBegin();gesture.current={pointer:e.pointerId,start:doc,from,last:from,layer,object,action,snap,mirrorGrab,moving:!!object,limit,points:layer?.type==="stroke"?[from]:[]};onPreview(nextDocument(gesture.current));
   }
-  function move(e:PointerEvent<HTMLCanvasElement>){const active=gesture.current;if(!active||active.pointer!==e.pointerId)return;e.preventDefault();
-    if(active.pan){viewport.current!.scrollLeft=active.pan.left+active.pan.x-e.clientX;viewport.current!.scrollTop=active.pan.top+active.pan.y-e.clientY;return;}
+  function move(e:PointerEvent<HTMLDivElement>){if(navigation.pointerMove(e)){e.preventDefault();return;}const active=gesture.current;if(!active||active.pointer!==e.pointerId)return;e.preventDefault();
+    if(active.placement||active.ignored)return;
     active.snap=snap||e.shiftKey;
     for(const event of [...(e.nativeEvent.getCoalescedEvents?.()??[]),e.nativeEvent]){active.last=point(event);if(!active.moving&&active.layer?.type==="stroke")active.points=appendPoint(active.points,active.last,active.limit);}
     if(!frame.current)frame.current=requestAnimationFrame(()=>{frame.current=0;if(alive.current&&gesture.current===active)onPreview(nextDocument(active));});
   }
-  function finish(e:PointerEvent<HTMLCanvasElement>,cancel=false){const active=gesture.current;if(!active||active.pointer!==e.pointerId)return;cancelAnimationFrame(frame.current);frame.current=0;
-    if(active.pan){gesture.current=null;return;}
+  function finish(e:PointerEvent<HTMLDivElement>,cancel=false){if(cancel){cancelGesture();return;}if(navigation.pointerEnd(e))return;const active=gesture.current;if(!active||active.pointer!==e.pointerId)return;cancelAnimationFrame(frame.current);frame.current=0;
+    if(active.placement){gesture.current=null;if(Math.hypot(e.clientX-active.placement.x,e.clientY-active.placement.y)<=8){const p=canvasDropPoint(node.current!,{x:e.clientX,y:e.clientY},art.base);if(p)onPlace(active.placement.id,p);else onNotice("爪の内側をタップしてください。");}return;}
+    if(active.ignored){gesture.current=null;if(active.ignored==="select")onSelect(null);else onNotice("爪の内側から描き始めてください。画面の移動は2本指か「移動」を使えます。");return;}
     if(!cancel){active.last=point(e);if(!active.moving&&active.layer?.type==="stroke")active.points=appendPoint(active.points,active.last,active.limit);
       let next=nextDocument(active);const layers=next.fingers[finger].layers!;
       if(!active.moving&&active.layer?.type==="stroke"){
@@ -110,14 +113,15 @@ export function PaintCanvas(props:Props){
     else if(key==="+"||key==="-"||key==="="){const ratio=key==="-"?.95:1.05;next="kind"in o?{...o,size:clamp(o.size*ratio,.06,.6)}:{...o,scale:clamp(o.scale*ratio,.1,3)};}
     onCommit(replaceEditorObject(doc,finger,next));
   }
-  function cancelGesture(){const active=gesture.current;if(!active)return;cancelAnimationFrame(frame.current);frame.current=0;gesture.current=null;if(!active.pan)onCancel();}
-  return <><div ref={viewport} className="paint-viewport" aria-label="拡大編集領域"><canvas ref={node} className="paint-canvas" role="img" style={{width,height,touchAction:"none"}} tabIndex={0} aria-label="爪に描くキャンバス" onPointerDown={down} onPointerMove={move} onPointerUp={e=>finish(e)} onPointerCancel={e=>finish(e,true)} onBlur={cancelGesture} onLostPointerCapture={e=>{if(gesture.current?.pointer===e.pointerId)finish(e,true);}}
-    onKeyDown={e=>{const command=e.ctrlKey||e.metaKey;if(e.key==="Escape"){if(gesture.current)cancelGesture();else onSelect(null);e.preventDefault();return;}if(gesture.current)return;
+  function cancelPaintGesture(){const active=gesture.current;if(!active)return;cancelAnimationFrame(frame.current);frame.current=0;gesture.current=null;if(!active.placement&&!active.ignored)onCancel();}
+  function cancelGesture(){cancelPaintGesture();navigation.cancel();}
+  return <><div ref={viewport} className="paint-viewport" aria-label="拡大編集領域" data-paint-mode={material?"place":tool} style={{touchAction:"none"}} onPointerDown={down} onPointerMove={move} onPointerUp={e=>finish(e)} onPointerCancel={e=>finish(e,true)} onLostPointerCapture={e=>{if(navigation.hasPointer(e.pointerId)||gesture.current?.pointer===e.pointerId)cancelGesture();}}><div ref={world} className="paint-world"><canvas ref={node} className="paint-canvas" role="img" style={{touchAction:"none"}} tabIndex={0} aria-label="爪に描くキャンバス" onBlur={cancelGesture}
+    onKeyDown={e=>{const command=e.ctrlKey||e.metaKey;if(e.key==="Escape"){if(gesture.current||navigation.busy()){cancelGesture();e.preventDefault();}else if(selectedId||material){onSelect(null);e.preventDefault();}return;}if(gesture.current||navigation.busy())return;
       if(command&&e.key.toLowerCase()==="z"){e.preventDefault();(e.shiftKey?onRedo:onUndo)();}
       else if(command&&e.key.toLowerCase()==="c"){e.preventDefault();onCopy();}else if(command&&e.key.toLowerCase()==="v"){e.preventDefault();onPaste();}
       else if(e.key==="Delete"||e.key==="Backspace"){e.preventDefault();onDelete();}
       else if(e.key==="Enter"&&material){e.preventDefault();onPlace(material,{x:0,y:0});}
-      else if(e.key.startsWith("Arrow")||["+","-","="].includes(e.key)){e.preventDefault();nudge(e.key,e.altKey,e.shiftKey);}}}/></div>
+      else if(e.key.startsWith("Arrow")||["+","-","="].includes(e.key)){e.preventDefault();nudge(e.key,e.altKey,e.shiftKey);}}}/></div></div>
     <p className="hint">選択後：四角いハンドルで拡縮、丸いハンドルで回転。矢印で微調整、Alt+矢印で回転、+/-で拡縮、Ctrl/⌘+C・Vでコピー・貼り付け。Shiftで大きく移動/15度回転。</p>
     {failed&&<div role="alert"><p>描画を表示できませんでした。編集内容は保持しています。レイヤーを減らすか再試行してください。</p><button type="button" onClick={()=>setRetry(n=>n+1)}>描画を再試行</button></div>}</>;
 }

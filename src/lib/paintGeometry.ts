@@ -14,6 +14,10 @@ export function clientToPaint(client:PaintPoint,rect:{left:number;top:number;wid
   const g=paintGeometry(size.width,size.height,base);
   return {x:((client.x-rect.left)/rect.width*size.width-g.center.x)/g.width,y:((client.y-rect.top)/rect.height*size.height-g.center.y)/g.width};
 }
+export function paintToClient(point:PaintPoint,rect:{left:number;top:number;width:number;height:number},size:{width:number;height:number},base:NailDesign):PaintPoint {
+  const g=paintGeometry(size.width,size.height,base);
+  return {x:rect.left+(g.center.x+point.x*g.width)/size.width*rect.width,y:rect.top+(g.center.y+point.y*g.width)/size.height*rect.height};
+}
 export function layerBounds(l:PaintLayer) {
   if(l.type==="shape")return {x:-l.width/2,y:-l.height/2,width:l.width,height:l.height};
   const xs=l.points.map(p=>p.x),ys=l.points.map(p=>p.y),pad=l.lineWidth/2;

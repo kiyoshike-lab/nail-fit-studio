@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { createLocalId } from "@/lib/storage";
@@ -10,24 +10,31 @@ import type { NailDesign } from "@/lib/types";
 import { ArtworkCanvas } from "./ArtworkCanvas";
 import { trackEvent } from "@/lib/analytics";
 import { artOrder, cloneFingerArt, layerState, withLayerMeta } from "@/lib/paintData";
+import type { PaintView } from "@/lib/paintViewport";
+import { deleteWorkshopRecovery } from "@/lib/workshopRecovery";
+import { useWorkshopRecovery } from "./useWorkshopRecovery";
 const NailPaintEditor = dynamic(() => import("./NailPaintEditor").then(m=>m.NailPaintEditor), {ssr:false,loading:()=> <p role="status">素材・描画エディターを準備しています…</p>});
 const NailStylePanel = dynamic(() => import("./NailStylePanel").then(m=>m.NailStylePanel), {ssr:false,loading:()=> <p role="status">質感の見本を準備しています…</p>});
 
 const fingerNames=["親指","人差し指","中指","薬指","小指"];
 const shapes={natural:"ナチュラル",round:"ラウンド",oval:"オーバル",squoval:"スクオバル",almond:"アーモンド",coffin:"バレリーナ",square:"スクエア",stiletto:"スティレット"};
-type Props={initial:DesignDocument;onChange?:(doc:DesignDocument)=>void;onDone?:(doc:DesignDocument,persisted:boolean)=>void;onCancel?:()=>void};
-export default function WorkshopEditor({initial,onChange,onDone,onCancel}:Props){
+type Props={initial:DesignDocument;recovered?:boolean;onDirtyChange?:(dirty:boolean)=>void;onChange?:(doc:DesignDocument)=>void;onDone?:(doc:DesignDocument,persisted:boolean)=>void;onCancel?:()=>void};
+export default function WorkshopEditor({initial,recovered=false,onDirtyChange,onChange,onDone,onCancel}:Props){
   const router=useRouter();
   const openedWith=useRef(initial);
   const [history,setHistory]=useState<DocumentHistory>({past:[],present:initial,future:[]});
+  const [committed,setCommitted]=useState(initial),[checkpoint,setCheckpoint]=useState<DesignDocument|null>(recovered?null:initial);
   const [finger,setFinger]=useState(0),[partId,setPartId]=useState<string|null>(null),[kind,setKind]=useState<PartKind>("silver-holo"),[folder,setFolder]=useState<CollectionKind>(()=>readWorkshopLibrary().entries.find(e=>e.document.id===initial.id)?.folder??"created"),[notice,setNotice]=useState("");
   const drag=useRef<{id:number;start:DocumentHistory;partId:string}|null>(null);
   const paintStart=useRef<DocumentHistory|null>(null);
+  const paintViews=useRef(new Map<number,PaintView>());
   const [paintOpen,setPaintOpen]=useState(false);
   const [stylesOpen,setStylesOpen]=useState(false);
   const [clipboard,setClipboard]=useState<FingerArt|null>(null);
   const current=history.present,art=current.fingers[finger],part=art.parts.find(p=>p.id===partId);
-  function apply(next:DesignDocument,record=true){const updated={...next,updatedAt:new Date().toISOString()};setHistory(h=>record?historyChange(h,updated):{...h,present:updated,future:[]});onChange?.(updated);setNotice("");}
+  const recovery=useWorkshopRecovery({document:committed,checkpoint,isInteracting:()=>!!paintStart.current||!!drag.current});
+  useEffect(()=>{onDirtyChange?.(recovery.dirty);},[onDirtyChange,recovery.dirty]);
+  function apply(next:DesignDocument,record=true){const updated={...next,updatedAt:new Date().toISOString()};setHistory(h=>record?historyChange(h,updated):{...h,present:updated,future:[]});if(record)setCommitted(updated);onChange?.(updated);setNotice("");}
   function fingerPatch(patch:Partial<FingerArt>){let next={...art,...patch};if(current.schema!==1)next.order=artOrder(next);if(current.schema>=3)next=withLayerMeta(next);apply({...current,fingers:current.fingers.map((f,i)=>i===finger?next:f)});}
   function basePatch(patch:Partial<NailDesign>){fingerPatch({base:{...art.base,...patch}});}
   function partPatch(patch:Partial<NailPart>){if(part&&!layerState(art,part.id).locked)fingerPatch({parts:art.parts.map(p=>p.id===partId?{...p,...patch}:p)});}
@@ -36,38 +43,40 @@ export default function WorkshopEditor({initial,onChange,onDone,onCancel}:Props)
   function movePart(delta:number){if(!part||layerState(art,part.id).locked)return;if(current.schema!==1){const order=artOrder(art),i=order.indexOf(part.id),to=i+delta;if(to<0||to>=order.length)return;[order[i],order[to]]=[order[to],order[i]];fingerPatch({order});return;}const list=[...art.parts],index=list.findIndex(p=>p.id===partId),to=index+delta;if(to<0||to>=list.length)return;[list[index],list[to]]=[list[to],list[index]];fingerPatch({parts:list});}
   function dragPosition(event:PointerEvent<HTMLDivElement>){const canvas=event.currentTarget.querySelector("canvas");if(!canvas)return null;const r=canvas.getBoundingClientRect(),w=canvas.width,h=canvas.height;const g=nailCanvasGeometry({x:50,y:84,width:45,height:32,rotation:0},w,h,art.base.length,["square","squoval"].includes(art.base.shape)?1.05:art.base.shape==="coffin"?1.1:1);return{x:Math.max(-.45,Math.min(.45,((event.clientX-r.left)/r.width*w-g.center.x)/g.width)),y:Math.max(-.45,Math.min(.45,((event.clientY-r.top)/r.height*h-g.center.y)/g.height))};}
   function move(event:PointerEvent<HTMLDivElement>){if(drag.current?.id!==event.pointerId)return;const point=dragPosition(event);if(!point)return;const updated={...current,fingers:current.fingers.map((f,i)=>i===finger?{...f,parts:f.parts.map(p=>p.id===drag.current?.partId?{...p,...point}:p)}:f)};apply(updated,false);}
-  function finish(event:PointerEvent<HTMLDivElement>,cancel=false){const active=drag.current;if(!active||active.id!==event.pointerId)return;drag.current=null;if(cancel){setHistory(active.start);onChange?.(active.start.present);return;}setHistory(h=>({...h,past:[...active.start.past,active.start.present].slice(-40),future:[]}));}
-  function save(){if(!saveWorkshopDocument(current,folder)){setNotice("保存できませんでした。容量・ブラウザ設定を確認してください。未知・破損データは上書きしません。保存枠は40件です。");return;}
+  function finish(event:PointerEvent<HTMLDivElement>,cancel=false){const active=drag.current;if(!active||active.id!==event.pointerId)return;drag.current=null;if(cancel){setHistory(active.start);onChange?.(active.start.present);return;}setHistory(h=>({...h,past:[...active.start.past,active.start.present].slice(-40),future:[]}));setCommitted(current);}
+  function save(){if(!saveWorkshopDocument(current,folder)){const message="保存できませんでした。容量・ブラウザ設定を確認してください。未知・破損データは上書きしません。保存枠は40件です。";setNotice(message);return {ok:false,message};}
     // A saved standalone project should survive refresh; a brand-new /create
     // still starts empty. Native replaceState does not remount the inline live
     // editor or replace its active MediaStream/history.
     if(!onDone&&window.location.pathname==="/create"){const url=new URL(window.location.href);url.searchParams.set("id",current.id);window.history.replaceState(window.history.state,"",url);}
-    setNotice("デザインを保存しました。この端末・ブラウザのコレクションから再編集できます。");trackEvent("custom_design_saved",{finger_count:5,part_count:current.fingers.reduce((n,f)=>n+f.parts.length,0)});}
+    setCheckpoint(current);setCommitted(current);const cleaned=deleteWorkshopRecovery(current.id);
+    setNotice("デザインを保存しました。この端末・ブラウザのコレクションから再編集できます。");trackEvent("custom_design_saved",{finger_count:5,part_count:current.fingers.reduce((n,f)=>n+f.parts.length,0)});return {ok:true,message:cleaned?"制作データの保存が完了しました。":"保存は完了しましたが、一時退避データを整理できませんでした。"};}
   function tryOn(){
-    if(!parseDocument(current)){setNotice("デザイン名・パーツの設定を確認してください。");return;}
+    if(!parseDocument(current)){const message="デザイン名・パーツの設定を確認してください。";setNotice(message);return {ok:false,message};}
     const persisted=saveWorkshopDraft(current);
-    if(!persisted&&!onDone){setNotice("下書きを保存できませんでした。名前・保存設定・空き容量を確認してください。");return;}
+    if(!persisted&&!onDone){const message="下書きを保存できませんでした。名前・保存設定・空き容量を確認してください。";setNotice(message);return {ok:false,message};}
     trackEvent("custom_design_tryon",{part_count:current.fingers.reduce((n,f)=>n+f.parts.length,0)});
     // Inline editing can keep using its in-memory design even when storage is
     // unavailable. Cross-route handoff must persist first to avoid losing it.
     if(onDone)onDone(current,persisted);else router.push("/try-on?draft=1");
+    return {ok:true,message:"試着へ反映しました。"};
   }
   return <section className="workshop-editor" aria-labelledby="workshop-editor-title">
-    <h2 id="workshop-editor-title">自分のネイルを作る</h2><p className="hint">図で制作し、写真・カメラで試着できます。装飾は軽量な立体風表現です。</p><p className="hint">自動保存ではありません。編集後は「デザインを保存」か「このデザインで試着」を押してください。</p>
+    <h2 id="workshop-editor-title">自分のネイルを作る</h2><p className="hint">図で制作し、写真・カメラで試着できます。装飾は軽量な立体風表現です。</p><p className="hint">編集中の内容はこのブラウザへ一時退避します。コレクションへの正式保存は「デザインを保存」を押してください。写真・映像は退避しません。</p>
     <label>デザイン名<input maxLength={80} value={current.name} onChange={e=>apply({...current,name:e.target.value})}/></label>
-    <div className="workshop-toolbar"><button type="button" disabled={!history.past.length} onClick={()=>{const next=historyUndo(history);setHistory(next);onChange?.(next.present);}}>元に戻す</button><button type="button" disabled={!history.future.length} onClick={()=>{const next=historyRedo(history);setHistory(next);onChange?.(next.present);}}>やり直す</button><button type="button" onClick={()=>apply({...createDocument(),id:current.id,createdAt:current.createdAt,name:current.name})}>初期化（取り消せます）</button></div>
+    <div className="workshop-toolbar"><button type="button" disabled={!history.past.length} onClick={()=>{const next=historyUndo(history);setHistory(next);setCommitted(next.present);onChange?.(next.present);}}>元に戻す</button><button type="button" disabled={!history.future.length} onClick={()=>{const next=historyRedo(history);setHistory(next);setCommitted(next.present);onChange?.(next.present);}}>やり直す</button><button type="button" onClick={()=>apply({...createDocument(),id:current.id,createdAt:current.createdAt,name:current.name})}>初期化（取り消せます）</button></div>
     <div className="finger-tabs" role="group" aria-label="制作する指">{fingerNames.map((name,i)=><button type="button" key={name} aria-pressed={i===finger} className={i===finger?"is-selected":""} onClick={()=>{setFinger(i);setPartId(null);}}>{name}</button>)}</div>
     <div className="workshop-toolbar"><button type="button" className="secondary" aria-expanded={stylesOpen} aria-controls="nail-style-library" onClick={()=>setStylesOpen(v=>!v)}>質感・デザインを探す（19種類）</button></div>
     {stylesOpen&&<div id="nail-style-library"><NailStylePanel document={current} finger={finger} onChange={next=>apply(next)}/></div>}
     <div className="workshop-toolbar"><button type="button" aria-expanded={paintOpen} aria-controls="paint-editor-area" onClick={()=>{setPaintOpen(v=>!v);if(!paintOpen)requestAnimationFrame(()=>document.querySelector("#paint-editor-area .paint-viewport")?.scrollIntoView({block:"center"}));}}>{paintOpen?"基本設定・パーツに戻る":"拡大して絵を描く"}</button></div>
-    {paintOpen&&<div id="paint-editor-area"><NailPaintEditor key={finger} document={current} finger={finger} clipboard={clipboard} onClipboard={setClipboard}
+    {paintOpen&&<div id="paint-editor-area"><NailPaintEditor key={finger} document={current} finger={finger} clipboard={clipboard} onClipboard={setClipboard} getInitialView={()=>paintViews.current.get(finger)} onView={view=>paintViews.current.set(finger,view)} onSave={save} onTryOn={tryOn}
       onBegin={()=>{paintStart.current=history;}}
       onPreview={next=>apply(next,false)}
-      onCommit={next=>{const start=paintStart.current;paintStart.current=null;if(start){const updated={...next,updatedAt:new Date().toISOString()};setHistory(historyChange(start,updated));onChange?.(updated);}else apply(next);}}
+      onCommit={next=>{const start=paintStart.current;paintStart.current=null;if(start){const updated={...next,updatedAt:new Date().toISOString()};setHistory(historyChange(start,updated));setCommitted(updated);onChange?.(updated);}else apply(next);}}
       onCancel={()=>{const start=paintStart.current;paintStart.current=null;if(start){setHistory(start);onChange?.(start.present);}}}
       canUndo={!!history.past.length} canRedo={!!history.future.length}
-      onUndo={()=>{const next=historyUndo(history);setHistory(next);onChange?.(next.present);}}
-      onRedo={()=>{const next=historyRedo(history);setHistory(next);onChange?.(next.present);}}
+      onUndo={()=>{const next=historyUndo(history);setHistory(next);setCommitted(next.present);onChange?.(next.present);}}
+      onRedo={()=>{const next=historyRedo(history);setHistory(next);setCommitted(next.present);onChange?.(next.present);}}
       onClose={()=>{setPaintOpen(false);requestAnimationFrame(()=>document.getElementById("workshop-five-overview")?.scrollIntoView({block:"center"}));}}/></div>}
     {!paintOpen&&<div className="workshop-grid"><div className="workshop-drawing" style={{touchAction:part?"none":"pan-y"}} onPointerDown={e=>{if(!part||layerState(art,part.id).locked||!(e.target instanceof HTMLCanvasElement))return;drag.current={id:e.pointerId,start:history,partId:part.id};e.currentTarget.setPointerCapture(e.pointerId);}} onPointerMove={move} onPointerUp={e=>finish(e)} onPointerCancel={e=>finish(e,true)}><ArtworkCanvas document={current} selectedFinger={finger}/><p className="hint">{part?"選択中のパーツを図の中でドラッグできます。":"パーツを選ぶと位置を動かせます。"}爪の外は切り抜かれます。</p></div>
     <div className="workshop-fields"><details open><summary>色・形・基本の模様</summary><div className="field-grid">
@@ -88,8 +97,10 @@ export default function WorkshopEditor({initial,onChange,onDone,onCancel}:Props)
     <details><summary>ほかの指へコピー・保存</summary><button type="button" onClick={()=>apply({...current,fingers:current.fingers.map(()=>cloneFingerArt(art))})}>選択中の指を5本すべてにコピー</button><label>保存先<select value={folder} onChange={e=>setFolder(e.target.value as CollectionKind)}>{Object.entries(collectionNames).map(([value,name])=><option key={value} value={value}>{name}</option>)}</select></label><label>装飾の描画<select value={current.detail} onChange={e=>apply({...current,detail:e.target.value as DesignDocument["detail"]})}><option value="standard">標準</option><option value="light">軽量（反射面を減らす）</option></select></label></details>
     </div></div>}
     <div id="workshop-five-overview"><ArtworkCanvas document={current}/><div className="workshop-toolbar" role="group" aria-label="5本一覧から拡大編集">{fingerNames.map((name,i)=><button type="button" key={name} className="secondary" onClick={()=>{setFinger(i);setPartId(null);setPaintOpen(true);requestAnimationFrame(()=>document.getElementById("paint-editor-area")?.scrollIntoView({block:"start"}));}}>{name}を拡大編集</button>)}</div></div>
-    <div className="workshop-toolbar"><button type="button" onClick={save}>デザインを保存</button><button type="button" onClick={tryOn}>このデザインで試着</button><button type="button" className="secondary" onClick={()=>{apply(openedWith.current);onCancel?.();}}>開いた時の状態に戻す</button></div>
+    <div className="workshop-toolbar"><button type="button" onClick={save}>デザインを保存</button><button type="button" onClick={tryOn}>このデザインで試着</button><button type="button" className="secondary" onClick={()=>{if(recovery.dirty&&!window.confirm("保存されていない変更を破棄して、開いた時の状態に戻しますか？"))return;if(onCancel){recovery.discard();deleteWorkshopRecovery(current.id);onCancel();}else apply(openedWith.current);}}>開いた時の状態に戻す</button></div>
     <p className="hint">保存はこの端末・ブラウザだけです。写真は保存しません。立体パーツの厚み・本物の反射・指同士の遮蔽を完全に再現するものではありません。</p>
+    {/* Variable-length save status belongs AFTER Canvas: wrapping must not move a touch stroke. */}
+    <p className="hint" role="status">{recovery.status==="clean"?"未保存の変更はありません。":recovery.status==="backed-up"?"未保存の編集をこのブラウザへ一時退避しました。":recovery.status==="failed"?"一時退避できませんでした。名前・空き容量・保存設定を確認して、デザインを保存してください。編集中の内容は画面に残っています。":"未保存の変更があります。操作が落ち着いたら一時退避します。"}</p>
     {notice&&<p role="status" className="notice">{notice}</p>}
   </section>;
 }

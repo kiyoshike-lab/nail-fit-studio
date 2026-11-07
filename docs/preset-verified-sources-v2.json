@@ -1,0 +1,538 @@
+{
+  "schemaVersion": 1,
+  "checked": "2026-11-07",
+  "sources": [
+    {
+      "datasetFileId": "001",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:G%C3%A5yotaedje_di_troes_ongues.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e7/G%C3%A5yotaedje_di_troes_ongues.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "04bb0f25edfa09b3834801eb3a654194d4caac46",
+      "officialSha1Matched": true,
+      "sha256": "ec1f984e15956f0031055ec886b804b9d6497505defcf1cc13c6956fc9b3dce5",
+      "authors": "Souzanemahin",
+      "authorUrls": [
+        "https://commons.wikimedia.org/wiki/User:Souzanemahin"
+      ],
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commonsLicenseCode": "cc-by-sa-4.0",
+        "usageTerms": "Creative Commons Attribution-Share Alike 4.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 827,
+        "height": 891
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_001.jpg"
+    },
+    {
+      "datasetFileId": "002",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:French_tip_nail_art.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/d/da/French_tip_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "5c8cf0846c9e67e177f305755de547f41436a785",
+      "officialSha1Matched": true,
+      "sha256": "f485bd695b652975c6ecaef0d7b5d7e07ca726d150f896c433d6c28cdc6df51c",
+      "authors": "Kamali mohan kumar",
+      "authorUrls": [
+        "https://commons.wikimedia.org/w/index.php?title=User:Kamali_mohan_kumar&action=edit&redlink=1"
+      ],
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commonsLicenseCode": "cc-by-sa-4.0",
+        "usageTerms": "Creative Commons Attribution-Share Alike 4.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 3000,
+        "height": 3703
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_002.jpg"
+    },
+    {
+      "datasetFileId": "003",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3b/French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "3f6a6310798a6445261538a3f7009ad803fc95ef",
+      "officialSha1Matched": true,
+      "sha256": "c75ae80f82af0b4dd7c6b193fccba661713dd71c13004ccb17011824f04aa386",
+      "authors": "Theknowhau",
+      "authorUrls": [
+        "https://commons.wikimedia.org/w/index.php?title=User:Theknowhau&action=edit&redlink=1"
+      ],
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commonsLicenseCode": "cc-by-sa-4.0",
+        "usageTerms": "Creative Commons Attribution-Share Alike 4.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 3024,
+        "height": 4032
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_003.jpg"
+    },
+    {
+      "datasetFileId": "005",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Galaxies_nail_art.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/21/Galaxies_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "cb9e8b8e3106b33e547c727395361ba131582294",
+      "officialSha1Matched": true,
+      "sha256": "fab9ab2b1cc94afe5a33db52614ee3d2e6fd734650afba628300e5b7bce5eaa5",
+      "authors": "Lelê Breveglieri",
+      "authorUrls": [],
+      "license": {
+        "name": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0",
+        "commonsLicenseCode": "cc-by-2.0",
+        "usageTerms": "Creative Commons Attribution 2.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 982,
+        "height": 538
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_005.jpg"
+    },
+    {
+      "datasetFileId": "006",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Flower_nail_art.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/02/Flower_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "8fc2b178238e7f07fb1bcb412b8ca24866d136a4",
+      "officialSha1Matched": true,
+      "sha256": "e64e0faad79607d06eff0ea5aba78e6d72c938580177139e62fefdb82f38b13e",
+      "authors": "Lelê Breveglieri",
+      "authorUrls": [],
+      "license": {
+        "name": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0",
+        "commonsLicenseCode": "cc-by-2.0",
+        "usageTerms": "Creative Commons Attribution 2.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 2000,
+        "height": 1036
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_006.jpg"
+    },
+    {
+      "datasetFileId": "007",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Gel_Nails_Pink_Orange_and_White_Design.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Gel_Nails_Pink_Orange_and_White_Design.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "38b884c75de544fdf961b9ed29605c8b07824107",
+      "officialSha1Matched": true,
+      "sha256": "93d4fcfad7b11e767f2232133665d9fe1bdb125d4afabdf301ff2e98b2a4bc67",
+      "authors": "15sophieb",
+      "authorUrls": [
+        "https://commons.wikimedia.org/w/index.php?title=User:15sophieb&action=edit&redlink=1"
+      ],
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "commonsLicenseCode": "cc-by-sa-3.0",
+        "usageTerms": "Creative Commons Attribution-Share Alike 3.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 1936,
+        "height": 2592
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_007.jpg"
+    },
+    {
+      "datasetFileId": "009",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Nail_art_-_Glitter_Diamond.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/80/Nail_art_-_Glitter_Diamond.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "7e01968abfb2f45fd04f4ec3d940a031479eec4c",
+      "officialSha1Matched": true,
+      "sha256": "44717a45d6f440ba13baf513e9901d5c05d2ba61f114ed97e6ff887e4e8b0cd5",
+      "authors": "lisa bentley",
+      "authorUrls": [],
+      "license": {
+        "name": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0",
+        "commonsLicenseCode": "cc-by-2.0",
+        "usageTerms": "Creative Commons Attribution 2.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 1024,
+        "height": 768
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_009.jpg"
+    },
+    {
+      "datasetFileId": "013",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Pink_nail_polish.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Pink_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "db7175579ffebffb6146c84c71428dd05631cbc5",
+      "officialSha1Matched": true,
+      "sha256": "afb3512783911cbc7d3f8b7f9dd68f65052bda370fd6fd4dc2ba60e1ba683155",
+      "authors": "Geórgia Moro",
+      "authorUrls": [],
+      "license": {
+        "name": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0",
+        "commonsLicenseCode": "cc-by-2.0",
+        "usageTerms": "Creative Commons Attribution 2.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 2048,
+        "height": 1536
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_013.jpg"
+    },
+    {
+      "datasetFileId": "016",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Neon_nail_polish.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Neon_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "22bca295fb688c33988fabb568e72b283fa41ffb",
+      "officialSha1Matched": true,
+      "sha256": "1a362c9f91f3b2cfa60a7e0daf867ff8c8d561086a10bec94d44aa57dd3d0238",
+      "authors": "Maria Morri from Tampere, Finland",
+      "authorUrls": [
+        "https://www.flickr.com/people/9248805@N04"
+      ],
+      "license": {
+        "name": "CC BY-SA 2.0",
+        "url": "https://creativecommons.org/licenses/by-sa/2.0",
+        "commonsLicenseCode": "cc-by-sa-2.0",
+        "usageTerms": "Creative Commons Attribution-Share Alike 2.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 5472,
+        "height": 3648
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_016.jpg"
+    },
+    {
+      "datasetFileId": "018",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Cracking_nail_polish.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/14/Cracking_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "2fd9c56b6169b478393858690d7ef1ceb16301a9",
+      "officialSha1Matched": true,
+      "sha256": "fbd6012f01a4ccf266f4f607a63c7a63e6947e9bb7080116b6b7abd0bee45daa",
+      "authors": "Fanny Schertzer",
+      "authorUrls": [
+        "https://commons.wikimedia.org/wiki/User:Inisheer"
+      ],
+      "license": {
+        "name": "CC BY-SA 3.0",
+        "url": "https://creativecommons.org/licenses/by-sa/3.0",
+        "commonsLicenseCode": "cc-by-sa-3.0",
+        "usageTerms": "Creative Commons Attribution-Share Alike 3.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 4378,
+        "height": 3327
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_018.jpg"
+    },
+    {
+      "datasetFileId": "024",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(blue).jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/82/Glitter_nail_polish_%28blue%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "a5458237b5d19475d78ebc98d6eb0b169a334e25",
+      "officialSha1Matched": true,
+      "sha256": "75aca0bba1a79b28e9a51db375b451e85eea96a497a162ea11ee717d08c4ff21",
+      "authors": "Romina Campos",
+      "authorUrls": [
+        "https://www.flickr.com/people/24426584@N06"
+      ],
+      "license": {
+        "name": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0",
+        "commonsLicenseCode": "cc-by-2.0",
+        "usageTerms": "Creative Commons Attribution 2.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 2717,
+        "height": 1811
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_024.jpg"
+    },
+    {
+      "datasetFileId": "025",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(purple).jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Glitter_nail_polish_%28purple%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "71432f013d81f56080aa0d9fc73313b266247111",
+      "officialSha1Matched": true,
+      "sha256": "7f959cdc5e351c21cbc6f6bb941e7e6b7275c40ab6969b0d308d10f209e87759",
+      "authors": "Romina Campos",
+      "authorUrls": [
+        "https://www.flickr.com/people/24426584@N06"
+      ],
+      "license": {
+        "name": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0",
+        "commonsLicenseCode": "cc-by-2.0",
+        "usageTerms": "Creative Commons Attribution 2.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 2841,
+        "height": 1894
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:03.834242+00:00",
+      "localPath": "source_025.jpg"
+    },
+    {
+      "datasetFileId": "034",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_2_(purple).jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/22/Glitter_nail_polish_2_%28purple%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "1489a4e7b5a073513485ed80b10af496a87c57cb",
+      "officialSha1Matched": true,
+      "sha256": "8758db4436ad7baad205d3a774bed490373f087648a63b8444a648293c08c422",
+      "authors": "Romina Campos",
+      "authorUrls": [
+        "https://www.flickr.com/people/24426584@N06"
+      ],
+      "license": {
+        "name": "CC BY 2.0",
+        "url": "https://creativecommons.org/licenses/by/2.0",
+        "commonsLicenseCode": "cc-by-2.0",
+        "usageTerms": "Creative Commons Attribution 2.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 1324,
+        "height": 1987
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:05.190784+00:00",
+      "localPath": "source_034.jpg"
+    },
+    {
+      "datasetFileId": "035",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Acrylic_Nails.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Acrylic_Nails.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "16d9f0c9de183055c6f46168e7eca5f298677e64",
+      "officialSha1Matched": true,
+      "sha256": "28330b6fa6c82bf1460fa98414af05cc39fcd709c2e50df4815205f6b4b6e737",
+      "authors": "Ourlibrary",
+      "authorUrls": [
+        "https://commons.wikimedia.org/w/index.php?title=User:Ourlibrary&action=edit&redlink=1"
+      ],
+      "license": {
+        "name": "CC0",
+        "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "commonsLicenseCode": "cc0",
+        "usageTerms": "Creative Commons Zero, Public Domain Dedication",
+        "attributionRequired": "false",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 1170,
+        "height": 1851
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:05.190784+00:00",
+      "localPath": "source_035.jpg"
+    },
+    {
+      "datasetFileId": "038",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Polygel-diamond-nails-result.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/4/45/Polygel-diamond-nails-result.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "8cbf48f16627ce7bc2ec3ce2578cc6b5df807823",
+      "officialSha1Matched": true,
+      "sha256": "b3bc094dc9c13e157d95e6377cc7b45da87fbeb47e9ede84b8e2c79bda31d603",
+      "authors": "Piroscacsaba",
+      "authorUrls": [
+        "https://commons.wikimedia.org/w/index.php?title=User:Piroscacsaba&action=edit&redlink=1"
+      ],
+      "license": {
+        "name": "CC0",
+        "url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "commonsLicenseCode": "cc0",
+        "usageTerms": "Creative Commons Zero, Public Domain Dedication",
+        "attributionRequired": "false",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 900,
+        "height": 1600
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:05.190784+00:00",
+      "localPath": "source_038.jpg"
+    },
+    {
+      "datasetFileId": "041",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Poto_nail_art_55.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Poto_nail_art_55.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "2f2081b31704b31271f17e460597225e8471543d",
+      "officialSha1Matched": true,
+      "sha256": "946d6fc63d02731c1c9127be2b1f75712087ed01ba94dc167c19ca26e473365b",
+      "authors": "Yarden kedem",
+      "authorUrls": [
+        "https://commons.wikimedia.org/w/index.php?title=User:Yarden_kedem&action=edit&redlink=1"
+      ],
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commonsLicenseCode": "cc-by-sa-4.0",
+        "usageTerms": "Creative Commons Attribution-Share Alike 4.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 888,
+        "height": 772
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:05.190784+00:00",
+      "localPath": "source_041.jpg"
+    },
+    {
+      "datasetFileId": "044",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Polished_purple_nails_with_nail_art_on.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/38/Polished_purple_nails_with_nail_art_on.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "d1bca278504c09cbfc5e18390e0ac7950ccebabb",
+      "officialSha1Matched": true,
+      "sha256": "5ee3b105eec6b254542610274c1765dbbb2c0f0cc856963b430a867eba0d8583",
+      "authors": "Köttbulleledaren",
+      "authorUrls": [
+        "https://commons.wikimedia.org/w/index.php?title=User:K%C3%B6ttbulleledaren&action=edit&redlink=1"
+      ],
+      "license": {
+        "name": "CC BY-SA 4.0",
+        "url": "https://creativecommons.org/licenses/by-sa/4.0",
+        "commonsLicenseCode": "cc-by-sa-4.0",
+        "usageTerms": "Creative Commons Attribution-Share Alike 4.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 2423,
+        "height": 2684
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:05.190784+00:00",
+      "localPath": "source_044.jpg"
+    },
+    {
+      "datasetFileId": "045",
+      "status": "accepted",
+      "canonicalFilePage": "https://commons.wikimedia.org/wiki/File:Nail_Art_Butterfly.jpg",
+      "originalImageUrl": "https://upload.wikimedia.org/wikipedia/commons/1/13/Nail_Art_Butterfly.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "officialSha1": "087a2b8fd1b7e53b73063152c2d4ac3e2f8b18a2",
+      "officialSha1Matched": true,
+      "sha256": "bcf8aabe97b4c030c48b557159c6e3e0858bca0d5f93f03044721a10b6e781dd",
+      "authors": "Cendy00",
+      "authorUrls": [
+        "https://commons.wikimedia.org/wiki/User:Cendy00"
+      ],
+      "license": {
+        "name": "CC BY 4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0",
+        "commonsLicenseCode": "cc-by-4.0",
+        "usageTerms": "Creative Commons Attribution 4.0",
+        "attributionRequired": "true",
+        "copyrighted": "True",
+        "restrictions": "",
+        "explicitAllowedLicense": true
+      },
+      "orientedDimensions": {
+        "width": 828,
+        "height": 1472
+      },
+      "officialMime": "image/jpeg",
+      "metadataCheckedAt": "2026-11-07T10:40:05.190784+00:00",
+      "localPath": "source_045.jpg"
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { createDocument, historyChange, historyRedo, historyUndo, MAX_PARTS, par
 import { collectionNames, partNames, type CollectionKind, type DesignDocument, type FingerArt, type NailPart, type PartKind } from "@/lib/workshopTypes";
 import { nailCanvasGeometry } from "@/lib/nailPoseMetrics";
 import type { NailDesign } from "@/lib/types";
+import { patchNailDesign } from "@/lib/presetTexture";
 import { ArtworkCanvas } from "./ArtworkCanvas";
 import { trackEvent } from "@/lib/analytics";
 import { artOrder, cloneFingerArt, layerState, withLayerMeta } from "@/lib/paintData";
@@ -36,7 +37,7 @@ export default function WorkshopEditor({initial,recovered=false,onDirtyChange,on
   useEffect(()=>{onDirtyChange?.(recovery.dirty);},[onDirtyChange,recovery.dirty]);
   function apply(next:DesignDocument,record=true){const updated={...next,updatedAt:new Date().toISOString()};setHistory(h=>record?historyChange(h,updated):{...h,present:updated,future:[]});if(record)setCommitted(updated);onChange?.(updated);setNotice("");}
   function fingerPatch(patch:Partial<FingerArt>){let next={...art,...patch};if(current.schema!==1)next.order=artOrder(next);if(current.schema>=3)next=withLayerMeta(next);apply({...current,fingers:current.fingers.map((f,i)=>i===finger?next:f)});}
-  function basePatch(patch:Partial<NailDesign>){fingerPatch({base:{...art.base,...patch}});}
+  function basePatch(patch:Partial<NailDesign>){fingerPatch({base:patchNailDesign(art.base,patch)});}
   function partPatch(patch:Partial<NailPart>){if(part&&!layerState(art,part.id).locked)fingerPatch({parts:art.parts.map(p=>p.id===partId?{...p,...patch}:p)});}
   function duplicatePart(){if(!part||layerState(art,part.id).locked||art.parts.length>=MAX_PARTS)return;const copy={...part,id:createLocalId("part"),x:Math.min(current.schema>=3?.7:.45,part.x+.05)};fingerPatch({parts:[...art.parts,copy],...(current.schema>=3?{layerMeta:{...art.layerMeta,[copy.id]:{...layerState(art,part.id)}}}:{})});setPartId(copy.id);}
   function add(){if(art.parts.length>=MAX_PARTS){setNotice(`1本につき${MAX_PARTS}個までです。`);return;}const p:NailPart={id:createLocalId("part"),kind,color:kind==="gold-holo"?"#e6bc65":kind==="pearl"?"#fff1e6":"#d9dfed",x:0,y:0,size:.26,rotation:0};fingerPatch({parts:[...art.parts,p]});setPartId(p.id);trackEvent("nail_part_added",{part_kind:kind});}
@@ -63,6 +64,7 @@ export default function WorkshopEditor({initial,recovered=false,onDirtyChange,on
   }
   return <section className="workshop-editor" aria-labelledby="workshop-editor-title">
     <h2 id="workshop-editor-title">自分のネイルを作る</h2><p className="hint">図で制作し、写真・カメラで試着できます。装飾は軽量な立体風表現です。</p><p className="hint">編集中の内容はこのブラウザへ一時退避します。コレクションへの正式保存は「デザインを保存」を押してください。写真・映像は退避しません。</p>
+    {current.fingers.some(f=>f.base.textureUrl)&&<p className="hint">実写素材は色・模様・仕上げを変えると外れます。形・長さ・重ねた模様は編集できます。<a href="/assets/preset-materials-v2.json" target="_blank" rel="noopener noreferrer">出典・作者・利用条件</a></p>}
     <label>デザイン名<input maxLength={80} value={current.name} onChange={e=>apply({...current,name:e.target.value})}/></label>
     <div className="workshop-toolbar"><button type="button" disabled={!history.past.length} onClick={()=>{const next=historyUndo(history);setHistory(next);setCommitted(next.present);onChange?.(next.present);}}>元に戻す</button><button type="button" disabled={!history.future.length} onClick={()=>{const next=historyRedo(history);setHistory(next);setCommitted(next.present);onChange?.(next.present);}}>やり直す</button><button type="button" onClick={()=>apply({...createDocument(),id:current.id,createdAt:current.createdAt,name:current.name})}>初期化（取り消せます）</button></div>
     <div className="finger-tabs" role="group" aria-label="制作する指">{fingerNames.map((name,i)=><button type="button" key={name} aria-pressed={i===finger} className={i===finger?"is-selected":""} onClick={()=>{setFinger(i);setPartId(null);}}>{name}</button>)}</div>

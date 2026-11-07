@@ -1,3 +1,6 @@
 public/mediapipe/*.js -diff
 public/mediapipe/*.wasm binary
 public/mediapipe/*.task binary
+# Generated public manifests use byte-content fingerprints. Preserve their exact
+# bytes on Windows and Linux rather than changing EOLs behind their hashed URLs.
+public/assets/*.json -text whitespace=trailing-space,space-before-tab,cr-at-eol

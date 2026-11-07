@@ -2,6 +2,7 @@
 
 実施日：2026年11月6日〜7日（JST）。**総合判定：NO-GO（公開見送り）。旧実写素材のP1が1件残る。** アプリの不具合修正と3回のQAは行ったが、素材の全件修正が完了したとは報告しない。
 
+> 同日追記：実写素材P1の修正・新しい3段階QAは `docs/preset-material-remediation-20261107.md` を参照。本書は修正前の履歴として数値を維持する。素材P1は解消したが、実機・外部サービスの最終確認待ちで公開見送りは継続。
 ## 1. Git・範囲・証拠
 
 - 対象：`kiyoshike-lab/nail-fit-studio`、作業ルート `C:\Users\nlgid\Documents\Codex\2026-05-16\new-chat\nail-fit-studio-next`。

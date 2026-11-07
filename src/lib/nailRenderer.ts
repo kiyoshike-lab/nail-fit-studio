@@ -5,25 +5,37 @@ import type { FingerArt } from "./workshopTypes";
 import { drawSurfaceEffect } from "./workshopDrawing";
 import { drawMixedArt, drawVisibleParts } from "./paintRenderer";
 import { drawGelBase, drawGelPattern, drawGelTopcoat } from "./gelSurface";
+import { isPhotoNailTexture, resolveNailTextureUrl } from "./presetTexture";
 
 const textureCache = new Map<string, Promise<HTMLImageElement>>();
 const readyTextures = new Map<string, HTMLImageElement>();
+const textureRetryAfter = new Map<string, number>();
 
 function loadImage(url: string) {
+  if ((textureRetryAfter.get(url) ?? 0) > Date.now()) return Promise.reject(new Error("Texture retry pending"));
   if (!textureCache.has(url)) {
     textureCache.set(
       url,
       new Promise((resolve, reject) => {
         const image = new Image();
         image.crossOrigin = "anonymous";
-        const timer = window.setTimeout(() => reject(new Error("Texture timed out")), 8000);
+        const fail = (error: unknown) => {
+          window.clearTimeout(timer);
+          image.onload = image.onerror = null;
+          textureCache.delete(url);
+          textureRetryAfter.set(url, Date.now() + 1500);
+          if (textureRetryAfter.size > 16) textureRetryAfter.delete(textureRetryAfter.keys().next().value!);
+          reject(error);
+        };
+        const timer = window.setTimeout(() => fail(new Error("Texture timed out")), 8000);
         image.onload = () => {
           window.clearTimeout(timer);
+          textureRetryAfter.delete(url);
           readyTextures.set(url, image);
           if (readyTextures.size > 16) readyTextures.delete(readyTextures.keys().next().value!);
           resolve(image);
         };
-        image.onerror = (error) => { window.clearTimeout(timer); reject(error); };
+        image.onerror = fail;
         image.src = url;
       }),
     );
@@ -39,7 +51,7 @@ export async function drawNails(
   canvasHeight: number,
   nails: NailPose[],
   design: NailDesign,
-  options: { fingers?: readonly FingerArt[]; lightParts?: boolean; tolerateArtworkFailure?: boolean; onArtworkError?: () => void; isCurrent?: () => boolean; clear?: boolean; opacity?: number; lighting?: SceneLighting; waitForTexture?: boolean; onPainted?: (count: number) => void; viewport?: { x: number; y: number; width: number; height: number } } = {},
+  options: { fingers?: readonly FingerArt[]; lightParts?: boolean; tolerateArtworkFailure?: boolean; requireTexture?: boolean; onArtworkError?: () => void; isCurrent?: () => boolean; clear?: boolean; opacity?: number; lighting?: SceneLighting; waitForTexture?: boolean; onPainted?: (count: number) => void; viewport?: { x: number; y: number; width: number; height: number } } = {},
 ) {
   // Resolve I/O before touching the shared Canvas state. No await is allowed
   // between save/clip/restore: an older texture frame must never overpaint a new one.
@@ -48,12 +60,14 @@ export async function drawNails(
   const pendingTextures: Promise<void>[] = [];
   designs.forEach((active,index)=>{
     if(!active.textureUrl) return;
-    const pending=loadImage(active.textureUrl).catch(()=>undefined);
-    if(options.waitForTexture===false) textures[index]=readyTextures.get(active.textureUrl);
+    const url=resolveNailTextureUrl(active.textureUrl);
+    const pending=loadImage(url).catch(()=>undefined);
+    if(options.waitForTexture===false) textures[index]=readyTextures.get(url);
     else pendingTextures.push(pending.then(texture=>{textures[index]=texture;}));
   });
   if(pendingTextures.length) await Promise.all(pendingTextures);
   if (options.isCurrent && !options.isCurrent()) return false;
+  if (options.requireTexture && designs.some((active,index) => active.textureUrl && !textures[index])) throw new Error("Texture unavailable for export");
   if (options.clear) ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   ctx.save();
   ctx.globalAlpha *= options.opacity ?? 1;
@@ -115,6 +129,7 @@ function drawNail(
   const { width, height } = geometry;
   const { x: rootX, y: rootY } = geometry.root;
   const { x: centerX, y: centerY } = geometry.center;
+  const photoSurface = !!texture && isPhotoNailTexture(design.textureUrl);
 
   if (art) {
     ctx.save();
@@ -142,6 +157,16 @@ function drawNail(
     }
 
     if (texture) {
+      if (photoSurface) {
+        // Continuous UV surface is already tip-up: do not crop 25%, drift across
+        // fingers, tile it, or paint synthetic dots/glitter over the photograph.
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        const opacity = ctx.globalAlpha;
+        ctx.globalAlpha *= Math.max(0, Math.min(1, design.realism));
+        ctx.drawImage(texture, -width / 2, -height / 2, width, height);
+        ctx.globalAlpha = opacity;
+      } else {
       const scale = Math.max(width / texture.width, height / texture.height) * 1.25;
       const tw = texture.width * scale;
       const th = texture.height * scale;
@@ -150,9 +175,22 @@ function drawNail(
       ctx.globalAlpha *= design.realism * 0.72;
       ctx.drawImage(texture, -tw / 2 + drift, -th / 2, tw, th);
       ctx.globalAlpha = opacity;
+      }
     }
 
-    if (art?.surface) drawGelPattern(ctx,width,height,design,art.surface);
+    if (photoSurface) {
+      // Explicit user artwork is not the preset's automatic procedural motif.
+      // Keep saved dot/line effects, hand drawing and parts editable on photos.
+      if (art) drawSurfaceEffect(ctx, width, height, art);
+      // The source preserves real reflections. Add only a very small scene-aware
+      // side shadow, not a second broad artificial specular highlight.
+      const side = ctx.createLinearGradient(-width/2,0,width/2,0);
+      side.addColorStop(0,"rgba(0,0,0,.07)");
+      side.addColorStop(.3,"rgba(0,0,0,0)");
+      side.addColorStop(.7,"rgba(0,0,0,0)");
+      side.addColorStop(1,`rgba(0,0,0,${.04 + (1-lighting.brightness)*.02})`);
+      ctx.fillStyle=side; ctx.fillRect(-width/2,-height/2,width,height);
+    } else if (art?.surface) drawGelPattern(ctx,width,height,design,art.surface);
     else {
       drawPattern(ctx, width, height, design);
       drawMaterial(ctx, width, height, design);
@@ -169,7 +207,7 @@ function drawNail(
         if (!tolerateArtworkFailure) throw error;
         drawVisibleParts(ctx, width, height, art, lightParts, lighting.brightness);
       }
-      if (art.surface) {
+      if (art.surface && !photoSurface) {
         ctx.globalAlpha = originalAlpha * art.opacity;
         drawGelTopcoat(ctx,width,height,art.surface,lighting,nail.rotation,design);
       }

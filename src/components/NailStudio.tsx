@@ -15,6 +15,8 @@ import { SavePanel } from "./SavePanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { defaultPhotoNails } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
+import { patchNailDesign } from "@/lib/presetTexture";
+import { addPresetAttribution } from "@/lib/presetAttribution";
 import { trackingOpacity } from "@/lib/trackingQuality";
 import { applyCalibration, calibrateNail, defaultCalibration, sanitizeCalibration } from "@/lib/nailCalibration";
 import { neutralLighting, sampleSceneLighting } from "@/lib/sceneLighting";
@@ -826,7 +828,7 @@ export function NailStudio() {
 
   const updateDesign = useCallback((patch: Partial<NailDesign>) => {
     setActivePresetId(undefined);
-    setDesign((current) => ({ ...current, ...patch }));
+    setDesign((current) => patchNailDesign(current, patch));
     setArtwork(current => current ? patchAllBases(current, patch) : null);
     if (patch.naturalNailLength !== undefined) {
       naturalLengthRef.current = naturalNailLength(patch.naturalNailLength);
@@ -864,7 +866,7 @@ export function NailStudio() {
       motif: preset.motif ?? current.motif,
       motifColor: preset.motifColor ?? current.motifColor,
       textureUrl: assetPath(preset.textureImage),
-      realism: Math.max(current.realism, 0.84),
+      realism: 1,
     }));
     setArtwork(current => current ? patchAllBases(current, {
       color: preset.colorHint ?? current.fingers[0].base.color,
@@ -874,7 +876,7 @@ export function NailStudio() {
       motif: preset.motif ?? current.fingers[0].base.motif,
       motifColor: preset.motifColor ?? current.fingers[0].base.motifColor,
       textureUrl: assetPath(preset.textureImage),
-      realism: Math.max(current.fingers[0].base.realism, .84),
+      realism: 1,
     }) : null);
     trackEvent("nail_design_selected", { design_id: preset.id });
   }, []);
@@ -1021,6 +1023,7 @@ export function NailStudio() {
     const savedNails = mode === "camera" ? liveNailsRef.current ?? nails : nails;
     try {
       await drawNails(ctx, canvas.width, canvas.height, savedNails, design, {
+        requireTexture: true,
         fingers: artwork?.fingers,
         lightParts: artwork?.detail === "light",
         lighting: lightingRef.current,
@@ -1031,11 +1034,14 @@ export function NailStudio() {
       notify("ネイル画像を作れませんでした。別のデザインで再試行してください。");
       return;
     }
-    canvas.toBlob(async (blob) => {
-      if (!blob) {
+    canvas.toBlob(async (rawBlob) => {
+      if (!rawBlob) {
         notify("画像保存に失敗しました");
         return;
       }
+      let blob: Blob;
+      try { blob = await addPresetAttribution(rawBlob, artwork?.fingers.map(f => f.base.textureUrl) ?? [design.textureUrl]); }
+      catch { notify("実写素材の出典情報を読み込めませんでした。通信状態を確認して保存を再試行してください。"); return; }
       const file = new File([blob], "nail-fit-studio.png", { type: "image/png" });
       const historySaved = addHistory(savedNails);
       const historyNotice = historySaved ? "" : "（履歴は保存できませんでした）";

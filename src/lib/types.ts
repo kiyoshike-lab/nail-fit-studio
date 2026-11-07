@@ -54,6 +54,10 @@ export type DesignPreset = {
   textureImage?: string;
   previewImage?: string;
   license?: string;
+  licenseUrl?: string;
+  author?: string;
+  sourceUrl?: string;
+  changes?: string;
 };
 
 export type SourceMode = "empty" | "photo" | "camera";

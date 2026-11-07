@@ -1,0 +1,1708 @@
+{
+  "schema": 2,
+  "generated": "2026-11-07",
+  "method": "reviewed-single-nail-continuous-unwrap",
+  "materials": [
+    {
+      "id": "001",
+      "name": "シアーピンク・ブラックドット",
+      "sourceId": "001",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:G%C3%A5yotaedje_di_troes_ongues.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e7/G%C3%A5yotaedje_di_troes_ongues.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Souzanemahin",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "ec1f984e15956f0031055ec886b804b9d6497505defcf1cc13c6956fc9b3dce5",
+      "sourceSize": [
+        827,
+        891
+      ],
+      "cutoutSize": [
+        95,
+        299
+      ],
+      "surfaceSize": [
+        89,
+        279
+      ],
+      "sourceRows": 279,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_001_v2_e027cfa7c220.png",
+      "preview": "assets/preset-previews/nail_001_v2_c996a46f96bd.png",
+      "cutout": "assets/preset-cutouts/nail_001_v2.png",
+      "textureSha256": "e027cfa7c220dcc6714348d14be4bab1ef7c19f1cc1ff482d69658b868e521b3",
+      "cutoutSha256": "a093cfbf09fe727ccda8a491f78bab90de265ee57ecc1ebfc0913d4a17029934",
+      "previewSha256": "c996a46f96bd22eb2df3b39c87ff789e7474688e6e032840a3d58ae03b07a3e8",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "002",
+      "name": "クリアピンク・ホワイトフレンチ",
+      "sourceId": "002",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:French_tip_nail_art.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/d/da/French_tip_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Kamali mohan kumar",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "f485bd695b652975c6ecaef0d7b5d7e07ca726d150f896c433d6c28cdc6df51c",
+      "sourceSize": [
+        3000,
+        3703
+      ],
+      "cutoutSize": [
+        142,
+        283
+      ],
+      "surfaceSize": [
+        134,
+        270
+      ],
+      "sourceRows": 270,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_002_v2_316222629a6d.png",
+      "preview": "assets/preset-previews/nail_002_v2_7bc154a369b0.png",
+      "cutout": "assets/preset-cutouts/nail_002_v2.png",
+      "textureSha256": "316222629a6db005dc14ea9f014eb3f627dd81c4813e6145f8175490e341c418",
+      "cutoutSha256": "cf93d902637585f0dda34839f5da18b438c06d058584420243d05dc5a3c13eef",
+      "previewSha256": "7bc154a369b034cbbef436685e594d1d9e54488521d11a9883850b80ac344b3f",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "003",
+      "name": "ナチュラルフレンチ",
+      "sourceId": "003",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3b/French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Theknowhau",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "c75ae80f82af0b4dd7c6b193fccba661713dd71c13004ccb17011824f04aa386",
+      "sourceSize": [
+        3024,
+        4032
+      ],
+      "cutoutSize": [
+        270,
+        450
+      ],
+      "surfaceSize": [
+        248,
+        413
+      ],
+      "sourceRows": 413,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_003_v2_101125f28d48.png",
+      "preview": "assets/preset-previews/nail_003_v2_8bb9e3eaf6a3.png",
+      "cutout": "assets/preset-cutouts/nail_003_v2.png",
+      "textureSha256": "101125f28d481e27c6c88a6f3c4df41c974fa52474afe884fc684ca7cacdaa0a",
+      "cutoutSha256": "5b5d603f1a9773881c4f07bb4340a62f86f442c9ad7b8350a8873eaf4c6d3e58",
+      "previewSha256": "8bb9e3eaf6a3be34706700c89c74db6b276d9b1503501c85cabfef9939172d87",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "004",
+      "name": "ネイビーのグリッター",
+      "sourceId": "024",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(blue).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/82/Glitter_nail_polish_%28blue%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Romina Campos",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "75aca0bba1a79b28e9a51db375b451e85eea96a497a162ea11ee717d08c4ff21",
+      "sourceSize": [
+        2717,
+        1811
+      ],
+      "cutoutSize": [
+        359,
+        584
+      ],
+      "surfaceSize": [
+        329,
+        552
+      ],
+      "sourceRows": 552,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_004_v2_72db40425675.png",
+      "preview": "assets/preset-previews/nail_004_v2_352b84bb4d55.png",
+      "cutout": "assets/preset-cutouts/nail_004_v2.png",
+      "textureSha256": "72db40425675e21d7cc25aa4e433316da86eb9c4e6a2aad9408e9a6f0b9e5875",
+      "cutoutSha256": "9118a44ea16da83143b8fb7f09637cf2f47c99863cd34938fc2aa9766819b1e2",
+      "previewSha256": "352b84bb4d55b03cfb00df7a4dc322c35d4be7c53aa666aa5ddac1a9af38f1df",
+      "reselectReason": "Enlarged render revealed jagged stars in a 76px-wide original; choose higher-detail surface",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "005",
+      "name": "ブルーギャラクシー",
+      "sourceId": "005",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Galaxies_nail_art.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/21/Galaxies_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Lelê Breveglieri",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "fab9ab2b1cc94afe5a33db52614ee3d2e6fd734650afba628300e5b7bce5eaa5",
+      "sourceSize": [
+        982,
+        538
+      ],
+      "cutoutSize": [
+        135,
+        214
+      ],
+      "surfaceSize": [
+        130,
+        198
+      ],
+      "sourceRows": 198,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_005_v2_11ebd4fc57a6.png",
+      "preview": "assets/preset-previews/nail_005_v2_8f1c747ade07.png",
+      "cutout": "assets/preset-cutouts/nail_005_v2.png",
+      "textureSha256": "11ebd4fc57a6423922c0fd7f22dee391e1c649827ea9d05b74e38a0c351e810c",
+      "cutoutSha256": "f541c02ac2af87ea779d362062936b09a7858c0a2526fc5b340fb56b84b0a30e",
+      "previewSha256": "8f1c747ade075c65a90a25a6608a6019b555ec820d142d223a77e254638b90cc",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "006",
+      "name": "ピンク・フラワーレース",
+      "sourceId": "006",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flower_nail_art.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/02/Flower_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Lelê Breveglieri",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "e64e0faad79607d06eff0ea5aba78e6d72c938580177139e62fefdb82f38b13e",
+      "sourceSize": [
+        2000,
+        1036
+      ],
+      "cutoutSize": [
+        258,
+        378
+      ],
+      "surfaceSize": [
+        233,
+        349
+      ],
+      "sourceRows": 349,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_006_v2_0a21fb3c6fb8.png",
+      "preview": "assets/preset-previews/nail_006_v2_f9d0d41b1a75.png",
+      "cutout": "assets/preset-cutouts/nail_006_v2.png",
+      "textureSha256": "0a21fb3c6fb8bb4b264c6375f25f2d6a19e8ab22804f4fd0532e5ce7a0cdbcd9",
+      "cutoutSha256": "0291a3f334547c7c9b723c65e6ba8c6f54007023ac3a94b9d30807474baf9697",
+      "previewSha256": "f9d0d41b1a75777218cc4e8ab8bfca234ea4f536df52816689359e4100ee460e",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "007",
+      "name": "ピンク・ホワイトリーフ",
+      "sourceId": "007",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gel_Nails_Pink_Orange_and_White_Design.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Gel_Nails_Pink_Orange_and_White_Design.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "15sophieb",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceSha256": "93d4fcfad7b11e767f2232133665d9fe1bdb125d4afabdf301ff2e98b2a4bc67",
+      "sourceSize": [
+        1936,
+        2592
+      ],
+      "cutoutSize": [
+        225,
+        410
+      ],
+      "surfaceSize": [
+        201,
+        382
+      ],
+      "sourceRows": 382,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_007_v2_105a07f5640d.png",
+      "preview": "assets/preset-previews/nail_007_v2_e360131fa36e.png",
+      "cutout": "assets/preset-cutouts/nail_007_v2.png",
+      "textureSha256": "105a07f5640d181aeedb4b31e256a7c3697287dd0d37dcefdb73515e976c0f59",
+      "cutoutSha256": "f7f6e9b13a98af4ac210c60caf00d8880e805f832ebcdad39d4c487acb5a52eb",
+      "previewSha256": "e360131fa36ecaca7714b5b4482fbf014f737f4f334d8b467a075b23aba6b216",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 3.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "008",
+      "name": "ピンクとゴールドのライン",
+      "sourceId": "007",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gel_Nails_Pink_Orange_and_White_Design.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Gel_Nails_Pink_Orange_and_White_Design.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "15sophieb",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceSha256": "93d4fcfad7b11e767f2232133665d9fe1bdb125d4afabdf301ff2e98b2a4bc67",
+      "sourceSize": [
+        1936,
+        2592
+      ],
+      "cutoutSize": [
+        225,
+        410
+      ],
+      "surfaceSize": [
+        201,
+        382
+      ],
+      "sourceRows": 382,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_008_v2_105a07f5640d.png",
+      "preview": "assets/preset-previews/nail_008_v2_e360131fa36e.png",
+      "cutout": "assets/preset-cutouts/nail_008_v2.png",
+      "textureSha256": "105a07f5640d181aeedb4b31e256a7c3697287dd0d37dcefdb73515e976c0f59",
+      "cutoutSha256": "f7f6e9b13a98af4ac210c60caf00d8880e805f832ebcdad39d4c487acb5a52eb",
+      "previewSha256": "e360131fa36ecaca7714b5b4482fbf014f737f4f334d8b467a075b23aba6b216",
+      "reselectReason": "Original nail has only 35x41 surface pixels; reselect a sharper single nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 3.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "009",
+      "name": "ホワイトフレンチ・シルバーライン",
+      "sourceId": "009",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_art_-_Glitter_Diamond.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/80/Nail_art_-_Glitter_Diamond.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "lisa bentley",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "44717a45d6f440ba13baf513e9901d5c05d2ba61f114ed97e6ff887e4e8b0cd5",
+      "sourceSize": [
+        1024,
+        768
+      ],
+      "cutoutSize": [
+        102,
+        138
+      ],
+      "surfaceSize": [
+        98,
+        127
+      ],
+      "sourceRows": 127,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_009_v2_ec33a6b85a1b.png",
+      "preview": "assets/preset-previews/nail_009_v2_d62e3bc1260a.png",
+      "cutout": "assets/preset-cutouts/nail_009_v2.png",
+      "textureSha256": "ec33a6b85a1bb91bb1fb678f16f588fe9d4c2232e6b8e283751cfd903910da89",
+      "cutoutSha256": "a8d3d15422193052fc9ddd7d7ec2eabefbb1de77715dd7c9269343820918b463",
+      "previewSha256": "d62e3bc1260a0861b361616bd5b29d87271f97557f8bb86077726d242fc3cd82",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "010",
+      "name": "水色のブラックフラワー",
+      "sourceId": "041",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Poto_nail_art_55.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Poto_nail_art_55.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Yarden kedem",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "946d6fc63d02731c1c9127be2b1f75712087ed01ba94dc167c19ca26e473365b",
+      "sourceSize": [
+        888,
+        772
+      ],
+      "cutoutSize": [
+        109,
+        163
+      ],
+      "surfaceSize": [
+        103,
+        151
+      ],
+      "sourceRows": 151,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_010_v2_e51cf1dfefd2.png",
+      "preview": "assets/preset-previews/nail_010_v2_f0e4f935b07d.png",
+      "cutout": "assets/preset-cutouts/nail_010_v2.png",
+      "textureSha256": "e51cf1dfefd2cd5dbf9f7fa40b47595d87944ebb9f96bdc4398a7f35b046132c",
+      "cutoutSha256": "4a5b85ea0cb54a231ea0bd2cdbf7cb73eb4eb12e90141668796c1f5e3efecaa7",
+      "previewSha256": "f0e4f935b07d815cc56873240dc05a70b67fe30f7fbf4ab4df342a6127b47a66",
+      "reselectReason": "Original surface has only 29x38 pixels; not enough detail for zoomed trial",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "011",
+      "name": "ブルー・レッドフラワー（小花）",
+      "sourceId": "044",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Polished_purple_nails_with_nail_art_on.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/38/Polished_purple_nails_with_nail_art_on.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Köttbulleledaren",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "5ee3b105eec6b254542610274c1765dbbb2c0f0cc856963b430a867eba0d8583",
+      "sourceSize": [
+        2423,
+        2684
+      ],
+      "cutoutSize": [
+        260,
+        501
+      ],
+      "surfaceSize": [
+        240,
+        475
+      ],
+      "sourceRows": 475,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_011_v2_3b2be265254d.png",
+      "preview": "assets/preset-previews/nail_011_v2_fa39a910b7e4.png",
+      "cutout": "assets/preset-cutouts/nail_011_v2.png",
+      "textureSha256": "3b2be265254d012ced3a0d2dd7b5d835fd8c0f316fff9c52915f23fedf5d5b9c",
+      "cutoutSha256": "361275b97b3a26519922e5b38a51e1acb77800847eba276d649fe811890fd7dd",
+      "previewSha256": "fa39a910b7e455d8ecb914a5d855d6b3edcd7d7a27700d33874de3bd420040c2",
+      "reselectReason": "Blurry distant original replaced by a close-up nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "013",
+      "name": "ピンク・シルバー幾何学",
+      "sourceId": "013",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Pink_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Geórgia Moro",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "afb3512783911cbc7d3f8b7f9dd68f65052bda370fd6fd4dc2ba60e1ba683155",
+      "sourceSize": [
+        2048,
+        1536
+      ],
+      "cutoutSize": [
+        146,
+        348
+      ],
+      "surfaceSize": [
+        142,
+        337
+      ],
+      "sourceRows": 337,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_013_v2_5cd7ab04592c.png",
+      "preview": "assets/preset-previews/nail_013_v2_7c91136e587b.png",
+      "cutout": "assets/preset-cutouts/nail_013_v2.png",
+      "textureSha256": "5cd7ab04592c70660630c609923e9813d99290fde6885f17de58ea2372c01b3d",
+      "cutoutSha256": "36fac63d4e9bada8de7e400d93f83f10ce7627556e7057a8236098282ecee0b5",
+      "previewSha256": "7c91136e587b32ca60fbefa372f0016d09654a2e3fd4b3a8bc2e7c0412cfc437",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "014",
+      "name": "シャンパンラメ",
+      "sourceId": "003",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3b/French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Theknowhau",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "c75ae80f82af0b4dd7c6b193fccba661713dd71c13004ccb17011824f04aa386",
+      "sourceSize": [
+        3024,
+        4032
+      ],
+      "cutoutSize": [
+        318,
+        512
+      ],
+      "surfaceSize": [
+        305,
+        488
+      ],
+      "sourceRows": 488,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_014_v2_09f95de4ae0b.png",
+      "preview": "assets/preset-previews/nail_014_v2_6b4f35548c72.png",
+      "cutout": "assets/preset-cutouts/nail_014_v2.png",
+      "textureSha256": "09f95de4ae0b7c9b4edb6546b15bf339bc9705d420885bac0d4170e8f8610c5d",
+      "cutoutSha256": "775015bd208996d581ea09f38aa008781305d7f9ec44d94433b8bef07b13a97c",
+      "previewSha256": "6b4f35548c72632aa6bf9a0ac9b2f9b88d887f0cee738e6f476ae1129b548c1b",
+      "reselectReason": "Polish bottle replaced by an actual glitter nail from verified French reference",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "015",
+      "name": "アイスブルー・ラメ",
+      "sourceId": "005",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Galaxies_nail_art.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/21/Galaxies_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Lelê Breveglieri",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "fab9ab2b1cc94afe5a33db52614ee3d2e6fd734650afba628300e5b7bce5eaa5",
+      "sourceSize": [
+        982,
+        538
+      ],
+      "cutoutSize": [
+        126,
+        222
+      ],
+      "surfaceSize": [
+        113,
+        206
+      ],
+      "sourceRows": 206,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_015_v2_2c3df08d3914.png",
+      "preview": "assets/preset-previews/nail_015_v2_6b7671fc3558.png",
+      "cutout": "assets/preset-cutouts/nail_015_v2.png",
+      "textureSha256": "2c3df08d3914b27fb68eb69b84543ecd00415bb8f2fa083e5c1257b46268af1b",
+      "cutoutSha256": "385baebfd2cca30dab0f3a76ea40f9eb0fc116d7f91848bfee2ff7f156de550a",
+      "previewSha256": "6b7671fc3558877a20e9ca1e766f3fd09692e13b056c79a7b7a01ce0877ba4cb",
+      "reselectReason": "Polish bottle replaced by a real polished nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "016",
+      "name": "コーラルレッド",
+      "sourceId": "016",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neon_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Neon_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Maria Morri from Tampere, Finland",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceSha256": "1a362c9f91f3b2cfa60a7e0daf867ff8c8d561086a10bec94d44aa57dd3d0238",
+      "sourceSize": [
+        5472,
+        3648
+      ],
+      "cutoutSize": [
+        324,
+        601
+      ],
+      "surfaceSize": [
+        317,
+        557
+      ],
+      "sourceRows": 557,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_016_v2_e8d7f4e0e646.png",
+      "preview": "assets/preset-previews/nail_016_v2_e5e45a831f8f.png",
+      "cutout": "assets/preset-cutouts/nail_016_v2.png",
+      "textureSha256": "e8d7f4e0e646181744116e29a5739a7785af49af0268dca50ee63fbb58d04a54",
+      "cutoutSha256": "3dceadae62a838c2db36b29b1ad8921c81227ec8d8c4721dff8c619063d4e81a",
+      "previewSha256": "e5e45a831f8ffc68a7343d8c083d519bfd738f603650aa524c41b84de4401890",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "017",
+      "name": "レッドグロス",
+      "sourceId": "016",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neon_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Neon_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Maria Morri from Tampere, Finland",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceSha256": "1a362c9f91f3b2cfa60a7e0daf867ff8c8d561086a10bec94d44aa57dd3d0238",
+      "sourceSize": [
+        5472,
+        3648
+      ],
+      "cutoutSize": [
+        324,
+        635
+      ],
+      "surfaceSize": [
+        313,
+        595
+      ],
+      "sourceRows": 595,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_017_v2_7acda30a3529.png",
+      "preview": "assets/preset-previews/nail_017_v2_27cdc45fd75b.png",
+      "cutout": "assets/preset-cutouts/nail_017_v2.png",
+      "textureSha256": "7acda30a3529cc58b0b7bfe0c48988d788fbfdbafe3dc79e3a6f14d524f941c4",
+      "cutoutSha256": "b21713629fff4567074ce7c402552d5e2a4d1962bd3de36882d5b9bb0f7e9d00",
+      "previewSha256": "27cdc45fd75b952e0412c3bf1fd5ce3a7caf0232fadb0a6a0638e75e8028406f",
+      "reselectReason": "Sculpture replaced by an actual polished nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "018",
+      "name": "ゴールドとブラックのクラック",
+      "sourceId": "018",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cracking_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/14/Cracking_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Fanny Schertzer",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceSha256": "fbd6012f01a4ccf266f4f607a63c7a63e6947e9bb7080116b6b7abd0bee45daa",
+      "sourceSize": [
+        4378,
+        3327
+      ],
+      "cutoutSize": [
+        216,
+        370
+      ],
+      "surfaceSize": [
+        208,
+        344
+      ],
+      "sourceRows": 344,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_018_v2_91b888977832.png",
+      "preview": "assets/preset-previews/nail_018_v2_99bc63181dfa.png",
+      "cutout": "assets/preset-cutouts/nail_018_v2.png",
+      "textureSha256": "91b888977832e6c2ca1dbf40cc6a278770bde348507326f3792b9f9a041cb403",
+      "cutoutSha256": "178b89c25ec48695dc635c2b13270e5be71b147adadd1d682bfbe09603046f65",
+      "previewSha256": "99bc63181dfa8d8115bfd4cd626968db7b30af28776966b6d4d0a734b2d20034",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 3.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "020",
+      "name": "ピンクのフラワーアート",
+      "sourceId": "006",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flower_nail_art.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/02/Flower_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Lelê Breveglieri",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "e64e0faad79607d06eff0ea5aba78e6d72c938580177139e62fefdb82f38b13e",
+      "sourceSize": [
+        2000,
+        1036
+      ],
+      "cutoutSize": [
+        258,
+        378
+      ],
+      "surfaceSize": [
+        233,
+        349
+      ],
+      "sourceRows": 349,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_020_v2_0a21fb3c6fb8.png",
+      "preview": "assets/preset-previews/nail_020_v2_f9d0d41b1a75.png",
+      "cutout": "assets/preset-cutouts/nail_020_v2.png",
+      "textureSha256": "0a21fb3c6fb8bb4b264c6375f25f2d6a19e8ab22804f4fd0532e5ce7a0cdbcd9",
+      "cutoutSha256": "0291a3f334547c7c9b723c65e6ba8c6f54007023ac3a94b9d30807474baf9697",
+      "previewSha256": "f9d0d41b1a75777218cc4e8ab8bfca234ea4f536df52816689359e4100ee460e",
+      "reselectReason": "Very long stiletto rose distorts excessively on ordinary nail shape; choose compatible aspect",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "021",
+      "name": "ライトブルーの小花",
+      "sourceId": "041",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Poto_nail_art_55.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Poto_nail_art_55.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Yarden kedem",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "946d6fc63d02731c1c9127be2b1f75712087ed01ba94dc167c19ca26e473365b",
+      "sourceSize": [
+        888,
+        772
+      ],
+      "cutoutSize": [
+        100,
+        152
+      ],
+      "surfaceSize": [
+        96,
+        133
+      ],
+      "sourceRows": 133,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_021_v2_934c6776a8e6.png",
+      "preview": "assets/preset-previews/nail_021_v2_53fa4cba9959.png",
+      "cutout": "assets/preset-cutouts/nail_021_v2.png",
+      "textureSha256": "934c6776a8e6c9eb4404e715159ca4c1402ace9d4faa3984a9ee7fdeb78b3383",
+      "cutoutSha256": "f1fa57f535059d17e2f141cfb9ff8cdc42c62b21c32255bb76b1cc875727fb0f",
+      "previewSha256": "53fa4cba9959615ba0128d8f814d5db7fb11e1649196beef55bf1ba9db1dcc17",
+      "reselectReason": "Old photo is a distant salon view; source020 was not verified Commons",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "023",
+      "name": "パープルの細かなラメ",
+      "sourceId": "034",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_2_(purple).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/22/Glitter_nail_polish_2_%28purple%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Romina Campos",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "8758db4436ad7baad205d3a774bed490373f087648a63b8444a648293c08c422",
+      "sourceSize": [
+        1324,
+        1987
+      ],
+      "cutoutSize": [
+        381,
+        578
+      ],
+      "surfaceSize": [
+        372,
+        539
+      ],
+      "sourceRows": 539,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_023_v2_d53fb7b7df1f.png",
+      "preview": "assets/preset-previews/nail_023_v2_d4b96d627b49.png",
+      "cutout": "assets/preset-cutouts/nail_023_v2.png",
+      "textureSha256": "d53fb7b7df1f6525fc6db9d274b67199593b1f4fc56715cfc1ffd9fceb2a0cf1",
+      "cutoutSha256": "2d0cb0caec2c081b58edce69c080184bfb9101b83cf9dd687c18fc86b552c102",
+      "previewSha256": "d4b96d627b496b96814b8779700de87fede922b772df2810bf6b4a8430ca851e",
+      "reselectReason": "Enlarged 77px glitter source lacks detail; replace with higher resolution glitter",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "024",
+      "name": "ネイビー・グリーンラメ",
+      "sourceId": "024",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(blue).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/8/82/Glitter_nail_polish_%28blue%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Romina Campos",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "75aca0bba1a79b28e9a51db375b451e85eea96a497a162ea11ee717d08c4ff21",
+      "sourceSize": [
+        2717,
+        1811
+      ],
+      "cutoutSize": [
+        359,
+        584
+      ],
+      "surfaceSize": [
+        329,
+        552
+      ],
+      "sourceRows": 552,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_024_v2_72db40425675.png",
+      "preview": "assets/preset-previews/nail_024_v2_352b84bb4d55.png",
+      "cutout": "assets/preset-cutouts/nail_024_v2.png",
+      "textureSha256": "72db40425675e21d7cc25aa4e433316da86eb9c4e6a2aad9408e9a6f0b9e5875",
+      "cutoutSha256": "9118a44ea16da83143b8fb7f09637cf2f47c99863cd34938fc2aa9766819b1e2",
+      "previewSha256": "352b84bb4d55b03cfb00df7a4dc322c35d4be7c53aa666aa5ddac1a9af38f1df",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "025",
+      "name": "パープル・微粒子ラメ",
+      "sourceId": "025",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(purple).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Glitter_nail_polish_%28purple%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Romina Campos",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "7f959cdc5e351c21cbc6f6bb941e7e6b7275c40ab6969b0d308d10f209e87759",
+      "sourceSize": [
+        2841,
+        1894
+      ],
+      "cutoutSize": [
+        373,
+        590
+      ],
+      "surfaceSize": [
+        340,
+        499
+      ],
+      "sourceRows": 499,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_025_v2_a60991985eec.png",
+      "preview": "assets/preset-previews/nail_025_v2_c7d055270732.png",
+      "cutout": "assets/preset-cutouts/nail_025_v2.png",
+      "textureSha256": "a60991985eec3b0cbd2e879cf48bc26493ff5063f025260760b5e9db2a960e23",
+      "cutoutSha256": "440d0f5fe3175fb7bad92529f38915585d55be4437ca48064c7940b3aa62607a",
+      "previewSha256": "c7d0552707327656335983a09c8c203dff3ccbda38e974e4059a12bd21d6861c",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "026",
+      "name": "コーラルレッド",
+      "sourceId": "016",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neon_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Neon_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Maria Morri from Tampere, Finland",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceSha256": "1a362c9f91f3b2cfa60a7e0daf867ff8c8d561086a10bec94d44aa57dd3d0238",
+      "sourceSize": [
+        5472,
+        3648
+      ],
+      "cutoutSize": [
+        411,
+        470
+      ],
+      "surfaceSize": [
+        374,
+        434
+      ],
+      "sourceRows": 434,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_026_v2_84f3e26a72a6.png",
+      "preview": "assets/preset-previews/nail_026_v2_fbf0af9ac7e0.png",
+      "cutout": "assets/preset-cutouts/nail_026_v2.png",
+      "textureSha256": "84f3e26a72a627d4e04c42d0705730c8325fec101751e47321daea9aa8b520d1",
+      "cutoutSha256": "df2807135db0e95535d77cca50abfc1d0c0c1ce06c7af3e50f2c7704784cbb91",
+      "previewSha256": "fbf0af9ac7e01d7b02be901ae66e74b440208f110113d1f5df3cbc8295aee2bc",
+      "reselectReason": "Original surface has only 25x27 pixels; reselect a sharp red nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "027",
+      "name": "ホワイトフレンチ",
+      "sourceId": "003",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3b/French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Theknowhau",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "c75ae80f82af0b4dd7c6b193fccba661713dd71c13004ccb17011824f04aa386",
+      "sourceSize": [
+        3024,
+        4032
+      ],
+      "cutoutSize": [
+        270,
+        450
+      ],
+      "surfaceSize": [
+        248,
+        413
+      ],
+      "sourceRows": 413,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_027_v2_101125f28d48.png",
+      "preview": "assets/preset-previews/nail_027_v2_8bb9e3eaf6a3.png",
+      "cutout": "assets/preset-cutouts/nail_027_v2.png",
+      "textureSha256": "101125f28d481e27c6c88a6f3c4df41c974fa52474afe884fc684ca7cacdaa0a",
+      "cutoutSha256": "5b5d603f1a9773881c4f07bb4340a62f86f442c9ad7b8350a8873eaf4c6d3e58",
+      "previewSha256": "8bb9e3eaf6a3be34706700c89c74db6b276d9b1503501c85cabfef9939172d87",
+      "reselectReason": "Original surface has only 54x75 pixels; use higher resolution French nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "028",
+      "name": "つやピンク",
+      "sourceId": "013",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Pink_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Geórgia Moro",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "afb3512783911cbc7d3f8b7f9dd68f65052bda370fd6fd4dc2ba60e1ba683155",
+      "sourceSize": [
+        2048,
+        1536
+      ],
+      "cutoutSize": [
+        142,
+        284
+      ],
+      "surfaceSize": [
+        135,
+        273
+      ],
+      "sourceRows": 273,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_028_v2_2d640f9c66b4.png",
+      "preview": "assets/preset-previews/nail_028_v2_c9a359bc9c7b.png",
+      "cutout": "assets/preset-cutouts/nail_028_v2.png",
+      "textureSha256": "2d640f9c66b46c272470f515a846745d345538cfb5382386d03a44ef6aa016fe",
+      "cutoutSha256": "8c6eaa3545b464311dcbed847603712c7f88207feadbbeec65c2d6d696bc74c7",
+      "previewSha256": "c9a359bc9c7bfe3872b6d88e6353ef3c8ce7e8802aad83badb00aaaf0f039543",
+      "reselectReason": "Distant face/hand reference replaced by a closer nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "029",
+      "name": "ナチュラルなホワイトフレンチ",
+      "sourceId": "003",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/3b/French_Manicure_with_Glitter_nail_art_on_ring_finger.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Theknowhau",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "c75ae80f82af0b4dd7c6b193fccba661713dd71c13004ccb17011824f04aa386",
+      "sourceSize": [
+        3024,
+        4032
+      ],
+      "cutoutSize": [
+        270,
+        450
+      ],
+      "surfaceSize": [
+        248,
+        413
+      ],
+      "sourceRows": 413,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_029_v2_101125f28d48.png",
+      "preview": "assets/preset-previews/nail_029_v2_8bb9e3eaf6a3.png",
+      "cutout": "assets/preset-cutouts/nail_029_v2.png",
+      "textureSha256": "101125f28d481e27c6c88a6f3c4df41c974fa52474afe884fc684ca7cacdaa0a",
+      "cutoutSha256": "5b5d603f1a9773881c4f07bb4340a62f86f442c9ad7b8350a8873eaf4c6d3e58",
+      "previewSha256": "8bb9e3eaf6a3be34706700c89c74db6b276d9b1503501c85cabfef9939172d87",
+      "reselectReason": "66px-wide red-French original lacks enlarged detail; use clear French source",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "030",
+      "name": "コーラルレッド",
+      "sourceId": "016",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neon_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Neon_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Maria Morri from Tampere, Finland",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceSha256": "1a362c9f91f3b2cfa60a7e0daf867ff8c8d561086a10bec94d44aa57dd3d0238",
+      "sourceSize": [
+        5472,
+        3648
+      ],
+      "cutoutSize": [
+        324,
+        601
+      ],
+      "surfaceSize": [
+        317,
+        557
+      ],
+      "sourceRows": 557,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_030_v2_e8d7f4e0e646.png",
+      "preview": "assets/preset-previews/nail_030_v2_e5e45a831f8f.png",
+      "cutout": "assets/preset-cutouts/nail_030_v2.png",
+      "textureSha256": "e8d7f4e0e646181744116e29a5739a7785af49af0268dca50ee63fbb58d04a54",
+      "cutoutSha256": "3dceadae62a838c2db36b29b1ad8921c81227ec8d8c4721dff8c619063d4e81a",
+      "previewSha256": "e5e45a831f8ffc68a7343d8c083d519bfd738f603650aa524c41b84de4401890",
+      "reselectReason": "Small original red crop is soft even at native resolution",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "031",
+      "name": "ピンクの花柄スタンプ",
+      "sourceId": "006",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flower_nail_art.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/02/Flower_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Lelê Breveglieri",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "e64e0faad79607d06eff0ea5aba78e6d72c938580177139e62fefdb82f38b13e",
+      "sourceSize": [
+        2000,
+        1036
+      ],
+      "cutoutSize": [
+        236,
+        384
+      ],
+      "surfaceSize": [
+        226,
+        364
+      ],
+      "sourceRows": 364,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_031_v2_f38e509190c8.png",
+      "preview": "assets/preset-previews/nail_031_v2_d8a358fdd0df.png",
+      "cutout": "assets/preset-cutouts/nail_031_v2.png",
+      "textureSha256": "f38e509190c8a29ae5182fba7d8a2053d9eb63460d9e88f512becdc78f53cdec",
+      "cutoutSha256": "5c86c172615d978db46858f795a65d57b2424a0f9b00805a94ba642e95ccbc2d",
+      "previewSha256": "d8a358fdd0df2665bedae4d7d17e0d9f04466dad26a3c96e1e5ee4b603185207",
+      "reselectReason": "Original cherry nail has only 37x42 pixels; reselect sharp floral source",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "032",
+      "name": "レッドのワンカラー",
+      "sourceId": "016",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neon_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Neon_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Maria Morri from Tampere, Finland",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceSha256": "1a362c9f91f3b2cfa60a7e0daf867ff8c8d561086a10bec94d44aa57dd3d0238",
+      "sourceSize": [
+        5472,
+        3648
+      ],
+      "cutoutSize": [
+        324,
+        635
+      ],
+      "surfaceSize": [
+        313,
+        595
+      ],
+      "sourceRows": 595,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_032_v2_7acda30a3529.png",
+      "preview": "assets/preset-previews/nail_032_v2_27cdc45fd75b.png",
+      "cutout": "assets/preset-cutouts/nail_032_v2.png",
+      "textureSha256": "7acda30a3529cc58b0b7bfe0c48988d788fbfdbafe3dc79e3a6f14d524f941c4",
+      "cutoutSha256": "b21713629fff4567074ce7c402552d5e2a4d1962bd3de36882d5b9bb0f7e9d00",
+      "previewSha256": "27cdc45fd75b952e0412c3bf1fd5ce3a7caf0232fadb0a6a0638e75e8028406f",
+      "reselectReason": "Small red original is blurry; sharper verified coral-red source",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "033",
+      "name": "ピンクとゴールドのニュアンス",
+      "sourceId": "045",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_Art_Butterfly.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/13/Nail_Art_Butterfly.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Cendy00",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "sourceSha256": "bcf8aabe97b4c030c48b557159c6e3e0858bca0d5f93f03044721a10b6e781dd",
+      "sourceSize": [
+        828,
+        1472
+      ],
+      "cutoutSize": [
+        94,
+        158
+      ],
+      "surfaceSize": [
+        89,
+        140
+      ],
+      "sourceRows": 140,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_033_v2_1b972d9b12d0.png",
+      "preview": "assets/preset-previews/nail_033_v2_dd3ce2297d76.png",
+      "cutout": "assets/preset-cutouts/nail_033_v2.png",
+      "textureSha256": "1b972d9b12d0deabe7e6ee4e8f4f6500bc14f0a7ba6aef00ff7b749fb9f40e93",
+      "cutoutSha256": "854f62495ac3e855349b262f06532633681ef56cb014e2c679f4f930a7ac6276",
+      "previewSha256": "dd3ce2297d76b6fca8221501f21b3335b68744545e866d65068e4496605552af",
+      "reselectReason": "Previous thumb is too oblique and mostly its side; use face-on painted surface",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "034",
+      "name": "パープル・ホログリッター",
+      "sourceId": "034",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_2_(purple).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/22/Glitter_nail_polish_2_%28purple%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Romina Campos",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "8758db4436ad7baad205d3a774bed490373f087648a63b8444a648293c08c422",
+      "sourceSize": [
+        1324,
+        1987
+      ],
+      "cutoutSize": [
+        381,
+        578
+      ],
+      "surfaceSize": [
+        372,
+        539
+      ],
+      "sourceRows": 539,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_034_v2_d53fb7b7df1f.png",
+      "preview": "assets/preset-previews/nail_034_v2_d4b96d627b49.png",
+      "cutout": "assets/preset-cutouts/nail_034_v2.png",
+      "textureSha256": "d53fb7b7df1f6525fc6db9d274b67199593b1f4fc56715cfc1ffd9fceb2a0cf1",
+      "cutoutSha256": "2d0cb0caec2c081b58edce69c080184bfb9101b83cf9dd687c18fc86b552c102",
+      "previewSha256": "d4b96d627b496b96814b8779700de87fede922b772df2810bf6b4a8430ca851e",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "035",
+      "name": "ベージュマーブル・ゴールド",
+      "sourceId": "035",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Acrylic_Nails.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/28/Acrylic_Nails.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Ourlibrary",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceSha256": "28330b6fa6c82bf1460fa98414af05cc39fcd709c2e50df4815205f6b4b6e737",
+      "sourceSize": [
+        1170,
+        1851
+      ],
+      "cutoutSize": [
+        188,
+        768
+      ],
+      "surfaceSize": [
+        182,
+        733
+      ],
+      "sourceRows": 733,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_035_v2_966e92989cc5.png",
+      "preview": "assets/preset-previews/nail_035_v2_bd426b1e96d9.png",
+      "cutout": "assets/preset-cutouts/nail_035_v2.png",
+      "textureSha256": "966e92989cc5f1e99c2548b49516861e16bfc5c0d32e1e5a7b6456e82625616d",
+      "cutoutSha256": "27dab82a76df3711952e091b41d30bc6e7c0503ed902a7b24dc41d423fced7ff",
+      "previewSha256": "bd426b1e96d98150b37e5fa721b414b713789d6df09cde12dd87bc5bf1434858",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "036",
+      "name": "ゴールドのクラックアート",
+      "sourceId": "018",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cracking_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/14/Cracking_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Fanny Schertzer",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "sourceSha256": "fbd6012f01a4ccf266f4f607a63c7a63e6947e9bb7080116b6b7abd0bee45daa",
+      "sourceSize": [
+        4378,
+        3327
+      ],
+      "cutoutSize": [
+        216,
+        370
+      ],
+      "surfaceSize": [
+        208,
+        344
+      ],
+      "sourceRows": 344,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_036_v2_91b888977832.png",
+      "preview": "assets/preset-previews/nail_036_v2_99bc63181dfa.png",
+      "cutout": "assets/preset-cutouts/nail_036_v2.png",
+      "textureSha256": "91b888977832e6c2ca1dbf40cc6a278770bde348507326f3792b9f9a041cb403",
+      "cutoutSha256": "178b89c25ec48695dc635c2b13270e5be71b147adadd1d682bfbe09603046f65",
+      "previewSha256": "99bc63181dfa8d8115bfd4cd626968db7b30af28776966b6d4d0a734b2d20034",
+      "reselectReason": "Alternative index is blurred; reuse sharper thumb surface",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 3.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "037",
+      "name": "ピンクのフラワースタンプ",
+      "sourceId": "006",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flower_nail_art.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/02/Flower_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Lelê Breveglieri",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "e64e0faad79607d06eff0ea5aba78e6d72c938580177139e62fefdb82f38b13e",
+      "sourceSize": [
+        2000,
+        1036
+      ],
+      "cutoutSize": [
+        236,
+        384
+      ],
+      "surfaceSize": [
+        226,
+        364
+      ],
+      "sourceRows": 364,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_037_v2_f38e509190c8.png",
+      "preview": "assets/preset-previews/nail_037_v2_d8a358fdd0df.png",
+      "cutout": "assets/preset-cutouts/nail_037_v2.png",
+      "textureSha256": "f38e509190c8a29ae5182fba7d8a2053d9eb63460d9e88f512becdc78f53cdec",
+      "cutoutSha256": "5c86c172615d978db46858f795a65d57b2424a0f9b00805a94ba642e95ccbc2d",
+      "previewSha256": "d8a358fdd0df2665bedae4d7d17e0d9f04466dad26a3c96e1e5ee4b603185207",
+      "reselectReason": "84px-wide blue leaf source lacks enlarged detail; use sharp face-on floral",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "038",
+      "name": "ミルキーピンク",
+      "sourceId": "038",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Polygel-diamond-nails-result.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/4/45/Polygel-diamond-nails-result.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Piroscacsaba",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "sourceSha256": "b3bc094dc9c13e157d95e6377cc7b45da87fbeb47e9ede84b8e2c79bda31d603",
+      "sourceSize": [
+        900,
+        1600
+      ],
+      "cutoutSize": [
+        105,
+        241
+      ],
+      "surfaceSize": [
+        99,
+        224
+      ],
+      "sourceRows": 224,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_038_v2_1435416aeb6d.png",
+      "preview": "assets/preset-previews/nail_038_v2_56af703d2a85.png",
+      "cutout": "assets/preset-cutouts/nail_038_v2.png",
+      "textureSha256": "1435416aeb6d2e6bdf613d48625e259cbfa66f2a9e91a64b17d4145fa12ba060",
+      "cutoutSha256": "64e1b04999ab3d53ed4373f10e4cea90e3e1db72bbc77b7a8127d23f4499c24d",
+      "previewSha256": "56af703d2a853eb741974e886e1be46d796fef7e4235d305d6c9d61f8e2ea50d",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "039",
+      "name": "つやのあるピンク",
+      "sourceId": "013",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Pink_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Geórgia Moro",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "afb3512783911cbc7d3f8b7f9dd68f65052bda370fd6fd4dc2ba60e1ba683155",
+      "sourceSize": [
+        2048,
+        1536
+      ],
+      "cutoutSize": [
+        142,
+        284
+      ],
+      "surfaceSize": [
+        135,
+        273
+      ],
+      "sourceRows": 273,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_039_v2_2d640f9c66b4.png",
+      "preview": "assets/preset-previews/nail_039_v2_c9a359bc9c7b.png",
+      "cutout": "assets/preset-cutouts/nail_039_v2.png",
+      "textureSha256": "2d640f9c66b46c272470f515a846745d345538cfb5382386d03a44ef6aa016fe",
+      "cutoutSha256": "8c6eaa3545b464311dcbed847603712c7f88207feadbbeec65c2d6d696bc74c7",
+      "previewSha256": "c9a359bc9c7bfe3872b6d88e6353ef3c8ce7e8802aad83badb00aaaf0f039543",
+      "reselectReason": "Original magenta nail has only 37x75 pixels; use sharper pink nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "040",
+      "name": "パープルのフラワースタンプ",
+      "sourceId": "006",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Flower_nail_art.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/0/02/Flower_nail_art.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Lelê Breveglieri",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "e64e0faad79607d06eff0ea5aba78e6d72c938580177139e62fefdb82f38b13e",
+      "sourceSize": [
+        2000,
+        1036
+      ],
+      "cutoutSize": [
+        258,
+        378
+      ],
+      "surfaceSize": [
+        233,
+        349
+      ],
+      "sourceRows": 349,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_040_v2_0a21fb3c6fb8.png",
+      "preview": "assets/preset-previews/nail_040_v2_f9d0d41b1a75.png",
+      "cutout": "assets/preset-cutouts/nail_040_v2.png",
+      "textureSha256": "0a21fb3c6fb8bb4b264c6375f25f2d6a19e8ab22804f4fd0532e5ce7a0cdbcd9",
+      "cutoutSha256": "0291a3f334547c7c9b723c65e6ba8c6f54007023ac3a94b9d30807474baf9697",
+      "previewSha256": "f9d0d41b1a75777218cc4e8ab8bfca234ea4f536df52816689359e4100ee460e",
+      "reselectReason": "76px-wide blue leaf source is blurry enlarged; use sharper source",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "041",
+      "name": "ライトブルーの黒い花",
+      "sourceId": "041",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Poto_nail_art_55.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Poto_nail_art_55.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Yarden kedem",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "946d6fc63d02731c1c9127be2b1f75712087ed01ba94dc167c19ca26e473365b",
+      "sourceSize": [
+        888,
+        772
+      ],
+      "cutoutSize": [
+        109,
+        163
+      ],
+      "surfaceSize": [
+        103,
+        151
+      ],
+      "sourceRows": 151,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_041_v2_e51cf1dfefd2.png",
+      "preview": "assets/preset-previews/nail_041_v2_f0e4f935b07d.png",
+      "cutout": "assets/preset-cutouts/nail_041_v2.png",
+      "textureSha256": "e51cf1dfefd2cd5dbf9f7fa40b47595d87944ebb9f96bdc4398a7f35b046132c",
+      "cutoutSha256": "4a5b85ea0cb54a231ea0bd2cdbf7cb73eb4eb12e90141668796c1f5e3efecaa7",
+      "previewSha256": "f0e4f935b07d815cc56873240dc05a70b67fe30f7fbf4ab4df342a6127b47a66",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "042",
+      "name": "ブルーの赤い花柄",
+      "sourceId": "044",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Polished_purple_nails_with_nail_art_on.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/38/Polished_purple_nails_with_nail_art_on.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Köttbulleledaren",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "5ee3b105eec6b254542610274c1765dbbb2c0f0cc856963b430a867eba0d8583",
+      "sourceSize": [
+        2423,
+        2684
+      ],
+      "cutoutSize": [
+        272,
+        524
+      ],
+      "surfaceSize": [
+        232,
+        499
+      ],
+      "sourceRows": 499,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_042_v2_f496afaa8b8f.png",
+      "preview": "assets/preset-previews/nail_042_v2_fafcd531b2b4.png",
+      "cutout": "assets/preset-cutouts/nail_042_v2.png",
+      "textureSha256": "f496afaa8b8f39a74f9e46795aca5d0c5e6b85b9960ee98e8829c25efb257eaf",
+      "cutoutSha256": "462006a58f987359c4544c3494fd79dd48a099fb1fd545634470d1949ebac617",
+      "previewSha256": "fafcd531b2b4f2f71dd24da6ed58840a7d945792c47bfd22659123d02c12b72c",
+      "reselectReason": "Very long triangular original stretches roses on normal nail shape; use compatible face-on floral",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "043",
+      "name": "ピンクのシルバーアート",
+      "sourceId": "013",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pink_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Pink_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Geórgia Moro",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "afb3512783911cbc7d3f8b7f9dd68f65052bda370fd6fd4dc2ba60e1ba683155",
+      "sourceSize": [
+        2048,
+        1536
+      ],
+      "cutoutSize": [
+        146,
+        348
+      ],
+      "surfaceSize": [
+        142,
+        337
+      ],
+      "sourceRows": 337,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_043_v2_5cd7ab04592c.png",
+      "preview": "assets/preset-previews/nail_043_v2_7c91136e587b.png",
+      "cutout": "assets/preset-cutouts/nail_043_v2.png",
+      "textureSha256": "5cd7ab04592c70660630c609923e9813d99290fde6885f17de58ea2372c01b3d",
+      "cutoutSha256": "36fac63d4e9bada8de7e400d93f83f10ce7627556e7057a8236098282ecee0b5",
+      "previewSha256": "7c91136e587b32ca60fbefa372f0016d09654a2e3fd4b3a8bc2e7c0412cfc437",
+      "reselectReason": "Foreshortened toe nail has insufficient face-on pattern detail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "044",
+      "name": "ブルー・レッドフラワー",
+      "sourceId": "044",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Polished_purple_nails_with_nail_art_on.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/38/Polished_purple_nails_with_nail_art_on.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Köttbulleledaren",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "5ee3b105eec6b254542610274c1765dbbb2c0f0cc856963b430a867eba0d8583",
+      "sourceSize": [
+        2423,
+        2684
+      ],
+      "cutoutSize": [
+        272,
+        524
+      ],
+      "surfaceSize": [
+        232,
+        499
+      ],
+      "sourceRows": 499,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_044_v2_f496afaa8b8f.png",
+      "preview": "assets/preset-previews/nail_044_v2_fafcd531b2b4.png",
+      "cutout": "assets/preset-cutouts/nail_044_v2.png",
+      "textureSha256": "f496afaa8b8f39a74f9e46795aca5d0c5e6b85b9960ee98e8829c25efb257eaf",
+      "cutoutSha256": "462006a58f987359c4544c3494fd79dd48a099fb1fd545634470d1949ebac617",
+      "previewSha256": "fafcd531b2b4f2f71dd24da6ed58840a7d945792c47bfd22659123d02c12b72c",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "045",
+      "name": "ピンクとホログラムのリーフ",
+      "sourceId": "045",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_Art_Butterfly.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/13/Nail_Art_Butterfly.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Cendy00",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "sourceSha256": "bcf8aabe97b4c030c48b557159c6e3e0858bca0d5f93f03044721a10b6e781dd",
+      "sourceSize": [
+        828,
+        1472
+      ],
+      "cutoutSize": [
+        120,
+        194
+      ],
+      "surfaceSize": [
+        115,
+        173
+      ],
+      "sourceRows": 173,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_045_v2_e50ee0f454ef.png",
+      "preview": "assets/preset-previews/nail_045_v2_378b48f1870c.png",
+      "cutout": "assets/preset-cutouts/nail_045_v2.png",
+      "textureSha256": "e50ee0f454ef39cd5d80acca5a529a305568a9041e6ba4af8d9ff43a6a6dbddf",
+      "cutoutSha256": "c47888162a05b54d9e0943f76d112b7b6b1553361b968b514b933c638a80cc1f",
+      "previewSha256": "378b48f1870c7d642e6bf7c5e4b554a5d4c6603fe751128c8036e64e7de33b79",
+      "reselectReason": null,
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "046",
+      "name": "ブルー・フラワーアート",
+      "sourceId": "044",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Polished_purple_nails_with_nail_art_on.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/3/38/Polished_purple_nails_with_nail_art_on.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Köttbulleledaren",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "5ee3b105eec6b254542610274c1765dbbb2c0f0cc856963b430a867eba0d8583",
+      "sourceSize": [
+        2423,
+        2684
+      ],
+      "cutoutSize": [
+        294,
+        513
+      ],
+      "surfaceSize": [
+        277,
+        486
+      ],
+      "sourceRows": 486,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_046_v2_c5344f03958e.png",
+      "preview": "assets/preset-previews/nail_046_v2_7807216fc535.png",
+      "cutout": "assets/preset-cutouts/nail_046_v2.png",
+      "textureSha256": "c5344f03958e7dce13cffe184686546cc801bac22e77a990617a140230bd00d2",
+      "cutoutSha256": "2bdc1785701890832587b5d90eeabbc37c54ca0c9cae11ad66d9a0ec61f255bf",
+      "previewSha256": "7807216fc535d477b83d228d72d731a4f9f25e70141dea375cb8604ac15d0082",
+      "reselectReason": "Character motif replaced by generic floral nail; separate character rights not established",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "047",
+      "name": "くすみピンクのゴールドライン",
+      "sourceId": "045",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Nail_Art_Butterfly.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/13/Nail_Art_Butterfly.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Cendy00",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "sourceSha256": "bcf8aabe97b4c030c48b557159c6e3e0858bca0d5f93f03044721a10b6e781dd",
+      "sourceSize": [
+        828,
+        1472
+      ],
+      "cutoutSize": [
+        101,
+        223
+      ],
+      "surfaceSize": [
+        95,
+        203
+      ],
+      "sourceRows": 203,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_047_v2_4a4fbf97d6b1.png",
+      "preview": "assets/preset-previews/nail_047_v2_350a0f176a2f.png",
+      "cutout": "assets/preset-cutouts/nail_047_v2.png",
+      "textureSha256": "4a4fbf97d6b168f9877dbbaa34bee5cf4775a8e62b292db7be9331a4a5fe35b4",
+      "cutoutSha256": "ca09060f934528a0ada06bbb7fa2a24734c79fc617ee198ca8d8a87d43f8f0a7",
+      "previewSha256": "350a0f176a2f91fe542edaa3cab7f0d5cb077b289aefab08dcc7e3f36b636ff0",
+      "reselectReason": "Old swatch fan has tiny blurred tips and labels; select a sharp painted nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "048",
+      "name": "パープルのホログラムラメ",
+      "sourceId": "025",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(purple).jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Glitter_nail_polish_%28purple%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Romina Campos",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "sourceSha256": "7f959cdc5e351c21cbc6f6bb941e7e6b7275c40ab6969b0d308d10f209e87759",
+      "sourceSize": [
+        2841,
+        1894
+      ],
+      "cutoutSize": [
+        373,
+        590
+      ],
+      "surfaceSize": [
+        340,
+        499
+      ],
+      "sourceRows": 499,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_048_v2_a60991985eec.png",
+      "preview": "assets/preset-previews/nail_048_v2_c7d055270732.png",
+      "cutout": "assets/preset-cutouts/nail_048_v2.png",
+      "textureSha256": "a60991985eec3b0cbd2e879cf48bc26493ff5063f025260760b5e9db2a960e23",
+      "cutoutSha256": "440d0f5fe3175fb7bad92529f38915585d55be4437ca48064c7940b3aa62607a",
+      "previewSha256": "c7d0552707327656335983a09c8c203dff3ccbda38e974e4059a12bd21d6861c",
+      "reselectReason": "Oblique alternative crop includes side of finger; reuse face-on nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY 2.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "049",
+      "name": "ライトブルーの花とつる",
+      "sourceId": "041",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Poto_nail_art_55.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/f/f5/Poto_nail_art_55.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Yarden kedem",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "sourceSha256": "946d6fc63d02731c1c9127be2b1f75712087ed01ba94dc167c19ca26e473365b",
+      "sourceSize": [
+        888,
+        772
+      ],
+      "cutoutSize": [
+        104,
+        164
+      ],
+      "surfaceSize": [
+        100,
+        151
+      ],
+      "sourceRows": 151,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_049_v2_74723dade467.png",
+      "preview": "assets/preset-previews/nail_049_v2_bac350a3162d.png",
+      "cutout": "assets/preset-cutouts/nail_049_v2.png",
+      "textureSha256": "74723dade467952ab42041e1ea8c3cbbbf77e4ec289ec5b3b45b05609d6a81d8",
+      "cutoutSha256": "917ef8cd79a0aa2595fdb20823ede0f7d4913bd7cd1a9e18e3f2dabbd9309cb1",
+      "previewSha256": "bac350a3162d94f20123d68b2be654acc23fd385e36b9e804cc25ed302257076",
+      "reselectReason": "Old source shows bottles rather than a nail surface",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 4.0",
+      "reviewStatus": "reviewed"
+    },
+    {
+      "id": "050",
+      "name": "コーラルのワンカラー",
+      "sourceId": "016",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neon_nail_polish.jpg",
+      "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/1/10/Neon_nail_polish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "author": "Maria Morri from Tampere, Finland",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "sourceSha256": "1a362c9f91f3b2cfa60a7e0daf867ff8c8d561086a10bec94d44aa57dd3d0238",
+      "sourceSize": [
+        5472,
+        3648
+      ],
+      "cutoutSize": [
+        324,
+        601
+      ],
+      "surfaceSize": [
+        317,
+        557
+      ],
+      "sourceRows": 557,
+      "sampledPixelsInsideMask": true,
+      "texture": "assets/preset-textures/nail_texture_050_v2_e8d7f4e0e646.png",
+      "preview": "assets/preset-previews/nail_050_v2_e5e45a831f8f.png",
+      "cutout": "assets/preset-cutouts/nail_050_v2.png",
+      "textureSha256": "e8d7f4e0e646181744116e29a5739a7785af49af0268dca50ee63fbb58d04a54",
+      "cutoutSha256": "3dceadae62a838c2db36b29b1ad8921c81227ec8d8c4721dff8c619063d4e81a",
+      "previewSha256": "e5e45a831f8ffc68a7343d8c083d519bfd738f603650aa524c41b84de4401890",
+      "reselectReason": "Old grass photo is blurred; use sharp verified red nail",
+      "changes": "Single nail polygon cutout; EXIF orientation; tip-up rotation; inward boundary trim; continuous row-wise surface unwrap; PNG conversion; no generative reconstruction or random patches.",
+      "derivativeLicense": "CC BY-SA 2.0",
+      "reviewStatus": "reviewed"
+    }
+  ],
+  "referencePhotos": [
+    {
+      "id": "001",
+      "file": "assets/preset-previews/reference_001_91f654d60ab3.jpg",
+      "author": "Souzanemahin",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:G%C3%A5yotaedje_di_troes_ongues.jpg",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "EXIF orientation; resized within 960px; JPEG quality 92. Whole reference photo, not a try-on surface."
+    },
+    {
+      "id": "005",
+      "file": "assets/preset-previews/reference_005_55fd6ccabd2e.jpg",
+      "author": "Lelê Breveglieri",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Galaxies_nail_art.jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "EXIF orientation; resized within 960px; JPEG quality 92. Whole reference photo, not a try-on surface."
+    },
+    {
+      "id": "007",
+      "file": "assets/preset-previews/reference_007_02fb7de65ac5.jpg",
+      "author": "15sophieb",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gel_Nails_Pink_Orange_and_White_Design.jpg",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "EXIF orientation; resized within 960px; JPEG quality 92. Whole reference photo, not a try-on surface."
+    },
+    {
+      "id": "016",
+      "file": "assets/preset-previews/reference_016_89522981a267.jpg",
+      "author": "Maria Morri from Tampere, Finland",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Neon_nail_polish.jpg",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "changes": "EXIF orientation; resized within 960px; JPEG quality 92. Whole reference photo, not a try-on surface."
+    },
+    {
+      "id": "024",
+      "file": "assets/preset-previews/reference_024_15f0b756db88.jpg",
+      "author": "Romina Campos",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(blue).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "EXIF orientation; resized within 960px; JPEG quality 92. Whole reference photo, not a try-on surface."
+    },
+    {
+      "id": "025",
+      "file": "assets/preset-previews/reference_025_4fcd09e7bcc1.jpg",
+      "author": "Romina Campos",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Glitter_nail_polish_(purple).jpg",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "EXIF orientation; resized within 960px; JPEG quality 92. Whole reference photo, not a try-on surface."
+    }
+  ]
+}

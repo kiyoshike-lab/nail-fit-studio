@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { assetPath } from "@/lib/presets";
 import type { DesignPreset, NailDesign } from "@/lib/types";
+import { resolveNailTextureUrl } from "@/lib/presetTexture";
 
 type Props = {
   presets: DesignPreset[];
@@ -13,6 +14,8 @@ type Props = {
 };
 
 export function DesignSelector({ presets, activePresetId, onSelectPreset, design, onDesign }: Props) {
+  const activePreset = presets.find(preset => preset.id === activePresetId)
+    ?? presets.find(preset => design.textureUrl && assetPath(preset.textureImage) === resolveNailTextureUrl(design.textureUrl));
   return (
     <section className="panel-card" aria-labelledby="design-title">
       <details>
@@ -78,8 +81,16 @@ export function DesignSelector({ presets, activePresetId, onSelectPreset, design
 
         <div className="preset-header">
           <strong>実写プリセット</strong>
-          <span>{presets.length}種類</span>
+          <span>{presets.length}設定</span>
         </div>
+        <p className="hint">写真の爪1本から作った素材です。形・長さを変えられます。色・模様・仕上げを変更すると写真素材を外して編集します。</p>
+        {activePreset?.author && <p className="hint" aria-live="polite">
+          選択中：{activePreset.name}。写真：{activePreset.author} / {" "}
+          <a href={activePreset.sourceUrl} target="_blank" rel="noopener noreferrer">元画像</a> / {" "}
+          <a href={activePreset.licenseUrl} target="_blank" rel="noopener noreferrer">{activePreset.license}</a>。
+          爪の切り抜き・回転・表面変形を行っています。画像を公開・再配布するときは出典と変更内容を明示し、素材のライセンス条件を確認してください。
+        </p>}
+        <p className="hint"><a href="/assets/preset-materials-v2.json" target="_blank" rel="noopener noreferrer">実写素材の全出典・作者・ライセンス</a></p>
         <div className="preset-grid">
           {presets.map((preset) => (
             <button

@@ -2,6 +2,7 @@ import { defaultDesign } from "./defaults";
 import { createLocalId, tryWriteJson } from "./storage";
 import { collectionNames, partNames, type CollectionEntry, type CollectionKind, type DesignDocument, type FingerArt, type NailPart, type LayerState } from "./workshopTypes";
 import type { NailDesign } from "./types";
+import { patchNailDesign } from "./presetTexture";
 import { parsePaintLayers } from "./paintData";
 import { parseSurface } from "./surfaceTypes";
 
@@ -79,7 +80,7 @@ export function patchAllBases(doc: DesignDocument, patch: Partial<NailDesign>): 
   // Explicit legacy finish/pattern/texture choices must remain functional, not
   // be silently hidden under a newer procedural finish. Color/fit edits keep it.
   const legacySurface = ["finish","material","pattern","textureUrl"].some(k=>Object.hasOwn(patch,k));
-  return { ...doc, updatedAt:new Date().toISOString(), fingers:doc.fingers.map(f=>({...f,base:{...f.base,...patch},...(legacySurface&&f.surface?{surface:undefined}:{})})) };
+  return { ...doc, updatedAt:new Date().toISOString(), fingers:doc.fingers.map(f=>({...f,base:patchNailDesign(f.base,patch),...(legacySurface&&f.surface?{surface:undefined}:{})})) };
 }
 export type DocumentHistory = { past: DesignDocument[]; present: DesignDocument; future: DesignDocument[] };
 export function historyChange(h: DocumentHistory, next: DesignDocument): DocumentHistory { return {past:[...h.past,h.present].slice(-40),present:next,future:[]}; }

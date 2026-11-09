@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {readFile,writeFile} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 import path from 'node:path';
+import {workshopPerformanceFixtures} from './lib/workshop-performance-fixtures.mjs';
+import {importTypescript} from './lib/import-typescript.mjs';
 const args=process.argv.slice(2),opt=n=>args.includes(n)?args[args.indexOf(n)+1]:undefined;
 const base=opt('--base-url')??'http://127.0.0.1:4220',runs=Number(opt('--runs')??3);
 if(!['localhost','127.0.0.1'].includes(new URL(base).hostname))throw Error('Local production only');
@@ -13,6 +15,8 @@ const {chromium}=await import(pathToFileURL(path.resolve(opt('--playwright-modul
 const imageData=opt('--image')?'data:image/jpeg;base64,'+(await readFile(opt('--image'))).toString('base64'):'';
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
 const navigation=[],camera=[],errors=[];
+const maximum=args.includes('--max-art')?(await workshopPerformanceFixtures()).find(f=>f.name==='maximum').document:null;
+const draftKey=maximum?(await importTypescript('src/lib/workshopData.ts')).WORKSHOP_DRAFT:null;
 async function setup(cpu=1){
  const context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage(),cdp=await context.newCDPSession(page);
  // Playwright route() disables HTTP cache. Block third parties via CDP instead
@@ -36,18 +40,21 @@ try{
  }
  if(!args.includes('--nav-only'))for(let run=0;run<runs;run++){
   const {context,page}=await setup(1);
+  if(maximum)await page.addInitScript(({key,doc})=>{localStorage.setItem(key,JSON.stringify(doc));window.__maxArt=true;},{key:draftKey,doc:maximum});
   await page.addInitScript(()=>{
    Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async s=>{window.__snapshot=JSON.parse(s);}}});
    window.__wasm=[];
    for(const key of ['instantiate','instantiateStreaming']){const original=WebAssembly[key];if(!original)continue;WebAssembly[key]=function(...args){const start=performance.now(),size=args[0]?.byteLength??null;const result=original.apply(this,args);if(result?.then)return result.then(value=>{window.__wasm.push({api:key,size,ms:performance.now()-start,start});return value;},e=>{window.__wasm.push({api:key,size,ms:performance.now()-start,start,failed:true});throw e;});return result;};}
    const clear=CanvasRenderingContext2D.prototype.clearRect,rotate=CanvasRenderingContext2D.prototype.rotate;
    CanvasRenderingContext2D.prototype.clearRect=function(...a){if(this.canvas.classList.contains('nail-canvas'))window.__rotations=0;return clear.apply(this,a);};
-   CanvasRenderingContext2D.prototype.rotate=function(...a){if(this.canvas.classList.contains('nail-canvas')&&++window.__rotations===10&&window.__start&&!window.__firstFive&&this.globalAlpha>.05&&Number(getComputedStyle(this.canvas).opacity)>.05&&document.querySelector('.detection-status')?.textContent==='手を検出しました')window.__firstFive=performance.now();return rotate.apply(this,a);};
+   CanvasRenderingContext2D.prototype.rotate=function(...a){if(!window.__maxArt&&this.canvas.classList.contains('nail-canvas')&&++window.__rotations===10&&window.__start&&!window.__firstFive&&this.globalAlpha>.05&&Number(getComputedStyle(this.canvas).opacity)>.05&&document.querySelector('.detection-status')?.textContent==='手を検出しました')window.__firstFive=performance.now();return rotate.apply(this,a);};
    document.addEventListener('playing',()=>{if(window.__start&&!window.__videoReady)window.__videoReady=performance.now();},true);
-   new MutationObserver(()=>{if(window.__start&&!window.__firstHand&&document.querySelector('.detection-status')?.textContent==='手を検出しました')window.__firstHand=performance.now();}).observe(document,{subtree:true,childList:true,characterData:true});
+   new MutationObserver(()=>{if(window.__start&&!window.__firstHand&&document.querySelector('.detection-status')?.textContent==='手を検出しました')window.__firstHand=performance.now();
+    if(window.__maxArt&&window.__firstHand&&!window.__firstFive&&document.querySelector('.tracking-diagnostics')?.textContent.includes('描画呼出 5本'))window.__firstFive=performance.now();
+   }).observe(document,{subtree:true,childList:true,characterData:true});
   });
   for(const cache of ['cold','warm']){
-   await page.goto(base+'/try-on?diagnostics=1',{waitUntil:'networkidle'});await page.locator('.tracking-diagnostics').waitFor();
+   await page.goto(base+'/try-on?diagnostics=1'+(maximum?'&draft=1':''),{waitUntil:'networkidle'});await page.locator('.tracking-diagnostics').waitFor();
    await page.evaluate(async src=>{const image=new Image();image.src=src;await image.decode();const c=document.createElement('canvas');c.width=640;c.height=480;const x=c.getContext('2d');window.__timer=setInterval(()=>{x.fillStyle='#777';x.fillRect(0,0,640,480);const h=430,w=h*image.width/image.height;x.drawImage(image,320-w/2,240-h/2,w,h);},33);navigator.mediaDevices.getUserMedia=async()=>{window.__gum=performance.now();const s=c.captureStream(30);window.__stream=s;return s;};navigator.mediaDevices.enumerateDevices=async()=>[{kind:'videoinput',deviceId:'qa',label:'QA Camera'}];window.__start=performance.now();},imageData);
    await page.locator('.bottom-nav').getByRole('button',{name:'カメラ',exact:true}).click();
    await page.waitForFunction(()=>window.__firstFive>0);await page.waitForFunction(()=>document.querySelector('.tracking-diagnostics')?.textContent.includes('描画呼出 5本'));

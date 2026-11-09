@@ -1,8 +1,14 @@
 // Pixel equality, not subjective realism, physical fit, or hardware phone QA.
 import assert from'node:assert/strict';import{writeFile}from'node:fs/promises';import{pathToFileURL}from'node:url';import path from'node:path';import{typescriptModuleUrl,importTypescript}from'./lib/import-typescript.mjs';import{workshopPerformanceFixtures}from'./lib/workshop-performance-fixtures.mjs';
 const args=process.argv.slice(2),opt=n=>args.includes(n)?args[args.indexOf(n)+1]:undefined,base=opt('--base-url');if(!['localhost','127.0.0.1'].includes(new URL(base).hostname))throw Error('Local only');
-const before=await typescriptModuleUrl(path.join(opt('--before-root'),'src/lib/paintRenderer.ts')),after=await typescriptModuleUrl('src/lib/paintRenderer.ts'),fixtures=await workshopPerformanceFixtures(),defaults=await importTypescript('src/lib/defaults.ts');
-const beforeNail=await typescriptModuleUrl(path.join(opt('--before-root'),'src/lib/nailRenderer.ts')),afterNail=await typescriptModuleUrl('src/lib/nailRenderer.ts');
+let before=await typescriptModuleUrl(path.join(opt('--before-root'),'src/lib/paintRenderer.ts')),after=await typescriptModuleUrl('src/lib/paintRenderer.ts'),fixtures=await workshopPerformanceFixtures(),defaults=await importTypescript('src/lib/defaults.ts');
+let beforeNail=await typescriptModuleUrl(path.join(opt('--before-root'),'src/lib/nailRenderer.ts')),afterNail=await typescriptModuleUrl('src/lib/nailRenderer.ts');
+if(args.includes('--compare-current-direct')){
+ const url=await typescriptModuleUrl('src/lib/paintSurfaceCache.ts');
+ const direct='data:text/javascript;base64,'+Buffer.from(`import{PaintSurfaceCache as Base}from"${url}";export{paintCommands,samePaintCommands}from"${url}";export class PaintSurfaceCache extends Base{find(){return{surface:undefined,prefix:undefined};}}`).toString('base64');
+ before=await typescriptModuleUrl('src/lib/paintRenderer.ts',{'./paintSurfaceCache':direct});
+ beforeNail=await typescriptModuleUrl('src/lib/nailRenderer.ts',{'./paintRenderer':before});
+}
 const{chromium}=await import(pathToFileURL(path.resolve(opt('--playwright-module'))).href),browser=await chromium.launch({channel:'chrome',headless:true});
 try{const p=await browser.newPage();await p.route(/googlesyndication|googletagmanager|google-analytics/,r=>r.abort());await p.goto(base+'/create',{waitUntil:'networkidle'});
  const result=await p.evaluate(async({before,after,beforeNail,afterNail,fixtures,defaults})=>{
@@ -25,6 +31,6 @@ try{const p=await browser.newPage();await p.route(/googlesyndication|googletagma
   // Exact prefix/full hits really occurred, not just a no-cache comparison.
   const stats=b.paintRenderCacheStats();return{rows,stats};
  },{before,after,beforeNail,afterNail,fixtures,defaults});
- await writeFile(opt('--output'),JSON.stringify({scope:'Chrome exact RGBA equality vs frozen 10d3da5, all fixture sizes/light modes, edit/erase/metadata/order and nail clips',...result},null,2));
+ await writeFile(opt('--output'),JSON.stringify({scope:args.includes('--compare-current-direct')?'Current optical renderer: cache bypass vs optimized exact RGBA; all sizes/metadata/order/erasers/clips. NOT equality to intentionally changed old optics.':'Chrome exact RGBA equality vs frozen renderer',...result},null,2));
  assert.ok(result.stats.hits>0);assert.ok(result.stats.prefixHits>0);assert.ok(result.stats.pixels<=4000000);assert.deepEqual(result.rows.filter(r=>r.changedChannels),[]);console.log(`${result.rows.length} exact-pixel cases, cache hits=${result.stats.hits}, prefix hits=${result.stats.prefixHits}, retained pixels=${result.stats.pixels}`);
 }finally{await browser.close();}

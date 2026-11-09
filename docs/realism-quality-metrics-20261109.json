@@ -1,0 +1,1170 @@
+{
+  "classic": [
+    {
+      "fixture": "light",
+      "scenario": "cached",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 1.2,
+        "rafFps": 230.238,
+        "heapMiB": 26.745
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 228.441,
+        "heapMiB": 27.177
+      }
+    },
+    {
+      "fixture": "light",
+      "scenario": "alternating-distance",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.2,
+        "rafFps": 239.904,
+        "heapMiB": 23.119
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.952,
+        "heapMiB": 23.491
+      }
+    },
+    {
+      "fixture": "light",
+      "scenario": "continuous-distance",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.2,
+        "rafFps": 239.904,
+        "heapMiB": 20.645
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.904,
+        "heapMiB": 21.061
+      }
+    },
+    {
+      "fixture": "light",
+      "scenario": "active-ink",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.952,
+        "heapMiB": 21.968
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.2,
+        "rafFps": 239.904,
+        "heapMiB": 18.433
+      }
+    },
+    {
+      "fixture": "light",
+      "scenario": "active-eraser",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.904,
+        "heapMiB": 19.656
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.856,
+        "heapMiB": 19.777
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "cached",
+      "before": {
+        "p50": 0.2,
+        "p90": 0.2,
+        "p99": 0.3,
+        "worst": 0.4,
+        "rafFps": 239.904,
+        "heapMiB": 18.323
+      },
+      "after": {
+        "p50": 0.2,
+        "p90": 0.3,
+        "p99": 0.3,
+        "worst": 0.4,
+        "rafFps": 239.856,
+        "heapMiB": 18.069
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "alternating-distance",
+      "before": {
+        "p50": 0.2,
+        "p90": 0.2,
+        "p99": 0.3,
+        "worst": 1.7,
+        "rafFps": 239.904,
+        "heapMiB": 20.699
+      },
+      "after": {
+        "p50": 0.2,
+        "p90": 0.3,
+        "p99": 0.3,
+        "worst": 1.9,
+        "rafFps": 239.904,
+        "heapMiB": 20.611
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "continuous-distance",
+      "before": {
+        "p50": 0.5,
+        "p90": 0.8,
+        "p99": 1.2,
+        "worst": 1.8,
+        "rafFps": 239.904,
+        "heapMiB": 19.686
+      },
+      "after": {
+        "p50": 0.5,
+        "p90": 0.9,
+        "p99": 1.4,
+        "worst": 1.9,
+        "rafFps": 239.904,
+        "heapMiB": 19.801
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "active-ink",
+      "before": {
+        "p50": 0.3,
+        "p90": 0.4,
+        "p99": 0.5,
+        "worst": 1.2,
+        "rafFps": 239.856,
+        "heapMiB": 18.795
+      },
+      "after": {
+        "p50": 0.3,
+        "p90": 0.4,
+        "p99": 0.5,
+        "worst": 1.2,
+        "rafFps": 239.904,
+        "heapMiB": 18.55
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "active-eraser",
+      "before": {
+        "p50": 0.2,
+        "p90": 0.2,
+        "p99": 0.3,
+        "worst": 0.3,
+        "rafFps": 239.904,
+        "heapMiB": 21.329
+      },
+      "after": {
+        "p50": 0.2,
+        "p90": 0.2,
+        "p99": 0.3,
+        "worst": 0.4,
+        "rafFps": 239.904,
+        "heapMiB": 21.043
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "cached",
+      "before": {
+        "p50": 0.2,
+        "p90": 0.3,
+        "p99": 0.3,
+        "worst": 0.5,
+        "rafFps": 239.856,
+        "heapMiB": 23.133
+      },
+      "after": {
+        "p50": 0.3,
+        "p90": 0.3,
+        "p99": 0.4,
+        "worst": 1.1,
+        "rafFps": 239.904,
+        "heapMiB": 20.379
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "alternating-distance",
+      "before": {
+        "p50": 0.2,
+        "p90": 0.3,
+        "p99": 0.4,
+        "worst": 10.6,
+        "rafFps": 237.954,
+        "heapMiB": 20.092
+      },
+      "after": {
+        "p50": 0.2,
+        "p90": 0.3,
+        "p99": 0.4,
+        "worst": 13.1,
+        "rafFps": 237.859,
+        "heapMiB": 22.903
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "continuous-distance",
+      "before": {
+        "p50": 2.3,
+        "p90": 10.6,
+        "p99": 31.2,
+        "worst": 46.9,
+        "rafFps": 155.622,
+        "heapMiB": 24.198
+      },
+      "after": {
+        "p50": 2.3,
+        "p90": 15.7,
+        "p99": 33.3,
+        "worst": 50.1,
+        "rafFps": 144.665,
+        "heapMiB": 23.624
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "active-ink",
+      "before": {
+        "p50": 0.6,
+        "p90": 0.7,
+        "p99": 0.8,
+        "worst": 1.2,
+        "rafFps": 239.952,
+        "heapMiB": 21.118
+      },
+      "after": {
+        "p50": 0.6,
+        "p90": 0.7,
+        "p99": 0.8,
+        "worst": 0.9,
+        "rafFps": 239.856,
+        "heapMiB": 22.933
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "active-eraser",
+      "before": {
+        "p50": 2.5,
+        "p90": 24.4,
+        "p99": 27.8,
+        "worst": 32.3,
+        "rafFps": 114.253,
+        "heapMiB": 23.577
+      },
+      "after": {
+        "p50": 4.2,
+        "p90": 26.1,
+        "p99": 29.2,
+        "worst": 35.6,
+        "rafFps": 107.817,
+        "heapMiB": 24.856
+      }
+    }
+  ],
+  "modern": [
+    {
+      "fixture": "light",
+      "scenario": "cached",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.3,
+        "worst": 0.3,
+        "rafFps": 230.282,
+        "heapMiB": 21.598
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.4,
+        "rafFps": 228.441,
+        "heapMiB": 22.636
+      }
+    },
+    {
+      "fixture": "light",
+      "scenario": "alternating-distance",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.904,
+        "heapMiB": 22.989
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.904,
+        "heapMiB": 19.991
+      }
+    },
+    {
+      "fixture": "light",
+      "scenario": "continuous-distance",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.856,
+        "heapMiB": 17.604
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.856,
+        "heapMiB": 18.339
+      }
+    },
+    {
+      "fixture": "light",
+      "scenario": "active-ink",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.952,
+        "heapMiB": 18.997
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.904,
+        "heapMiB": 19.813
+      }
+    },
+    {
+      "fixture": "light",
+      "scenario": "active-eraser",
+      "before": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.904,
+        "heapMiB": 17.69
+      },
+      "after": {
+        "p50": 0.1,
+        "p90": 0.2,
+        "p99": 0.2,
+        "worst": 0.3,
+        "rafFps": 239.904,
+        "heapMiB": 18.355
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "cached",
+      "before": {
+        "p50": 0.3,
+        "p90": 0.4,
+        "p99": 0.5,
+        "worst": 0.6,
+        "rafFps": 239.856,
+        "heapMiB": 25.814
+      },
+      "after": {
+        "p50": 0.4,
+        "p90": 0.5,
+        "p99": 0.6,
+        "worst": 0.8,
+        "rafFps": 239.904,
+        "heapMiB": 19.278
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "alternating-distance",
+      "before": {
+        "p50": 0.3,
+        "p90": 0.4,
+        "p99": 0.5,
+        "worst": 1.9,
+        "rafFps": 239.904,
+        "heapMiB": 20.808
+      },
+      "after": {
+        "p50": 0.4,
+        "p90": 0.5,
+        "p99": 0.6,
+        "worst": 2.3,
+        "rafFps": 239.856,
+        "heapMiB": 23.325
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "continuous-distance",
+      "before": {
+        "p50": 0.6,
+        "p90": 1,
+        "p99": 1.4,
+        "worst": 1.9,
+        "rafFps": 239.904,
+        "heapMiB": 20.788
+      },
+      "after": {
+        "p50": 0.8,
+        "p90": 1.1,
+        "p99": 1.7,
+        "worst": 2.2,
+        "rafFps": 239.904,
+        "heapMiB": 22.711
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "active-ink",
+      "before": {
+        "p50": 0.5,
+        "p90": 0.6,
+        "p99": 0.6,
+        "worst": 1.3,
+        "rafFps": 239.856,
+        "heapMiB": 19.455
+      },
+      "after": {
+        "p50": 0.6,
+        "p90": 0.7,
+        "p99": 0.8,
+        "worst": 1.5,
+        "rafFps": 239.856,
+        "heapMiB": 21.425
+      }
+    },
+    {
+      "fixture": "standard",
+      "scenario": "active-eraser",
+      "before": {
+        "p50": 0.3,
+        "p90": 0.4,
+        "p99": 0.4,
+        "worst": 0.6,
+        "rafFps": 239.856,
+        "heapMiB": 22.629
+      },
+      "after": {
+        "p50": 0.4,
+        "p90": 0.5,
+        "p99": 0.6,
+        "worst": 0.7,
+        "rafFps": 239.856,
+        "heapMiB": 18.618
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "cached",
+      "before": {
+        "p50": 0.5,
+        "p90": 0.5,
+        "p99": 0.6,
+        "worst": 0.6,
+        "rafFps": 239.904,
+        "heapMiB": 18.291
+      },
+      "after": {
+        "p50": 0.6,
+        "p90": 0.7,
+        "p99": 0.9,
+        "worst": 1.5,
+        "rafFps": 239.856,
+        "heapMiB": 25.156
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "alternating-distance",
+      "before": {
+        "p50": 0.4,
+        "p90": 0.5,
+        "p99": 0.6,
+        "worst": 11,
+        "rafFps": 237.906,
+        "heapMiB": 20.145
+      },
+      "after": {
+        "p50": 0.6,
+        "p90": 0.7,
+        "p99": 0.7,
+        "worst": 11.4,
+        "rafFps": 237.906,
+        "heapMiB": 28.287
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "continuous-distance",
+      "before": {
+        "p50": 2.5,
+        "p90": 17.7,
+        "p99": 33.4,
+        "worst": 43.2,
+        "rafFps": 118.448,
+        "heapMiB": 20.408
+      },
+      "after": {
+        "p50": 2.7,
+        "p90": 25.3,
+        "p99": 33.6,
+        "worst": 54.5,
+        "rafFps": 117.971,
+        "heapMiB": 28.977
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "active-ink",
+      "before": {
+        "p50": 0.8,
+        "p90": 0.9,
+        "p99": 1,
+        "worst": 1.4,
+        "rafFps": 239.952,
+        "heapMiB": 22.281
+      },
+      "after": {
+        "p50": 1,
+        "p90": 1.1,
+        "p99": 1.2,
+        "worst": 1.2,
+        "rafFps": 239.856,
+        "heapMiB": 20.556
+      }
+    },
+    {
+      "fixture": "maximum",
+      "scenario": "active-eraser",
+      "before": {
+        "p50": 2.8,
+        "p90": 24.9,
+        "p99": 27.9,
+        "worst": 29.8,
+        "rafFps": 86.705,
+        "heapMiB": 23.14
+      },
+      "after": {
+        "p50": 7.1,
+        "p90": 28,
+        "p99": 31.2,
+        "worst": 39.2,
+        "rafFps": 84.926,
+        "heapMiB": 17.597
+      }
+    }
+  ],
+  "ui": [
+    {
+      "fixture": "light",
+      "before": {
+        "inputToCanvasStartMs": {
+          "p50": 1.3,
+          "p90": 1.7,
+          "p99": 2.3
+        },
+        "inputToTwoRafMs": {
+          "p50": 8.5,
+          "p90": 8.7,
+          "p99": 10.2
+        },
+        "undoRedoMs": {
+          "p50": 8.3,
+          "p90": 8.4,
+          "p99": 8.4
+        },
+        "rafIntervalMs": {
+          "p50": 4.2,
+          "p90": 4.2,
+          "p99": 4.3
+        },
+        "saveUiMs": 9.6,
+        "canvasRetryMs": 15.5,
+        "heapBeforeMiB": 7.596,
+        "heapAfterMiB": 13.161
+      },
+      "after": {
+        "inputToCanvasStartMs": {
+          "p50": 1.3,
+          "p90": 1.7,
+          "p99": 2.2
+        },
+        "inputToTwoRafMs": {
+          "p50": 8.5,
+          "p90": 8.6,
+          "p99": 10
+        },
+        "undoRedoMs": {
+          "p50": 8.3,
+          "p90": 8.4,
+          "p99": 8.5
+        },
+        "rafIntervalMs": {
+          "p50": 4.2,
+          "p90": 4.3,
+          "p99": 4.3
+        },
+        "saveUiMs": 9.8,
+        "canvasRetryMs": 15.8,
+        "heapBeforeMiB": 8.206,
+        "heapAfterMiB": 13.872
+      }
+    },
+    {
+      "fixture": "standard",
+      "before": {
+        "inputToCanvasStartMs": {
+          "p50": 1.7,
+          "p90": 2,
+          "p99": 2.4
+        },
+        "inputToTwoRafMs": {
+          "p50": 8.5,
+          "p90": 8.6,
+          "p99": 8.8
+        },
+        "undoRedoMs": {
+          "p50": 8.3,
+          "p90": 8.4,
+          "p99": 8.5
+        },
+        "rafIntervalMs": {
+          "p50": 4.2,
+          "p90": 4.3,
+          "p99": 4.3
+        },
+        "saveUiMs": 9.7,
+        "canvasRetryMs": 17.6,
+        "heapBeforeMiB": 8.577,
+        "heapAfterMiB": 12.788
+      },
+      "after": {
+        "inputToCanvasStartMs": {
+          "p50": 1.7,
+          "p90": 2,
+          "p99": 2.3
+        },
+        "inputToTwoRafMs": {
+          "p50": 8.5,
+          "p90": 8.6,
+          "p99": 8.8
+        },
+        "undoRedoMs": {
+          "p50": 8.3,
+          "p90": 8.4,
+          "p99": 8.4
+        },
+        "rafIntervalMs": {
+          "p50": 4.2,
+          "p90": 4.2,
+          "p99": 4.3
+        },
+        "saveUiMs": 9,
+        "canvasRetryMs": 15.5,
+        "heapBeforeMiB": 8.668,
+        "heapAfterMiB": 13.401
+      }
+    },
+    {
+      "fixture": "heavy",
+      "before": {
+        "inputToCanvasStartMs": {
+          "p50": 1.9,
+          "p90": 2.2,
+          "p99": 2.7
+        },
+        "inputToTwoRafMs": {
+          "p50": 8.4,
+          "p90": 8.7,
+          "p99": 9.2
+        },
+        "undoRedoMs": {
+          "p50": 8.3,
+          "p90": 8.4,
+          "p99": 8.5
+        },
+        "rafIntervalMs": {
+          "p50": 4.2,
+          "p90": 4.2,
+          "p99": 4.3
+        },
+        "saveUiMs": 21,
+        "canvasRetryMs": 16.6,
+        "heapBeforeMiB": 10.601,
+        "heapAfterMiB": 20.15
+      },
+      "after": {
+        "inputToCanvasStartMs": {
+          "p50": 1.9,
+          "p90": 2.2,
+          "p99": 2.6
+        },
+        "inputToTwoRafMs": {
+          "p50": 8.4,
+          "p90": 8.7,
+          "p99": 9.9
+        },
+        "undoRedoMs": {
+          "p50": 8.3,
+          "p90": 8.4,
+          "p99": 8.4
+        },
+        "rafIntervalMs": {
+          "p50": 4.2,
+          "p90": 4.2,
+          "p99": 4.3
+        },
+        "saveUiMs": 19.5,
+        "canvasRetryMs": 16.4,
+        "heapBeforeMiB": 10.683,
+        "heapAfterMiB": 21.188
+      }
+    },
+    {
+      "fixture": "maximum",
+      "before": {
+        "inputToCanvasStartMs": {
+          "p50": 1.8,
+          "p90": 2.4,
+          "p99": 2.6
+        },
+        "inputToTwoRafMs": {
+          "p50": 8.4,
+          "p90": 8.8,
+          "p99": 10.5
+        },
+        "undoRedoMs": {
+          "p50": 8.3,
+          "p90": 8.4,
+          "p99": 8.5
+        },
+        "rafIntervalMs": {
+          "p50": 4.2,
+          "p90": 4.2,
+          "p99": 4.3
+        },
+        "saveUiMs": 27.8,
+        "canvasRetryMs": 15.9,
+        "heapBeforeMiB": 12.902,
+        "heapAfterMiB": 20.178
+      },
+      "after": {
+        "inputToCanvasStartMs": {
+          "p50": 1.8,
+          "p90": 2.4,
+          "p99": 2.6
+        },
+        "inputToTwoRafMs": {
+          "p50": 8.4,
+          "p90": 9,
+          "p99": 9.3
+        },
+        "undoRedoMs": {
+          "p50": 8.3,
+          "p90": 8.4,
+          "p99": 8.4
+        },
+        "rafIntervalMs": {
+          "p50": 4.2,
+          "p90": 4.2,
+          "p99": 4.3
+        },
+        "saveUiMs": 27.1,
+        "canvasRetryMs": 16.8,
+        "heapBeforeMiB": 12.975,
+        "heapAfterMiB": 20.173
+      }
+    }
+  ],
+  "startup": {
+    "before": {
+      "navigation": [
+        {
+          "route": "/",
+          "ttfbMs": 4.6,
+          "fcpMs": 1444,
+          "blockingMs": 127,
+          "lcpMs": 1452,
+          "jsKiB": 267.802
+        },
+        {
+          "route": "/try-on",
+          "ttfbMs": 3.8,
+          "fcpMs": 1104,
+          "blockingMs": 355,
+          "lcpMs": 1104,
+          "jsKiB": 267.802
+        }
+      ],
+      "camera": [
+        {
+          "cache": "cold",
+          "getUserMediaMs": 25.8,
+          "videoReadyMs": 59,
+          "firstHandUiMs": 10269.1,
+          "firstFiveMs": 10612,
+          "initMs": 8025.7,
+          "modelP50": 162.8,
+          "pixelsP50": 68.3,
+          "drawMs": 0.2,
+          "drawFps": 9.098,
+          "detectionFps": 2.729,
+          "heapMB": 34.778,
+          "rendered": [
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "cache": "warm",
+          "getUserMediaMs": 16.1,
+          "videoReadyMs": 54.6,
+          "firstHandUiMs": 7254.4,
+          "firstFiveMs": 7624.6,
+          "initMs": 5147.7,
+          "modelP50": 161.6,
+          "pixelsP50": 67.9,
+          "drawMs": 0.2,
+          "drawFps": 9.991,
+          "detectionFps": 2.997,
+          "heapMB": 36.723,
+          "rendered": [
+            5,
+            5,
+            5
+          ]
+        }
+      ]
+    },
+    "after": {
+      "navigation": [
+        {
+          "route": "/",
+          "ttfbMs": 4.3,
+          "fcpMs": 1428,
+          "blockingMs": 143,
+          "lcpMs": 1460,
+          "jsKiB": 275.304
+        },
+        {
+          "route": "/try-on",
+          "ttfbMs": 3.1,
+          "fcpMs": 1024,
+          "blockingMs": 282,
+          "lcpMs": 1024,
+          "jsKiB": 275.304
+        }
+      ],
+      "camera": [
+        {
+          "cache": "cold",
+          "getUserMediaMs": 22.4,
+          "videoReadyMs": 63.7,
+          "firstHandUiMs": 10355,
+          "firstFiveMs": 10695.7,
+          "initMs": 8031.1,
+          "modelP50": 161.8,
+          "pixelsP50": 67.5,
+          "drawMs": 0.2,
+          "drawFps": 9.607,
+          "detectionFps": 2.882,
+          "heapMB": 30.976,
+          "rendered": [
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "cache": "warm",
+          "getUserMediaMs": 22,
+          "videoReadyMs": 49.2,
+          "firstHandUiMs": 7438.8,
+          "firstFiveMs": 7821.2,
+          "initMs": 5185.9,
+          "modelP50": 163.4,
+          "pixelsP50": 65.6,
+          "drawMs": 0.2,
+          "drawFps": 9.482,
+          "detectionFps": 2.861,
+          "heapMB": 38.897,
+          "rendered": [
+            5,
+            5,
+            5
+          ]
+        }
+      ]
+    }
+  },
+  "maximumCamera": {
+    "before": [
+      {
+        "cache": "cold",
+        "firstFiveMs": 10730.6,
+        "modelP50": 187.69999999995343,
+        "pixelsP50": 72.5,
+        "drawMs": 0.4000000001396984,
+        "drawFps": 9.973072703700003,
+        "detectionFps": 2.9919218111100006,
+        "heapMB": 34.17531967163086,
+        "rendered": 5
+      },
+      {
+        "cache": "warm",
+        "firstFiveMs": 7903.8,
+        "modelP50": 177.80000000004657,
+        "pixelsP50": 67,
+        "drawMs": 0.19999999995343387,
+        "drawFps": 9.334453467749462,
+        "detectionFps": 2.8003360403248387,
+        "heapMB": 46.31881904602051,
+        "rendered": 5
+      }
+    ],
+    "after": [
+      {
+        "cache": "cold",
+        "firstFiveMs": 10977,
+        "modelP50": 174.5,
+        "pixelsP50": 68.1999999997206,
+        "drawMs": 0.3000000002793968,
+        "drawFps": 8.255232360510856,
+        "detectionFps": 2.4280095177973102,
+        "heapMB": 31.313941955566406,
+        "rendered": 5
+      },
+      {
+        "cache": "warm",
+        "firstFiveMs": 8434.5,
+        "modelP50": 184.39999999990687,
+        "pixelsP50": 65.5,
+        "drawMs": 0.20000000018626451,
+        "drawFps": 8.13228517213337,
+        "detectionFps": 2.710761724044457,
+        "heapMB": 65.34488201141357,
+        "rendered": 5
+      }
+    ]
+  },
+  "pairedMaximum": [
+    {
+      "kind": "classic",
+      "scenario": "cached",
+      "before": {
+        "p50": 0.3,
+        "p90": 0.4,
+        "p99": 0.5,
+        "worst": 0.7,
+        "rafFps": 238.9,
+        "p90Range": [
+          0.4,
+          0.4
+        ],
+        "heapMiB": 18.99
+      },
+      "after": {
+        "p50": 0.3,
+        "p90": 0.4,
+        "p99": 0.4,
+        "worst": 0.5,
+        "rafFps": 239.9,
+        "p90Range": [
+          0.4,
+          0.4
+        ],
+        "heapMiB": 19.56
+      }
+    },
+    {
+      "kind": "classic",
+      "scenario": "continuous-distance",
+      "before": {
+        "p50": 2.5,
+        "p90": 25,
+        "p99": 32.3,
+        "worst": 51.4,
+        "rafFps": 118.23,
+        "p90Range": [
+          25,
+          26.2
+        ],
+        "heapMiB": 16.5
+      },
+      "after": {
+        "p50": 2.6,
+        "p90": 26.5,
+        "p99": 35.9,
+        "worst": 57.7,
+        "rafFps": 111.15,
+        "p90Range": [
+          26.1,
+          26.6
+        ],
+        "heapMiB": 19.71
+      }
+    },
+    {
+      "kind": "classic",
+      "scenario": "active-eraser",
+      "before": {
+        "p50": 8.2,
+        "p90": 25.6,
+        "p99": 29.6,
+        "worst": 43.5,
+        "rafFps": 89.4,
+        "p90Range": [
+          24.7,
+          25.9
+        ],
+        "heapMiB": 19.55
+      },
+      "after": {
+        "p50": 7.2,
+        "p90": 26.6,
+        "p99": 29.2,
+        "worst": 41.8,
+        "rafFps": 85.29,
+        "p90Range": [
+          26.1,
+          26.7
+        ],
+        "heapMiB": 17.75
+      }
+    },
+    {
+      "kind": "modern",
+      "scenario": "cached",
+      "before": {
+        "p50": 0.5,
+        "p90": 0.6,
+        "p99": 0.6,
+        "worst": 0.8,
+        "rafFps": 238.92,
+        "p90Range": [
+          0.6,
+          0.6
+        ],
+        "heapMiB": 22.5
+      },
+      "after": {
+        "p50": 0.7,
+        "p90": 0.8,
+        "p99": 0.8,
+        "worst": 0.9,
+        "rafFps": 239.93,
+        "p90Range": [
+          0.7,
+          0.8
+        ],
+        "heapMiB": 18.08
+      }
+    },
+    {
+      "kind": "modern",
+      "scenario": "continuous-distance",
+      "before": {
+        "p50": 2.7,
+        "p90": 24.2,
+        "p99": 34.9,
+        "worst": 43.9,
+        "rafFps": 100.3,
+        "p90Range": [
+          23.4,
+          25.7
+        ],
+        "heapMiB": 18.9
+      },
+      "after": {
+        "p50": 2.9,
+        "p90": 26.5,
+        "p99": 37.3,
+        "worst": 59.6,
+        "rafFps": 98.08,
+        "p90Range": [
+          24.4,
+          26.6
+        ],
+        "heapMiB": 16.68
+      }
+    },
+    {
+      "kind": "modern",
+      "scenario": "active-eraser",
+      "before": {
+        "p50": 2.8,
+        "p90": 25.9,
+        "p99": 30,
+        "worst": 39.8,
+        "rafFps": 79.63,
+        "p90Range": [
+          25.6,
+          26.7
+        ],
+        "heapMiB": 18.23
+      },
+      "after": {
+        "p50": 5.6,
+        "p90": 27.4,
+        "p99": 32,
+        "worst": 41.1,
+        "rafFps": 77.49,
+        "p90Range": [
+          27.1,
+          28
+        ],
+        "heapMiB": 16.99
+      }
+    }
+  ]
+}

@@ -11,14 +11,16 @@ export function drawGelBase(ctx:CanvasRenderingContext2D,w:number,h:number,d:Nai
   // A transparent pigment layer reveals the original nail, not an invented skin texture.
   const g=ctx.createLinearGradient(0,-h/2,0,h/2);
   g.addColorStop(0,rgba(d.color,s.pigment*.92));g.addColorStop(.32,rgba(d.color,s.pigment));
-  g.addColorStop(.82,rgba(d.color,s.pigment*.92));g.addColorStop(1,rgba(d.color,s.pigment*.35));
+  g.addColorStop(.82,rgba(d.color,s.pigment*.92));
+  if(s.kind==="matte") g.addColorStop(1,rgba(d.color,s.pigment*.35));
+  else {g.addColorStop(.97,rgba(d.color,s.pigment*.78));g.addColorStop(1,rgba(d.color,s.pigment*.52));}
   ctx.fillStyle=g;fill(ctx,w,h);
   if(s.kind==="milky") { const milk=ctx.createRadialGradient(0,-h*.1,0,0,0,h*.6);milk.addColorStop(0,"rgba(255,250,243,.17)");milk.addColorStop(1,"rgba(255,250,243,0)");ctx.fillStyle=milk;fill(ctx,w,h); }
 }
 
 export function drawGelPattern(ctx:CanvasRenderingContext2D,w:number,h:number,d:NailDesign,s:NailSurface) {
   const kind=s.kind,amount=d.tipAmount;
-  if(kind==="gradient") { const g=ctx.createLinearGradient(0,-h/2,0,h/2);g.addColorStop(0,rgba(d.tipColor,.95));g.addColorStop(Math.min(.9,.25+amount),rgba(d.tipColor,.2));g.addColorStop(1,rgba(d.tipColor,0));ctx.fillStyle=g;fill(ctx,w,h); }
+  if(kind==="gradient") { ctx.save();try{ctx.scale(w,h);const g=ctx.createRadialGradient(0,-.54,0,0,-.54,.45+amount);g.addColorStop(0,rgba(d.tipColor,.9));g.addColorStop(.44,rgba(d.tipColor,.48));g.addColorStop(1,rgba(d.tipColor,0));ctx.fillStyle=g;ctx.fillRect(-.5,-.54,1,1.04);}finally{ctx.restore();} }
   if(["french","reverse-french","diagonal-french","half-french"].includes(kind)) {
     ctx.fillStyle=rgba(d.tipColor,.94);ctx.beginPath();
     if(kind==="reverse-french") {const y=h/2-h*amount;ctx.moveTo(-w/2,h/2);ctx.lineTo(-w/2,y);ctx.quadraticCurveTo(0,y+h*.24*s.curve,w/2,y);ctx.lineTo(w/2,h/2);}
@@ -35,19 +37,24 @@ export function drawGelPattern(ctx:CanvasRenderingContext2D,w:number,h:number,d:
   if(kind==="aurora"||kind==="unicorn") {
     const a=s.angle*Math.PI/180,g=ctx.createLinearGradient(-w*Math.cos(a),-h*Math.sin(a),w*Math.cos(a),h*Math.sin(a));
     const colors=kind==="aurora"?["#a8e4e4","#ecb1dd","#eee7a0","#b8c9ee"]:["#ef9ebd","#eac793","#b2e9b0","#91d9df","#c0acf0","#eda3d3"];
-    colors.forEach((c,i)=>g.addColorStop(i/(colors.length-1),rgba(c,(kind==="aurora"?.18:.4)*(.4+s.intensity))));ctx.fillStyle=g;fill(ctx,w,h);
+    colors.forEach((c,i)=>g.addColorStop(i/(colors.length-1),rgba(c,(kind==="aurora"?.14:.28)*(.4+s.intensity))));ctx.fillStyle=g;fill(ctx,w,h);
     if(kind==="unicorn"){ctx.save();try{ctx.rotate(a);ctx.strokeStyle="rgba(255,255,255,.14)";ctx.lineWidth=w*.012;for(let i=-5;i<=5;i++){ctx.beginPath();ctx.moveTo(i*w*.16,-h);ctx.lineTo(i*w*.16,h);ctx.stroke();}}finally{ctx.restore();}}
   }
   if(kind==="magnet"||kind==="cat-eye") {
     ctx.save();try{ctx.scale(w,h);ctx.rotate(s.angle*Math.PI/180);const r=kind==="cat-eye"?.065:.28;
-      const g=ctx.createLinearGradient(-r,0,r,0);g.addColorStop(0,"rgba(255,244,218,0)");g.addColorStop(.37,`rgba(225,213,255,${s.intensity*.16})`);g.addColorStop(.5,`rgba(255,246,223,${s.intensity*.7})`);g.addColorStop(.63,`rgba(225,213,255,${s.intensity*.16})`);g.addColorStop(1,"rgba(255,244,218,0)");ctx.fillStyle=g;ctx.fillRect(-r,-2,r*2,4);
+      const g=ctx.createLinearGradient(-r,0,r,0);g.addColorStop(0,"rgba(255,244,218,0)");g.addColorStop(.24,`rgba(100,88,138,${s.intensity*.13})`);g.addColorStop(.43,`rgba(225,213,255,${s.intensity*.26})`);g.addColorStop(.5,`rgba(255,246,223,${s.intensity*.42})`);g.addColorStop(.57,`rgba(225,213,255,${s.intensity*.26})`);g.addColorStop(.76,`rgba(100,88,138,${s.intensity*.13})`);g.addColorStop(1,"rgba(255,244,218,0)");ctx.fillStyle=g;ctx.fillRect(-r,-2,r*2,4);
     }finally{ctx.restore();}
   }
   if(["magnet","cat-eye","hologram","glitter","flash"].includes(kind)) {
     const holo=kind==="hologram",count=holo?26:kind==="flash"?120:72;
     for(let i=0;i<count;i++) {const x=(random(i*3)-.5)*w,y=(random(i*3+1)-.5)*h,r=w*(holo?.012+.02*s.grain:.003+.013*s.grain)*(holo?1.1:.5+random(i*3+2));
-      ctx.fillStyle=holo?`hsla(${Math.round(random(i+900)*360)},65%,78%,${.25+s.intensity*.45})`:rgba(i%3?d.tipColor:"#ffffff",.16+s.intensity*.45);ctx.beginPath();
-      if(holo){ctx.moveTo(x-r,y);ctx.lineTo(x,y-r*1.3);ctx.lineTo(x+r,y);ctx.lineTo(x,y+r*1.3);ctx.closePath();}else ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();
+      const projection=(x/w)*Math.cos(s.angle*Math.PI/180)+(y/h)*Math.sin(s.angle*Math.PI/180);
+      const focus=kind==="magnet"||kind==="cat-eye"?Math.exp(-projection*projection/(kind==="cat-eye"?.007:.065)):1;
+      const alpha=(.07+s.intensity*(.15+random(i+600)*.45))*focus;
+      ctx.fillStyle=holo?`hsla(${Math.round(random(i+900)*360)},45%,72%,${alpha})`:rgba(i%3?d.tipColor:"#ffffff",alpha);ctx.beginPath();
+      // Stable irregular flakes; no per-frame randomness or white disc stamps.
+      const a=random(i+300)*Math.PI,rx=r*(.5+random(i+400)),ry=r*(.35+random(i+500)*.6);
+      for(let k=0;k<4;k++){const t=a+k*Math.PI/2,px=x+Math.cos(t)*rx,py=y+Math.sin(t)*ry;if(k)ctx.lineTo(px,py);else ctx.moveTo(px,py);}ctx.closePath();ctx.fill();
       if(kind==="flash"&&i%13===0){ctx.strokeStyle=rgba("#ffffff",s.intensity*.6);ctx.lineWidth=w*.008;ctx.beginPath();ctx.moveTo(x-r*3,y);ctx.lineTo(x+r*3,y);ctx.moveTo(x,y-r*3);ctx.lineTo(x,y+r*3);ctx.stroke();}
     }
   }
@@ -68,9 +75,15 @@ export function drawGelTopcoat(ctx:CanvasRenderingContext2D,w:number,h:number,s:
       const x=Math.max(-.22,Math.min(.22,-.13*Math.cos(rotation*Math.PI/180)-.06*Math.sin(rotation*Math.PI/180)));
       ctx.save();ctx.translate(x,-.08);ctx.scale(.48+s.roughness*.65,1);
       const broad=ctx.createRadialGradient(0,0,.015,0,0,.47);broad.addColorStop(0,`rgba(255,${Math.round(253-light.warmth*5)},${Math.round(251-light.warmth*8)},${gloss*.22})`);broad.addColorStop(.55,`rgba(255,255,255,${gloss*.07})`);broad.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=broad;ctx.fillRect(-1,-1,2,2);ctx.restore();
-      ctx.save();ctx.translate(x,-.06);ctx.scale(.08+s.roughness*.12,.65);const strip=ctx.createRadialGradient(0,0,0,0,0,.48);strip.addColorStop(0,`rgba(255,255,255,${gloss*.28})`);strip.addColorStop(.5,`rgba(255,255,255,${gloss*.1})`);strip.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=strip;ctx.fillRect(-.5,-.5,1,1);ctx.restore();
+      ctx.save();ctx.translate(x,-.06);ctx.scale(.055+s.roughness*.12,.55);const strip=ctx.createRadialGradient(0,0,0,0,0,.48);strip.addColorStop(0,`rgba(255,255,255,${gloss*.38})`);strip.addColorStop(.5,`rgba(255,255,255,${gloss*.12})`);strip.addColorStop(1,"rgba(255,255,255,0)");ctx.fillStyle=strip;ctx.fillRect(-.5,-.5,1,1);ctx.restore();
     }
     // A short curved root wash, rather than an opaque dark cuticle outline.
     const root=ctx.createLinearGradient(0,.35,0,.5);root.addColorStop(0,"rgba(70,34,40,0)");root.addColorStop(1,"rgba(70,34,40,.035)");ctx.fillStyle=root;ctx.fillRect(-.5,.35,1,.15);
+    // Thin free-edge meniscus. It stays INSIDE the measured nail mask; scale
+    // with thickness, not with a fixed one-pixel outline around the skin.
+    if(s.kind!=="matte"){
+      ctx.lineWidth=.004+design.thickness*.008;ctx.strokeStyle=`rgba(255,250,245,${.035+gloss*.08})`;
+      ctx.beginPath();ctx.moveTo(-.31,-.45);ctx.quadraticCurveTo(0,-.49,.31,-.45);ctx.stroke();
+    }
   } finally {ctx.restore();}
 }

@@ -51,7 +51,7 @@ await run('model-delivery',['scripts/check-startup-delivery.mjs','--base-url',ba
 if(round===3){
  await run('studio-settings',['scripts/check-studio-settings-browser.mjs','--base-url',base,'--playwright-module',pm,'--output-dir',path.join(out,'studio-settings'),'--assert-fixed']);
  if(!opt('--before-root'))throw Error('--before-root required for independent final rendering comparison');
- await run('render-equality',['scripts/check-render-cache-browser.mjs','--base-url',base,'--playwright-module',pm,'--before-root',opt('--before-root'),'--output',path.join(out,'render-equality.json')]);
+ await run('render-equality',['scripts/check-render-cache-browser.mjs','--base-url',base,'--playwright-module',pm,'--before-root',opt('--before-root'),...(args.includes('--current-render-equality')?['--compare-current-direct']:[]),'--output',path.join(out,'render-equality.json')]);
  await run('visual-recheck',['scripts/check-release-visual-browser.mjs','--base-url',base,'--playwright-module',pm,'--output-dir',path.join(out,'visual-recheck'),'--strict']);
  await run('legacy-material-quality',['scripts/check-legacy-preset-quality-browser.mjs','--base-url',base,'--playwright-module',pm,'--output-dir',path.join(out,'legacy-material-quality'),'--strict']);
 }

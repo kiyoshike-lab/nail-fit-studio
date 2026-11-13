@@ -1,3 +1,4 @@
+import {takePaintScratch,returnPaintScratch,clearPaintScratch,paintScratchStats} from "./paintScratchPool";
 import type { FingerArt } from "./workshopTypes";
 import type { PaintLayer, PaintPoint, ShapeLayer, StrokeLayer } from "./paintTypes";
 import { artOrder } from "./paintData";
@@ -42,7 +43,7 @@ function paintStroke(ctx:CanvasRenderingContext2D,l:StrokeLayer) {
     stampPoints(l.points,Math.max(.004,l.lineWidth*l.spacing)).forEach((p,i)=>{
       const r=l.lineWidth/2;ctx.beginPath();
       if(l.tool==="holo"){
-        for(let n=0;n<5;n++){const [cos,sin]=holoDirections[i][n],x=p.x+cos*r,y=p.y+sin*r;if(n)ctx.lineTo(x,y);else ctx.moveTo(x,y);}ctx.closePath();
+        for(let n=0;n<5;n++){const direction=holoDirections[i][n],x=p.x+direction[0]*r,y=p.y+direction[1]*r;if(n)ctx.lineTo(x,y);else ctx.moveTo(x,y);}ctx.closePath();
       }else ctx.arc(p.x,p.y,l.tool==="glitter"?r*(.3+(i%3)*.2):r,0,Math.PI*2);
       ctx.fillStyle=l.tool==="dots"||i%3?l.color:l.secondary;ctx.fill();
       if(l.tool==="holo"){ctx.fillStyle=l.secondary;ctx.beginPath();ctx.arc(p.x-r*.2,p.y-r*.2,r*.2,0,Math.PI*2);ctx.fill();}
@@ -103,16 +104,24 @@ const cache=new PaintSurfaceCache();
 // Unmasked stamp raster reuse is useful while editing an eraser, but NOT while
 // distance changes continually. Admit only after the same layer/size is seen
 // twice on an actual cache miss. Keep this additional storage strictly bounded.
-const stampSurfaces=new PaintSurfaceCache(1_000_000,64);
+const stampSurfaces=new PaintSurfaceCache(1_000_000,64,64);
 let stampSizes=new WeakMap<PaintLayer,{w:number;h:number}>();
 // Aggregate local counters only; no design names, coordinates, images or network.
-export const paintRenderCacheStats=()=>({...cache.stats(),stampSurfaces:stampSurfaces.stats(),stampPositions:stampCache.size});
-export const clearPaintRenderCache=()=>{cache.clear();stampCache.clear();stampSurfaces.clear();stampSizes=new WeakMap();};
+export const paintRenderCacheStats=()=>({...cache.stats(),stampSurfaces:stampSurfaces.stats(),stampPositions:stampCache.size,scratch:paintScratchStats()});
+export const clearPaintRenderCache=()=>{clearPaintScratch();cache.clear();stampCache.clear();stampSurfaces.clear();stampSizes=new WeakMap();};
 let cacheLifecycleInstalled=false;
 // Bounded by both count and pixels; no growing per-frame history of surfaces.
 const MAX_CACHE_PIXELS=4_000_000;
 const defaultVisual={visible:true,opacity:1};
 const visual=(art:FingerArt,id:string)=>art.layerMeta&&Object.hasOwn(art.layerMeta,id)?art.layerMeta[id]:defaultVisual;
+type PaintPlan={partsRef:FingerArt["parts"];layersRef:FingerArt["layers"];orderRef:FingerArt["order"];metaRef:FingerArt["layerMeta"];order:string[];parts:Map<string,FingerArt["parts"][number]>;layers:Map<string,PaintLayer>;erasers:PaintLayer[]};
+const plans=new WeakMap<FingerArt,PaintPlan>();
+function paintPlan(art:FingerArt):PaintPlan{
+  const prior=plans.get(art);
+  if(prior&&prior.partsRef===art.parts&&prior.layersRef===art.layers&&prior.orderRef===art.order&&prior.metaRef===art.layerMeta)return prior;
+  const plan={partsRef:art.parts,layersRef:art.layers,orderRef:art.order,metaRef:art.layerMeta,order:artOrder(art).filter(id=>visual(art,id).visible&&visual(art,id).opacity>0),parts:new Map(art.parts.map(p=>[p.id,p])),layers:new Map((art.layers??[]).map(l=>[l.id,l])),erasers:(art.layers??[]).filter(l=>l.type==="stroke"&&l.tool==="eraser"&&visual(art,l.id).visible)};
+  plans.set(art,plan);return plan;
+}
 export function drawVisibleParts(ctx:CanvasRenderingContext2D,w:number,h:number,art:FingerArt,light=false,brightness=.65){
   const parts=new Map(art.parts.map(p=>[p.id,p]));for(const id of art.order??art.parts.map(p=>p.id)){const p=parts.get(id),m=visual(art,id);if(!p||!m.visible||m.opacity===0)continue;if(m.opacity===1)drawNailParts(ctx,w,h,[p],light,brightness);else{ctx.save();try{ctx.globalAlpha*=m.opacity;drawNailParts(ctx,w,h,[p],light,brightness);}finally{ctx.restore();}}}
 }
@@ -129,11 +138,10 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
   // prefix only when EVERY visual dependency (including later erasers) matches.
   let prefix=allowPrefix?found.prefix:undefined,createdPrefix=false;
   const skip=prefix?commands.length-1:0;
-  const surface=document.createElement("canvas"),scratch=document.createElement("canvas");
-  surface.width=scratch.width=bw;surface.height=scratch.height=bh;
+  const surface=document.createElement("canvas"),scratch=takePaintScratch(bw,bh);
+  surface.width=bw;surface.height=bh;
   const out=surface.getContext("2d"),ink=scratch.getContext("2d");if(!out||!ink){surface.width=surface.height=scratch.width=scratch.height=1;throw new Error("Paint Canvas unavailable");}
-  const order=artOrder(art).filter(id=>visual(art,id).visible&&visual(art,id).opacity>0),parts=new Map(art.parts.map(p=>[p.id,p])),layers=new Map((art.layers??[]).map(l=>[l.id,l]));
-  const erasers=(art.layers??[]).filter(l=>l.type==="stroke"&&l.tool==="eraser"&&visual(art,l.id).visible);
+  const {order,parts,layers,erasers}=paintPlan(art);
   const masks=new Map<string,HTMLCanvasElement>(),temporary:HTMLCanvasElement[]=[];
   try {
   // Union later eraser alpha once per suffix instead of replaying every path
@@ -144,7 +152,7 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
     for(let i=order.length-1;i>=0;i--){
       const l=layers.get(order[i]);if(!l)continue;
       if(l.type==="stroke"&&l.tool==="eraser"){
-        if(!mask||used){const next=document.createElement("canvas");temporary.push(next);next.width=bw;next.height=bh;const x=next.getContext("2d");if(!x)throw new Error("Eraser Canvas unavailable");if(mask)x.drawImage(mask,0,0);mask=next;used=false;}
+        if(!mask||used){const next=takePaintScratch(bw,bh);temporary.push(next);const x=next.getContext("2d");if(!x)throw new Error("Eraser Canvas unavailable");if(mask)x.drawImage(mask,0,0);mask=next;used=false;}
         const x=mask.getContext("2d")!;x.save();try{x.translate(bw/2,bh/2);x.globalAlpha*=visual(art,l.id).opacity;drawPaintLayer(x,nw,nh,l);}finally{x.restore();}
       }else if(mask){masks.set(l.id,mask);used=true;}
     }
@@ -155,7 +163,9 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
   for(let i=0;i<order.length;i++){
     const layer=layers.get(order[i]);if(layer?.type==="stroke"&&layer.tool==="eraser")continue;
     if(drawn++<skip)continue;
-    if(allowPrefix&&!prefix&&drawn===commands.length){const candidate=document.createElement("canvas");candidate.width=bw;candidate.height=bh;const x=candidate.getContext("2d");if(x){x.drawImage(surface,0,0);prefix=candidate;createdPrefix=true;}else candidate.width=candidate.height=1;}
+    // Only an observed last-object edit needs a retained prefix. Static scale
+    // changes must not create a second backing image of almost the same art.
+    if(allowPrefix&&found.retainPrefix&&!prefix&&drawn===commands.length){const candidate=document.createElement("canvas");candidate.width=bw;candidate.height=bh;const x=candidate.getContext("2d");if(x){x.drawImage(surface,0,0);prefix=candidate;createdPrefix=true;}else candidate.width=candidate.height=1;}
     const m=visual(art,order[i]),p=parts.get(order[i]);if(p){out.save();try{out.globalAlpha*=m.opacity;drawNailParts(out,nw,nh,[p],light,level);}finally{out.restore();}continue;}
     const l=layers.get(order[i]);if(!l||l.type==="stroke"&&l.tool==="eraser")continue;
     if(!erasers.length){out.save();try{out.globalAlpha*=m.opacity;drawPaintLayer(out,nw,nh,l);}finally{out.restore();}continue;}
@@ -187,9 +197,10 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
     }finally{ink.restore();}
     out.drawImage(scratch,-bw/2,-bh/2);
   }
-  }catch(error){surface.width=surface.height=1;if(createdPrefix)prefix!.width=prefix!.height=1;throw error;}finally{scratch.width=scratch.height=1;for(const mask of temporary)mask.width=mask.height=1;}
+  }catch(error){surface.width=surface.height=1;if(createdPrefix)prefix!.width=prefix!.height=1;throw error;}finally{returnPaintScratch(scratch);for(const mask of temporary)returnPaintScratch(mask);}
   cache.add({commands,surface,prefix,w:nw,h:nh,light,brightness:level});
-  // Temporary scratch backing memory is explicitly released after composition.
+  // Scratch/mask storage is returned to a separate bounded exact-size pool;
+  // oversized images are released rather than retained for later frames.
   return surface;
 }
 export function drawMixedArt(ctx:CanvasRenderingContext2D,w:number,h:number,art:FingerArt,light=false,brightness=.65) {

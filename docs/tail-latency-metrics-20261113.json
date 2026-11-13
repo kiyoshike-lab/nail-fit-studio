@@ -1,0 +1,4932 @@
+{
+  "date": "2026-11-13",
+  "baselineHead": "29958a9a950511db509b7c521a879618adf8c5ae",
+  "branch": "codex/nail-tail-latency",
+  "evidenceDirectory": "/C:/Users/nlgid/.codex/visualizations/2026/05/16/019e3149-2c2f-7ce2-a154-da042e23465d/tail-latency-20261113/",
+  "scope": "pooled per-draw CPU submission; same Chrome host, resolution and fixture; not presented FPS or real phones; JS peak excludes native/GPU",
+  "comparisons": {
+    "eraserUnpaced": {
+      "before": {
+        "files": [
+          "final-eraser-before-1.json",
+          "final-eraser-before-2.json",
+          "final-eraser-before-3.json"
+        ],
+        "runs": 3,
+        "frames": 7200,
+        "minMs": 1.1,
+        "p50Ms": 2,
+        "p90Ms": 7.9,
+        "p95Ms": 32.8,
+        "p99Ms": 34.8,
+        "maxMs": 58.1,
+        "longDrawCounts": {
+          "over16.7Ms": 540,
+          "over25Ms": 540,
+          "over33Ms": 319,
+          "over50Ms": 6
+        },
+        "submissionFps": 136.435,
+        "elapsedMs": 52772.2,
+        "observedJsPeakBytes": 26056358,
+        "gcEvents": 137,
+        "gcOverlapLongDraws": 2,
+        "perRun": [
+          {
+            "p50Ms": 2.1,
+            "p90Ms": 7.9,
+            "p95Ms": 32.8,
+            "p99Ms": 34.9,
+            "maxMs": 51.3,
+            "longDrawCounts": {
+              "over16.7Ms": 179,
+              "over25Ms": 179,
+              "over33Ms": 108,
+              "over50Ms": 1
+            },
+            "submissionFps": 136.194,
+            "jsPeakBytes": 25646202,
+            "gcEvents": 46,
+            "cacheStats": {
+              "hits": 9715,
+              "prefixHits": 0,
+              "misses": 2405,
+              "evictions": 2385,
+              "entries": 20,
+              "surfaces": 40,
+              "pixels": 322018,
+              "maxPixels": 4000000,
+              "stampSurfaces": {
+                "hits": 28788,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000
+              },
+              "stampPositions": 60
+            }
+          },
+          {
+            "p50Ms": 2,
+            "p90Ms": 7.8,
+            "p95Ms": 33,
+            "p99Ms": 35,
+            "maxMs": 55.2,
+            "longDrawCounts": {
+              "over16.7Ms": 184,
+              "over25Ms": 184,
+              "over33Ms": 118,
+              "over50Ms": 2
+            },
+            "submissionFps": 136.273,
+            "jsPeakBytes": 25522082,
+            "gcEvents": 45,
+            "cacheStats": {
+              "hits": 9715,
+              "prefixHits": 0,
+              "misses": 2405,
+              "evictions": 2385,
+              "entries": 20,
+              "surfaces": 40,
+              "pixels": 322018,
+              "maxPixels": 4000000,
+              "stampSurfaces": {
+                "hits": 28788,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000
+              },
+              "stampPositions": 60
+            }
+          },
+          {
+            "p50Ms": 1.9,
+            "p90Ms": 7.7,
+            "p95Ms": 32.7,
+            "p99Ms": 34.5,
+            "maxMs": 58.1,
+            "longDrawCounts": {
+              "over16.7Ms": 177,
+              "over25Ms": 177,
+              "over33Ms": 93,
+              "over50Ms": 3
+            },
+            "submissionFps": 136.841,
+            "jsPeakBytes": 26056358,
+            "gcEvents": 46,
+            "cacheStats": {
+              "hits": 9715,
+              "prefixHits": 0,
+              "misses": 2405,
+              "evictions": 2385,
+              "entries": 20,
+              "surfaces": 40,
+              "pixels": 322018,
+              "maxPixels": 4000000,
+              "stampSurfaces": {
+                "hits": 28788,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000
+              },
+              "stampPositions": 60
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 1331,
+            "drawMs": 58.1,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 1547,
+            "drawMs": 55.2,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 2325,
+            "drawMs": 53.3,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 1003,
+            "drawMs": 51.3,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 884,
+            "drawMs": 51.1,
+            "scale": 1,
+            "gcEvents": []
+          }
+        ]
+      },
+      "after": {
+        "files": [
+          "final-eraser-after-1.json",
+          "final-eraser-after-2.json",
+          "final-eraser-after-3.json"
+        ],
+        "runs": 3,
+        "frames": 7200,
+        "minMs": 1,
+        "p50Ms": 1.4,
+        "p90Ms": 7.7,
+        "p95Ms": 30.3,
+        "p99Ms": 32.6,
+        "maxMs": 54.5,
+        "longDrawCounts": {
+          "over16.7Ms": 493,
+          "over25Ms": 491,
+          "over33Ms": 41,
+          "over50Ms": 1
+        },
+        "submissionFps": 147.49,
+        "elapsedMs": 48816.9,
+        "observedJsPeakBytes": 26765384,
+        "gcEvents": 85,
+        "gcOverlapLongDraws": 1,
+        "perRun": [
+          {
+            "p50Ms": 3,
+            "p90Ms": 7.6,
+            "p95Ms": 30.2,
+            "p99Ms": 32.7,
+            "maxMs": 54.5,
+            "longDrawCounts": {
+              "over16.7Ms": 144,
+              "over25Ms": 144,
+              "over33Ms": 13,
+              "over50Ms": 1
+            },
+            "submissionFps": 147.366,
+            "jsPeakBytes": 26500594,
+            "gcEvents": 29,
+            "cacheStats": {
+              "hits": 9715,
+              "prefixHits": 0,
+              "misses": 2405,
+              "evictions": 2385,
+              "entries": 20,
+              "surfaces": 20,
+              "pixels": 161009,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 28788,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 10,
+                "pixels": 75778,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          },
+          {
+            "p50Ms": 1.3,
+            "p90Ms": 7.8,
+            "p95Ms": 30.4,
+            "p99Ms": 32,
+            "maxMs": 48.9,
+            "longDrawCounts": {
+              "over16.7Ms": 196,
+              "over25Ms": 194,
+              "over33Ms": 10,
+              "over50Ms": 0
+            },
+            "submissionFps": 147.945,
+            "jsPeakBytes": 26614170,
+            "gcEvents": 31,
+            "cacheStats": {
+              "hits": 9715,
+              "prefixHits": 0,
+              "misses": 2405,
+              "evictions": 2385,
+              "entries": 20,
+              "surfaces": 20,
+              "pixels": 161009,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 28788,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 10,
+                "pixels": 75778,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          },
+          {
+            "p50Ms": 1.6,
+            "p90Ms": 7.7,
+            "p95Ms": 30.4,
+            "p99Ms": 32.8,
+            "maxMs": 46.1,
+            "longDrawCounts": {
+              "over16.7Ms": 153,
+              "over25Ms": 153,
+              "over33Ms": 18,
+              "over50Ms": 0
+            },
+            "submissionFps": 147.161,
+            "jsPeakBytes": 26765384,
+            "gcEvents": 25,
+            "cacheStats": {
+              "hits": 9715,
+              "prefixHits": 0,
+              "misses": 2405,
+              "evictions": 2385,
+              "entries": 20,
+              "surfaces": 20,
+              "pixels": 161009,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 28788,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 10,
+                "pixels": 75778,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 2237,
+            "drawMs": 54.5,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 672,
+            "drawMs": 48.9,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 1331,
+            "drawMs": 47.9,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 891,
+            "drawMs": 47.7,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 1342,
+            "drawMs": 46.1,
+            "scale": 1,
+            "gcEvents": []
+          }
+        ]
+      }
+    },
+    "distancePeriodic": {
+      "before": {
+        "files": [
+          "final-distance-before-1.json",
+          "final-distance-before-2.json"
+        ],
+        "runs": 2,
+        "frames": 2400,
+        "minMs": 0.1,
+        "p50Ms": 54.7,
+        "p90Ms": 65,
+        "p95Ms": 68.3,
+        "p99Ms": 74.2,
+        "maxMs": 360.1,
+        "longDrawCounts": {
+          "over16.7Ms": 2218,
+          "over25Ms": 2204,
+          "over33Ms": 2169,
+          "over50Ms": 1608
+        },
+        "submissionFps": 19.361,
+        "elapsedMs": 123961.8,
+        "observedJsPeakBytes": 31295744,
+        "gcEvents": 261,
+        "gcOverlapLongDraws": 234,
+        "perRun": [
+          {
+            "p50Ms": 54.6,
+            "p90Ms": 65.4,
+            "p95Ms": 68.5,
+            "p99Ms": 73.7,
+            "maxMs": 360.1,
+            "longDrawCounts": {
+              "over16.7Ms": 1110,
+              "over25Ms": 1102,
+              "over33Ms": 1085,
+              "over50Ms": 809
+            },
+            "submissionFps": 19.34,
+            "jsPeakBytes": 31289354,
+            "gcEvents": 131,
+            "cacheStats": {
+              "hits": 478,
+              "prefixHits": 0,
+              "misses": 5642,
+              "evictions": 5622,
+              "entries": 20,
+              "surfaces": 40,
+              "pixels": 191052,
+              "maxPixels": 4000000,
+              "stampSurfaces": {
+                "hits": 0,
+                "prefixHits": 0,
+                "misses": 0,
+                "evictions": 0,
+                "entries": 0,
+                "surfaces": 0,
+                "pixels": 0,
+                "maxPixels": 1000000
+              },
+              "stampPositions": 60
+            }
+          },
+          {
+            "p50Ms": 54.8,
+            "p90Ms": 64.8,
+            "p95Ms": 68.2,
+            "p99Ms": 74.2,
+            "maxMs": 359,
+            "longDrawCounts": {
+              "over16.7Ms": 1108,
+              "over25Ms": 1102,
+              "over33Ms": 1084,
+              "over50Ms": 799
+            },
+            "submissionFps": 19.382,
+            "jsPeakBytes": 31295744,
+            "gcEvents": 130,
+            "cacheStats": {
+              "hits": 478,
+              "prefixHits": 0,
+              "misses": 5642,
+              "evictions": 5622,
+              "entries": 20,
+              "surfaces": 40,
+              "pixels": 191052,
+              "maxPixels": 4000000,
+              "stampSurfaces": {
+                "hits": 0,
+                "prefixHits": 0,
+                "misses": 0,
+                "evictions": 0,
+                "entries": 0,
+                "surfaces": 0,
+                "pixels": 0,
+                "maxPixels": 1000000
+              },
+              "stampPositions": 60
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 15,
+            "drawMs": 360.1,
+            "scale": 0.7982689121972912,
+            "gcEvents": []
+          },
+          {
+            "frame": 15,
+            "drawMs": 359,
+            "scale": 0.7982689121972912,
+            "gcEvents": []
+          },
+          {
+            "frame": 1061,
+            "drawMs": 86.2,
+            "scale": 1.2309161070388717,
+            "gcEvents": []
+          },
+          {
+            "frame": 807,
+            "drawMs": 84.2,
+            "scale": 1.1758675315992444,
+            "gcEvents": []
+          },
+          {
+            "frame": 1040,
+            "drawMs": 83.3,
+            "scale": 1.1400000000000008,
+            "gcEvents": []
+          }
+        ]
+      },
+      "after": {
+        "files": [
+          "final-distance-after-1.json",
+          "final-distance-after-2.json"
+        ],
+        "runs": 2,
+        "frames": 2400,
+        "minMs": 0,
+        "p50Ms": 0.2,
+        "p90Ms": 45.5,
+        "p95Ms": 55.2,
+        "p99Ms": 67.3,
+        "maxMs": 323.2,
+        "longDrawCounts": {
+          "over16.7Ms": 452,
+          "over25Ms": 360,
+          "over33Ms": 344,
+          "over50Ms": 176
+        },
+        "submissionFps": 45.563,
+        "elapsedMs": 52674.5,
+        "observedJsPeakBytes": 27063628,
+        "gcEvents": 26,
+        "gcOverlapLongDraws": 9,
+        "perRun": [
+          {
+            "p50Ms": 0.2,
+            "p90Ms": 45.4,
+            "p95Ms": 55.4,
+            "p99Ms": 67.9,
+            "maxMs": 311.3,
+            "longDrawCounts": {
+              "over16.7Ms": 228,
+              "over25Ms": 180,
+              "over33Ms": 173,
+              "over50Ms": 85
+            },
+            "submissionFps": 45.514,
+            "jsPeakBytes": 27063628,
+            "gcEvents": 13,
+            "cacheStats": {
+              "hits": 4613,
+              "prefixHits": 0,
+              "misses": 1507,
+              "evictions": 995,
+              "entries": 512,
+              "surfaces": 512,
+              "pixels": 3866575,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 0,
+                "prefixHits": 0,
+                "misses": 0,
+                "evictions": 0,
+                "entries": 0,
+                "surfaces": 0,
+                "pixels": 0,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 24,
+                "pixels": 112694,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          },
+          {
+            "p50Ms": 0.2,
+            "p90Ms": 45.5,
+            "p95Ms": 55.2,
+            "p99Ms": 65.6,
+            "maxMs": 323.2,
+            "longDrawCounts": {
+              "over16.7Ms": 224,
+              "over25Ms": 180,
+              "over33Ms": 171,
+              "over50Ms": 91
+            },
+            "submissionFps": 45.611,
+            "jsPeakBytes": 27034026,
+            "gcEvents": 13,
+            "cacheStats": {
+              "hits": 4613,
+              "prefixHits": 0,
+              "misses": 1507,
+              "evictions": 995,
+              "entries": 512,
+              "surfaces": 512,
+              "pixels": 3866575,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 0,
+                "prefixHits": 0,
+                "misses": 0,
+                "evictions": 0,
+                "entries": 0,
+                "surfaces": 0,
+                "pixels": 0,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 24,
+                "pixels": 112694,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 14,
+            "drawMs": 323.2,
+            "scale": 0.7959406976406717,
+            "gcEvents": []
+          },
+          {
+            "frame": 14,
+            "drawMs": 311.3,
+            "scale": 0.7959406976406717,
+            "gcEvents": []
+          },
+          {
+            "frame": 74,
+            "drawMs": 76.3,
+            "scale": 1.106008307890872,
+            "gcEvents": []
+          },
+          {
+            "frame": 52,
+            "drawMs": 74.2,
+            "scale": 0.9701011942037377,
+            "gcEvents": []
+          },
+          {
+            "frame": 54,
+            "drawMs": 73.4,
+            "scale": 0.9824557283903446,
+            "gcEvents": []
+          }
+        ]
+      }
+    },
+    "distanceJitter": {
+      "before": {
+        "files": [
+          "final-jitter-before.json"
+        ],
+        "runs": 1,
+        "frames": 1200,
+        "minMs": 0.2,
+        "p50Ms": 55.8,
+        "p90Ms": 66.3,
+        "p95Ms": 70.5,
+        "p99Ms": 77.5,
+        "maxMs": 347.6,
+        "longDrawCounts": {
+          "over16.7Ms": 1167,
+          "over25Ms": 1163,
+          "over33Ms": 1133,
+          "over50Ms": 839
+        },
+        "submissionFps": 18.614,
+        "elapsedMs": 64468.7,
+        "observedJsPeakBytes": 31092034,
+        "gcEvents": 128,
+        "gcOverlapLongDraws": 122,
+        "perRun": [
+          {
+            "p50Ms": 55.8,
+            "p90Ms": 66.3,
+            "p95Ms": 70.5,
+            "p99Ms": 77.5,
+            "maxMs": 347.6,
+            "longDrawCounts": {
+              "over16.7Ms": 1167,
+              "over25Ms": 1163,
+              "over33Ms": 1133,
+              "over50Ms": 839
+            },
+            "submissionFps": 18.614,
+            "jsPeakBytes": 31092034,
+            "gcEvents": 128,
+            "cacheStats": {
+              "hits": 339,
+              "prefixHits": 0,
+              "misses": 5781,
+              "evictions": 5761,
+              "entries": 20,
+              "surfaces": 40,
+              "pixels": 187354,
+              "maxPixels": 4000000,
+              "stampSurfaces": {
+                "hits": 0,
+                "prefixHits": 0,
+                "misses": 0,
+                "evictions": 0,
+                "entries": 0,
+                "surfaces": 0,
+                "pixels": 0,
+                "maxPixels": 1000000
+              },
+              "stampPositions": 60
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 15,
+            "drawMs": 347.6,
+            "scale": 0.8006525288276967,
+            "gcEvents": []
+          },
+          {
+            "frame": 1128,
+            "drawMs": 83.5,
+            "scale": 1.068100842203759,
+            "gcEvents": []
+          },
+          {
+            "frame": 580,
+            "drawMs": 83,
+            "scale": 1.2410589099762324,
+            "gcEvents": []
+          },
+          {
+            "frame": 789,
+            "drawMs": 81.1,
+            "scale": 1.053370010525311,
+            "gcEvents": []
+          },
+          {
+            "frame": 578,
+            "drawMs": 80.9,
+            "scale": 1.2357511505096874,
+            "gcEvents": []
+          }
+        ]
+      },
+      "after": {
+        "files": [
+          "final-jitter-after.json"
+        ],
+        "runs": 1,
+        "frames": 1200,
+        "minMs": 0.1,
+        "p50Ms": 51.2,
+        "p90Ms": 66,
+        "p95Ms": 69.8,
+        "p99Ms": 74.5,
+        "maxMs": 308.7,
+        "longDrawCounts": {
+          "over16.7Ms": 1157,
+          "over25Ms": 1143,
+          "over33Ms": 1112,
+          "over50Ms": 634
+        },
+        "submissionFps": 19.656,
+        "elapsedMs": 61049.2,
+        "observedJsPeakBytes": 27047192,
+        "gcEvents": 36,
+        "gcOverlapLongDraws": 33,
+        "perRun": [
+          {
+            "p50Ms": 51.2,
+            "p90Ms": 66,
+            "p95Ms": 69.8,
+            "p99Ms": 74.5,
+            "maxMs": 308.7,
+            "longDrawCounts": {
+              "over16.7Ms": 1157,
+              "over25Ms": 1143,
+              "over33Ms": 1112,
+              "over50Ms": 634
+            },
+            "submissionFps": 19.656,
+            "jsPeakBytes": 27047192,
+            "gcEvents": 36,
+            "cacheStats": {
+              "hits": 438,
+              "prefixHits": 0,
+              "misses": 5682,
+              "evictions": 5170,
+              "entries": 512,
+              "surfaces": 512,
+              "pixels": 3773767,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 0,
+                "prefixHits": 0,
+                "misses": 0,
+                "evictions": 0,
+                "entries": 0,
+                "surfaces": 0,
+                "pixels": 0,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 24,
+                "pixels": 113918,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 14,
+            "drawMs": 308.7,
+            "scale": 0.7980262731995931,
+            "gcEvents": []
+          },
+          {
+            "frame": 912,
+            "drawMs": 84,
+            "scale": 0.9654292713590953,
+            "gcEvents": [
+              {
+                "name": "MajorGC",
+                "overlapMs": 3.047
+              }
+            ]
+          },
+          {
+            "frame": 624,
+            "drawMs": 78.6,
+            "scale": 1.1949470535643063,
+            "gcEvents": []
+          },
+          {
+            "frame": 791,
+            "drawMs": 77.5,
+            "scale": 1.0652343925530101,
+            "gcEvents": []
+          },
+          {
+            "frame": 905,
+            "drawMs": 77.5,
+            "scale": 1.010997468347541,
+            "gcEvents": []
+          }
+        ]
+      }
+    },
+    "cached": {
+      "before": {
+        "files": [
+          "final-cached-before.json"
+        ],
+        "runs": 1,
+        "frames": 1200,
+        "minMs": 0.1,
+        "p50Ms": 0.3,
+        "p90Ms": 0.4,
+        "p95Ms": 0.4,
+        "p99Ms": 0.4,
+        "maxMs": 0.7,
+        "longDrawCounts": {
+          "over16.7Ms": 0,
+          "over25Ms": 0,
+          "over33Ms": 0,
+          "over50Ms": 0
+        },
+        "submissionFps": 60.014,
+        "elapsedMs": 19995.4,
+        "observedJsPeakBytes": 25543728,
+        "gcEvents": 14,
+        "gcOverlapLongDraws": 0,
+        "perRun": [
+          {
+            "p50Ms": 0.3,
+            "p90Ms": 0.4,
+            "p95Ms": 0.4,
+            "p99Ms": 0.4,
+            "maxMs": 0.7,
+            "longDrawCounts": {
+              "over16.7Ms": 0,
+              "over25Ms": 0,
+              "over33Ms": 0,
+              "over50Ms": 0
+            },
+            "submissionFps": 60.014,
+            "jsPeakBytes": 25543728,
+            "gcEvents": 14,
+            "cacheStats": {
+              "hits": 6115,
+              "prefixHits": 0,
+              "misses": 5,
+              "evictions": 0,
+              "entries": 5,
+              "surfaces": 10,
+              "pixels": 75778,
+              "maxPixels": 4000000,
+              "stampSurfaces": {
+                "hits": 0,
+                "prefixHits": 0,
+                "misses": 0,
+                "evictions": 0,
+                "entries": 0,
+                "surfaces": 0,
+                "pixels": 0,
+                "maxPixels": 1000000
+              },
+              "stampPositions": 60
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 377,
+            "drawMs": 0.7,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 3,
+            "drawMs": 0.5,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 7,
+            "drawMs": 0.5,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 8,
+            "drawMs": 0.5,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 18,
+            "drawMs": 0.5,
+            "scale": 1,
+            "gcEvents": []
+          }
+        ]
+      },
+      "after": {
+        "files": [
+          "final-cached-after.json"
+        ],
+        "runs": 1,
+        "frames": 1200,
+        "minMs": 0,
+        "p50Ms": 0.2,
+        "p90Ms": 0.3,
+        "p95Ms": 0.3,
+        "p99Ms": 0.3,
+        "maxMs": 0.4,
+        "longDrawCounts": {
+          "over16.7Ms": 0,
+          "over25Ms": 0,
+          "over33Ms": 0,
+          "over50Ms": 0
+        },
+        "submissionFps": 60.014,
+        "elapsedMs": 19995.2,
+        "observedJsPeakBytes": 25430994,
+        "gcEvents": 8,
+        "gcOverlapLongDraws": 0,
+        "perRun": [
+          {
+            "p50Ms": 0.2,
+            "p90Ms": 0.3,
+            "p95Ms": 0.3,
+            "p99Ms": 0.3,
+            "maxMs": 0.4,
+            "longDrawCounts": {
+              "over16.7Ms": 0,
+              "over25Ms": 0,
+              "over33Ms": 0,
+              "over50Ms": 0
+            },
+            "submissionFps": 60.014,
+            "jsPeakBytes": 25430994,
+            "gcEvents": 8,
+            "cacheStats": {
+              "hits": 6115,
+              "prefixHits": 0,
+              "misses": 5,
+              "evictions": 0,
+              "entries": 5,
+              "surfaces": 5,
+              "pixels": 37889,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 0,
+                "prefixHits": 0,
+                "misses": 0,
+                "evictions": 0,
+                "entries": 0,
+                "surfaces": 0,
+                "pixels": 0,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 10,
+                "pixels": 75778,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 12,
+            "drawMs": 0.4,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 110,
+            "drawMs": 0.4,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 6,
+            "drawMs": 0.4,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 17,
+            "drawMs": 0.4,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 20,
+            "drawMs": 0.4,
+            "scale": 1,
+            "gcEvents": []
+          }
+        ]
+      }
+    },
+    "eraserPaced": {
+      "before": {
+        "files": [
+          "final-paced-eraser-before.json"
+        ],
+        "runs": 1,
+        "frames": 1200,
+        "minMs": 1.3,
+        "p50Ms": 1.5,
+        "p90Ms": 1.8,
+        "p95Ms": 1.9,
+        "p99Ms": 2.1,
+        "maxMs": 5.1,
+        "longDrawCounts": {
+          "over16.7Ms": 0,
+          "over25Ms": 0,
+          "over33Ms": 0,
+          "over50Ms": 0
+        },
+        "submissionFps": 60.009,
+        "elapsedMs": 19997,
+        "observedJsPeakBytes": 25548004,
+        "gcEvents": 36,
+        "gcOverlapLongDraws": 0,
+        "perRun": [
+          {
+            "p50Ms": 1.5,
+            "p90Ms": 1.8,
+            "p95Ms": 1.9,
+            "p99Ms": 2.1,
+            "maxMs": 5.1,
+            "longDrawCounts": {
+              "over16.7Ms": 0,
+              "over25Ms": 0,
+              "over33Ms": 0,
+              "over50Ms": 0
+            },
+            "submissionFps": 60.009,
+            "jsPeakBytes": 25548004,
+            "gcEvents": 36,
+            "cacheStats": {
+              "hits": 4915,
+              "prefixHits": 0,
+              "misses": 1205,
+              "evictions": 1185,
+              "entries": 20,
+              "surfaces": 40,
+              "pixels": 322018,
+              "maxPixels": 4000000,
+              "stampSurfaces": {
+                "hits": 14388,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000
+              },
+              "stampPositions": 60
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 0,
+            "drawMs": 5.1,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 142,
+            "drawMs": 2.3,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 147,
+            "drawMs": 2.3,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 28,
+            "drawMs": 2.2,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 146,
+            "drawMs": 2.2,
+            "scale": 1,
+            "gcEvents": []
+          }
+        ]
+      },
+      "after": {
+        "files": [
+          "final-paced-eraser-after.json"
+        ],
+        "runs": 1,
+        "frames": 1200,
+        "minMs": 1,
+        "p50Ms": 1.3,
+        "p90Ms": 1.4,
+        "p95Ms": 1.5,
+        "p99Ms": 1.7,
+        "maxMs": 3.9,
+        "longDrawCounts": {
+          "over16.7Ms": 0,
+          "over25Ms": 0,
+          "over33Ms": 0,
+          "over50Ms": 0
+        },
+        "submissionFps": 60.012,
+        "elapsedMs": 19995.9,
+        "observedJsPeakBytes": 25905622,
+        "gcEvents": 17,
+        "gcOverlapLongDraws": 0,
+        "perRun": [
+          {
+            "p50Ms": 1.3,
+            "p90Ms": 1.4,
+            "p95Ms": 1.5,
+            "p99Ms": 1.7,
+            "maxMs": 3.9,
+            "longDrawCounts": {
+              "over16.7Ms": 0,
+              "over25Ms": 0,
+              "over33Ms": 0,
+              "over50Ms": 0
+            },
+            "submissionFps": 60.012,
+            "jsPeakBytes": 25905622,
+            "gcEvents": 17,
+            "cacheStats": {
+              "hits": 4915,
+              "prefixHits": 0,
+              "misses": 1205,
+              "evictions": 1185,
+              "entries": 20,
+              "surfaces": 20,
+              "pixels": 161009,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 14388,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 10,
+                "pixels": 75778,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 0,
+            "drawMs": 3.9,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 463,
+            "drawMs": 2,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 6,
+            "drawMs": 1.9,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 8,
+            "drawMs": 1.9,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 165,
+            "drawMs": 1.9,
+            "scale": 1,
+            "gcEvents": []
+          }
+        ]
+      }
+    }
+  },
+  "diagnostics": {
+    "diagnostic-before-distance.json": {
+      "note": "API wrappers and heap sampler overhead; not acceptance latency. Nested phases overlap. Allocations include wrappers/reporting.",
+      "summary": {
+        "runs": 1,
+        "frames": 1200,
+        "minMs": 0.3,
+        "p50Ms": 54.5,
+        "p90Ms": 67.6,
+        "p95Ms": 70.8,
+        "p99Ms": 76.1,
+        "maxMs": 360.1,
+        "longDrawCounts": {
+          "over16.7Ms": 1112,
+          "over25Ms": 1101,
+          "over33Ms": 1092,
+          "over50Ms": 747
+        },
+        "submissionFps": 19.072,
+        "elapsedMs": 62921.1,
+        "observedJsPeakBytes": 32901255,
+        "gcEvents": 183,
+        "gcOverlapLongDraws": 172,
+        "perRun": [
+          {
+            "p50Ms": 54.5,
+            "p90Ms": 67.6,
+            "p95Ms": 70.8,
+            "p99Ms": 76.1,
+            "maxMs": 360.1,
+            "longDrawCounts": {
+              "over16.7Ms": 1112,
+              "over25Ms": 1101,
+              "over33Ms": 1092,
+              "over50Ms": 747
+            },
+            "submissionFps": 19.072,
+            "jsPeakBytes": 32901255,
+            "gcEvents": 183
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 15,
+            "drawMs": 360.1,
+            "scale": 0.7982689121972912,
+            "gcEvents": [
+              {
+                "name": "MinorGC",
+                "overlapMs": 0.454
+              }
+            ]
+          },
+          {
+            "frame": 181,
+            "drawMs": 91.3,
+            "scale": 1.0137175324061105,
+            "gcEvents": []
+          },
+          {
+            "frame": 1044,
+            "drawMs": 79.4,
+            "scale": 1.1610684605501937,
+            "gcEvents": []
+          },
+          {
+            "frame": 539,
+            "drawMs": 78.6,
+            "scale": 1.0137175324061103,
+            "gcEvents": []
+          },
+          {
+            "frame": 101,
+            "drawMs": 78.5,
+            "scale": 1.2309161070388717,
+            "gcEvents": []
+          }
+        ]
+      },
+      "slowest": [
+        {
+          "i": 15,
+          "drawMs": 360.10000000009313,
+          "prepMs": 0,
+          "startMs": 1905.6000000000931,
+          "intervalMs": 16.100000000093132,
+          "scale": 0.7982689121972912,
+          "heapBytes": 21397202,
+          "phases": {
+            "drawImage": {
+              "calls": 250,
+              "ms": 348.29999999981374
+            },
+            "clearRect": {
+              "calls": 121,
+              "ms": 0.39999999944120646
+            },
+            "fill": {
+              "calls": 5904,
+              "ms": 3.1000000000931323
+            },
+            "stroke": {
+              "calls": 298,
+              "ms": 0.20000000018626451
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 30,
+              "ms": 0.10000000009313226
+            },
+            "createRadialGradient": {
+              "calls": 165,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 20,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 80,
+              "ms": 0.7000000006519258
+            },
+            "cacheFind": {
+              "calls": 5,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 5,
+              "ms": 0.20000000018626451
+            },
+            "art": {
+              "calls": 5,
+              "ms": 359.5
+            },
+            "cacheMiss": {
+              "calls": 5,
+              "ms": 0
+            },
+            "save": {
+              "calls": 526,
+              "ms": 0.2999999998137355
+            },
+            "restore": {
+              "calls": 526,
+              "ms": 0.40000000037252903
+            },
+            "transform": {
+              "calls": 911,
+              "ms": 0.599999999627471
+            },
+            "gradientStop": {
+              "calls": 590,
+              "ms": 0.40000000037252903
+            }
+          },
+          "gcEvents": [
+            {
+              "name": "MinorGC",
+              "overlapMs": 0.454
+            }
+          ]
+        },
+        {
+          "i": 181,
+          "drawMs": 91.29999999981374,
+          "prepMs": 0,
+          "startMs": 11242.200000000186,
+          "intervalMs": 57.299999999813735,
+          "scale": 1.0137175324061105,
+          "heapBytes": 23780788,
+          "phases": {
+            "drawImage": {
+              "calls": 250,
+              "ms": 76.89999999897555
+            },
+            "clearRect": {
+              "calls": 121,
+              "ms": 0.40000000037252903
+            },
+            "fill": {
+              "calls": 5976,
+              "ms": 3.6000000005587935
+            },
+            "stroke": {
+              "calls": 307,
+              "ms": 0.20000000018626451
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 30,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 165,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 20,
+              "ms": 0.10000000009313226
+            },
+            "canvasResize": {
+              "calls": 80,
+              "ms": 0.39999999990686774
+            },
+            "cacheFind": {
+              "calls": 5,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 5,
+              "ms": 0.40000000037252903
+            },
+            "art": {
+              "calls": 5,
+              "ms": 90.8999999994412
+            },
+            "cacheMiss": {
+              "calls": 5,
+              "ms": 0
+            },
+            "save": {
+              "calls": 526,
+              "ms": 3
+            },
+            "restore": {
+              "calls": 526,
+              "ms": 0.19999999972060323
+            },
+            "transform": {
+              "calls": 911,
+              "ms": 0.7000000006519258
+            },
+            "gradientStop": {
+              "calls": 590,
+              "ms": 0.3000000002793968
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 1044,
+          "drawMs": 79.39999999990687,
+          "prepMs": 0,
+          "startMs": 56131.60000000009,
+          "intervalMs": 50.5,
+          "scale": 1.1610684605501937,
+          "heapBytes": 30344260,
+          "phases": {
+            "drawImage": {
+              "calls": 250,
+              "ms": 67.89999999804422
+            },
+            "clearRect": {
+              "calls": 121,
+              "ms": 0.5000000004656613
+            },
+            "fill": {
+              "calls": 6000,
+              "ms": 3.600000001024455
+            },
+            "stroke": {
+              "calls": 310,
+              "ms": 0.20000000018626451
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 30,
+              "ms": 0.10000000009313226
+            },
+            "createRadialGradient": {
+              "calls": 165,
+              "ms": 0.20000000018626451
+            },
+            "canvasCreate": {
+              "calls": 20,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 80,
+              "ms": 0.599999999627471
+            },
+            "cacheFind": {
+              "calls": 5,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 5,
+              "ms": 0.39999999990686774
+            },
+            "art": {
+              "calls": 5,
+              "ms": 78.8999999994412
+            },
+            "cacheMiss": {
+              "calls": 5,
+              "ms": 0
+            },
+            "save": {
+              "calls": 526,
+              "ms": 0.3000000002793968
+            },
+            "restore": {
+              "calls": 526,
+              "ms": 0.20000000018626451
+            },
+            "transform": {
+              "calls": 911,
+              "ms": 0.09999999962747097
+            },
+            "gradientStop": {
+              "calls": 590,
+              "ms": 0.5
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 539,
+          "drawMs": 78.60000000009313,
+          "prepMs": 0,
+          "startMs": 29871.200000000186,
+          "intervalMs": 50,
+          "scale": 1.0137175324061103,
+          "heapBytes": 19236376,
+          "phases": {
+            "drawImage": {
+              "calls": 250,
+              "ms": 66.79999999748543
+            },
+            "clearRect": {
+              "calls": 121,
+              "ms": 0.20000000018626451
+            },
+            "fill": {
+              "calls": 5976,
+              "ms": 3.6000000019557774
+            },
+            "stroke": {
+              "calls": 307,
+              "ms": 0.19999999972060323
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 30,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 165,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 20,
+              "ms": 0.10000000009313226
+            },
+            "canvasResize": {
+              "calls": 80,
+              "ms": 0.39999999944120646
+            },
+            "cacheFind": {
+              "calls": 5,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 5,
+              "ms": 0.3000000002793968
+            },
+            "art": {
+              "calls": 5,
+              "ms": 78.10000000009313
+            },
+            "cacheMiss": {
+              "calls": 5,
+              "ms": 0
+            },
+            "save": {
+              "calls": 526,
+              "ms": 0.6999999997206032
+            },
+            "restore": {
+              "calls": 526,
+              "ms": 0
+            },
+            "transform": {
+              "calls": 911,
+              "ms": 0.7000000006519258
+            },
+            "gradientStop": {
+              "calls": 590,
+              "ms": 0.39999999944120646
+            }
+          },
+          "gcEvents": []
+        }
+      ],
+      "sampledAllocations": [
+        [
+          "drawMixedArt > artSurface > drawPaintLayer > paintStroke > (anonymous)",
+          559234292
+        ],
+        [
+          "artSurface > drawPaintLayer > paintStroke > (anonymous) > next",
+          501742820
+        ],
+        [
+          "artSurface > drawPaintLayer > render > paintStroke > (anonymous)",
+          155503544
+        ],
+        [
+          "drawPaintLayer > render > paintStroke > (anonymous) > next",
+          143036752
+        ],
+        [
+          "drawNail > window.__tailPhase > (anonymous) > drawMixedArt > artSurface",
+          66120924
+        ],
+        [
+          "(anonymous) > drawMixedArt > artSurface > drawNailParts > drawPartMaterial",
+          63805028
+        ],
+        [
+          "window.__tailPhase > (anonymous) > drawMixedArt > artSurface > drawPaintLayer",
+          61854048
+        ],
+        [
+          "window.__tailPhase > (anonymous) > drawMixedArt > artSurface > p.<computed>",
+          42359268
+        ],
+        [
+          "drawMixedArt > artSurface > drawNailParts > drawPartMaterial > tint",
+          41497612
+        ],
+        [
+          "drawMixedArt > artSurface > drawNailParts > drawPartMaterial > CanvasGradient.addColorStop",
+          36324644
+        ]
+      ]
+    },
+    "diagnostic-before-unpaced.json": {
+      "note": "API wrappers and heap sampler overhead; not acceptance latency. Nested phases overlap. Allocations include wrappers/reporting.",
+      "summary": {
+        "runs": 1,
+        "frames": 2400,
+        "minMs": 1.8,
+        "p50Ms": 4,
+        "p90Ms": 7.8,
+        "p95Ms": 33.3,
+        "p99Ms": 35.1,
+        "maxMs": 45.5,
+        "longDrawCounts": {
+          "over16.7Ms": 156,
+          "over25Ms": 155,
+          "over33Ms": 132,
+          "over50Ms": 0
+        },
+        "submissionFps": 135.78,
+        "elapsedMs": 17675.6,
+        "observedJsPeakBytes": 33207199,
+        "gcEvents": 64,
+        "gcOverlapLongDraws": 1,
+        "perRun": [
+          {
+            "p50Ms": 4,
+            "p90Ms": 7.8,
+            "p95Ms": 33.3,
+            "p99Ms": 35.1,
+            "maxMs": 45.5,
+            "longDrawCounts": {
+              "over16.7Ms": 156,
+              "over25Ms": 155,
+              "over33Ms": 132,
+              "over50Ms": 0
+            },
+            "submissionFps": 135.78,
+            "jsPeakBytes": 33207199,
+            "gcEvents": 64,
+            "cacheStats": {
+              "hits": 9715,
+              "prefixHits": 0,
+              "misses": 2405,
+              "evictions": 2385,
+              "entries": 20,
+              "surfaces": 40,
+              "pixels": 322018,
+              "maxPixels": 4000000,
+              "stampSurfaces": {
+                "hits": 28788,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000
+              },
+              "stampPositions": 60
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 446,
+            "drawMs": 45.5,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 1111,
+            "drawMs": 41.4,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 2191,
+            "drawMs": 38.7,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 1379,
+            "drawMs": 37.8,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 2156,
+            "drawMs": 37.7,
+            "scale": 1,
+            "gcEvents": []
+          }
+        ]
+      },
+      "slowest": [
+        {
+          "i": 446,
+          "drawMs": 45.5,
+          "prepMs": 0,
+          "startMs": 4535.799999999814,
+          "intervalMs": 6.5,
+          "scale": 1,
+          "heapBytes": 18511580,
+          "phases": {
+            "drawImage": {
+              "calls": 66,
+              "ms": 44.09999999962747
+            },
+            "clearRect": {
+              "calls": 25,
+              "ms": 0
+            },
+            "fill": {
+              "calls": 77,
+              "ms": 0.20000000018626451
+            },
+            "stroke": {
+              "calls": 66,
+              "ms": 0
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0.10000000055879354
+            },
+            "createLinearGradient": {
+              "calls": 18,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 45,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 4,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 16,
+              "ms": 0.09999999962747097
+            },
+            "pathCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "cacheFind": {
+              "calls": 17,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 1,
+              "ms": 0.09999999962747097
+            },
+            "art": {
+              "calls": 5,
+              "ms": 45.09999999962747
+            },
+            "cacheHit": {
+              "calls": 16,
+              "ms": 0
+            },
+            "cacheMiss": {
+              "calls": 1,
+              "ms": 0
+            },
+            "save": {
+              "calls": 118,
+              "ms": 0.09999999962747097
+            },
+            "restore": {
+              "calls": 118,
+              "ms": 0
+            },
+            "transform": {
+              "calls": 175,
+              "ms": 0.09999999962747097
+            },
+            "gradientStop": {
+              "calls": 194,
+              "ms": 0
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 1111,
+          "drawMs": 41.40000000037253,
+          "prepMs": 0,
+          "startMs": 9518.799999999814,
+          "intervalMs": 5.7999999998137355,
+          "scale": 1,
+          "heapBytes": 22395459,
+          "phases": {
+            "drawImage": {
+              "calls": 66,
+              "ms": 40.299999999813735
+            },
+            "clearRect": {
+              "calls": 25,
+              "ms": 0.10000000055879354
+            },
+            "fill": {
+              "calls": 77,
+              "ms": 0
+            },
+            "stroke": {
+              "calls": 66,
+              "ms": 0
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 18,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 45,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 4,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 16,
+              "ms": 0.09999999962747097
+            },
+            "pathCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "cacheFind": {
+              "calls": 17,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 1,
+              "ms": 0
+            },
+            "art": {
+              "calls": 5,
+              "ms": 41
+            },
+            "cacheHit": {
+              "calls": 16,
+              "ms": 0
+            },
+            "cacheMiss": {
+              "calls": 1,
+              "ms": 0
+            },
+            "save": {
+              "calls": 118,
+              "ms": 0.10000000055879354
+            },
+            "restore": {
+              "calls": 118,
+              "ms": 0
+            },
+            "transform": {
+              "calls": 175,
+              "ms": 0
+            },
+            "gradientStop": {
+              "calls": 194,
+              "ms": 0.2999999998137355
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 2191,
+          "drawMs": 38.700000000186265,
+          "prepMs": 0.09999999962747097,
+          "startMs": 17635.799999999814,
+          "intervalMs": 6.599999999627471,
+          "scale": 1,
+          "heapBytes": 18061211,
+          "phases": {
+            "drawImage": {
+              "calls": 66,
+              "ms": 37.49999999906868
+            },
+            "clearRect": {
+              "calls": 25,
+              "ms": 0
+            },
+            "fill": {
+              "calls": 77,
+              "ms": 0.10000000055879354
+            },
+            "stroke": {
+              "calls": 66,
+              "ms": 0
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 18,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 45,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 4,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 16,
+              "ms": 0.10000000055879354
+            },
+            "pathCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "cacheFind": {
+              "calls": 17,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 1,
+              "ms": 0
+            },
+            "art": {
+              "calls": 5,
+              "ms": 38.40000000037253
+            },
+            "cacheHit": {
+              "calls": 16,
+              "ms": 0
+            },
+            "cacheMiss": {
+              "calls": 1,
+              "ms": 0
+            },
+            "save": {
+              "calls": 118,
+              "ms": 0.10000000055879354
+            },
+            "restore": {
+              "calls": 118,
+              "ms": 0.20000000018626451
+            },
+            "transform": {
+              "calls": 175,
+              "ms": 0
+            },
+            "gradientStop": {
+              "calls": 194,
+              "ms": 0.10000000055879354
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 1379,
+          "drawMs": 37.799999999813735,
+          "prepMs": 0,
+          "startMs": 11530.5,
+          "intervalMs": 4.2000000001862645,
+          "scale": 1,
+          "heapBytes": 20430391,
+          "phases": {
+            "drawImage": {
+              "calls": 66,
+              "ms": 35.59999999962747
+            },
+            "clearRect": {
+              "calls": 25,
+              "ms": 0.10000000055879354
+            },
+            "fill": {
+              "calls": 77,
+              "ms": 0.09999999962747097
+            },
+            "stroke": {
+              "calls": 66,
+              "ms": 0
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 18,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 45,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 4,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 16,
+              "ms": 0.20000000018626451
+            },
+            "pathCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "cacheFind": {
+              "calls": 17,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 1,
+              "ms": 0.10000000055879354
+            },
+            "art": {
+              "calls": 5,
+              "ms": 37.40000000037253
+            },
+            "cacheHit": {
+              "calls": 16,
+              "ms": 0
+            },
+            "cacheMiss": {
+              "calls": 1,
+              "ms": 0
+            },
+            "save": {
+              "calls": 118,
+              "ms": 0.8999999994412065
+            },
+            "restore": {
+              "calls": 118,
+              "ms": 0.09999999962747097
+            },
+            "transform": {
+              "calls": 175,
+              "ms": 0.20000000018626451
+            },
+            "gradientStop": {
+              "calls": 194,
+              "ms": 0
+            }
+          },
+          "gcEvents": []
+        }
+      ],
+      "sampledAllocations": [
+        [
+          "window.__tailPhase > (anonymous) > drawMixedArt > artSurface > paintCommands",
+          73402368
+        ],
+        [
+          "(anonymous) > drawMixedArt > artSurface > drawNailParts > drawPartMaterial",
+          44201948
+        ],
+        [
+          "drawNail > window.__tailPhase > (anonymous) > drawMixedArt > artSurface",
+          41667612
+        ],
+        [
+          "(root) > (V8 API)",
+          40740856
+        ],
+        [
+          "innerSerialize > serialize > innerSerialize > serialize > innerSerialize",
+          30354156
+        ],
+        [
+          "drawMixedArt > artSurface > paintCommands > Map > set",
+          21610288
+        ],
+        [
+          "innerSerialize > serialize > innerSerialize > innerSerialize > innerSerialize",
+          18225908
+        ],
+        [
+          "drawMixedArt > artSurface > drawNailParts > drawPartMaterial > p.<computed>",
+          16982956
+        ],
+        [
+          "drawMixedArt > artSurface > drawNailParts > drawPartMaterial > CanvasGradient.addColorStop",
+          16752716
+        ],
+        [
+          "window.__tailPhase > (anonymous) > drawMixedArt > artSurface > p.<computed>",
+          14885088
+        ]
+      ]
+    },
+    "diagnostic-final-distance.json": {
+      "note": "API wrappers and heap sampler overhead; not acceptance latency. Nested phases overlap. Allocations include wrappers/reporting.",
+      "summary": {
+        "runs": 1,
+        "frames": 1200,
+        "minMs": 0.2,
+        "p50Ms": 0.4,
+        "p90Ms": 44.5,
+        "p95Ms": 53.4,
+        "p99Ms": 65.1,
+        "maxMs": 307,
+        "longDrawCounts": {
+          "over16.7Ms": 299,
+          "over25Ms": 190,
+          "over33Ms": 138,
+          "over50Ms": 92
+        },
+        "submissionFps": 45.442,
+        "elapsedMs": 26407.2,
+        "observedJsPeakBytes": 175717959,
+        "gcEvents": 18,
+        "gcOverlapLongDraws": 10,
+        "perRun": [
+          {
+            "p50Ms": 0.4,
+            "p90Ms": 44.5,
+            "p95Ms": 53.4,
+            "p99Ms": 65.1,
+            "maxMs": 307,
+            "longDrawCounts": {
+              "over16.7Ms": 299,
+              "over25Ms": 190,
+              "over33Ms": 138,
+              "over50Ms": 92
+            },
+            "submissionFps": 45.442,
+            "jsPeakBytes": 175717959,
+            "gcEvents": 18,
+            "cacheStats": {
+              "hits": 4613,
+              "prefixHits": 0,
+              "misses": 1507,
+              "evictions": 995,
+              "entries": 512,
+              "surfaces": 512,
+              "pixels": 3866575,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 0,
+                "prefixHits": 0,
+                "misses": 0,
+                "evictions": 0,
+                "entries": 0,
+                "surfaces": 0,
+                "pixels": 0,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 24,
+                "pixels": 112694,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 14,
+            "drawMs": 307,
+            "scale": 0.7959406976406717,
+            "gcEvents": []
+          },
+          {
+            "frame": 34,
+            "drawMs": 76.9,
+            "scale": 0.8689631061480391,
+            "gcEvents": []
+          },
+          {
+            "frame": 103,
+            "drawMs": 74.2,
+            "scale": 1.2366204682439665,
+            "gcEvents": []
+          },
+          {
+            "frame": 62,
+            "drawMs": 72.6,
+            "scale": 1.0325606294983065,
+            "gcEvents": []
+          },
+          {
+            "frame": 38,
+            "drawMs": 71.5,
+            "scale": 0.8892866315963935,
+            "gcEvents": [
+              {
+                "name": "MinorGC",
+                "overlapMs": 0.873
+              },
+              {
+                "name": "MajorGC",
+                "overlapMs": 2.543
+              }
+            ]
+          }
+        ]
+      },
+      "slowest": [
+        {
+          "i": 14,
+          "drawMs": 307,
+          "prepMs": 0,
+          "startMs": 1862.3999999994412,
+          "intervalMs": 17.799999999813735,
+          "scale": 0.7959406976406717,
+          "heapBytes": 25321645,
+          "slowCalls": [
+            {
+              "method": "drawImage",
+              "ms": 248.20000000018626,
+              "source": [
+                43,
+                124
+              ],
+              "destination": [
+                43,
+                124
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            },
+            {
+              "method": "drawImage",
+              "ms": 20.700000000186265,
+              "source": [
+                38,
+                99
+              ],
+              "destination": [
+                38,
+                99
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            }
+          ],
+          "phases": {
+            "drawImage": {
+              "calls": 245,
+              "ms": 293.4000000022352
+            },
+            "clearRect": {
+              "calls": 125,
+              "ms": 0.30000000074505806
+            },
+            "fill": {
+              "calls": 5880,
+              "ms": 6.099999995902181
+            },
+            "stroke": {
+              "calls": 295,
+              "ms": 0.5000000009313226
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 30,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 165,
+              "ms": 0.09999999962747097
+            },
+            "canvasCreate": {
+              "calls": 11,
+              "ms": 0.20000000018626451
+            },
+            "canvasResize": {
+              "calls": 34,
+              "ms": 0.39999999944120646
+            },
+            "cacheFind": {
+              "calls": 5,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 5,
+              "ms": 0.19999999925494194
+            },
+            "art": {
+              "calls": 5,
+              "ms": 306.4999999990687
+            },
+            "cacheMiss": {
+              "calls": 5,
+              "ms": 0
+            },
+            "save": {
+              "calls": 526,
+              "ms": 0.5
+            },
+            "restore": {
+              "calls": 526,
+              "ms": 0.40000000037252903
+            },
+            "transform": {
+              "calls": 911,
+              "ms": 0.5
+            },
+            "gradientStop": {
+              "calls": 590,
+              "ms": 0.4000000013038516
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 34,
+          "drawMs": 76.90000000037253,
+          "prepMs": 0,
+          "startMs": 3125.899999999441,
+          "intervalMs": 55.09999999962747,
+          "scale": 0.8689631061480391,
+          "heapBytes": 58290357,
+          "slowCalls": [
+            {
+              "method": "drawImage",
+              "ms": 29.399999999441206,
+              "source": [
+                51,
+                126
+              ],
+              "destination": [
+                51,
+                126
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            },
+            {
+              "method": "drawImage",
+              "ms": 22,
+              "source": [
+                40,
+                108
+              ],
+              "destination": [
+                40,
+                108
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            }
+          ],
+          "phases": {
+            "drawImage": {
+              "calls": 245,
+              "ms": 63.599999994039536
+            },
+            "clearRect": {
+              "calls": 125,
+              "ms": 0.39999999944120646
+            },
+            "fill": {
+              "calls": 5928,
+              "ms": 5.100000007078052
+            },
+            "stroke": {
+              "calls": 301,
+              "ms": 0.2000000011175871
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 30,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 165,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 11,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 34,
+              "ms": 0.19999999925494194
+            },
+            "cacheFind": {
+              "calls": 5,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 5,
+              "ms": 0.10000000055879354
+            },
+            "art": {
+              "calls": 5,
+              "ms": 76.39999999850988
+            },
+            "cacheMiss": {
+              "calls": 5,
+              "ms": 0
+            },
+            "save": {
+              "calls": 526,
+              "ms": 0.599999999627471
+            },
+            "restore": {
+              "calls": 526,
+              "ms": 0.4999999990686774
+            },
+            "transform": {
+              "calls": 911,
+              "ms": 0.5000000009313226
+            },
+            "gradientStop": {
+              "calls": 590,
+              "ms": 0.09999999962747097
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 103,
+          "drawMs": 74.19999999925494,
+          "prepMs": 0,
+          "startMs": 6867.700000000186,
+          "intervalMs": 64.70000000018626,
+          "scale": 1.2366204682439665,
+          "heapBytes": 123308251,
+          "slowCalls": [
+            {
+              "method": "drawImage",
+              "ms": 21.5,
+              "source": [
+                55,
+                149
+              ],
+              "destination": [
+                55,
+                149
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            }
+          ],
+          "phases": {
+            "drawImage": {
+              "calls": 245,
+              "ms": 60.999999998137355
+            },
+            "clearRect": {
+              "calls": 129,
+              "ms": 0.09999999962747097
+            },
+            "fill": {
+              "calls": 6000,
+              "ms": 5.299999996088445
+            },
+            "stroke": {
+              "calls": 310,
+              "ms": 0.4000000013038516
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 30,
+              "ms": 0.09999999962747097
+            },
+            "createRadialGradient": {
+              "calls": 165,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 7,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 20,
+              "ms": 0.10000000055879354
+            },
+            "cacheFind": {
+              "calls": 5,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 5,
+              "ms": 0.4000000013038516
+            },
+            "art": {
+              "calls": 5,
+              "ms": 73.59999999962747
+            },
+            "cacheMiss": {
+              "calls": 5,
+              "ms": 0
+            },
+            "save": {
+              "calls": 526,
+              "ms": 0.09999999962747097
+            },
+            "restore": {
+              "calls": 526,
+              "ms": 0.09999999962747097
+            },
+            "transform": {
+              "calls": 911,
+              "ms": 0.8999999994412065
+            },
+            "gradientStop": {
+              "calls": 590,
+              "ms": 0.6999999992549419
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 62,
+          "drawMs": 72.59999999962747,
+          "prepMs": 0,
+          "startMs": 4598.200000000186,
+          "intervalMs": 55.30000000074506,
+          "scale": 1.0325606294983065,
+          "heapBytes": 90418105,
+          "slowCalls": [
+            {
+              "method": "drawImage",
+              "ms": 20.700000000186265,
+              "source": [
+                55,
+                159
+              ],
+              "destination": [
+                55,
+                159
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            },
+            {
+              "method": "drawImage",
+              "ms": 24.100000000558794,
+              "source": [
+                46,
+                127
+              ],
+              "destination": [
+                46,
+                127
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            }
+          ],
+          "phases": {
+            "drawImage": {
+              "calls": 245,
+              "ms": 58.999999998137355
+            },
+            "clearRect": {
+              "calls": 121,
+              "ms": 0.7000000001862645
+            },
+            "fill": {
+              "calls": 5976,
+              "ms": 5.800000003539026
+            },
+            "stroke": {
+              "calls": 307,
+              "ms": 0.09999999962747097
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0.09999999962747097
+            },
+            "createLinearGradient": {
+              "calls": 30,
+              "ms": 0.09999999962747097
+            },
+            "createRadialGradient": {
+              "calls": 165,
+              "ms": 0.19999999925494194
+            },
+            "canvasCreate": {
+              "calls": 15,
+              "ms": 0.10000000055879354
+            },
+            "canvasResize": {
+              "calls": 50,
+              "ms": 0.09999999962747097
+            },
+            "cacheFind": {
+              "calls": 5,
+              "ms": 0.09999999962747097
+            },
+            "cacheAdd": {
+              "calls": 5,
+              "ms": 0.10000000055879354
+            },
+            "art": {
+              "calls": 5,
+              "ms": 72.10000000149012
+            },
+            "cacheMiss": {
+              "calls": 5,
+              "ms": 0
+            },
+            "save": {
+              "calls": 526,
+              "ms": 0.5
+            },
+            "restore": {
+              "calls": 526,
+              "ms": 0.20000000018626451
+            },
+            "transform": {
+              "calls": 911,
+              "ms": 0.2999999998137355
+            },
+            "gradientStop": {
+              "calls": 590,
+              "ms": 0.09999999962747097
+            }
+          },
+          "gcEvents": []
+        }
+      ],
+      "sampledAllocations": [
+        [
+          "(anonymous) > drawMixedArt > artSurface > p.<computed> > split",
+          88479720
+        ],
+        [
+          "drawMixedArt > artSurface > drawPaintLayer > paintStroke > p.<computed>",
+          66490644
+        ],
+        [
+          "innerSerialize > serialize > innerSerialize > serialize > innerSerialize",
+          37040396
+        ],
+        [
+          "artSurface > drawPaintLayer > render > paintStroke > (anonymous)",
+          32834568
+        ],
+        [
+          "(anonymous) > drawMixedArt > artSurface > (anonymous) > split",
+          29526020
+        ],
+        [
+          "(root) > (V8 API)",
+          18664456
+        ],
+        [
+          "window.__tailPhase > (anonymous) > drawMixedArt > artSurface > p.<computed>",
+          16786488
+        ],
+        [
+          "drawMixedArt > artSurface > drawNailParts > drawPartMaterial > p.<computed>",
+          15671460
+        ],
+        [
+          "artSurface > drawPaintLayer > render > paintStroke > p.<computed>",
+          14720976
+        ],
+        [
+          "artSurface > p.<computed> > window.__tailPhase > (anonymous) > split",
+          13763512
+        ]
+      ]
+    },
+    "diagnostic-final-unpaced.json": {
+      "note": "API wrappers and heap sampler overhead; not acceptance latency. Nested phases overlap. Allocations include wrappers/reporting.",
+      "summary": {
+        "runs": 1,
+        "frames": 2400,
+        "minMs": 1.6,
+        "p50Ms": 2.2,
+        "p90Ms": 7.5,
+        "p95Ms": 31.7,
+        "p99Ms": 33.3,
+        "maxMs": 49.4,
+        "longDrawCounts": {
+          "over16.7Ms": 181,
+          "over25Ms": 180,
+          "over33Ms": 33,
+          "over50Ms": 0
+        },
+        "submissionFps": 146.2,
+        "elapsedMs": 16415.9,
+        "observedJsPeakBytes": 217958341,
+        "gcEvents": 24,
+        "gcOverlapLongDraws": 1,
+        "perRun": [
+          {
+            "p50Ms": 2.2,
+            "p90Ms": 7.5,
+            "p95Ms": 31.7,
+            "p99Ms": 33.3,
+            "maxMs": 49.4,
+            "longDrawCounts": {
+              "over16.7Ms": 181,
+              "over25Ms": 180,
+              "over33Ms": 33,
+              "over50Ms": 0
+            },
+            "submissionFps": 146.2,
+            "jsPeakBytes": 217958341,
+            "gcEvents": 24,
+            "cacheStats": {
+              "hits": 9715,
+              "prefixHits": 0,
+              "misses": 2405,
+              "evictions": 2385,
+              "entries": 20,
+              "surfaces": 20,
+              "pixels": 161009,
+              "maxPixels": 4000000,
+              "maxEntries": 512,
+              "maxPerSize": 16,
+              "stampSurfaces": {
+                "hits": 28788,
+                "prefixHits": 0,
+                "misses": 12,
+                "evictions": 0,
+                "entries": 12,
+                "surfaces": 12,
+                "pixels": 98496,
+                "maxPixels": 1000000,
+                "maxEntries": 64,
+                "maxPerSize": 64
+              },
+              "stampPositions": 60,
+              "scratch": {
+                "entries": 10,
+                "pixels": 75778,
+                "maxPixels": 1000000,
+                "maxEntries": 24
+              }
+            }
+          }
+        ],
+        "slowest": [
+          {
+            "frame": 1227,
+            "drawMs": 49.4,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 561,
+            "drawMs": 46.5,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 2265,
+            "drawMs": 37.1,
+            "scale": 1,
+            "gcEvents": [
+              {
+                "name": "MajorGC",
+                "overlapMs": 2.873
+              }
+            ]
+          },
+          {
+            "frame": 340,
+            "drawMs": 36.5,
+            "scale": 1,
+            "gcEvents": []
+          },
+          {
+            "frame": 1123,
+            "drawMs": 35.7,
+            "scale": 1,
+            "gcEvents": []
+          }
+        ]
+      },
+      "slowest": [
+        {
+          "i": 1227,
+          "drawMs": 49.39999999944121,
+          "prepMs": 0.10000000055879354,
+          "startMs": 9818.100000000559,
+          "intervalMs": 8.299999999813735,
+          "scale": 1,
+          "heapBytes": 117159161,
+          "slowCalls": [
+            {
+              "method": "drawImage",
+              "ms": 46.700000000186265,
+              "source": [
+                57,
+                144
+              ],
+              "destination": [
+                57,
+                144
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            }
+          ],
+          "phases": {
+            "drawImage": {
+              "calls": 65,
+              "ms": 48.100000001490116
+            },
+            "clearRect": {
+              "calls": 27,
+              "ms": 0
+            },
+            "fill": {
+              "calls": 77,
+              "ms": 0.2999999998137355
+            },
+            "stroke": {
+              "calls": 66,
+              "ms": 0
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 18,
+              "ms": 0.10000000055879354
+            },
+            "createRadialGradient": {
+              "calls": 45,
+              "ms": 0.09999999962747097
+            },
+            "canvasCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 4,
+              "ms": 0
+            },
+            "pathCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "cacheFind": {
+              "calls": 17,
+              "ms": 0.09999999962747097
+            },
+            "cacheAdd": {
+              "calls": 1,
+              "ms": 0
+            },
+            "art": {
+              "calls": 5,
+              "ms": 49.09999999962747
+            },
+            "cacheHit": {
+              "calls": 16,
+              "ms": 0
+            },
+            "cacheMiss": {
+              "calls": 1,
+              "ms": 0
+            },
+            "save": {
+              "calls": 118,
+              "ms": 0
+            },
+            "restore": {
+              "calls": 118,
+              "ms": 0
+            },
+            "transform": {
+              "calls": 175,
+              "ms": 0.19999999925494194
+            },
+            "gradientStop": {
+              "calls": 194,
+              "ms": 0.10000000055879354
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 561,
+          "drawMs": 46.5,
+          "prepMs": 0,
+          "startMs": 5183,
+          "intervalMs": 4.2999999998137355,
+          "scale": 1,
+          "heapBytes": 75837093,
+          "slowCalls": [
+            {
+              "method": "drawImage",
+              "ms": 43.90000000037253,
+              "source": [
+                57,
+                144
+              ],
+              "destination": [
+                57,
+                144
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            }
+          ],
+          "phases": {
+            "drawImage": {
+              "calls": 65,
+              "ms": 45.10000000055879
+            },
+            "clearRect": {
+              "calls": 27,
+              "ms": 0
+            },
+            "fill": {
+              "calls": 77,
+              "ms": 0.20000000018626451
+            },
+            "stroke": {
+              "calls": 66,
+              "ms": 0.20000000018626451
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 18,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 45,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 4,
+              "ms": 0.09999999962747097
+            },
+            "pathCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "cacheFind": {
+              "calls": 17,
+              "ms": 0
+            },
+            "cacheAdd": {
+              "calls": 1,
+              "ms": 0.09999999962747097
+            },
+            "art": {
+              "calls": 5,
+              "ms": 46.200000000186265
+            },
+            "cacheHit": {
+              "calls": 16,
+              "ms": 0
+            },
+            "cacheMiss": {
+              "calls": 1,
+              "ms": 0
+            },
+            "save": {
+              "calls": 118,
+              "ms": 0
+            },
+            "restore": {
+              "calls": 118,
+              "ms": 0.2999999988824129
+            },
+            "transform": {
+              "calls": 175,
+              "ms": 0
+            },
+            "gradientStop": {
+              "calls": 194,
+              "ms": 0.10000000055879354
+            }
+          },
+          "gcEvents": []
+        },
+        {
+          "i": 2265,
+          "drawMs": 37.10000000055879,
+          "prepMs": 0,
+          "startMs": 17060.799999999814,
+          "intervalMs": 4.7999999998137355,
+          "scale": 1,
+          "heapBytes": 191389681,
+          "slowCalls": [
+            {
+              "method": "drawImage",
+              "ms": 30.700000000186265,
+              "source": [
+                57,
+                144
+              ],
+              "destination": [
+                57,
+                144
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            }
+          ],
+          "phases": {
+            "drawImage": {
+              "calls": 65,
+              "ms": 34.89999999944121
+            },
+            "clearRect": {
+              "calls": 27,
+              "ms": 0.09999999962747097
+            },
+            "fill": {
+              "calls": 77,
+              "ms": 0.2999999998137355
+            },
+            "stroke": {
+              "calls": 66,
+              "ms": 0.2000000011175871
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 18,
+              "ms": 0.09999999962747097
+            },
+            "createRadialGradient": {
+              "calls": 45,
+              "ms": 0
+            },
+            "canvasCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 4,
+              "ms": 0.10000000055879354
+            },
+            "pathCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "cacheFind": {
+              "calls": 17,
+              "ms": 0.09999999962747097
+            },
+            "cacheAdd": {
+              "calls": 1,
+              "ms": 0.10000000055879354
+            },
+            "art": {
+              "calls": 5,
+              "ms": 36.700000000186265
+            },
+            "cacheHit": {
+              "calls": 16,
+              "ms": 0
+            },
+            "cacheMiss": {
+              "calls": 1,
+              "ms": 0
+            },
+            "save": {
+              "calls": 118,
+              "ms": 0.6000000005587935
+            },
+            "restore": {
+              "calls": 118,
+              "ms": 0
+            },
+            "transform": {
+              "calls": 175,
+              "ms": 0.20000000018626451
+            },
+            "gradientStop": {
+              "calls": 194,
+              "ms": 0
+            }
+          },
+          "gcEvents": [
+            {
+              "name": "MajorGC",
+              "overlapMs": 2.873
+            }
+          ]
+        },
+        {
+          "i": 340,
+          "drawMs": 36.5,
+          "prepMs": 0,
+          "startMs": 3650.4000000003725,
+          "intervalMs": 4.2999999998137355,
+          "scale": 1,
+          "heapBytes": 37668281,
+          "slowCalls": [
+            {
+              "method": "drawImage",
+              "ms": 34.09999999962747,
+              "source": [
+                57,
+                144
+              ],
+              "destination": [
+                57,
+                144
+              ],
+              "stack": [
+                {
+                  "name": "at eval",
+                  "location": [
+                    "9",
+                    "531"
+                  ]
+                },
+                {
+                  "name": "at window.__tailPhase",
+                  "location": [
+                    "7",
+                    "147"
+                  ]
+                },
+                {
+                  "name": "at p.<computed> [as drawImage]",
+                  "location": [
+                    "9",
+                    "263"
+                  ]
+                },
+                {
+                  "name": "at artSurface",
+                  "location": [
+                    "550",
+                    "17"
+                  ]
+                },
+                {
+                  "name": "at Module.drawMixedArt",
+                  "location": [
+                    "578",
+                    "21"
+                  ]
+                },
+                {
+                  "name": "at [compiled module]",
+                  "location": [
+                    "1",
+                    "210513"
+                  ]
+                }
+              ]
+            }
+          ],
+          "phases": {
+            "drawImage": {
+              "calls": 65,
+              "ms": 34.799999999813735
+            },
+            "clearRect": {
+              "calls": 27,
+              "ms": 0.09999999962747097
+            },
+            "fill": {
+              "calls": 77,
+              "ms": 0
+            },
+            "stroke": {
+              "calls": 66,
+              "ms": 0
+            },
+            "clip": {
+              "calls": 6,
+              "ms": 0
+            },
+            "createLinearGradient": {
+              "calls": 18,
+              "ms": 0
+            },
+            "createRadialGradient": {
+              "calls": 45,
+              "ms": 0.09999999962747097
+            },
+            "canvasCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "canvasResize": {
+              "calls": 4,
+              "ms": 0.09999999962747097
+            },
+            "pathCreate": {
+              "calls": 1,
+              "ms": 0
+            },
+            "cacheFind": {
+              "calls": 17,
+              "ms": 0.09999999962747097
+            },
+            "cacheAdd": {
+              "calls": 1,
+              "ms": 0.09999999962747097
+            },
+            "art": {
+              "calls": 5,
+              "ms": 36.299999999813735
+            },
+            "cacheHit": {
+              "calls": 16,
+              "ms": 0
+            },
+            "cacheMiss": {
+              "calls": 1,
+              "ms": 0
+            },
+            "save": {
+              "calls": 118,
+              "ms": 0.20000000018626451
+            },
+            "restore": {
+              "calls": 118,
+              "ms": 0.10000000055879354
+            },
+            "transform": {
+              "calls": 175,
+              "ms": 0.09999999962747097
+            },
+            "gradientStop": {
+              "calls": 194,
+              "ms": 0.20000000018626451
+            }
+          },
+          "gcEvents": []
+        }
+      ],
+      "sampledAllocations": [
+        [
+          "(anonymous) > drawMixedArt > artSurface > (anonymous) > split",
+          135734496
+        ],
+        [
+          "(anonymous) > drawMixedArt > artSurface > p.<computed> > split",
+          43256752
+        ],
+        [
+          "(root) > (V8 API)",
+          42552124
+        ],
+        [
+          "(anonymous) > drawMixedArt > artSurface > drawNailParts > drawPartMaterial",
+          34822276
+        ],
+        [
+          "drawNail > window.__tailPhase > (anonymous) > drawMixedArt > artSurface",
+          29763736
+        ],
+        [
+          "innerSerialize > serialize > innerSerialize > serialize > innerSerialize",
+          26551680
+        ],
+        [
+          "window.__tailPhase > (anonymous) > drawMixedArt > artSurface > p.<computed>",
+          25081636
+        ],
+        [
+          "drawMixedArt > artSurface > drawNailParts > drawPartMaterial > p.<computed>",
+          21409176
+        ],
+        [
+          "innerSerialize > serialize > innerSerialize > innerSerialize > innerSerialize",
+          18554256
+        ],
+        [
+          "drawMixedArt > artSurface > drawNailParts > drawPartMaterial > CanvasGradient.addColorStop",
+          16097136
+        ]
+      ]
+    }
+  },
+  "runtimeSha256": {
+    "src/lib/paintRenderer.ts": "1f77f9f9089f05e2813c5e0be70f2389e54c7418643ca270a1033f8827997ccc",
+    "src/lib/paintScratchPool.ts": "f2cca8201299e5d1f1dc6a91e4dc885160a8a0660bac8e76257f563b92eb2c2b",
+    "src/lib/paintSurfaceCache.ts": "8fa624a621f7c4f54eb90bf184e41f8c77a4ae1cd729d8e708d4ddb95f30f582",
+    "src/lib/partRendering.ts": "c1556ec9e03a18c6447d0035b0f6c3f9c56197e44203e779b47d1382f8c9481d"
+  },
+  "legacy_before": {
+    "scope": "unmodified renderer CPU submission/RAF/JS heap; production localhost, not phone/GPU completion",
+    "root": "C:/Users/nlgid/.codex/visualizations/2026/05/16/019e3149-2c2f-7ce2-a154-da042e23465d/tail-latency-20261113/baseline",
+    "runs": 3,
+    "samples": 180,
+    "profile": false,
+    "rows": [
+      {
+        "run": 0,
+        "case": "A",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.20000000018626451,
+          "p90": 0.20000000018626451,
+          "p99": 0.30000000074505806,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000273,
+          "p99": 4.300000000000182,
+          "max": 10.099999999999909
+        },
+        "rafFps": 238.5685884691849,
+        "heapMiB": 20.042302131652832
+      },
+      {
+        "run": 0,
+        "case": "A",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.19999999925494194,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000273,
+          "p99": 4.300000000000182,
+          "max": 4.300000000000182
+        },
+        "rafFps": 239.87206823027716,
+        "heapMiB": 22.58379077911377
+      },
+      {
+        "run": 0,
+        "case": "E",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.2999999998137355,
+          "p90": 0.40000000037252903,
+          "p99": 0.40000000037252903,
+          "max": 0.5
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000273,
+          "p99": 4.300000000000182,
+          "max": 4.300000000000182
+        },
+        "rafFps": 239.87206823027716,
+        "heapMiB": 19.803444862365723
+      },
+      {
+        "run": 0,
+        "case": "E",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 2.5,
+          "p90": 25.200000000186265,
+          "p99": 35.200000000186265,
+          "max": 51.59999999962747
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 25,
+          "p99": 29.200000000000728,
+          "max": 50
+        },
+        "rafFps": 121.98427758200054,
+        "heapMiB": 19.233699798583984
+      },
+      {
+        "run": 0,
+        "case": "E",
+        "scenario": "active-ink",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.7000000001862645,
+          "p90": 0.7999999998137355,
+          "p99": 0.900000000372529,
+          "max": 1
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000000182,
+          "max": 4.300000000000182
+        },
+        "rafFps": 239.87206823027702,
+        "heapMiB": 16.62685775756836
+      },
+      {
+        "run": 0,
+        "case": "E",
+        "scenario": "active-eraser",
+        "drawMs": {
+          "samples": 180,
+          "p50": 1.6000000005587935,
+          "p90": 2.5,
+          "p99": 7.5,
+          "max": 34.40000000037253
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.300000000000182,
+          "p99": 8.400000000000546,
+          "max": 33.400000000000546
+        },
+        "rafFps": 214.84841250895198,
+        "heapMiB": 14.882061958312988
+      },
+      {
+        "run": 1,
+        "case": "A",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.10000000055879354,
+          "p90": 0.20000000018626451,
+          "p99": 0.20000000018626451,
+          "max": 0.20000000018626451
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000000182,
+          "max": 4.300000000000182
+        },
+        "rafFps": 239.90403838464607,
+        "heapMiB": 15.813478469848633
+      },
+      {
+        "run": 1,
+        "case": "A",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.10000000055879354,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.299999999999272,
+          "p99": 4.300000000001091,
+          "max": 4.399999999999636
+        },
+        "rafFps": 239.93601706211683,
+        "heapMiB": 18.354726791381836
+      },
+      {
+        "run": 1,
+        "case": "E",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.2999999998137355,
+          "p90": 0.30000000074505806,
+          "p99": 0.40000000037252903,
+          "max": 0.40000000037252903
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000001091,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.8720682302773,
+        "heapMiB": 17.34256076812744
+      },
+      {
+        "run": 1,
+        "case": "E",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 2.400000000372529,
+          "p90": 23.09999999962747,
+          "p99": 37.80000000074506,
+          "max": 42.5
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.200000000000728,
+          "p90": 20.80000000000109,
+          "p99": 37.5,
+          "max": 41.70000000000073
+        },
+        "rafFps": 127.37952020380736,
+        "heapMiB": 19.621285438537598
+      },
+      {
+        "run": 1,
+        "case": "E",
+        "scenario": "active-ink",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.6999999992549419,
+          "p90": 0.7999999998137355,
+          "p99": 0.900000000372529,
+          "max": 1.2999999998137355
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000001091,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.8720682302767,
+        "heapMiB": 19.7557315826416
+      },
+      {
+        "run": 1,
+        "case": "E",
+        "scenario": "active-eraser",
+        "drawMs": {
+          "samples": 180,
+          "p50": 1.5,
+          "p90": 7.099999999627471,
+          "p99": 7.5,
+          "max": 7.7999999998137355
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.300000000001091,
+          "p99": 8.399999999999636,
+          "max": 8.400000000001455
+        },
+        "rafFps": 219.21812203142116,
+        "heapMiB": 19.018227577209473
+      },
+      {
+        "run": 2,
+        "case": "A",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.10000000055879354,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.299999999999272,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.9040383846458,
+        "heapMiB": 15.250748634338379
+      },
+      {
+        "run": 2,
+        "case": "A",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.10000000055879354,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000001091,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.84010659560292,
+        "heapMiB": 17.790745735168457
+      },
+      {
+        "run": 2,
+        "case": "E",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.2999999998137355,
+          "p90": 0.30000000074505806,
+          "p99": 0.40000000037252903,
+          "max": 0.40000000037252903
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.299999999999272,
+          "p99": 4.300000000001091,
+          "max": 4.399999999999636
+        },
+        "rafFps": 239.8720682302773,
+        "heapMiB": 16.752339363098145
+      },
+      {
+        "run": 2,
+        "case": "E",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 2.300000000745058,
+          "p90": 24.299999999813735,
+          "p99": 36,
+          "max": 42
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.200000000000728,
+          "p90": 20.899999999999636,
+          "p99": 33.399999999999636,
+          "max": 41.69999999999891
+        },
+        "rafFps": 127.74111134766869,
+        "heapMiB": 15.633313179016113
+      },
+      {
+        "run": 2,
+        "case": "E",
+        "scenario": "active-ink",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.6999999992549419,
+          "p90": 0.7000000001862645,
+          "p99": 1,
+          "max": 1.2999999998137355
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.200000000000728,
+          "p90": 4.200000000000728,
+          "p99": 4.299999999999272,
+          "max": 4.30000000000291
+        },
+        "rafFps": 239.8720682302773,
+        "heapMiB": 18.233667373657227
+      },
+      {
+        "run": 2,
+        "case": "E",
+        "scenario": "active-eraser",
+        "drawMs": {
+          "samples": 180,
+          "p50": 1.5,
+          "p90": 4.599999999627471,
+          "p99": 7.2999999998137355,
+          "max": 7.7999999998137355
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.200000000000728,
+          "p90": 4.299999999999272,
+          "p99": 8.400000000001455,
+          "max": 8.400000000001455
+        },
+        "rafFps": 221.45669291338604,
+        "heapMiB": 19.59190845489502
+      }
+    ],
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"
+  },
+  "legacy_after": {
+    "scope": "unmodified renderer CPU submission/RAF/JS heap; production localhost, not phone/GPU completion",
+    "root": ".",
+    "runs": 3,
+    "samples": 180,
+    "profile": false,
+    "rows": [
+      {
+        "run": 0,
+        "case": "A",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.20000000018626451,
+          "p90": 0.20000000018626451,
+          "p99": 0.30000000074505806,
+          "max": 0.40000000037252903
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000273,
+          "p99": 4.300000000000182,
+          "max": 4.300000000000182
+        },
+        "rafFps": 239.93601706211675,
+        "heapMiB": 20.123942375183105
+      },
+      {
+        "run": 0,
+        "case": "A",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.10000000055879354,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.299999999999727,
+          "p99": 4.300000000000182,
+          "max": 4.400000000000091
+        },
+        "rafFps": 239.87206823027716,
+        "heapMiB": 22.666449546813965
+      },
+      {
+        "run": 0,
+        "case": "E",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.20000000018626451,
+          "p90": 0.2999999998137355,
+          "p99": 0.40000000037252903,
+          "max": 0.40000000037252903
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000273,
+          "p99": 4.300000000000182,
+          "max": 4.300000000000182
+        },
+        "rafFps": 239.8720682302773,
+        "heapMiB": 21.43826961517334
+      },
+      {
+        "run": 0,
+        "case": "E",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 2.2000000001862645,
+          "p90": 24.5,
+          "p99": 33.60000000055879,
+          "max": 47.10000000055879
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 20.899999999999636,
+          "p99": 33.399999999999636,
+          "max": 45.900000000000546
+        },
+        "rafFps": 129.68299711815567,
+        "heapMiB": 19.009591102600098
+      },
+      {
+        "run": 0,
+        "case": "E",
+        "scenario": "active-ink",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.5,
+          "p90": 0.6000000005587935,
+          "p99": 1.1000000005587935,
+          "max": 22.40000000037253
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000000182,
+          "max": 20.799999999999272
+        },
+        "rafFps": 234.64998044583484,
+        "heapMiB": 14.366886138916016
+      },
+      {
+        "run": 0,
+        "case": "E",
+        "scenario": "active-eraser",
+        "drawMs": {
+          "samples": 180,
+          "p50": 1.7999999998137355,
+          "p90": 2,
+          "p99": 5.2000000001862645,
+          "max": 6.1000000005587935
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000728,
+          "p99": 8.399999999999636,
+          "max": 8.399999999999636
+        },
+        "rafFps": 234.64998044583484,
+        "heapMiB": 16.264159202575684
+      },
+      {
+        "run": 1,
+        "case": "A",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.19999999925494194,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000000182,
+          "max": 4.300000000000182
+        },
+        "rafFps": 239.90403838464607,
+        "heapMiB": 18.776747703552246
+      },
+      {
+        "run": 1,
+        "case": "A",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.10000000055879354,
+          "p90": 0.20000000018626451,
+          "p99": 0.20000000018626451,
+          "max": 0.2999999998137355
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999999818,
+          "p90": 4.299999999999272,
+          "p99": 4.300000000000182,
+          "max": 4.300000000000182
+        },
+        "rafFps": 239.84010659560323,
+        "heapMiB": 15.092193603515625
+      },
+      {
+        "run": 1,
+        "case": "E",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.19999999925494194,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000001091,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.9040383846458,
+        "heapMiB": 17.751338005065918
+      },
+      {
+        "run": 1,
+        "case": "E",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.19999999925494194,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.299999999999272,
+          "p99": 4.300000000001091,
+          "max": 4.399999999999636
+        },
+        "rafFps": 239.84010659560292,
+        "heapMiB": 15.746452331542969
+      },
+      {
+        "run": 1,
+        "case": "E",
+        "scenario": "active-ink",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.5,
+          "p90": 0.6000000005587935,
+          "p99": 1,
+          "max": 2.2000000001862645
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.299999999999272,
+          "p99": 4.300000000001091,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.8720682302773,
+        "heapMiB": 15.778854370117188
+      },
+      {
+        "run": 1,
+        "case": "E",
+        "scenario": "active-eraser",
+        "drawMs": {
+          "samples": 180,
+          "p50": 1.7000000001862645,
+          "p90": 1.900000000372529,
+          "p99": 2.1000000005587935,
+          "max": 2.300000000745058
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000001091,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.8720682302767,
+        "heapMiB": 14.785906791687012
+      },
+      {
+        "run": 2,
+        "case": "A",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.10000000055879354,
+          "p90": 0.20000000018626451,
+          "p99": 0.20000000018626451,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000001091,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.8720682302773,
+        "heapMiB": 17.297232627868652
+      },
+      {
+        "run": 2,
+        "case": "A",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.10000000055879354,
+          "p90": 0.20000000018626451,
+          "p99": 0.20000000018626451,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.299999999999272,
+          "p99": 4.300000000001091,
+          "max": 4.400000000001455
+        },
+        "rafFps": 239.93601706211655,
+        "heapMiB": 15.439502716064453
+      },
+      {
+        "run": 2,
+        "case": "E",
+        "scenario": "cached",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.20000000018626451,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000001091,
+          "max": 4.399999999999636
+        },
+        "rafFps": 239.8720682302773,
+        "heapMiB": 18.15161418914795
+      },
+      {
+        "run": 2,
+        "case": "E",
+        "scenario": "continuous-distance",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.10000000055879354,
+          "p90": 0.20000000018626451,
+          "p99": 0.2999999998137355,
+          "max": 0.30000000074505806
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.299999999999272,
+          "p99": 4.300000000001091,
+          "max": 4.399999999999636
+        },
+        "rafFps": 239.8720682302773,
+        "heapMiB": 16.09581756591797
+      },
+      {
+        "run": 2,
+        "case": "E",
+        "scenario": "active-ink",
+        "drawMs": {
+          "samples": 180,
+          "p50": 0.5,
+          "p90": 0.6000000005587935,
+          "p99": 0.7999999998137355,
+          "max": 2.2000000001862645
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000001091,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.93601706211655,
+        "heapMiB": 14.286380767822266
+      },
+      {
+        "run": 2,
+        "case": "E",
+        "scenario": "active-eraser",
+        "drawMs": {
+          "samples": 180,
+          "p50": 1.7999999998137355,
+          "p90": 1.900000000372529,
+          "p99": 2.099999999627471,
+          "max": 2.599999999627471
+        },
+        "rafIntervalMs": {
+          "samples": 180,
+          "p50": 4.199999999998909,
+          "p90": 4.200000000000728,
+          "p99": 4.300000000001091,
+          "max": 4.300000000001091
+        },
+        "rafFps": 239.8720682302773,
+        "heapMiB": 15.22965145111084
+      }
+    ],
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36"
+  },
+  "regression": {
+    "summary": {
+      "planned": 61,
+      "executed": 56,
+      "passed": 56,
+      "failed": 0,
+      "unexecuted": 5
+    },
+    "jobs": [
+      {
+        "id": "unit-01-check-content",
+        "status": "passed"
+      },
+      {
+        "id": "unit-02-check-ad-placement",
+        "status": "passed"
+      },
+      {
+        "id": "unit-03-check-camera-support",
+        "status": "passed"
+      },
+      {
+        "id": "unit-04-check-tracking-resilience",
+        "status": "passed"
+      },
+      {
+        "id": "unit-05-check-devicechange-resilience",
+        "status": "passed"
+      },
+      {
+        "id": "unit-06-check-hand-detection",
+        "status": "passed"
+      },
+      {
+        "id": "unit-07-check-nail-fit",
+        "status": "passed"
+      },
+      {
+        "id": "unit-08-check-tracking-quality",
+        "status": "passed"
+      },
+      {
+        "id": "unit-09-check-tracking-runtime",
+        "status": "passed"
+      },
+      {
+        "id": "unit-10-check-nail-alignment",
+        "status": "passed"
+      },
+      {
+        "id": "unit-11-check-distance-tracking",
+        "status": "passed"
+      },
+      {
+        "id": "unit-12-check-thumb-fit-quality",
+        "status": "passed"
+      },
+      {
+        "id": "unit-13-check-nail-visibility",
+        "status": "passed"
+      },
+      {
+        "id": "unit-14-check-before-after",
+        "status": "passed"
+      },
+      {
+        "id": "unit-15-check-google-integrations",
+        "status": "passed"
+      },
+      {
+        "id": "unit-16-check-seo",
+        "status": "passed"
+      },
+      {
+        "id": "unit-17-check-vanishing-regression",
+        "status": "passed"
+      },
+      {
+        "id": "unit-18-check-nail-contact",
+        "status": "passed"
+      },
+      {
+        "id": "unit-19-check-curled-nails",
+        "status": "passed"
+      },
+      {
+        "id": "unit-20-check-mobile-tracking",
+        "status": "passed"
+      },
+      {
+        "id": "unit-21-check-fit-profile",
+        "status": "passed"
+      },
+      {
+        "id": "unit-22-check-fit-quality-research",
+        "status": "passed"
+      },
+      {
+        "id": "unit-23-check-brand-seo",
+        "status": "passed"
+      },
+      {
+        "id": "unit-24-check-site-reliability",
+        "status": "passed"
+      },
+      {
+        "id": "unit-25-check-startup-delivery",
+        "status": "passed"
+      },
+      {
+        "id": "unit-26-check-preview-presentation",
+        "status": "passed"
+      },
+      {
+        "id": "unit-27-check-contact",
+        "status": "passed"
+      },
+      {
+        "id": "unit-28-check-workshop",
+        "status": "passed"
+      },
+      {
+        "id": "unit-29-check-workshop-rendering",
+        "status": "passed"
+      },
+      {
+        "id": "unit-30-check-nail-paint",
+        "status": "passed"
+      },
+      {
+        "id": "unit-31-check-editor-materials",
+        "status": "passed"
+      },
+      {
+        "id": "unit-32-check-workshop-security",
+        "status": "passed"
+      },
+      {
+        "id": "unit-33-check-nail-surfaces",
+        "status": "passed"
+      },
+      {
+        "id": "unit-34-check-paint-viewport",
+        "status": "passed"
+      },
+      {
+        "id": "unit-35-check-workshop-recovery",
+        "status": "passed"
+      },
+      {
+        "id": "unit-36-check-paint-surface-cache",
+        "status": "passed"
+      },
+      {
+        "id": "unit-37-check-studio-settings",
+        "status": "passed"
+      },
+      {
+        "id": "unit-38-check-preset-surfaces",
+        "status": "passed"
+      },
+      {
+        "id": "site-quality",
+        "status": "passed"
+      },
+      {
+        "id": "workshop",
+        "status": "passed"
+      },
+      {
+        "id": "paint",
+        "status": "passed"
+      },
+      {
+        "id": "materials",
+        "status": "passed"
+      },
+      {
+        "id": "styles",
+        "status": "passed"
+      },
+      {
+        "id": "navigation",
+        "status": "passed"
+      },
+      {
+        "id": "recovery",
+        "status": "passed"
+      },
+      {
+        "id": "preview-contact",
+        "status": "passed"
+      },
+      {
+        "id": "photo-race",
+        "status": "passed"
+      },
+      {
+        "id": "distance",
+        "status": "passed"
+      },
+      {
+        "id": "curled",
+        "status": "passed"
+      },
+      {
+        "id": "mobile-diagnostics",
+        "status": "passed"
+      },
+      {
+        "id": "seo",
+        "status": "passed"
+      },
+      {
+        "id": "model-delivery",
+        "status": "passed"
+      },
+      {
+        "id": "studio-settings",
+        "status": "passed"
+      },
+      {
+        "id": "render-equality",
+        "status": "passed"
+      },
+      {
+        "id": "visual-recheck",
+        "status": "passed"
+      },
+      {
+        "id": "legacy-material-quality",
+        "status": "passed"
+      }
+    ],
+    "unexecuted": [
+      {
+        "id": "physical-camera",
+        "reason": "No physical webcam/phone manipulation; real bundled model uses local photographs and captureStream"
+      },
+      {
+        "id": "iphone-safari",
+        "reason": "Desktop responsive/CDP touch tests are not iPhone hardware"
+      },
+      {
+        "id": "android-chrome",
+        "reason": "Desktop responsive/CDP touch tests are not Android hardware"
+      },
+      {
+        "id": "provider-delivery-captcha",
+        "reason": "Formspree/Turnstile are mocked locally; no real emails or third-party attack tests"
+      },
+      {
+        "id": "live-ad-analytics",
+        "reason": "Ad/GA tags are checked; real delivery and overlays are blocked in local browser QA"
+      }
+    ]
+  },
+  "renderEquality": {
+    "cases": 217,
+    "changedCases": 0,
+    "changedChannels": 0,
+    "optionalCacheFailures": 24,
+    "cacheStats": {
+      "hits": 89,
+      "prefixHits": 36,
+      "misses": 171,
+      "evictions": 89,
+      "entries": 118,
+      "surfaces": 119,
+      "pixels": 3313998,
+      "maxPixels": 4000000,
+      "maxEntries": 512,
+      "maxPerSize": 16,
+      "stampSurfaces": {
+        "hits": 494,
+        "prefixHits": 0,
+        "misses": 296,
+        "evictions": 257,
+        "entries": 39,
+        "surfaces": 39,
+        "pixels": 982620,
+        "maxPixels": 1000000,
+        "maxEntries": 64,
+        "maxPerSize": 64
+      },
+      "stampPositions": 64,
+      "scratch": {
+        "entries": 24,
+        "pixels": 284268,
+        "maxPixels": 1000000,
+        "maxEntries": 24
+      }
+    }
+  },
+  "photoParity": {
+    "photos": 2,
+    "pairs": 76,
+    "changedChannels": 0,
+    "photoPreservation": 47,
+    "errors": []
+  },
+  "motionPixels": {
+    "frames": 240,
+    "changedChannels": 0,
+    "scope": "exact RGBA at 800x1040; per-finger scale/aspect + XY + rotation; repeated readback, NOT timing or physical camera QA"
+  }
+}

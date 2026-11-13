@@ -6,8 +6,8 @@ const facetDirections=new Map([5,8].map(n=>[n,Array.from({length:n},(_,i)=>{cons
 const glitterDirections=Array.from({length:12},(_,i)=>({x:Math.sin(i*2.4),y:Math.cos(i*3.7),directions:Array.from({length:4},(_,j)=>{const a=j*Math.PI/2+i*.72;return[Math.cos(a),Math.sin(a)];})}));
 function polygon(c:CanvasRenderingContext2D,r:number,n:number,star=false){
   const directions=polygonDirections.get(n)!;
-  c.beginPath();for(let i=0;i<n;i++){const rr=star&&i%2?r*.45:r,[cos,sin]=directions[i];
-    if(i)c.lineTo(cos*rr,sin*rr);else c.moveTo(cos*rr,sin*rr);}c.closePath();
+  c.beginPath();for(let i=0;i<n;i++){const rr=star&&i%2?r*.45:r,direction=directions[i];
+    if(i)c.lineTo(direction[0]*rr,direction[1]*rr);else c.moveTo(direction[0]*rr,direction[1]*rr);}c.closePath();
 }
 
 /** Analytic 2D material proxies, not a recovered light field or 3D mesh.
@@ -53,13 +53,13 @@ export function drawPartMaterial(c:CanvasRenderingContext2D,r:number,p:NailPart,
   }else if(glitter){
     const primary=tint(p.color,.45+energy*.35),secondary=tint("#fff3dd",.25+energy*.4);
     for(let i=0;i<(light?5:12);i++){const f=glitterDirections[i],x=f.x*r,y=f.y*r,rr=r*(p.kind==="fine-glitter"?.07:.18)*(1+(i%3)*.15);c.fillStyle=i%3?primary:secondary;c.beginPath();
-      for(let j=0;j<4;j++){const [cos,sin]=f.directions[j],px=x+cos*rr,py=y+sin*rr*.65;if(j)c.lineTo(px,py);else c.moveTo(px,py);}c.closePath();c.fill();}
+      for(let j=0;j<4;j++){const direction=f.directions[j],px=x+direction[0]*rr,py=y+direction[1]*rr*.65;if(j)c.lineTo(px,py);else c.moveTo(px,py);}c.closePath();c.fill();}
   }else{
     polygon(c,r,p.kind==="star"?10:gem?8:5,p.kind==="star");c.fill();
     if(!light&&r>=2.5){const n=gem?8:5;
-      for(let i=0;i<n;i++){const [ax,ay,bx,by]=facetDirections.get(n)![i];
+      for(let i=0;i<n;i++){const direction=facetDirections.get(n)![i];
         c.fillStyle=metal?`hsla(${p.kind==="gold-holo"?35+i*9:185+i*23},25%,${i%2?84:48}%,${energy*.25})`:tint(i%3===0?"#242c48":"#f3f8ff",(i%3===0?.36:.14+(i%3)*.03)*energy);
-        c.beginPath();c.moveTo(-r*.12,-r*.17);c.lineTo(ax*r,ay*r);c.lineTo(bx*r,by*r);c.closePath();c.fill();
+        c.beginPath();c.moveTo(-r*.12,-r*.17);c.lineTo(direction[0]*r,direction[1]*r);c.lineTo(direction[2]*r,direction[3]*r);c.closePath();c.fill();
       }
       if(gem){polygon(c,r*.43,gem?8:5);c.strokeStyle=tint("#fcfaff",.3*energy);c.lineWidth=r*.04;c.stroke();}
     }

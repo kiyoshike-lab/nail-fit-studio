@@ -4,11 +4,13 @@ import assert from 'node:assert/strict';
 import {readFile,writeFile,mkdir}from'node:fs/promises';
 import path from'node:path';import{pathToFileURL}from'node:url';
 import{importTypescript,typescriptModuleUrl}from'./lib/import-typescript.mjs';
+import{realismPerformanceFixtures}from'./lib/realism-performance-fixtures.mjs';
 const args=process.argv.slice(2),opt=n=>args.includes(n)?args[args.indexOf(n)+1]:undefined;
  const base=opt('--base-url'),out=path.resolve(opt('--output-dir'));
 if(!['localhost','127.0.0.1'].includes(new URL(base).hostname))throw Error('Local only');await mkdir(out,{recursive:true});
 const before=await typescriptModuleUrl(path.join(opt('--before-root'),'src/lib/nailRenderer.ts')),after=await typescriptModuleUrl('src/lib/nailRenderer.ts');
 const{nailStyles}=await importTypescript('src/lib/nailStyles.ts'),{defaultDesign}=await importTypescript('src/lib/defaults.ts'),{partNames}=await importTypescript('src/lib/workshopTypes.ts');
+const performanceCases=args.includes('--performance-cases')?await realismPerformanceFixtures():[],assertEqual=args.includes('--assert-equal');
 const{chromium}=await import(pathToFileURL(path.resolve(opt('--playwright-module'))).href);
 const browser=await chromium.launch({channel:'chrome',headless:true,args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']});
 const photos=[opt('--image'),opt('--image2'),opt('--image3')].filter(Boolean),rows=[],errors=[];
@@ -21,13 +23,13 @@ try{
   const input=await p.evaluate(()=>{const im=document.querySelector('img[alt="手の写真"]'),c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;c.getContext('2d').drawImage(im,0,0);return{image:c.toDataURL(),nails:JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1')),status:document.querySelector('.preview-header').textContent};});
   const visible=input.nails.filter(n=>(n.visibility??1)>.05).length;
   if(visible<3){rows.push({photo,visible,skipped:true,status:input.status});continue;}
-  const result=await p.evaluate(async({before,after,input,styles,base,parts})=>{
+  const result=await p.evaluate(async({before,after,input,styles,base,parts,performanceCases,assertEqual})=>{
    const renderers=[(await import(before)).drawNails,(await import(after)).drawNails],im=new Image();im.src=input.image;await im.decode();
-   const cases=[{id:'legacy',base},...styles.map(s=>({id:s.id,base:{...base,color:s.color,tipColor:s.tipColor},surface:s.surface})),...Object.keys(parts).map(kind=>({id:'part-'+kind,base,part:{id:'p',kind,color:kind==='gold-holo'?'#dbbc76':'#e6c7d9',x:0,y:0,size:.42,rotation:0}}))];
+   const cases=[{id:'legacy',base},...styles.map(s=>({id:s.id,base:{...base,color:s.color,tipColor:s.tipColor},surface:s.surface})),...Object.keys(parts).map(kind=>({id:'part-'+kind,base,part:{id:'p',kind,color:kind==='gold-holo'?'#dbbc76':'#e6c7d9',x:0,y:0,size:.42,rotation:0}})),...performanceCases.map(f=>({id:'case-'+f.id,base,fingers:f.document.fingers}))];
    const boards=[],caseRows=[];let board,bx;
    for(let i=0;i<cases.length;i++){
     if(i%4===0){board=document.createElement('canvas');board.width=1000;board.height=4*330;bx=board.getContext('2d');bx.fillStyle='#faf7f5';bx.fillRect(0,0,1000,1320);boards.push(board);}
-    const s=cases[i],fingers=input.nails.map(()=>({base:s.base,opacity:1,effect:'none',parts:s.part?[s.part]:[],...(s.surface?{surface:s.surface}:{})}));
+    const s=cases[i],fingers=s.fingers??input.nails.map(()=>({base:s.base,opacity:1,effect:'none',parts:s.part?[s.part]:[],...(s.surface?{surface:s.surface}:{})}));
     const pair=[];
     for(let version=0;version<2;version++){
      const c=document.createElement('canvas');c.width=im.width;c.height=im.height;const ctx=c.getContext('2d',{willReadFrequently:true});ctx.drawImage(im,0,0);
@@ -41,6 +43,7 @@ try{
     const a=pair[0].getContext('2d').getImageData(0,0,im.width,im.height).data,b=pair[1].getContext('2d').getImageData(0,0,im.width,im.height).data;let changed=0;
     for(let j=0;j<a.length;j++)if(a[j]!==b[j])changed++;
     if(s.id==='matte'&&changed)throw Error('unapproved matte optics changed');
+    if(assertEqual&&changed)throw Error('optimization changed pixels: '+s.id+' / '+changed);
     // Determinism and visibility apply even though intentional visual changes
     // are NOT expected to be pixel-equal to the former renderer.
     const check=document.createElement('canvas');check.width=im.width;check.height=im.height;const cx=check.getContext('2d',{willReadFrequently:true});cx.drawImage(im,0,0);await renderers[1](cx,im.width,im.height,input.nails,s.base,{fingers});const same=cx.getImageData(0,0,im.width,im.height).data;
@@ -49,7 +52,7 @@ try{
     caseRows.push({id:s.id,changedChannels:changed,deterministic:true,hiddenMask:true});
    }
    return{boards:boards.map(c=>c.toDataURL().split(',')[1]),cases:caseRows,size:[im.width,im.height]};
-  },{before,after,input,styles:nailStyles,base:defaultDesign,parts:partNames});
+  },{before,after,input,styles:nailStyles,base:defaultDesign,parts:partNames,performanceCases,assertEqual});
   for(let i=0;i<result.boards.length;i++)await writeFile(path.join(out,`hand-${photo}-board-${i}.png`),Buffer.from(result.boards[i],'base64'));
   rows.push({photo,source:photos[photo],visible,size:result.size,cases:result.cases});
  }

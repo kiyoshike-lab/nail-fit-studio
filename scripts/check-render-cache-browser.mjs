@@ -3,6 +3,7 @@ import assert from'node:assert/strict';import{writeFile}from'node:fs/promises';i
 const args=process.argv.slice(2),opt=n=>args.includes(n)?args[args.indexOf(n)+1]:undefined,base=opt('--base-url');if(!['localhost','127.0.0.1'].includes(new URL(base).hostname))throw Error('Local only');
 let before=await typescriptModuleUrl(path.join(opt('--before-root'),'src/lib/paintRenderer.ts')),after=await typescriptModuleUrl('src/lib/paintRenderer.ts'),fixtures=await workshopPerformanceFixtures(),defaults=await importTypescript('src/lib/defaults.ts');
 let beforeNail=await typescriptModuleUrl(path.join(opt('--before-root'),'src/lib/nailRenderer.ts')),afterNail=await typescriptModuleUrl('src/lib/nailRenderer.ts');
+const cacheType=await typescriptModuleUrl('src/lib/paintSurfaceCache.ts');
 if(args.includes('--compare-current-direct')){
  const url=await typescriptModuleUrl('src/lib/paintSurfaceCache.ts');
  const direct='data:text/javascript;base64,'+Buffer.from(`import{PaintSurfaceCache as Base}from"${url}";export{paintCommands,samePaintCommands}from"${url}";export class PaintSurfaceCache extends Base{find(){return{surface:undefined,prefix:undefined};}}`).toString('base64');
@@ -11,7 +12,7 @@ if(args.includes('--compare-current-direct')){
 }
 const{chromium}=await import(pathToFileURL(path.resolve(opt('--playwright-module'))).href),browser=await chromium.launch({channel:'chrome',headless:true});
 try{const p=await browser.newPage();await p.route(/googlesyndication|googletagmanager|google-analytics/,r=>r.abort());await p.goto(base+'/create',{waitUntil:'networkidle'});
- const result=await p.evaluate(async({before,after,beforeNail,afterNail,fixtures,defaults})=>{
+ const result=await p.evaluate(async({before,after,beforeNail,afterNail,fixtures,defaults,variants,cacheType})=>{
   const a=await import(before),b=await import(after),r0=await import(beforeNail),r1=await import(afterNail),rows=[];
   const pair=()=>Array.from({length:2},()=>{const c=document.createElement('canvas');c.width=600;c.height=900;return c;});let cs=pair();
   function equal(label){const x=cs[0].getContext('2d').getImageData(0,0,600,900).data,y=cs[1].getContext('2d').getImageData(0,0,600,900).data;let changed=0,maxDelta=0;for(let i=0;i<x.length;i++)if(x[i]!==y[i]){changed++;maxDelta=Math.max(maxDelta,Math.abs(x[i]-y[i]));}rows.push({label,changedChannels:changed,maxDelta});}
@@ -28,9 +29,33 @@ try{const p=await browser.newPage();await p.route(/googlesyndication|googletagma
   const maximum=fixtures.find(f=>f.name==='maximum').document;for(const shape of['natural','round','oval','squoval','almond','coffin','square','stiletto'])for(const length of[.75,1,2.5]){
    const fingers=maximum.fingers.map(f=>({...f,base:{...f.base,shape,length}}));for(let i=0;i<2;i++){const x=cs[i].getContext('2d');await[i?r1.drawNails:r0.drawNails][0](x,600,900,defaults.defaultPhotoNails,fingers[0].base,{fingers,clear:true});}equal(`nail/${shape}/${length}`);
   }
+  if(variants)for(const color of['#112233','#fedcba','#c31f8a'])for(const opacity of[.07,.3,1])for(const width of[53.3,91.7]){
+   const art={...stress,layers:stress.layers.map(l=>({...l,color,secondary:'#1aa5ff',opacity:l.tool==='eraser'?l.opacity:opacity}))};
+   for(let edit=0;edit<4;edit++){
+    const fingers=[{...art,layers:art.layers.map((l,i)=>i===art.layers.length-1?{...l,rotation:l.rotation+edit*.7}:l)}];
+    for(let i=0;i<2;i++){const x=cs[i].getContext('2d');await[i?r1.drawNails:r0.drawNails][0](x,600,900,[{x:50,y:76,width:width/6,height:25,rotation:73,visibility:1}],art.base,{fingers,clear:true});}
+    equal(`stamp-variant/${color}/${opacity}/${width}/${edit}`);
+   }
+  }
   // Exact prefix/full hits really occurred, not just a no-cache comparison.
-  const stats=b.paintRenderCacheStats();return{rows,stats};
- },{before,after,beforeNail,afterNail,fixtures,defaults});
+  const stats=b.paintRenderCacheStats();let optionalCacheFailures=0;
+  if(variants){
+   const{PaintSurfaceCache}=await import(cacheType),add=PaintSurfaceCache.prototype.add;
+   try{
+    PaintSurfaceCache.prototype.add=function(...a){if(this.maxPixels===1000000){optionalCacheFailures++;throw Error('injected optional cache admission failure');}return add.apply(this,a);};
+    b.clearPaintRenderCache();
+    for(let edit=0;edit<3;edit++){
+     const fingers=[{...stress,layers:stress.layers.map((l,i)=>i===stress.layers.length-1?{...l,rotation:l.rotation+edit*.7}:l)}];
+     for(let i=0;i<2;i++)await[i?r1.drawNails:r0.drawNails][0](cs[i].getContext('2d'),600,900,[{x:50,y:76,width:15,height:25,rotation:73,visibility:1}],stress.base,{fingers,clear:true});
+     equal('optional-cache-failure/'+edit);
+    }
+    if(!optionalCacheFailures)throw Error('optional cache failure was not exercised');
+   }finally{PaintSurfaceCache.prototype.add=add;b.clearPaintRenderCache();}
+  }
+  return{rows,stats,optionalCacheFailures};
+ },{before,after,beforeNail,afterNail,fixtures,defaults,variants:args.includes('--stamp-variants'),cacheType});
  await writeFile(opt('--output'),JSON.stringify({scope:args.includes('--compare-current-direct')?'Current optical renderer: cache bypass vs optimized exact RGBA; all sizes/metadata/order/erasers/clips. NOT equality to intentionally changed old optics.':'Chrome exact RGBA equality vs frozen renderer',...result},null,2));
- assert.ok(result.stats.hits>0);assert.ok(result.stats.prefixHits>0);assert.ok(result.stats.pixels<=4000000);assert.deepEqual(result.rows.filter(r=>r.changedChannels),[]);console.log(`${result.rows.length} exact-pixel cases, cache hits=${result.stats.hits}, prefix hits=${result.stats.prefixHits}, retained pixels=${result.stats.pixels}`);
+ assert.ok(result.stats.hits>0);assert.ok(result.stats.prefixHits>0);assert.ok(result.stats.pixels<=4000000);
+ if(result.stats.stampSurfaces){assert.ok(result.stats.stampSurfaces.hits>0,'stamp cache must really be exercised');assert.ok(result.stats.stampSurfaces.pixels<=1000000);assert.ok(result.stats.stampSurfaces.entries<=64);assert.ok(result.stats.stampPositions<=64);}
+ assert.deepEqual(result.rows.filter(r=>r.changedChannels),[]);console.log(`${result.rows.length} exact-pixel cases, cache hits=${result.stats.hits}, prefix hits=${result.stats.prefixHits}, retained pixels=${result.stats.pixels}`);
 }finally{await browser.close();}

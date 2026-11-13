@@ -1,0 +1,1074 @@
+{
+  "baselineCommit": "cc39c241444c0e23c8dd2863df926b9f9696ebdb",
+  "metric": "median of per-run percentiles; CPU submission and RAF scheduling, not GPU presentation or hardware phone",
+  "cases": [
+    {
+      "case": "A",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 0.1,
+          "p90": 0.2,
+          "p99": 0.3
+        },
+        "worstDrawMs": 0.4,
+        "rafFps": 239.872,
+        "heapMiB": 15.209,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.2,
+          "p90": 0.2,
+          "p99": 0.3
+        },
+        "worstDrawMs": 1,
+        "rafFps": 239.904,
+        "heapMiB": 16.856,
+        "runs": 3
+      }
+    },
+    {
+      "case": "A",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 0.1,
+          "p90": 0.2,
+          "p99": 0.3
+        },
+        "worstDrawMs": 0.3,
+        "rafFps": 239.872,
+        "heapMiB": 15.307,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.2,
+          "p90": 0.3,
+          "p99": 0.3
+        },
+        "worstDrawMs": 10.5,
+        "rafFps": 239.84,
+        "heapMiB": 18.349,
+        "runs": 3
+      }
+    },
+    {
+      "case": "B",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 0.7,
+          "p90": 0.8,
+          "p99": 0.8
+        },
+        "worstDrawMs": 1,
+        "rafFps": 239.872,
+        "heapMiB": 18.721,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.6,
+          "p90": 0.8,
+          "p99": 1.3
+        },
+        "worstDrawMs": 3.2,
+        "rafFps": 239.904,
+        "heapMiB": 18.407,
+        "runs": 3
+      }
+    },
+    {
+      "case": "B",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 0.7,
+          "p90": 0.7,
+          "p99": 0.8
+        },
+        "worstDrawMs": 1,
+        "rafFps": 239.904,
+        "heapMiB": 21.285,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.6,
+          "p90": 0.7,
+          "p99": 1.2
+        },
+        "worstDrawMs": 1.7,
+        "rafFps": 239.872,
+        "heapMiB": 19.058,
+        "runs": 3
+      }
+    },
+    {
+      "case": "C",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 1.3,
+          "p90": 1.4,
+          "p99": 1.5
+        },
+        "worstDrawMs": 1.8,
+        "rafFps": 239.872,
+        "heapMiB": 18.253,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.3,
+          "p90": 1.5,
+          "p99": 1.8
+        },
+        "worstDrawMs": 2.5,
+        "rafFps": 239.904,
+        "heapMiB": 16.138,
+        "runs": 3
+      }
+    },
+    {
+      "case": "C",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 1.3,
+          "p90": 1.4,
+          "p99": 1.5
+        },
+        "worstDrawMs": 1.7,
+        "rafFps": 208.599,
+        "heapMiB": 22.135,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.2,
+          "p90": 1.3,
+          "p99": 1.6
+        },
+        "worstDrawMs": 2.2,
+        "rafFps": 189.394,
+        "heapMiB": 15.765,
+        "runs": 3
+      }
+    },
+    {
+      "case": "D",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 1.7,
+          "p90": 1.8,
+          "p99": 1.9
+        },
+        "worstDrawMs": 2.2,
+        "rafFps": 147.372,
+        "heapMiB": 19.2,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.5,
+          "p90": 1.7,
+          "p99": 2.3
+        },
+        "worstDrawMs": 3.7,
+        "rafFps": 141.587,
+        "heapMiB": 15.437,
+        "runs": 3
+      }
+    },
+    {
+      "case": "D",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 1.7,
+          "p90": 1.8,
+          "p99": 1.9
+        },
+        "worstDrawMs": 2.2,
+        "rafFps": 134.509,
+        "heapMiB": 18.122,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.6,
+          "p90": 1.9,
+          "p99": 2.2
+        },
+        "worstDrawMs": 8.1,
+        "rafFps": 134.509,
+        "heapMiB": 17.962,
+        "runs": 3
+      }
+    },
+    {
+      "case": "E",
+      "scenario": "active-eraser",
+      "before": {
+        "drawMs": {
+          "p50": 6.7,
+          "p90": 25,
+          "p99": 27.4
+        },
+        "worstDrawMs": 33.5,
+        "rafFps": 99.95,
+        "heapMiB": 20.622,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.8,
+          "p90": 7.7,
+          "p99": 38.4
+        },
+        "worstDrawMs": 86.1,
+        "rafFps": 185.338,
+        "heapMiB": 14.458,
+        "runs": 3
+      }
+    },
+    {
+      "case": "E",
+      "scenario": "active-ink",
+      "before": {
+        "drawMs": {
+          "p50": 0.6,
+          "p90": 0.7,
+          "p99": 0.8
+        },
+        "worstDrawMs": 1.4,
+        "rafFps": 239.872,
+        "heapMiB": 21.251,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.8,
+          "p90": 1.2,
+          "p99": 1.4
+        },
+        "worstDrawMs": 7.5,
+        "rafFps": 237.217,
+        "heapMiB": 18.07,
+        "runs": 3
+      }
+    },
+    {
+      "case": "E",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 0.2,
+          "p90": 0.3,
+          "p99": 0.4
+        },
+        "worstDrawMs": 0.6,
+        "rafFps": 239.904,
+        "heapMiB": 22.906,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.3,
+          "p90": 0.4,
+          "p99": 0.4
+        },
+        "worstDrawMs": 0.6,
+        "rafFps": 239.904,
+        "heapMiB": 16.25,
+        "runs": 3
+      }
+    },
+    {
+      "case": "E",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 2.4,
+          "p90": 24.7,
+          "p99": 35.3
+        },
+        "worstDrawMs": 45.9,
+        "rafFps": 123.372,
+        "heapMiB": 17.734,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 2.5,
+          "p90": 26.5,
+          "p99": 38.8
+        },
+        "worstDrawMs": 47.9,
+        "rafFps": 120.281,
+        "heapMiB": 18.711,
+        "runs": 3
+      }
+    }
+  ],
+  "pairedMaximum": [
+    {
+      "kind": "classic",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 0.4,
+          "p90": 0.5,
+          "p99": 0.6
+        },
+        "worstDrawMs": 4.7,
+        "rafFps": 239.872,
+        "heapMiB": 21.125,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.3,
+          "p90": 0.4,
+          "p99": 0.6
+        },
+        "worstDrawMs": 1.2,
+        "rafFps": 239.904,
+        "heapMiB": 23.081,
+        "runs": 3
+      }
+    },
+    {
+      "kind": "classic",
+      "scenario": "alternating-distance",
+      "before": {
+        "drawMs": {
+          "p50": 0.3,
+          "p90": 0.4,
+          "p99": 0.4
+        },
+        "worstDrawMs": 14.7,
+        "rafFps": 237.248,
+        "heapMiB": 23.112,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.3,
+          "p90": 0.4,
+          "p99": 0.6
+        },
+        "worstDrawMs": 12.6,
+        "rafFps": 238.569,
+        "heapMiB": 23.46,
+        "runs": 3
+      }
+    },
+    {
+      "kind": "classic",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 2.7,
+          "p90": 27.4,
+          "p99": 39
+        },
+        "worstDrawMs": 45.4,
+        "rafFps": 114.84,
+        "heapMiB": 14.331,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 2.6,
+          "p90": 27.2,
+          "p99": 41.1
+        },
+        "worstDrawMs": 75.3,
+        "rafFps": 109.316,
+        "heapMiB": 14.897,
+        "runs": 3
+      }
+    },
+    {
+      "kind": "classic",
+      "scenario": "active-ink",
+      "before": {
+        "drawMs": {
+          "p50": 0.9,
+          "p90": 1.1,
+          "p99": 1.5
+        },
+        "worstDrawMs": 13.2,
+        "rafFps": 239.872,
+        "heapMiB": 14.305,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.8,
+          "p90": 1,
+          "p99": 2
+        },
+        "worstDrawMs": 13.1,
+        "rafFps": 239.904,
+        "heapMiB": 19.392,
+        "runs": 3
+      }
+    },
+    {
+      "kind": "classic",
+      "scenario": "active-eraser",
+      "before": {
+        "drawMs": {
+          "p50": 7,
+          "p90": 26.6,
+          "p99": 30.6
+        },
+        "worstDrawMs": 40.5,
+        "rafFps": 96.38,
+        "heapMiB": 19.168,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 2.1,
+          "p90": 6.6,
+          "p99": 33.2
+        },
+        "worstDrawMs": 38.2,
+        "rafFps": 194.489,
+        "heapMiB": 16.421,
+        "runs": 3
+      }
+    },
+    {
+      "kind": "modern",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 0.7,
+          "p90": 0.8,
+          "p99": 0.8
+        },
+        "worstDrawMs": 1.1,
+        "rafFps": 238.6,
+        "heapMiB": 23.133,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.6,
+          "p90": 0.7,
+          "p99": 0.8
+        },
+        "worstDrawMs": 0.8,
+        "rafFps": 239.904,
+        "heapMiB": 21.173,
+        "runs": 3
+      }
+    },
+    {
+      "kind": "modern",
+      "scenario": "alternating-distance",
+      "before": {
+        "drawMs": {
+          "p50": 0.6,
+          "p90": 0.7,
+          "p99": 0.8
+        },
+        "worstDrawMs": 13.1,
+        "rafFps": 238.537,
+        "heapMiB": 21.564,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.5,
+          "p90": 0.6,
+          "p99": 0.7
+        },
+        "worstDrawMs": 11.8,
+        "rafFps": 238.569,
+        "heapMiB": 23.544,
+        "runs": 3
+      }
+    },
+    {
+      "kind": "modern",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 2.9,
+          "p90": 26.6,
+          "p99": 36.7
+        },
+        "worstDrawMs": 46.1,
+        "rafFps": 103.8,
+        "heapMiB": 15.849,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 2.8,
+          "p90": 25.4,
+          "p99": 36.8
+        },
+        "worstDrawMs": 55.3,
+        "rafFps": 103.8,
+        "heapMiB": 16.762,
+        "runs": 3
+      }
+    },
+    {
+      "kind": "modern",
+      "scenario": "active-ink",
+      "before": {
+        "drawMs": {
+          "p50": 1.1,
+          "p90": 1.2,
+          "p99": 1.3
+        },
+        "worstDrawMs": 2,
+        "rafFps": 239.904,
+        "heapMiB": 19.083,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1,
+          "p90": 1.1,
+          "p99": 1.3
+        },
+        "worstDrawMs": 1.9,
+        "rafFps": 239.936,
+        "heapMiB": 15.669,
+        "runs": 3
+      }
+    },
+    {
+      "kind": "modern",
+      "scenario": "active-eraser",
+      "before": {
+        "drawMs": {
+          "p50": 11.4,
+          "p90": 26.6,
+          "p99": 31.7
+        },
+        "worstDrawMs": 35,
+        "rafFps": 80.26,
+        "heapMiB": 17.77,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.9,
+          "p90": 5.7,
+          "p99": 26.5
+        },
+        "worstDrawMs": 34.1,
+        "rafFps": 149.402,
+        "heapMiB": 18.432,
+        "runs": 3
+      }
+    }
+  ],
+  "camera": [
+    {
+      "cache": "cold",
+      "before": {
+        "drawMs": {
+          "p50": 0.4,
+          "p90": 3.3,
+          "p99": 10.6
+        },
+        "drawSamples": [
+          41,
+          38,
+          38
+        ],
+        "drawFps": 8.996,
+        "detectionFps": 2.499,
+        "heapMiB": 43.3,
+        "firstFiveMs": 11459.5,
+        "modelP50Ms": 174,
+        "pixelsP50Ms": 65.2,
+        "rendered": [
+          5,
+          5,
+          5
+        ]
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.4,
+          "p90": 3.2,
+          "p99": 8.9
+        },
+        "drawSamples": [
+          43,
+          42,
+          43
+        ],
+        "drawFps": 8.996,
+        "detectionFps": 2.499,
+        "heapMiB": 44.903,
+        "firstFiveMs": 11598.9,
+        "modelP50Ms": 176.9,
+        "pixelsP50Ms": 69.8,
+        "rendered": [
+          5,
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "cache": "warm",
+      "before": {
+        "drawMs": {
+          "p50": 0.4,
+          "p90": 3.3,
+          "p99": 7.9
+        },
+        "drawSamples": [
+          43,
+          40,
+          45
+        ],
+        "drawFps": 8.715,
+        "detectionFps": 2.752,
+        "heapMiB": 43.833,
+        "firstFiveMs": 8288.6,
+        "modelP50Ms": 174.2,
+        "pixelsP50Ms": 68.6,
+        "rendered": [
+          5,
+          5,
+          5
+        ]
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.4,
+          "p90": 3.5,
+          "p99": 9.2
+        },
+        "drawSamples": [
+          43,
+          39,
+          44
+        ],
+        "drawFps": 8.919,
+        "detectionFps": 2.711,
+        "heapMiB": 63.32,
+        "firstFiveMs": 8343.6,
+        "modelP50Ms": 177.9,
+        "pixelsP50Ms": 64.9,
+        "rendered": [
+          5,
+          5,
+          5
+        ]
+      }
+    }
+  ],
+  "pairedOrdinary": [
+    {
+      "case": "A",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 0.2,
+          "p90": 0.2,
+          "p99": 0.3
+        },
+        "rafFps": 238.569,
+        "heapMiB": 9.906,
+        "worstDrawMs": 0.4,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.2,
+          "p90": 0.2,
+          "p99": 0.3
+        },
+        "rafFps": 239.904,
+        "heapMiB": 9.012,
+        "worstDrawMs": 0.3,
+        "runs": 3
+      }
+    },
+    {
+      "case": "A",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 0.1,
+          "p90": 0.2,
+          "p99": 0.3
+        },
+        "rafFps": 239.872,
+        "heapMiB": 10.881,
+        "worstDrawMs": 0.3,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.1,
+          "p90": 0.2,
+          "p99": 0.2
+        },
+        "rafFps": 239.904,
+        "heapMiB": 11.475,
+        "worstDrawMs": 0.3,
+        "runs": 3
+      }
+    },
+    {
+      "case": "B",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 0.7,
+          "p90": 0.8,
+          "p99": 0.9
+        },
+        "rafFps": 239.872,
+        "heapMiB": 11.648,
+        "worstDrawMs": 0.9,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.6,
+          "p90": 0.7,
+          "p99": 0.7
+        },
+        "rafFps": 239.904,
+        "heapMiB": 11.188,
+        "worstDrawMs": 0.9,
+        "runs": 3
+      }
+    },
+    {
+      "case": "B",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 0.7,
+          "p90": 0.8,
+          "p99": 0.8
+        },
+        "rafFps": 239.904,
+        "heapMiB": 10.645,
+        "worstDrawMs": 0.8,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 0.5,
+          "p90": 0.6,
+          "p99": 0.7
+        },
+        "rafFps": 239.904,
+        "heapMiB": 10.083,
+        "worstDrawMs": 0.7,
+        "runs": 3
+      }
+    },
+    {
+      "case": "C",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 1.4,
+          "p90": 1.5,
+          "p99": 1.5
+        },
+        "rafFps": 239.872,
+        "heapMiB": 9.349,
+        "worstDrawMs": 1.8,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.2,
+          "p90": 1.3,
+          "p99": 1.3
+        },
+        "rafFps": 239.872,
+        "heapMiB": 10.636,
+        "worstDrawMs": 1.6,
+        "runs": 3
+      }
+    },
+    {
+      "case": "C",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 1.3,
+          "p90": 1.4,
+          "p99": 1.5
+        },
+        "rafFps": 204.638,
+        "heapMiB": 10.57,
+        "worstDrawMs": 1.7,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.1,
+          "p90": 1.2,
+          "p99": 1.3
+        },
+        "rafFps": 208.599,
+        "heapMiB": 8.558,
+        "worstDrawMs": 1.6,
+        "runs": 3
+      }
+    },
+    {
+      "case": "D",
+      "scenario": "cached",
+      "before": {
+        "drawMs": {
+          "p50": 1.7,
+          "p90": 1.8,
+          "p99": 1.9
+        },
+        "rafFps": 151.502,
+        "heapMiB": 7.904,
+        "worstDrawMs": 2.2,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.4,
+          "p90": 1.5,
+          "p99": 1.7
+        },
+        "rafFps": 146.867,
+        "heapMiB": 10.672,
+        "worstDrawMs": 2,
+        "runs": 3
+      }
+    },
+    {
+      "case": "D",
+      "scenario": "continuous-distance",
+      "before": {
+        "drawMs": {
+          "p50": 1.7,
+          "p90": 1.8,
+          "p99": 1.9
+        },
+        "rafFps": 147.372,
+        "heapMiB": 9.051,
+        "worstDrawMs": 2.3,
+        "runs": 3
+      },
+      "after": {
+        "drawMs": {
+          "p50": 1.4,
+          "p90": 1.5,
+          "p99": 1.6
+        },
+        "rafFps": 142.045,
+        "heapMiB": 9.07,
+        "worstDrawMs": 1.7,
+        "runs": 3
+      }
+    }
+  ],
+  "finalGuardPairedMaximum": {
+    "date": "2026-11-13 JST",
+    "rows": [
+      {
+        "scenario": "cached",
+        "before": {
+          "drawMs": {
+            "p50": 0.3,
+            "p90": 0.4,
+            "p99": 0.5
+          },
+          "worstDrawMs": 0.7,
+          "rafFps": 239.936,
+          "heapMiB": 21.135,
+          "runs": 3
+        },
+        "after": {
+          "drawMs": {
+            "p50": 0.4,
+            "p90": 0.4,
+            "p99": 0.5
+          },
+          "worstDrawMs": 0.7,
+          "rafFps": 239.904,
+          "heapMiB": 23.152,
+          "runs": 3
+        }
+      },
+      {
+        "scenario": "alternating-distance",
+        "before": {
+          "drawMs": {
+            "p50": 0.3,
+            "p90": 0.4,
+            "p99": 0.4
+          },
+          "worstDrawMs": 14,
+          "rafFps": 237.248,
+          "heapMiB": 23.084,
+          "runs": 3
+        },
+        "after": {
+          "drawMs": {
+            "p50": 0.3,
+            "p90": 0.4,
+            "p99": 0.5
+          },
+          "worstDrawMs": 12.5,
+          "rafFps": 238.537,
+          "heapMiB": 23.566,
+          "runs": 3
+        }
+      },
+      {
+        "scenario": "continuous-distance",
+        "before": {
+          "drawMs": {
+            "p50": 2.8,
+            "p90": 28.1,
+            "p99": 38.4
+          },
+          "worstDrawMs": 64.1,
+          "rafFps": 115.451,
+          "heapMiB": 14.447,
+          "runs": 3
+        },
+        "after": {
+          "drawMs": {
+            "p50": 2.8,
+            "p90": 28.8,
+            "p99": 38.5
+          },
+          "worstDrawMs": 58.9,
+          "rafFps": 111.001,
+          "heapMiB": 16.124,
+          "runs": 3
+        }
+      },
+      {
+        "scenario": "active-ink",
+        "before": {
+          "drawMs": {
+            "p50": 0.8,
+            "p90": 0.9,
+            "p99": 1.1
+          },
+          "worstDrawMs": 2,
+          "rafFps": 239.872,
+          "heapMiB": 14.445,
+          "runs": 3
+        },
+        "after": {
+          "drawMs": {
+            "p50": 0.9,
+            "p90": 1,
+            "p99": 1.2
+          },
+          "worstDrawMs": 1.6,
+          "rafFps": 239.904,
+          "heapMiB": 16.986,
+          "runs": 3
+        }
+      },
+      {
+        "scenario": "active-eraser",
+        "before": {
+          "drawMs": {
+            "p50": 5.7,
+            "p90": 27.6,
+            "p99": 32.5
+          },
+          "worstDrawMs": 64.7,
+          "rafFps": 93.062,
+          "heapMiB": 18.421,
+          "runs": 3
+        },
+        "after": {
+          "drawMs": {
+            "p50": 1.8,
+            "p90": 7.5,
+            "p99": 34.2
+          },
+          "worstDrawMs": 37.3,
+          "rafFps": 191.063,
+          "heapMiB": 18.256,
+          "runs": 3
+        }
+      }
+    ]
+  },
+  "finalGuardCamera": {
+    "date": "2026-11-13 JST",
+    "note": "before camera values in camera[] were collected on Nov 10, not an adjacent same-day pair",
+    "rows": [
+      {
+        "cache": "cold",
+        "drawMs": {
+          "p50": 0.4,
+          "p90": 3.9,
+          "p99": 7.8
+        },
+        "drawSamples": [
+          37,
+          36,
+          37
+        ],
+        "drawFps": 7.312,
+        "detectionFps": 2.437,
+        "heapMiB": 37.264,
+        "firstFiveMs": 11903.6,
+        "modelP50Ms": 204.2,
+        "pixelsP50Ms": 73.2,
+        "rendered": [
+          5,
+          5,
+          5
+        ]
+      },
+      {
+        "cache": "warm",
+        "drawMs": {
+          "p50": 0.4,
+          "p90": 3.9,
+          "p99": 10.4
+        },
+        "drawSamples": [
+          37,
+          36,
+          42
+        ],
+        "drawFps": 8.602,
+        "detectionFps": 2.838,
+        "heapMiB": 42.119,
+        "firstFiveMs": 9207.3,
+        "modelP50Ms": 206.7,
+        "pixelsP50Ms": 75.1,
+        "rendered": [
+          5,
+          5,
+          5
+        ]
+      }
+    ]
+  }
+}

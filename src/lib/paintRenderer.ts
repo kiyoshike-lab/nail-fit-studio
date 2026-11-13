@@ -16,6 +16,9 @@ function strokeSmooth(ctx:CanvasRenderingContext2D,points:readonly PaintPoint[])
   let path=strokePaths.get(points);if(!path){path=new Path2D();smoothPath(path,points);strokePaths.set(points,path);}ctx.stroke(path);
 }
 function stampPoints(points:readonly PaintPoint[],step:number):PaintPoint[] {
+  const previous=stampCache.get(points);
+  if(previous?.step===step){stampCache.delete(points);stampCache.set(points,previous);return previous.points;}
+  const requestedStep=step;
   const length=points.reduce((n,p,i)=>i?n+Math.hypot(p.x-points[i-1].x,p.y-points[i-1].y):0,0);
   step=Math.max(step,length/500);
   const out=[points[0]];let carry=0;
@@ -24,15 +27,22 @@ function stampPoints(points:readonly PaintPoint[],step:number):PaintPoint[] {
     let t=step-carry;
     for(;t<=distance&&out.length<512;t+=step)out.push({x:a.x+(b.x-a.x)*t/distance,y:a.y+(b.y-a.y)*t/distance});
     carry=(carry+distance)%step;
-  }const last=points.at(-1)!;if(out.length<512&&Math.hypot(last.x-out.at(-1)!.x,last.y-out.at(-1)!.y)>step*.5)out.push(last);return out;
+  }const last=points.at(-1)!;if(out.length<512&&Math.hypot(last.x-out.at(-1)!.x,last.y-out.at(-1)!.y)>step*.5)out.push(last);
+  stampCache.delete(points);stampCache.set(points,{step:requestedStep,points:out});
+  if(stampCache.size>64)stampCache.delete(stampCache.keys().next().value!);
+  return out;
 }
+// Immutable point-array identity + requested spacing; transforms, color and
+// opacity are deliberately applied at paint time. At most 64 * 512 positions.
+const stampCache=new Map<readonly PaintPoint[],{step:number;points:PaintPoint[]}>();
+const holoDirections=Array.from({length:512},(_,i)=>Array.from({length:5},(_,n)=>{const a=n*Math.PI*2/5+i*.7;return[Math.cos(a),Math.sin(a)];}));
 function paintStroke(ctx:CanvasRenderingContext2D,l:StrokeLayer) {
   ctx.lineCap="round";ctx.lineJoin="round";ctx.lineWidth=l.lineWidth;ctx.strokeStyle=l.color;ctx.fillStyle=l.color;
   if(["dots","glitter","holo"].includes(l.tool)){
     stampPoints(l.points,Math.max(.004,l.lineWidth*l.spacing)).forEach((p,i)=>{
       const r=l.lineWidth/2;ctx.beginPath();
       if(l.tool==="holo"){
-        for(let n=0;n<5;n++){const a=n*Math.PI*2/5+i*.7,x=p.x+Math.cos(a)*r,y=p.y+Math.sin(a)*r;if(n)ctx.lineTo(x,y);else ctx.moveTo(x,y);}ctx.closePath();
+        for(let n=0;n<5;n++){const [cos,sin]=holoDirections[i][n],x=p.x+cos*r,y=p.y+sin*r;if(n)ctx.lineTo(x,y);else ctx.moveTo(x,y);}ctx.closePath();
       }else ctx.arc(p.x,p.y,l.tool==="glitter"?r*(.3+(i%3)*.2):r,0,Math.PI*2);
       ctx.fillStyle=l.tool==="dots"||i%3?l.color:l.secondary;ctx.fill();
       if(l.tool==="holo"){ctx.fillStyle=l.secondary;ctx.beginPath();ctx.arc(p.x-r*.2,p.y-r*.2,r*.2,0,Math.PI*2);ctx.fill();}
@@ -90,9 +100,14 @@ export function drawPaintLayer(ctx:CanvasRenderingContext2D,w:number,h:number,la
 }
 
 const cache=new PaintSurfaceCache();
+// Unmasked stamp raster reuse is useful while editing an eraser, but NOT while
+// distance changes continually. Admit only after the same layer/size is seen
+// twice on an actual cache miss. Keep this additional storage strictly bounded.
+const stampSurfaces=new PaintSurfaceCache(1_000_000,64);
+let stampSizes=new WeakMap<PaintLayer,{w:number;h:number}>();
 // Aggregate local counters only; no design names, coordinates, images or network.
-export const paintRenderCacheStats=()=>cache.stats();
-export const clearPaintRenderCache=()=>cache.clear();
+export const paintRenderCacheStats=()=>({...cache.stats(),stampSurfaces:stampSurfaces.stats(),stampPositions:stampCache.size});
+export const clearPaintRenderCache=()=>{cache.clear();stampCache.clear();stampSurfaces.clear();stampSizes=new WeakMap();};
 let cacheLifecycleInstalled=false;
 // Bounded by both count and pixels; no growing per-frame history of surfaces.
 const MAX_CACHE_PIXELS=4_000_000;
@@ -145,7 +160,27 @@ function artSurface(art:FingerArt,w:number,h:number,light:boolean,brightness:num
     const l=layers.get(order[i]);if(!l||l.type==="stroke"&&l.tool==="eraser")continue;
     if(!erasers.length){out.save();try{out.globalAlpha*=m.opacity;drawPaintLayer(out,nw,nh,l);}finally{out.restore();}continue;}
     ink.clearRect(0,0,bw,bh);ink.save();try{
-      ink.translate(bw/2,bh/2);ink.globalAlpha*=m.opacity;drawPaintLayer(ink,nw,nh,l);ink.globalAlpha=1;
+      ink.translate(bw/2,bh/2);
+      const reusable=l.type==="stroke"&&["dots","glitter","holo"].includes(l.tool)&&bw*bh<=250_000;
+      const old=reusable?stampSizes.get(l):undefined,stable=old?.w===nw&&old.h===nh;
+      if(reusable&&!stable)stampSizes.set(l,{w:nw,h:nh});
+      const rawCommands=stable?[{object:l,opacity:m.opacity,erasers:[]}]:[];
+      const raw=stable?stampSurfaces.find(rawCommands,nw,nh,light,level,false).surface:undefined;
+      if(raw)ink.drawImage(raw,-bw/2,-bh/2);
+      else{
+        ink.globalAlpha*=m.opacity;drawPaintLayer(ink,nw,nh,l);ink.globalAlpha=1;
+        if(stable){
+          // The ink is already correct. Failure to populate an optional speed
+          // cache must not hide artwork or prevent an otherwise valid export.
+          let copy:HTMLCanvasElement|undefined;
+          try{
+            copy=document.createElement("canvas");copy.width=bw;copy.height=bh;
+            const x=copy.getContext("2d");
+            if(x){x.drawImage(scratch,0,0);stampSurfaces.add({commands:rawCommands,surface:copy,w:nw,h:nh,light,brightness:level});copy=undefined;}
+          }catch{stampSurfaces.clear();}
+          finally{if(copy)copy.width=copy.height=1;}
+        }
+      }
       const mask=masks.get(l.id);
       if(mask){ink.globalCompositeOperation="destination-out";ink.drawImage(mask,-bw/2,-bh/2);}
       else if(!temporary.length)for(let j=i+1;j<order.length;j++){const eraser=layers.get(order[j]);if(eraser?.type==="stroke"&&eraser.tool==="eraser"){ink.save();try{ink.globalAlpha*=visual(art,eraser.id).opacity;drawPaintLayer(ink,nw,nh,eraser,true);}finally{ink.restore();}}}

@@ -17,3 +17,21 @@ cache.clear();assert.equal(shared.width,1);assert.equal(surfaces.at(-1).width,1)
 const bounded=new PaintSurfaceCache();for(let i=0;i<30;i++)bounded.add(entry(canvas(800,800)));assert.ok(bounded.stats().pixels<=4000000);assert.ok(bounded.stats().evictions>0);assert.throws(()=>bounded.add(entry(canvas(2001,2001))));bounded.clear();
 let lost;const resilient=new PaintSurfaceCache(),lostCanvas={width:100,height:100,addEventListener:(type,fn)=>{assert.equal(type,'contextlost');lost=fn;}};resilient.add(entry(lostCanvas));lost();assert.equal(resilient.stats().pixels,0);assert.equal(lostCanvas.width,1);
 console.log('paint-surface-cache: saved-compatible 0/10/30/100/160/220-object fixtures, visual dependency invalidation, eraser suffixes, exact sizes, prefix reuse, shared ownership, LRU/pixel bounds and disposal passed');
+
+// The stamp raster cache has its own smaller budget/count, not an unbounded
+// texture collection. Default limits above must remain unchanged.
+const stamps=new PaintSurfaceCache(20_000,2),small=[];
+for(let i=0;i<3;i++){small.push(canvas());stamps.add(entry(small.at(-1)));}
+assert.equal(small[0].width,1);assert.equal(stamps.stats().entries,2);assert.equal(stamps.stats().maxPixels,20_000);stamps.clear();assert.equal(stamps.stats().pixels,0);
+const{drawPaintLayer,clearPaintRenderCache}=await importTypescript('src/lib/paintRenderer.ts');
+const points=[{x:0,y:0},{x:.2,y:.1},{x:.1,y:.4}],layer={...f.layers.find(l=>l.tool==='dots'),points};
+let log=[],hypots=0;const ctx=new Proxy({},{get:(_,k)=>(...a)=>log.push([k,...a]),set:(_,k,v)=>{log.push([k,v]);return true;}}),hypot=Math.hypot;
+try{Math.hypot=(...a)=>{hypots++;return hypot(...a);};
+ drawPaintLayer(ctx,80,140,layer);const first=JSON.stringify(log),cost=hypots;assert.ok(cost>0);log=[];
+ drawPaintLayer(ctx,80,140,layer);assert.equal(hypots,cost,'same immutable stroke must reuse stamp positions');assert.equal(JSON.stringify(log),first,'same exact commands/coordinates');
+ drawPaintLayer(ctx,120,200,{...layer,rotation:30,x:.1,scale:.8,color:'#123456',opacity:.2});assert.equal(hypots,cost,'size/pose/color/alpha use live paint state, not stale cached positions');
+ drawPaintLayer(ctx,80,140,{...layer,spacing:layer.spacing+.2});assert.ok(hypots>cost,'spacing invalidates positions');let last=hypots;
+ drawPaintLayer(ctx,80,140,{...layer,points:points.map(p=>({...p}))});assert.ok(hypots>last,'point identity invalidates positions');last=hypots;
+ clearPaintRenderCache();drawPaintLayer(ctx,80,140,layer);assert.ok(hypots>last,'lifecycle cleanup clears positions');
+}finally{Math.hypot=hypot;clearPaintRenderCache();}
+console.log('stamp caches: exact commands, point/spacing invalidation, bounded raster storage and lifecycle cleanup passed');

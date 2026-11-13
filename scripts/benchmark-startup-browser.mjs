@@ -41,6 +41,15 @@ try{
  if(!args.includes('--nav-only'))for(let run=0;run<runs;run++){
   const {context,page}=await setup(1);
   if(maximum)await page.addInitScript(({key,doc})=>{localStorage.setItem(key,JSON.stringify(doc));window.__maxArt=true;},{key:draftKey,doc:maximum});
+  if(args.includes('--draw-timings'))await page.addInitScript(()=>{
+   // Count complete app overlay submissions, not one arbitrary Canvas method.
+   // Instrumentation is QA-only; these are not GPU presentation durations.
+   window.__drawSamples=[];let depth=0,start=0;
+   const p=CanvasRenderingContext2D.prototype,clear=p.clearRect,save=p.save,restore=p.restore;
+   p.clearRect=function(...a){if(this.canvas.classList.contains('nail-canvas')){depth=0;start=performance.now();}return clear.apply(this,a);};
+   p.save=function(...a){if(this.canvas.classList.contains('nail-canvas'))depth++;return save.apply(this,a);};
+   p.restore=function(...a){const result=restore.apply(this,a);if(this.canvas.classList.contains('nail-canvas')&&--depth===0&&start){if(document.querySelector('.detection-status')?.textContent==='手を検出しました'){window.__drawSamples.push(performance.now()-start);if(window.__drawSamples.length>256)window.__drawSamples.shift();}start=0;}return result;};
+  });
   await page.addInitScript(()=>{
    Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async s=>{window.__snapshot=JSON.parse(s);}}});
    window.__wasm=[];
@@ -61,7 +70,7 @@ try{
    const read=async()=>{await page.getByRole('button',{name:'診断結果をコピー',exact:true}).evaluate(e=>e.click());return page.evaluate(()=>window.__snapshot);};
    let snapshot=await read();for(let retry=0;retry<60&&snapshot.inference.successes<12;retry++){await page.waitForTimeout(500);snapshot=await read();}
    assert.ok(snapshot.inference.successes>=12,'tracking stopped before a steady-state sample');
-   const row={run,cache,snapshot,...await page.evaluate(()=>({getUserMediaMs:window.__gum-window.__start,videoReadyMs:window.__videoReady-window.__start,firstHandUiMs:window.__firstHand-window.__start,firstFiveMs:window.__firstFive-window.__start,wasm:window.__wasm,
+   const row={run,cache,snapshot,...await page.evaluate(()=>({getUserMediaMs:window.__gum-window.__start,videoReadyMs:window.__videoReady-window.__start,firstHandUiMs:window.__firstHand-window.__start,firstFiveMs:window.__firstFive-window.__start,wasm:window.__wasm,drawSamplesMs:window.__drawSamples??null,
     resources:performance.getEntriesByType('resource').filter(r=>r.name.includes('/mediapipe/')).map(r=>({path:new URL(r.name).pathname,start:r.startTime-window.__start,end:r.responseEnd-window.__start,duration:r.duration,encoded:r.encodedBodySize,decoded:r.decodedBodySize,transfer:r.transferSize}))}))};
    assert.ok(row.firstFiveMs>=row.firstHandUiMs&&row.firstFiveMs>Math.max(...row.resources.map(r=>r.end)),'counted invisible pre-detection manual poses');camera.push(row);console.log(`camera ${run} ${cache}: visible-five=${row.firstFiveMs.toFixed(0)}ms`);
    await page.locator('.bottom-nav').getByRole('button',{name:'止める',exact:true}).click();await page.evaluate(()=>clearInterval(window.__timer));

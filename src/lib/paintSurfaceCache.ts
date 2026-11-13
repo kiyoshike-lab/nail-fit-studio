@@ -33,7 +33,7 @@ export function samePaintCommands(a:readonly PaintCommand[],b:readonly PaintComm
 // recent sizes survive distance jitter. Shared immutable prefix canvases have
 // reference counts so eviction never clears a canvas still used by another entry.
 export class PaintSurfaceCache {
-  readonly maxPixels=4_000_000;
+  constructor(readonly maxPixels=4_000_000,private readonly maxEntries=20){}
   private entries:PaintSurfaceEntry[]=[];
   private refs=new Map<HTMLCanvasElement,number>();
   private counters={hits:0,prefixHits:0,misses:0,evictions:0};
@@ -57,7 +57,7 @@ export class PaintSurfaceCache {
       this.refs.set(c,(this.refs.get(c)??0)+1);
     }
     this.entries.push(entry);
-    while(this.entries.length>20||this.pixels()>this.maxPixels){const old=this.entries.shift()!;this.counters.evictions++;
+    while(this.entries.length>this.maxEntries||this.pixels()>this.maxPixels){const old=this.entries.shift()!;this.counters.evictions++;
       for(const c of new Set([old.surface,...old.prefix?[old.prefix]:[]])){const refs=this.refs.get(c)!-1;if(refs)this.refs.set(c,refs);else{this.refs.delete(c);c.width=c.height=1;}}
     }
   }

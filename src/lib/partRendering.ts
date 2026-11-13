@@ -1,9 +1,13 @@
 import type { NailPart } from "./workshopTypes";
 
 const tint=(hex:string,a:number)=>{const n=parseInt(hex.slice(1),16);return `rgba(${n>>16},${n>>8&255},${n&255},${a})`;};
+const polygonDirections=new Map([5,8,10].map(n=>[n,Array.from({length:n},(_,i)=>{const a=i/n*Math.PI*2-Math.PI/2;return[Math.cos(a),Math.sin(a)];})]));
+const facetDirections=new Map([5,8].map(n=>[n,Array.from({length:n},(_,i)=>{const a=i*Math.PI*2/n-Math.PI/2,b=(i+1)*Math.PI*2/n-Math.PI/2;return[Math.cos(a),Math.sin(a),Math.cos(b),Math.sin(b)];})]));
+const glitterDirections=Array.from({length:12},(_,i)=>({x:Math.sin(i*2.4),y:Math.cos(i*3.7),directions:Array.from({length:4},(_,j)=>{const a=j*Math.PI/2+i*.72;return[Math.cos(a),Math.sin(a)];})}));
 function polygon(c:CanvasRenderingContext2D,r:number,n:number,star=false){
-  c.beginPath();for(let i=0;i<n;i++){const a=i/n*Math.PI*2-Math.PI/2,rr=star&&i%2?r*.45:r;
-    if(i)c.lineTo(Math.cos(a)*rr,Math.sin(a)*rr);else c.moveTo(Math.cos(a)*rr,Math.sin(a)*rr);}c.closePath();
+  const directions=polygonDirections.get(n)!;
+  c.beginPath();for(let i=0;i<n;i++){const rr=star&&i%2?r*.45:r,[cos,sin]=directions[i];
+    if(i)c.lineTo(cos*rr,sin*rr);else c.moveTo(cos*rr,sin*rr);}c.closePath();
 }
 
 /** Analytic 2D material proxies, not a recovered light field or 3D mesh.
@@ -47,14 +51,15 @@ export function drawPartMaterial(c:CanvasRenderingContext2D,r:number,p:NailPart,
       c.fillStyle=tint(p.color,.42);c.beginPath();c.moveTo(side*r*.12,0);c.quadraticCurveTo(side*r*.72,-r*.08,side*r*.91,-r*.42);c.quadraticCurveTo(side*r*.95,r*.36,side*r*.12,0);c.fill();c.fillStyle=body;}
     c.beginPath();c.ellipse(0,0,r*.25,r*.34,-.18,0,Math.PI*2);c.fill();
   }else if(glitter){
-    for(let i=0;i<(light?5:12);i++){const x=Math.sin(i*2.4)*r,y=Math.cos(i*3.7)*r,rr=r*(p.kind==="fine-glitter"?.07:.18)*(1+(i%3)*.15);c.fillStyle=i%3?tint(p.color,.45+energy*.35):tint("#fff3dd",.25+energy*.4);c.beginPath();
-      for(let j=0;j<4;j++){const a=j*Math.PI/2+i*.72,px=x+Math.cos(a)*rr,py=y+Math.sin(a)*rr*.65;if(j)c.lineTo(px,py);else c.moveTo(px,py);}c.closePath();c.fill();}
+    const primary=tint(p.color,.45+energy*.35),secondary=tint("#fff3dd",.25+energy*.4);
+    for(let i=0;i<(light?5:12);i++){const f=glitterDirections[i],x=f.x*r,y=f.y*r,rr=r*(p.kind==="fine-glitter"?.07:.18)*(1+(i%3)*.15);c.fillStyle=i%3?primary:secondary;c.beginPath();
+      for(let j=0;j<4;j++){const [cos,sin]=f.directions[j],px=x+cos*rr,py=y+sin*rr*.65;if(j)c.lineTo(px,py);else c.moveTo(px,py);}c.closePath();c.fill();}
   }else{
     polygon(c,r,p.kind==="star"?10:gem?8:5,p.kind==="star");c.fill();
     if(!light&&r>=2.5){const n=gem?8:5;
-      for(let i=0;i<n;i++){const a=i*Math.PI*2/n-Math.PI/2,b=(i+1)*Math.PI*2/n-Math.PI/2;
+      for(let i=0;i<n;i++){const [ax,ay,bx,by]=facetDirections.get(n)![i];
         c.fillStyle=metal?`hsla(${p.kind==="gold-holo"?35+i*9:185+i*23},25%,${i%2?84:48}%,${energy*.25})`:tint(i%3===0?"#242c48":"#f3f8ff",(i%3===0?.36:.14+(i%3)*.03)*energy);
-        c.beginPath();c.moveTo(-r*.12,-r*.17);c.lineTo(Math.cos(a)*r,Math.sin(a)*r);c.lineTo(Math.cos(b)*r,Math.sin(b)*r);c.closePath();c.fill();
+        c.beginPath();c.moveTo(-r*.12,-r*.17);c.lineTo(ax*r,ay*r);c.lineTo(bx*r,by*r);c.closePath();c.fill();
       }
       if(gem){polygon(c,r*.43,gem?8:5);c.strokeStyle=tint("#fcfaff",.3*energy);c.lineWidth=r*.04;c.stroke();}
     }

@@ -4,6 +4,12 @@ import type { SceneLighting } from "./sceneLighting";
 
 const rgba = (hex: string, a: number) => { const n = Number.parseInt(hex.slice(1),16); return `rgba(${n>>16},${n>>8&255},${n&255},${a})`; };
 const random = (n: number) => { const v = Math.sin(n * 12.9898 + 78.233) * 43758.5453; return v - Math.floor(v); };
+// Only seed-derived constants, not pixels or design/pose-dependent values.
+// Keep the original arithmetic order below so the old raster stays identical.
+const flakes=Array.from({length:120},(_,i)=>{const a=random(i+300)*Math.PI;return{
+  x:random(i*3)-.5,y:random(i*3+1)-.5,r:random(i*3+2),alpha:random(i+600),hue:Math.round(random(i+900)*360),rx:.5+random(i+400),ry:.35+random(i+500)*.6,
+  directions:Array.from({length:4},(_,k)=>{const t=a+k*Math.PI/2;return[Math.cos(t),Math.sin(t)];}),
+};});
 function fill(ctx:CanvasRenderingContext2D,w:number,h:number) { ctx.fillRect(-w/2,-h/2,w,h); }
 
 /** All coordinates remain nail-local. Never changes the measured root or fit. */
@@ -47,14 +53,15 @@ export function drawGelPattern(ctx:CanvasRenderingContext2D,w:number,h:number,d:
   }
   if(["magnet","cat-eye","hologram","glitter","flash"].includes(kind)) {
     const holo=kind==="hologram",count=holo?26:kind==="flash"?120:72;
-    for(let i=0;i<count;i++) {const x=(random(i*3)-.5)*w,y=(random(i*3+1)-.5)*h,r=w*(holo?.012+.02*s.grain:.003+.013*s.grain)*(holo?1.1:.5+random(i*3+2));
-      const projection=(x/w)*Math.cos(s.angle*Math.PI/180)+(y/h)*Math.sin(s.angle*Math.PI/180);
+    const cos=Math.cos(s.angle*Math.PI/180),sin=Math.sin(s.angle*Math.PI/180);
+    for(let i=0;i<count;i++) {const f=flakes[i],x=f.x*w,y=f.y*h,r=w*(holo?.012+.02*s.grain:.003+.013*s.grain)*(holo?1.1:.5+f.r);
+      const projection=(x/w)*cos+(y/h)*sin;
       const focus=kind==="magnet"||kind==="cat-eye"?Math.exp(-projection*projection/(kind==="cat-eye"?.007:.065)):1;
-      const alpha=(.07+s.intensity*(.15+random(i+600)*.45))*focus;
-      ctx.fillStyle=holo?`hsla(${Math.round(random(i+900)*360)},45%,72%,${alpha})`:rgba(i%3?d.tipColor:"#ffffff",alpha);ctx.beginPath();
+      const alpha=(.07+s.intensity*(.15+f.alpha*.45))*focus;
+      ctx.fillStyle=holo?`hsla(${f.hue},45%,72%,${alpha})`:rgba(i%3?d.tipColor:"#ffffff",alpha);ctx.beginPath();
       // Stable irregular flakes; no per-frame randomness or white disc stamps.
-      const a=random(i+300)*Math.PI,rx=r*(.5+random(i+400)),ry=r*(.35+random(i+500)*.6);
-      for(let k=0;k<4;k++){const t=a+k*Math.PI/2,px=x+Math.cos(t)*rx,py=y+Math.sin(t)*ry;if(k)ctx.lineTo(px,py);else ctx.moveTo(px,py);}ctx.closePath();ctx.fill();
+      const rx=r*f.rx,ry=r*f.ry;
+      for(let k=0;k<4;k++){const [c,s]=f.directions[k],px=x+c*rx,py=y+s*ry;if(k)ctx.lineTo(px,py);else ctx.moveTo(px,py);}ctx.closePath();ctx.fill();
       if(kind==="flash"&&i%13===0){ctx.strokeStyle=rgba("#ffffff",s.intensity*.6);ctx.lineWidth=w*.008;ctx.beginPath();ctx.moveTo(x-r*3,y);ctx.lineTo(x+r*3,y);ctx.moveTo(x,y-r*3);ctx.lineTo(x,y+r*3);ctx.stroke();}
     }
   }

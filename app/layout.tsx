@@ -31,6 +31,8 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  // Preview visitors must not generate production analytics or ad requests.
+  const isVercelPreview = process.env.VERCEL_ENV === "preview";
   return (
     <html lang="ja">
       <body>
@@ -38,14 +40,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         {children}
         <SiteFooter />
         <MobileSiteNavigation />
-        <GoogleAnalytics />
-        <Script
-          id="google-adsense"
-          async
-          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_PUBLISHER_ID}`}
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        {!isVercelPreview && <>
+          <GoogleAnalytics />
+          <Script
+            id="google-adsense"
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_PUBLISHER_ID}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        </>}
       </body>
     </html>
   );

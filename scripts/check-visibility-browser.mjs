@@ -72,7 +72,7 @@ try{
  assert.ok(refitted.every(n=>n.visibility===0||(n.visibilityState==='partial'&&n.clipContour?.length>=3)),'auto fit failed to restore visibility gating');
  await page.evaluate(()=>{navigator.canShare=()=>false;});
  const download=page.waitForEvent('download');
- await page.locator('.bottom-nav').getByRole('button',{name:'保存',exact:true}).click();
+ await page.locator('.bottom-nav').getByRole('button',{name:'画像を保存',exact:true}).click();
  assert.equal((await download).suggestedFilename(),'nail-fit-studio.png');
  const png=await page.evaluate(()=>{const c=document.createElement('canvas');c.width=320;c.height=240;const x=c.getContext('2d');x.fillStyle='#ddd';x.fillRect(0,0,320,240);return c.toDataURL().split(',')[1];});
  await page.locator('input[type=file]').first().setInputFiles({name:'blank.png',mimeType:'image/png',buffer:Buffer.from(png,'base64')});

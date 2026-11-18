@@ -96,9 +96,9 @@ export function NailPreview({ mode, photoUrl, status, comparison, loading, track
     if (dragRef.current?.pointerId === event.pointerId) dragRef.current = null;
   }
   return (
-    <section ref={cardRef} className={`preview-card ${expanded ? "is-expanded" : "is-compact"}`} id="nail-preview" tabIndex={-1} aria-label="ネイル試着プレビュー">
+    <section ref={cardRef} data-source-mode={mode} className={`preview-card ${expanded ? "is-expanded" : "is-compact"}${trackingFailed ? " has-tracking-error" : ""}`} id="nail-preview" tabIndex={-1} aria-label="ネイル試着プレビュー">
       <div className="preview-header">
-        <div className="preview-heading"><strong>プレビュー</strong><span>{status}</span></div>
+        <div className="preview-heading"><strong>プレビュー</strong><span title={status}>{status}</span></div>
         <button type="button" className="preview-toggle secondary" aria-expanded={expanded} aria-controls="preview-content"
           onClick={() => setPresentation({ mode, expanded: !expanded })}>
           {expanded ? "収納する" : "プレビューを広げる"}

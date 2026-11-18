@@ -45,7 +45,7 @@ try{
  const adjusted=await page.evaluate(i=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1'))[i],index);
  assert.ok(Math.abs(adjusted.x-(pose.x+12/fitWidth*100))<.3,JSON.stringify({case:'drag/contain coordinates changed after expanding',pose,adjusted,box,fitWidth,fitHeight,x,y,events:await page.evaluate(()=>window.__dragEvents)}));
  rows.push({case:'expanded photo drag follows intrinsic-source contain coordinates',expectedDelta:12/fitWidth*100,actualDelta:adjusted.x-pose.x});
- await page.evaluate(()=>{navigator.canShare=()=>false;});const download=page.waitForEvent('download');await page.locator('.bottom-nav').getByRole('button',{name:'保存',exact:true}).tap();const saved=await download;
+ await page.evaluate(()=>{navigator.canShare=()=>false;});const download=page.waitForEvent('download');await page.locator('.bottom-nav').getByRole('button',{name:'画像を保存',exact:true}).tap();const saved=await download;
  const png=await readFile(await saved.path()),size=await page.locator('img[alt="手の写真"]').evaluate(i=>({w:i.naturalWidth,h:i.naturalHeight}));assert.equal(png.readUInt32BE(16),size.w);assert.equal(png.readUInt32BE(20),size.h);rows.push({case:'export retains full source resolution',...size});
  await toggle.tap();await page.setViewportSize({width:1280,height:900});assert.equal(await toggle.isVisible(),false);assert.ok((await stage.boundingBox()).height>200);rows.push({case:'desktop remains full size',passed:true});
  await page.setViewportSize({width:390,height:844});

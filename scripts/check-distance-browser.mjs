@@ -33,7 +33,7 @@ try {
  await page.waitForFunction(()=>document.querySelector('.preview-header')?.textContent.includes('合わせ直しました'));
  await page.evaluate(()=>{navigator.canShare=()=>false;});
  let download=page.waitForEvent('download');
- await page.locator('.bottom-nav').getByRole('button',{name:'保存',exact:true}).click();
+ await page.locator('.bottom-nav').getByRole('button',{name:'画像を保存',exact:true}).click();
  assert.equal((await download).suggestedFilename(),'nail-fit-studio.png');
  await page.evaluate(async()=>{
   const image=new Image();image.src='/__qa__/hand.jpg';await image.decode();
@@ -79,7 +79,7 @@ try {
  await capture.click();
  assert.equal(await page.evaluate(()=>globalThis.__stream.active),false);
  download=page.waitForEvent('download');
- await page.locator('.bottom-nav').getByRole('button',{name:'保存',exact:true}).click();
+ await page.locator('.bottom-nav').getByRole('button',{name:'画像を保存',exact:true}).click();
  assert.equal((await download).suggestedFilename(),'nail-fit-studio.png');
  if(option('--screenshot')) await page.screenshot({path:path.resolve(option('--screenshot'))});
  assert.deepEqual(errors,[]);

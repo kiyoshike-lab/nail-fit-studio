@@ -80,3 +80,10 @@ raw証跡：`C:/Users/nlgid/.codex/visualizations/2026/05/16/019e3149-2c2f-7ce2-
 PCはCanvasと横設定パネル、スマホはクイック設定と高さを制限した詳細欄へ整理。選択中の指を明示し、描画／移動切替後に前のブラシ・図形を復帰。選択オブジェクトの数値入力はblur/Enterで1回確定し、入力中のUndoと作品Undoを分離した。描画・座標変換・保存schemaは変更なし。
 
 新UX 10 viewport groups、既存35 navigation/layout groups PASS。既存テストが発見した小画面のCanvas圧迫を修正（操作欄を短縮し、短いvisualViewportではモーダル内をスクロール）。閾値緩和や内部解像度低下はしていない。lint警告も解消。typecheck/test:ux/npm test/build PASS。最終コードで全回帰と画素一致を再実行する。
+
+## Phase4完了
+カメラ未起動／認識初期化失敗時の復帰文を省略せず表示、写真差替えラベルと持続する入力エラー、PNG画像保存と作品保存の区別、選択した指だけの数値調整を追加。NailStudioの変更はPhotoUploaderへのmode propのみ。既存カメラ／写真request revision、認識、追尾、手動補正関数をそのまま利用。
+
+新UX 15 viewport groups、lint/typecheck/npm test/test:ux/build PASS。75画面表示の再監査で横overflow・page error・外部requestは0。保存後の共通nav経由再編集は4→3リンク操作、直接既知のcollectionリンクなら従来どおり2。削除は意図的に1→2操作（確認追加）。写真再選択とPNG download eventも確認。実機／実メール到達は未確認。
+
+新テストの最初の失敗は、既存の初期選択が人差し指なのに親指を仮定したこと、および400ms保存debounceより早い150msでstorageを読んだこと。テストを実仕様に合わせ、選択指を明示し保存値を待機した。製品ロジックやタイミングの閾値は変更しない。

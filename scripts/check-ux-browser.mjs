@@ -1,5 +1,5 @@
 // LOCAL UX regression. Desktop responsive/touch emulation is not phone hardware.
-import assert from'node:assert/strict';import{writeFile,mkdir}from'node:fs/promises';import{pathToFileURL}from'node:url';import path from'node:path';import{importTypescript}from'./lib/import-typescript.mjs';
+import assert from'node:assert/strict';import{writeFile,mkdir,readFile}from'node:fs/promises';import{pathToFileURL}from'node:url';import path from'node:path';import{importTypescript}from'./lib/import-typescript.mjs';
 const args=process.argv.slice(2),opt=n=>args.includes(n)?args[args.indexOf(n)+1]:undefined,base=opt('--base-url'),phase=Number(opt('--phase')??2),rows=[],errors=[];
 assert.ok(['127.0.0.1','localhost'].includes(new URL(base).hostname));
 const{chromium}=await import(pathToFileURL(path.resolve(opt('--playwright-module'))).href),browser=await chromium.launch({channel:'chrome',headless:true});
@@ -33,6 +33,19 @@ for(const width of [320,375,390,430,1280]){
   await number.fill('0.2');await number.press('Control+z');assert.equal(Number(await horizontal.inputValue()),.12);await number.press('Escape');
   const undo=p.getByRole('button',{name:'描画を元に戻す',exact:true});await undo.focus();await undo.press('Control+z');assert.ok(Math.abs(Number(await horizontal.inputValue())-initial)<1e-7,'editor shortcut ran twice or number history split');await undo.press('Control+Shift+z');assert.equal(Number(await horizontal.inputValue()),.12);
   await p.getByRole('button',{name:'制作データを保存',exact:true}).click();rows.push({width,case:'responsive workspace, remembered tools, numeric validation, single undo/redo and text-input shortcut isolation',layout,passed:true});
+ }
+ if(phase>=4){
+  await p.addInitScript(()=>{navigator.mediaDevices.getUserMedia=async()=>{throw new DOMException('QA refused','NotAllowedError');};});
+  await p.goto(base+'/try-on',{waitUntil:'networkidle'});await p.locator('.intro-actions').getByRole('button',{name:'カメラで試す',exact:true}).click();await p.waitForFunction(()=>document.querySelector('.preview-heading span')?.textContent.includes('許可'));
+  const status=await p.locator('.preview-heading span').evaluate(e=>({text:e.textContent,w:e.clientWidth,scroll:e.scrollWidth,whiteSpace:getComputedStyle(e).whiteSpace}));assert.ok(status.w>=status.scroll-1,JSON.stringify(status));assert.equal(status.whiteSpace,'normal');
+  if(opt('--screenshot-dir')&&width===390)await p.screenshot({path:path.join(opt('--screenshot-dir'),'camera-recovery-390.png')});
+  await p.locator('input[type=file]').setInputFiles({name:'hand.jpg',mimeType:'image/jpeg',buffer:await readFile(opt('--image'))});await p.waitForFunction(()=>{const i=document.querySelector('img[alt="手の写真"]');return i?.naturalWidth>0&&i.src.startsWith('blob:')});await p.waitForFunction(()=>!document.querySelector('.loading-badge')&&/自動配置|認識できません/.test(document.querySelector('.preview-header')?.textContent??''));
+  const original=await p.locator('img[alt="手の写真"]').getAttribute('src');assert.ok(await p.locator('.upload-button').innerText().then(t=>t.includes('別の写真')));
+  await p.locator('input[type=file]').setInputFiles({name:'bad.gif',mimeType:'image/gif',buffer:Buffer.from('GIF89a')});await p.locator('.photo-error').waitFor();assert.equal(await p.locator('img[alt="手の写真"]').getAttribute('src'),original);
+  await p.locator('input[type=file]').setInputFiles({name:'hand.jpg',mimeType:'image/jpeg',buffer:await readFile(opt('--image'))});await p.waitForFunction(old=>{const i=document.querySelector('img[alt="手の写真"]');return i?.naturalWidth>0&&i.src!==old},new URL(original,base).href);await p.waitForFunction(()=>!document.querySelector('.loading-badge')&&/自動配置|認識できません/.test(document.querySelector('.preview-header')?.textContent??''));assert.equal(await p.locator('.photo-error').count(),0);
+  await p.locator('.settings-panel').getByText('詳細調整',{exact:true}).click();await p.locator('.settings-panel').getByRole('group',{name:'指を選択',exact:true}).getByRole('button',{name:'親指',exact:true}).click();await p.locator('.manual-number-options>summary').click();await p.waitForTimeout(500);const before=await p.evaluate(()=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1')));const x=p.getByLabel('爪の横位置（%）',{exact:true});await x.fill('45');await x.press('Enter');await p.waitForFunction(()=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1'))?.[0].x===45);const after=await p.evaluate(()=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1')));assert.equal(after[0].x,45);assert.deepEqual(after.slice(1),before.slice(1));
+  await p.evaluate(()=>navigator.canShare=()=>false);if(width<600){const download=p.waitForEvent('download');await p.locator('.bottom-nav').getByRole('button',{name:'画像を保存',exact:true}).click();assert.equal((await download).suggestedFilename(),'nail-fit-studio.png');}
+  assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);rows.push({width,case:'full permission recovery, photo retry preserves source, per-finger numeric adjustment, explicit PNG export',status,passed:true});
  }
  await ctx.close();
 }

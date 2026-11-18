@@ -20,8 +20,8 @@ export function BottomNavigation({ mode, onCamera, onAutoFit, onSave, onSettings
       <button type="button" onClick={onAutoFit} disabled={mode === "empty"}>
         自動補正
       </button>
-      <button type="button" onClick={onSave} disabled={mode === "empty"}>
-        保存
+      <button type="button" aria-label="画像を保存" title="PNG画像を保存・共有" onClick={onSave} disabled={mode === "empty"}>
+        画像保存
       </button>
       <button type="button" onClick={onSettings}>
         設定

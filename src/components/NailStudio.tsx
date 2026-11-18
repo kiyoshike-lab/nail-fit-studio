@@ -1118,7 +1118,7 @@ export function NailStudio() {
 
       <main className="studio-layout">
         <div className="control-column">
-          <PhotoUploader getSourceRevision={() => photoRequestRef.current} onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} onError={(message) => { setStatus(message); notify(message); }} />
+          <PhotoUploader sourceMode={mode} getSourceRevision={() => photoRequestRef.current} onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} onError={(message) => { setStatus(message); notify(message); }} />
           <CameraDeviceSelector
             devices={cameraDevices}
             selectedDeviceId={selectedDeviceId}

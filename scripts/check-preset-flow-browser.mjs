@@ -34,7 +34,7 @@ try{
  await p.getByRole('button',{name:'ネイルあり / 長押しでBefore',exact:true}).click();
  await p.waitForFunction(()=>{const c=document.querySelector('.nail-canvas');return !c.getContext('2d').getImageData(0,0,c.width,c.height).data.some((v,i)=>i%4===3&&v);});
  await p.getByRole('button',{name:'Before表示中',exact:true}).click();await canvasPainted(p);
- await p.evaluate(()=>navigator.canShare=()=>false);const download=p.waitForEvent('download');await p.locator('.bottom-nav').getByRole('button',{name:'保存',exact:true}).click();const dl=await download;
+ await p.evaluate(()=>navigator.canShare=()=>false);const download=p.waitForEvent('download');await p.locator('.bottom-nav').getByRole('button',{name:'画像を保存',exact:true}).click();const dl=await download;
  await dl.saveAs(path.join(out,'photo-preset-export.png'));const png=await readFile(path.join(out,'photo-preset-export.png'));
  assert.ok(png.toString('utf8').includes('NailMaterialCredits'));assert.equal(dl.suggestedFilename(),'nail-fit-studio.png');
  await p.locator('#save-title').click();await p.getByRole('button',{name:'お気に入りに追加',exact:true}).click();

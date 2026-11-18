@@ -1,6 +1,7 @@
 "use client";
 
 import type { NailDesign, NailPose } from "@/lib/types";
+import { EditorNumberField } from "./workshop/EditorNumberField";
 
 type Props = {
   design: NailDesign;
@@ -18,6 +19,7 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
   return (
     <section className="panel-card settings-panel" id="settings-panel" aria-labelledby="settings-title">
       <h2 id="settings-title">設定</h2>
+      <p className="hint">色・形・仕上がりは5本に適用。「詳細調整」は選んだ指の位置・サイズだけを変えます。</p>
 
       <details className="setting-block">
         <summary>基本</summary>
@@ -67,6 +69,7 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
 
       <details className="setting-block">
         <summary>詳細調整</summary>
+        <p className="hint">調整中：{fingers[selectedFinger]}。ほかの指の位置は変わりません。</p>
         <div className="finger-tabs" role="group" aria-label="指を選択">
           {fingers.map((name, index) => (
             <button type="button" key={name} aria-pressed={selectedFinger === index} className={selectedFinger === index ? "is-selected" : ""} onClick={() => onSelectFinger(index)}>
@@ -106,6 +109,13 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
             </label>
           </div>
         )}
+        {nail && <details className="manual-number-options"><summary>位置・サイズを数値で微調整</summary><p className="hint">位置・サイズは元画像に対する比率（%）です。Enterまたは入力欄から移動すると反映します。</p><div className="field-grid">
+          <EditorNumberField label="爪の横位置（%）" value={nail.x} min={0} max={100} onCommit={x=>onNail({x})}/>
+          <EditorNumberField label="爪の縦位置（%）" value={nail.y} min={0} max={100} onCommit={y=>onNail({y})}/>
+          <EditorNumberField label="爪の幅（%）" value={nail.width} min={.3} max={Math.max(14,Math.ceil(nail.width))} onCommit={width=>onNail({width})}/>
+          <EditorNumberField label="自爪の長さ（%）" value={nail.height} min={.2} max={Math.max(30,Math.ceil(nail.height))} onCommit={height=>onNail({height})}/>
+          <EditorNumberField label="爪の角度（度）" value={nail.rotation} min={-180} max={180} onCommit={rotation=>onNail({rotation})}/>
+        </div></details>}
         <p className="hint">爪の輪郭は推定です。カメラでの指別調整はこの端末に保存され、手の向きや大きさに合わせて追従します。</p>
         {onReset && <button type="button" className="secondary" onClick={onReset}>位置を自動で合わせ直す</button>}
       </details>

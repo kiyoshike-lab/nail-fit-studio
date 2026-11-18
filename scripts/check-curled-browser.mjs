@@ -35,7 +35,7 @@ try{
  await page.getByRole('button',{name:'Before表示中',exact:true}).click();
  await page.waitForFunction(()=>{const c=document.querySelector('.nail-canvas'),d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;for(let i=3;i<d.length;i+=4)if(d[i])return true;return false;});
  await page.evaluate(()=>{navigator.canShare=()=>false;});await page.setViewportSize({width:390,height:844});
- const download=page.waitForEvent('download');await page.locator('.bottom-nav').getByRole('button',{name:'保存',exact:true}).click();assert.equal((await download).suggestedFilename(),'nail-fit-studio.png');
+ const download=page.waitForEvent('download');await page.locator('.bottom-nav').getByRole('button',{name:'画像を保存',exact:true}).click();assert.equal((await download).suggestedFilename(),'nail-fit-studio.png');
  await page.evaluate(async()=>{
   const images={};for(const name of ['curled','back','palm']){const im=new Image();im.src='/__curled_qa__/'+name+'.png';await im.decode();images[name]=im;}
   const c=document.createElement('canvas');c.width=640;c.height=480;const ctx=c.getContext('2d');window.__scene='curled';window.__samples=0;

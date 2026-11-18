@@ -80,7 +80,7 @@ try{
  assert.equal(await page.evaluate(()=>window.__streams.at(-1).active),false);
  await page.evaluate(()=>{navigator.canShare=()=>false;clearInterval(window.__cameraTimer);});
  await page.setViewportSize({width:390,height:844});
- const saved=page.waitForEvent('download');await page.locator('.bottom-nav').getByRole('button',{name:'保存',exact:true}).click();
+ const saved=page.waitForEvent('download');await page.locator('.bottom-nav').getByRole('button',{name:'画像を保存',exact:true}).click();
  assert.equal((await saved).suggestedFilename(),'nail-fit-studio.png');assert.deepEqual(errors,[]);
  if(option('--screenshot'))await page.screenshot({path:option('--screenshot')});
  const report={kind:'headless Chrome + real bundled MediaPipe + Canvas.captureStream of a real dorsal photo; not physical camera or recorded motion',photoNails:5,videoDrawnNails:5,mirroredVideoDrawnNails:5,far,near,moved,errors,

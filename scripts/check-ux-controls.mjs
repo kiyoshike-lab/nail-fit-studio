@@ -9,3 +9,7 @@ for(const route of ['favorites','history','collections'])assert.match(await read
 const saved=await readFile('src/components/SavedLooks.tsx','utf8');
 assert.match(saved,/pendingDelete/);assert.match(saved,/試着設定の削除確認/);assert.match(saved,/削除をやめる/);
 console.log('ux-controls: grouped saved navigation and explicit legacy-delete confirmation contracts passed; browser tests verify interaction');
+const{parseEditorNumber:parse}=await importTypescript('src/lib/editorNumber.ts');
+for(const value of ['', ' ', '-', 'NaN', 'Infinity', '1e999', '-.71', '.71'])assert.equal(parse(value,-.7,.7),null);
+for(const[value,expected]of[['-.7',-.7],['.125',.125],['0',0],['.7',.7]])assert.equal(parse(value,-.7,.7),expected);
+console.log('ux-number: finite bounds, empty/transient/non-finite rejection, signed and decimal values passed');

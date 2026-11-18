@@ -75,3 +75,8 @@ raw証跡：`C:/Users/nlgid/.codex/visualizations/2026/05/16/019e3149-2c2f-7ce2-
 
 ## Phase2完了
 保存種別navと選択表示、旧お気に入り/履歴の削除確認・cancel時focus復帰、トップの制作入口、FAQ/フィルタ/sliderの操作領域を追加。既存route/保存key/schemaは変更なし。lint/typecheck/npm test/test:ux/build PASS。新UX browser 5 viewport groups PASS、既存site quality 13ページ×6レイアウト・操作回帰 PASS。外部送信・公開なし。
+
+## Phase3完了
+PCはCanvasと横設定パネル、スマホはクイック設定と高さを制限した詳細欄へ整理。選択中の指を明示し、描画／移動切替後に前のブラシ・図形を復帰。選択オブジェクトの数値入力はblur/Enterで1回確定し、入力中のUndoと作品Undoを分離した。描画・座標変換・保存schemaは変更なし。
+
+新UX 10 viewport groups、既存35 navigation/layout groups PASS。既存テストが発見した小画面のCanvas圧迫を修正（操作欄を短縮し、短いvisualViewportではモーダル内をスクロール）。閾値緩和や内部解像度低下はしていない。lint警告も解消。typecheck/test:ux/npm test/build PASS。最終コードで全回帰と画素一致を再実行する。

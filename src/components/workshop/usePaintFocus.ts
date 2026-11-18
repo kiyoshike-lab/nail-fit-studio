@@ -5,13 +5,15 @@ import { useEffect, useRef } from "react";
 export function usePaintFocus(focused:boolean,onExit:()=>void){
   const root=useRef<HTMLElement>(null);
   useEffect(()=>{
-    const update=()=>{const node=root.current,v=window.visualViewport;if(!node)return;
+    const node=root.current;
+    const update=()=>{const v=window.visualViewport;if(!node)return;
       node.style.setProperty("--paint-visible-height",`${v?.height??innerHeight}px`);
       node.style.setProperty("--paint-visible-width",`${v?.width??innerWidth}px`);
       node.style.setProperty("--paint-visible-top",`${v?.offsetTop??0}px`);
       node.style.setProperty("--paint-visible-left",`${v?.offsetLeft??0}px`);
+      node.dataset.shortViewport=String((v?.height??innerHeight)<500);
     };update();window.addEventListener("resize",update);window.visualViewport?.addEventListener("resize",update);window.visualViewport?.addEventListener("scroll",update);
-    return()=>{window.removeEventListener("resize",update);window.visualViewport?.removeEventListener("resize",update);window.visualViewport?.removeEventListener("scroll",update);};
+    return()=>{window.removeEventListener("resize",update);window.visualViewport?.removeEventListener("resize",update);window.visualViewport?.removeEventListener("scroll",update);if(node)delete node.dataset.shortViewport;};
   },[root]);
   useEffect(()=>{
     if(!focused||!root.current)return;

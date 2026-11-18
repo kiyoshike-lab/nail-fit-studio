@@ -1,6 +1,6 @@
 // LOCAL UX regression. Desktop responsive/touch emulation is not phone hardware.
 import assert from'node:assert/strict';import{writeFile,mkdir,readFile}from'node:fs/promises';import{pathToFileURL}from'node:url';import path from'node:path';import{importTypescript}from'./lib/import-typescript.mjs';
-const args=process.argv.slice(2),opt=n=>args.includes(n)?args[args.indexOf(n)+1]:undefined,base=opt('--base-url'),phase=Number(opt('--phase')??2),rows=[],errors=[];
+const args=process.argv.slice(2),opt=n=>args.includes(n)?args[args.indexOf(n)+1]:undefined,base=opt('--base-url'),phase=Number(opt('--phase')??2),rows=[],errors=[],consoleMessages=[];
 assert.ok(['127.0.0.1','localhost'].includes(new URL(base).hostname));
 const{chromium}=await import(pathToFileURL(path.resolve(opt('--playwright-module'))).href),browser=await chromium.launch({channel:'chrome',headless:true});
 const{defaultDesign,defaultPhotoNails}=await importTypescript('src/lib/defaults.ts');
@@ -8,7 +8,7 @@ const geometry=await importTypescript('src/lib/paintGeometry.ts');
 if(opt('--screenshot-dir'))await mkdir(opt('--screenshot-dir'),{recursive:true});
 try{
 for(const width of [320,375,390,430,1280]){
- const ctx=await browser.newContext({viewport:{width,height:900},hasTouch:width<600}),p=await ctx.newPage();p.on('pageerror',e=>errors.push(e.message));
+ const ctx=await browser.newContext({viewport:{width,height:900},hasTouch:width<600}),p=await ctx.newPage();p.on('pageerror',e=>errors.push(e.message));p.on('console',m=>{if(['error','warning'].includes(m.type()))consoleMessages.push({width,type:m.type(),text:m.text(),location:m.location()})});
  await p.route(/googlesyndication|googletagmanager|google-analytics/,r=>r.abort());
  await p.goto(base+'/',{waitUntil:'networkidle'});assert.equal(await p.getByRole('link',{name:'ネイルを作る',exact:true}).getAttribute('href'),'/create');
  const faq=await p.locator('.faq-section summary').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().height));assert.ok(faq.every(h=>h>=44));
@@ -18,7 +18,7 @@ for(const width of [320,375,390,430,1280]){
  rows.push({width,phase,case:'saved navigation, FAQ/chip targets, selected category, delete cancel/focus/confirm',passed:true});
  if(phase>=3){
   await p.goto(base+'/create',{waitUntil:'networkidle'});await p.getByRole('button',{name:'拡大して絵を描く',exact:true}).click();await p.locator('.paint-canvas').waitFor();
-  const quick=p.getByLabel(/^すぐ使うツール/),modes=p.locator('.paint-mode-controls');
+  const quick=p.getByLabel(/^すぐ使うツール/),modes=p.locator('.paint-mode-controls');assert.ok(Number.parseFloat(await quick.evaluate(e=>getComputedStyle(e).fontSize))>=16);
   await quick.selectOption('brush');await modes.getByRole('button',{name:'移動',exact:true}).click();await modes.getByRole('button',{name:'描く',exact:true}).click();assert.equal(await quick.inputValue(),'brush');
   await quick.selectOption('square');await modes.getByRole('button',{name:'移動',exact:true}).click();await modes.getByRole('button',{name:'図形',exact:true}).click();assert.equal(await quick.inputValue(),'square');
   const layout=await p.locator('.paint-workspace').evaluate(e=>{const a=e.querySelector('.paint-canvas-column').getBoundingClientRect(),b=e.querySelector('.paint-options').getBoundingClientRect(),s=e.querySelector('.paint-options-scroll');return{canvas:a.toJSON(),panel:b.toJSON(),scrollHeight:s.clientHeight,viewport:innerHeight,overflow:document.documentElement.scrollWidth>innerWidth+1};});
@@ -43,11 +43,11 @@ for(const width of [320,375,390,430,1280]){
   const original=await p.locator('img[alt="手の写真"]').getAttribute('src');assert.ok(await p.locator('.upload-button').innerText().then(t=>t.includes('別の写真')));
   await p.locator('input[type=file]').setInputFiles({name:'bad.gif',mimeType:'image/gif',buffer:Buffer.from('GIF89a')});await p.locator('.photo-error').waitFor();assert.equal(await p.locator('img[alt="手の写真"]').getAttribute('src'),original);
   await p.locator('input[type=file]').setInputFiles({name:'hand.jpg',mimeType:'image/jpeg',buffer:await readFile(opt('--image'))});await p.waitForFunction(old=>{const i=document.querySelector('img[alt="手の写真"]');return i?.naturalWidth>0&&i.src!==old},new URL(original,base).href);await p.waitForFunction(()=>!document.querySelector('.loading-badge')&&/自動配置|認識できません/.test(document.querySelector('.preview-header')?.textContent??''));assert.equal(await p.locator('.photo-error').count(),0);
-  await p.locator('.settings-panel').getByText('詳細調整',{exact:true}).click();await p.locator('.settings-panel').getByRole('group',{name:'指を選択',exact:true}).getByRole('button',{name:'親指',exact:true}).click();await p.locator('.manual-number-options>summary').click();await p.waitForTimeout(500);const before=await p.evaluate(()=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1')));const x=p.getByLabel('爪の横位置（%）',{exact:true});await x.fill('45');await x.press('Enter');await p.waitForFunction(()=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1'))?.[0].x===45);const after=await p.evaluate(()=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1')));assert.equal(after[0].x,45);assert.deepEqual(after.slice(1),before.slice(1));
+  await p.locator('.settings-panel').getByText('詳細調整',{exact:true}).click();await p.locator('.settings-panel').getByRole('group',{name:'指を選択',exact:true}).getByRole('button',{name:'親指',exact:true}).click();await p.locator('.manual-number-options>summary').click();await p.waitForTimeout(500);const before=await p.evaluate(()=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1')));const x=p.getByLabel('爪の横位置（%）',{exact:true});assert.ok(Number.parseFloat(await x.evaluate(e=>getComputedStyle(e).fontSize))>=16);await x.fill('45');await x.press('Enter');await p.waitForFunction(()=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1'))?.[0].x===45);const after=await p.evaluate(()=>JSON.parse(localStorage.getItem('nail-fit-studio-next.nails.v1')));assert.equal(after[0].x,45);assert.deepEqual(after.slice(1),before.slice(1));
   await p.evaluate(()=>navigator.canShare=()=>false);if(width<600){const download=p.waitForEvent('download');await p.locator('.bottom-nav').getByRole('button',{name:'画像を保存',exact:true}).click();assert.equal((await download).suggestedFilename(),'nail-fit-studio.png');}
   assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);rows.push({width,case:'full permission recovery, photo retry preserves source, per-finger numeric adjustment, explicit PNG export',status,passed:true});
  }
  await ctx.close();
 }
-assert.deepEqual(errors,[]);await writeFile(opt('--output'),JSON.stringify({phase,kind:'local production Chrome; not physical phone tests',rows,errors},null,2));console.log(`${rows.length} UX viewport groups passed (phase ${phase})`);
+assert.deepEqual(errors,[]);await writeFile(opt('--output'),JSON.stringify({phase,kind:'local production Chrome; not physical phone tests',rows,errors,consoleMessages},null,2));console.log(`${rows.length} UX viewport groups passed (phase ${phase})`);
 }finally{await browser.close();}

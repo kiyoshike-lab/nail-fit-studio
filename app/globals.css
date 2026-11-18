@@ -151,3 +151,5 @@
 
 /* Recovery messages must remain readable; normal live statuses stay compact. */
 .preview-card[data-source-mode=empty] .preview-heading span,.preview-card.has-tracking-error .preview-heading span{white-space:normal;overflow:visible;text-overflow:clip;overflow-wrap:anywhere}.photo-error{padding:10px;border:1px solid var(--blush-deep);border-radius:12px}.manual-number-options>summary{min-height:44px;cursor:pointer}
+@media(max-width:1000px){.paint-quick-controls select{font-size:16px}}
+.editor-number-field input{font-size:16px}

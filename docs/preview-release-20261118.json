@@ -1,0 +1,106 @@
+{
+  "date": "2026-11-18",
+  "renderCandidate": "03a0bca133de7a05e5c4781954c801e33589f902",
+  "previewCommit": "91d01c68fba38bf45dacf1b7009c6a48f6f54336",
+  "previewBranch": "codex/preview-final-03a0bca-20261118",
+  "originalBranch": "codex/nail-tail-latency",
+  "productionBranch": "codex/nail-fit-studio-2",
+  "production": {
+    "id": "dpl_EPQiYDSLxFpRoy9q92vdiWGgmpUd",
+    "sha": "6875816544531bedbe9e21c7150723a9bdaf1e9b",
+    "unchanged": true
+  },
+  "preview": {
+    "id": "dpl_xXJ5WSu6jCaJKJxAjDJuuyLHnGsP",
+    "url": "https://nail-fit-studio-iy97nexbx-kiyoshike-labs-projects.vercel.app",
+    "state": "READY",
+    "target": "preview (API target=null; not production)",
+    "protected": true
+  },
+  "push": {
+    "remote": "https://github.com/kiyoshike-lab/nail-fit-studio.git",
+    "ref": "refs/heads/codex/preview-final-03a0bca-20261118",
+    "commit": "91d01c68fba38bf45dacf1b7009c6a48f6f54336",
+    "productionPush": false,
+    "prCreated": false
+  },
+  "applicationChanges": [
+    "app/layout.tsx",
+    "src/lib/contactConfiguration.ts",
+    "scripts/check-contact.mjs"
+  ],
+  "verdicts": {
+    "code": "GO (reviewed scope)",
+    "automatedTests": "GO",
+    "preview": "CONDITIONAL GO",
+    "productionReadiness": "CONDITIONAL GO",
+    "productionRelease": "NOT AUTHORIZED / NOT PERFORMED",
+    "performance": "Existing CONDITIONAL GO preserved; no new optimization"
+  },
+  "tests": {
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "npmTest": "PASS (38 scripts)",
+    "buildProductionMode": "PASS",
+    "buildPreviewMode": "PASS",
+    "regression": {
+      "executed": 56,
+      "passed": 56,
+      "failed": 0,
+      "unexecuted": 5
+    },
+    "pixels": {
+      "conditions": 217,
+      "changedChannels": 0
+    },
+    "photoParity": {
+      "pairs": 76,
+      "changedChannels": 0
+    },
+    "motion": {
+      "frames": 240,
+      "changedChannels": 0
+    },
+    "localPreviewIsolation": {
+      "checks": 31,
+      "externalRequests": 0,
+      "pageErrors": 0,
+      "realPhotoVisibleNails": 5
+    }
+  },
+  "security": {
+    "productionDependencies": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 0
+    },
+    "allDependencies": {
+      "critical": 0,
+      "high": 9,
+      "moderate": 6,
+      "allDevOnly": true
+    },
+    "secretScan": {
+      "trackedTextFiles": 330,
+      "highSpecificityFindings": 0,
+      "limitations": "Not a comprehensive secret/history or penetration audit"
+    },
+    "projectEnvMutations": 0,
+    "temporaryShareLinksCreated": 0,
+    "protectionWeakened": false
+  },
+  "physicalChecks": {
+    "userReportedSevenItems": true,
+    "deviceAndBrowserDetails": "NOT recorded",
+    "verifiedOnThisPreview": "NOT established",
+    "codexPhysicalTesting": false
+  },
+  "unverified": [
+    "Deployed Preview real-file upload: Edge extension file-URL permission unavailable",
+    "iPhone Safari / Android Chrome per-device camera and tracking",
+    "Real Formspree/Turnstile delivery (intentionally disabled on Preview)",
+    "Real Production ad/GA delivery (Production unchanged)",
+    "Authenticated Preview X-Robots-Tag raw response header"
+  ],
+  "evidenceRoot": "C:/Users/nlgid/.codex/visualizations/2026/05/16/019e3149-2c2f-7ce2-a154-da042e23465d/preview-preflight-20261117"
+}

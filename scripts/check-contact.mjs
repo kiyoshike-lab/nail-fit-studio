@@ -7,6 +7,8 @@ const { handleContact, contactRateLimiter } = await importTypescript('src/lib/co
 const env = {CONTACT_FORMSPREE_FORM_ID:'qaform00',CONTACT_TURNSTILE_SITE_KEY:'qa-public-widget-key',CONTACT_FORMSPREE_TURNSTILE_ENABLED:'true'};
 const config = contactConfiguration(env);
 assert.equal(config.ready,true);
+assert.equal(contactConfiguration({...env,VERCEL_ENV:'production'}).ready,true);
+assert.equal(contactConfiguration({...env,VERCEL_ENV:'preview'}).ready,false,'Preview must not inherit a live contact provider');
 for(const partial of [{},{...env,CONTACT_FORMSPREE_TURNSTILE_ENABLED:''},{...env,CONTACT_FORMSPREE_FORM_ID:'../arbitrary'},{...env,CONTACT_TURNSTILE_SITE_KEY:'1x00000000000000000000AA'}])assert.equal(contactConfiguration(partial).ready,false);
 assert.equal(Object.hasOwn(config,'secretKey'),false,'an unused provider secret should not be collected');
 const valid={name:'',email:'',kind:'bug',message:'端末とブラウザを確認したいです。',website:'',token:'qa-valid-token'};
@@ -26,6 +28,7 @@ assert.equal((await invoke(internal)).status,200,'Next internal localhost URL re
 const noSend=async()=>{throw Error('outbound called before validation');};
 for(const [r,c,status]of[
  [request(),contactConfiguration({}),503],
+ [request(),contactConfiguration({...env,VERCEL_ENV:'preview'}),503],
  [request(valid,{origin:'https://attacker.test'}),config,403],
  [request(valid,{origin:'https://attacker.test','x-forwarded-host':'attacker.test'}),config,403],
  [request(valid,{origin:'http://nail-fit-studio.vercel.app','x-forwarded-proto':'https'}),config,403],

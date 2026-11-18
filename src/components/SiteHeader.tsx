@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { primaryNavigation } from "@/lib/site";
+import { navigationItemActive } from "@/lib/navigation";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -16,7 +17,7 @@ export function SiteHeader() {
         </Link>
         <nav className="desktop-nav" aria-label="メインナビゲーション">
           {primaryNavigation.map((item) => (
-            <Link key={item.href} href={item.href} aria-current={pathname === item.href ? "page" : undefined}>
+            <Link key={item.href} href={item.href} aria-current={navigationItemActive(item.href, pathname) ? "page" : undefined}>
               {item.label}
             </Link>
           ))}

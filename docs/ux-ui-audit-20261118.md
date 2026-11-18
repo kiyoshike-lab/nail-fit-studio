@@ -72,3 +72,6 @@ lint / typecheck / npm test（38 scripts）/ build：PASS。既存 `check-paint-
 56回帰、217描画条件、写真76組、移動拡縮240フレームは**今回の最終改修後に再実行する予定**。前回の成功記録を今回実行済みと記載しない。性能・memoryの前後比較と比較画像の「後」は未作成。スマホ実機/実カメラ、Formspree到達、本番広告配信も未検証。
 
 raw証跡：`C:/Users/nlgid/.codex/visualizations/2026/05/16/019e3149-2c2f-7ce2-a154-da042e23465d/ux-audit-20261118`。`source-inventory.json`、`browser/result.json`、`browser/paint-baseline-1280.png`、`browser/paint-baseline-390.png`、`gesture-baseline.json`、各command logに保存。これらは公開assetではない。
+
+## Phase2完了
+保存種別navと選択表示、旧お気に入り/履歴の削除確認・cancel時focus復帰、トップの制作入口、FAQ/フィルタ/sliderの操作領域を追加。既存route/保存key/schemaは変更なし。lint/typecheck/npm test/test:ux/build PASS。新UX browser 5 viewport groups PASS、既存site quality 13ページ×6レイアウト・操作回帰 PASS。外部送信・公開なし。

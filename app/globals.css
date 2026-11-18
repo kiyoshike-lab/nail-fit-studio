@@ -129,3 +129,10 @@
 .workshop-recovery{padding:16px;margin-bottom:20px;border:1px solid var(--line);border-radius:18px;background:var(--surface)}.workshop-recovery article{padding-block:8px;overflow-wrap:anywhere}.workshop-recovery time{display:block;font-size:.8rem;color:var(--muted)}
 
 .paint-viewport[data-paint-mode=pan] .paint-canvas{cursor:grab}.paint-viewport[data-paint-mode=pan]:active .paint-canvas{cursor:grabbing}.paint-viewport[data-paint-mode=select] .paint-canvas{cursor:default}.paint-viewport[data-paint-mode=place] .paint-canvas{cursor:copy}
+
+/* UX common controls: existing routes and storage remain separate. */
+.saved-navigation{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 24px}.saved-navigation a{display:grid;place-items:center;min-height:48px;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-size:.88rem;font-weight:700;text-align:center}.saved-navigation a[aria-current=page]{background:var(--wine);color:#fff;border-color:var(--wine)}
+.saved-delete-confirm{margin-top:12px;padding:12px;border:1px solid var(--blush-deep);border-radius:14px;background:var(--paper)}.saved-delete-confirm p{margin-top:0}.faq-section summary{min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px}.workshop-editor .finger-tabs button{min-width:44px}.filter-chip{min-width:44px;min-height:44px}
+@media(max-width:560px){.saved-navigation{gap:6px}.saved-navigation a{font-size:.8rem;padding:8px 4px}.guide-tools{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;align-items:stretch}.guide-tools>label{grid-column:1/-1;min-width:0}.guide-tools input{width:100%;min-width:0}.guide-tools .filter-chip{width:100%;min-width:0;min-height:44px;white-space:nowrap;padding:8px 4px;font-size:.82rem}}
+
+.control-column input[type=range],.workshop-editor input[type=range]{min-height:44px}

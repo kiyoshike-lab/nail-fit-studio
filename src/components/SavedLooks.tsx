@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { readSavedLooks, STORAGE_KEYS, tryWriteJson } from "@/lib/storage";
 import type { SavedNailLook, TryOnHistory } from "@/lib/types";
 import { parseDocument } from "@/lib/workshopData";
@@ -13,6 +13,8 @@ export function SavedLooks({ kind }: Props) {
   const key = kind === "favorites" ? STORAGE_KEYS.favorites : STORAGE_KEYS.history;
   const [items, setItems] = useState<(SavedNailLook | TryOnHistory)[]>([]);
   const [notice, setNotice] = useState("");
+  const [pendingDelete, setPendingDelete] = useState<string | null>(null);
+  const deleteTrigger = useRef<HTMLButtonElement | null>(null);
   useEffect(() => {
     const timer = window.setTimeout(() => setItems(readSavedLooks(kind)), 0);
     return () => window.clearTimeout(timer);
@@ -24,13 +26,13 @@ export function SavedLooks({ kind }: Props) {
       setNotice("削除を保存できませんでした。ブラウザの保存設定や空き容量を確認して再試行してください。");
       return;
     }
-    setItems(next); setNotice("削除しました");
+    setItems(next); setPendingDelete(null); setNotice("削除しました");
     window.setTimeout(() => setNotice(""), 2200);
   }
 
   if (!items.length) return <><div className="empty-panel"><span aria-hidden>{kind === "favorites" ? "♡" : "◇"}</span><h2>{kind === "favorites" ? "まだお気に入りはありません" : "まだ試したネイルはありません"}</h2><p>{kind === "favorites" ? "気になるネイルを保存すると、ここからすぐ試せます。" : "試着した設定は、画像を保存したときにここへ残ります。"}</p><Link className="button primary" href="/try-on">{kind === "favorites" ? "ネイルを探す" : "最初のネイルを試す"}</Link></div>{notice && <div className="toast" role="status">{notice}</div>}</>;
 
-  return <><div className="saved-grid">{items.map((item) => { const params = new URLSearchParams({ look:item.id, store:kind }); const art=parseDocument(item.artwork); return <article className="saved-card" key={item.id}>{art?<ArtworkCanvas document={art}/>:<div className="saved-swatch" style={{background:`linear-gradient(145deg,#fff 0%,${item.design.color} 38%,${item.design.tipColor} 100%)`}}/>}<h2>{art?.name ?? `${shapeName(item.design.shape)} × ${patternName(item.design.pattern)}`}</h2><p>{new Date("createdAt" in item ? item.createdAt : item.savedAt).toLocaleDateString("ja-JP")}・{item.design.finish}</p><div className="saved-card-actions"><Link className="button primary" href={`/try-on?${params}`}>試す</Link><button type="button" className="secondary" onClick={() => remove(item.id)}>削除</button></div></article>; })}</div>{notice && <div className="toast" role="status">{notice}</div>}</>;
+  return <><div className="saved-grid">{items.map((item) => { const params = new URLSearchParams({ look:item.id, store:kind }); const art=parseDocument(item.artwork); return <article className="saved-card" key={item.id}>{art?<ArtworkCanvas document={art}/>:<div className="saved-swatch" style={{background:`linear-gradient(145deg,#fff 0%,${item.design.color} 38%,${item.design.tipColor} 100%)`}}/>}<h2>{art?.name ?? `${shapeName(item.design.shape)} × ${patternName(item.design.pattern)}`}</h2><p>{new Date("createdAt" in item ? item.createdAt : item.savedAt).toLocaleDateString("ja-JP")}・{item.design.finish}</p><div className="saved-card-actions"><Link className="button primary" href={`/try-on?${params}`}>試す</Link><button type="button" className="secondary" aria-expanded={pendingDelete === item.id} onClick={event => { deleteTrigger.current = event.currentTarget; setPendingDelete(item.id); }}>削除</button></div>{pendingDelete === item.id && <div className="saved-delete-confirm" role="group" aria-label="試着設定の削除確認"><p>この試着設定を端末から削除します。取り消せません。手の写真は削除しません。</p><div className="saved-card-actions"><button type="button" onClick={() => remove(item.id)}>削除を確定</button><button type="button" className="secondary" onClick={() => { setPendingDelete(null); deleteTrigger.current?.focus({ preventScroll: true }); }}>削除をやめる</button></div></div>}</article>; })}</div>{notice && <div className="toast" role="status">{notice}</div>}</>;
 }
 
 function shapeName(value:string){return ({natural:"ナチュラル",round:"ラウンド",oval:"オーバル",squoval:"スクオバル",almond:"アーモンド",coffin:"バレリーナ",square:"スクエア",stiletto:"スティレット"} as Record<string,string>)[value]??value}

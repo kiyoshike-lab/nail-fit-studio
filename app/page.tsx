@@ -21,6 +21,7 @@ export default function Home() {
           <p className="lead">{SITE_NAME}は、自分の手の写真やカメラで、ネイルの色・形・長さを無料で試せるサイトです。アプリのインストールは不要です。サロンへ行く前に、似合うデザインをチェックできます。</p>
           <div className="hero-actions">
             <Link href="/try-on" className="button primary">自分の手で試す</Link>
+            <Link href="/create" className="button ghost">ネイルを作る</Link>
             <Link href="/diagnosis" className="button ghost">似合うネイルを診断</Link>
           </div>
           <p className="privacy-note">写真はブラウザ内で処理。サーバーには保存しません。</p>

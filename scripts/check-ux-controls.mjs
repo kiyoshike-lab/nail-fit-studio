@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import {readFile}from'node:fs/promises';
+import{importTypescript}from'./lib/import-typescript.mjs';
+const{navigationItemActive:active}=await importTypescript('src/lib/navigation.ts');
+for(const route of ['/favorites','/collections','/history'])assert.equal(active('/favorites',route),true);
+for(const route of ['/','/create','/try-on'])assert.equal(active('/favorites',route),false);
+assert.equal(active('/','/'),true);assert.equal(active('/','/create'),false);assert.equal(active('/guide','/guide/round-nail'),true);
+for(const route of ['favorites','history','collections'])assert.match(await readFile(`app/${route}/page.tsx`,'utf8'),/SavedNavigation/);
+const saved=await readFile('src/components/SavedLooks.tsx','utf8');
+assert.match(saved,/pendingDelete/);assert.match(saved,/試着設定の削除確認/);assert.match(saved,/削除をやめる/);
+console.log('ux-controls: grouped saved navigation and explicit legacy-delete confirmation contracts passed; browser tests verify interaction');

@@ -46,7 +46,10 @@ export function readDiagnosisResult(): DiagnosisResult | null {
     || !Array.isArray(r.tags) || r.tags.length > 20 || !r.tags.every(t => text(t,100))) return null;
   return { title:r.title, description:r.description, completedAt:r.completedAt as string,
     color:r.color, shape:r.shape as DiagnosisResult["shape"], pattern:r.pattern as DiagnosisResult["pattern"],
-    length:r.length as DiagnosisResult["length"], tags:[...r.tags] };
+    length:r.length as DiagnosisResult["length"], tags:[...r.tags],
+    ...(["gloss","sheer","pearl","chrome","sparkle"].includes(r.finish as string) ? {finish:r.finish as DiagnosisResult["finish"]} : {}),
+    ...(["cream","jelly","glitter","metallic","shimmer","sheer"].includes(r.material as string) ? {material:r.material as DiagnosisResult["material"]} : {}),
+    ...(typeof r.tipColor === "string" && /^#[0-9a-f]{6}$/i.test(r.tipColor) ? {tipColor:r.tipColor} : {}) };
 }
 
 export function readSavedLooks(kind: "favorites"): SavedNailLook[];

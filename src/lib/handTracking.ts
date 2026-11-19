@@ -12,6 +12,7 @@ import { assessNailVisibility, NailVisibilityTracker, withNailVisibility } from 
 import { initializeWithDelegateFallback, withTrackingTimeout, type TrackingDelegate } from "./trackingFallback";
 import { VideoFrameGate } from "./videoFrameGate";
 import { configureDiagnosticEnvironment, diagnosticError, isMobileTrackingEnvironment, recordFrameProfile, resetTrackingDiagnostics, updateTrackingDiagnostics, type TrackingHealth } from "./trackingDiagnostics";
+import { withPhotoContourFit } from "./photoContourFit";
 import {
   calculateProcessingSize,
   nextHandDetectionState,
@@ -332,7 +333,7 @@ export function resetHandTrackingEngine() {
   void previousImage?.then(closeEngine).catch(() => undefined);
 }
 
-export async function detectHandNails(image: HTMLImageElement, naturalLength: NaturalNailLength = "auto"): Promise<NailPose[]> {
+async function processHandPhoto(image: HTMLImageElement, naturalLength: NaturalNailLength) {
   const landmarker = await getLandmarker("IMAGE");
   const result = landmarker.detect(image);
   const landmarks = result.landmarks?.[0] as NormalizedLandmark[] | undefined;
@@ -349,10 +350,25 @@ export async function detectHandNails(image: HTMLImageElement, naturalLength: Na
       sourceWidth: image.naturalWidth, sourceHeight: image.naturalHeight, mirrored: false, timestamp: performance.now(),
       sourceMode: "photo",
     });
-    return visibleNails;
+    return { nails: visibleNails, landmarks, pose, fits: fit.diagnostics, width: image.naturalWidth * pixelScale, height: image.naturalHeight * pixelScale };
   } finally {
     refiner.dispose();
   }
+}
+
+export async function detectHandNails(image: HTMLImageElement, naturalLength: NaturalNailLength = "auto"): Promise<NailPose[]> {
+  return (await processHandPhoto(image, naturalLength)).nails;
+}
+
+export async function detectContourFittedNails(image: HTMLImageElement, naturalLength: NaturalNailLength): Promise<NailPose[]> {
+  const { nails, fits, width, height } = await processHandPhoto(image, naturalLength);
+  return withPhotoContourFit(nails, fits, width, height);
+}
+
+export async function inspectHandPhoto(image: HTMLImageElement) {
+  const { nails, landmarks, pose, fits, width, height } = await processHandPhoto(image, "auto");
+  const { summarizeHandPhoto } = await import("./handPhotoObservations");
+  return summarizeHandPhoto(image, landmarks ?? [], pose, withPhotoContourFit(nails, fits, width, height));
 }
 
 async function getLandmarker(mode: "IMAGE" | "VIDEO" = "VIDEO") {

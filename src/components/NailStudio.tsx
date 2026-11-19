@@ -11,11 +11,13 @@ import { NailPreview } from "./NailPreview";
 import { TrackingDiagnosticsPanel } from "./TrackingDiagnosticsPanel";
 import { diagnosticError, diagnosticsEnabled, updateTrackingDiagnostics } from "@/lib/trackingDiagnostics";
 import { PhotoUploader } from "./PhotoUploader";
+import { PhotoFitPanel } from "./PhotoFitPanel";
 import { SavePanel } from "./SavePanel";
 import { SettingsPanel } from "./SettingsPanel";
-import { defaultPhotoNails } from "@/lib/defaults";
+import { defaultDesign, defaultPhotoNails } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
 import { patchNailDesign } from "@/lib/presetTexture";
+import { clearPhotoContourFit } from "@/lib/photoContourFit";
 import { addPresetAttribution } from "@/lib/presetAttribution";
 import { trackingOpacity } from "@/lib/trackingQuality";
 import { applyCalibration, calibrateNail, defaultCalibration, sanitizeCalibration } from "@/lib/nailCalibration";
@@ -25,7 +27,7 @@ import { naturalNailLength } from "@/lib/naturalNailLength";
 import { assetPath, loadDesignPresets } from "@/lib/presets";
 import { readJson, writeJson } from "@/lib/storage";
 import { DESIGN_KEY, NAILS_KEY, readStudioDesign, readStudioNails, studioQueryPatch } from "@/lib/studioSettings";
-import { detectHandNails, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
+import { detectContourFittedNails, detectHandNails, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
 import { trackEvent } from "@/lib/analytics";
 import { initializeTrackerSafely } from "@/lib/trackingFallback";
 import { createLocalId, readSavedLooks, STORAGE_KEYS, tryWriteJson } from "@/lib/storage";
@@ -56,6 +58,9 @@ const CALIBRATION_KEY = "nail-fit-studio-next.calibration.v2";
 export function NailStudio() {
   const [mode, setMode] = useState<SourceMode>("empty");
   const [photoUrl, setPhotoUrl] = useState<string | undefined>();
+  const [photoEntry, setPhotoEntry] = useState(false);
+  const [photoContourEnabled, setPhotoContourEnabled] = useState(false);
+  const photoContour = useRef(false);
   const [status, setStatus] = useState("写真かカメラを入れると、ここに試着が表示されます。");
   const [design, setDesign] = useState<NailDesign>(readStudioDesign);
   const [nails, setNails] = useState<NailPose[]>(readStudioNails);
@@ -119,6 +124,7 @@ export function NailStudio() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const fitTimer = params.get("photoFit") === "1" ? window.setTimeout(() => setPhotoEntry(true), 0) : undefined;
     if (params.has("artwork") || params.has("draft") || params.has("look")) {
       const timer = window.setTimeout(() => {
         const id = params.get("artwork");
@@ -133,15 +139,15 @@ export function NailStudio() {
           setStatus(look?.artwork ? "装飾を復元できませんでした。基本の色・形・長さだけを読み込みました。元の保存は保持しています。" : "保存した色・形・長さ・仕上げを読み込みました。写真かカメラを入れて試せます。");
         } else setStatus("この端末に保存デザインが見つからないか、形式を読み込めません。元のデータは保持しています。");
       }, 0);
-      return () => window.clearTimeout(timer);
+      return () => { window.clearTimeout(timer); window.clearTimeout(fitTimer); };
     }
     const patch = studioQueryPatch(params);
-    if (Object.keys(patch).length === 0) return;
+    if (Object.keys(patch).length === 0) return () => window.clearTimeout(fitTimer);
     const timer = window.setTimeout(() => {
-      setDesign((current) => ({ ...current, ...patch }));
+      setDesign((current) => ({ ...(params.get("recommendation") === "1" ? defaultDesign : current), ...patch }));
       setStatus("診断・保存した条件を試着画面へ反映しました。写真を選んで確認してください。");
     }, 0);
-    return () => window.clearTimeout(timer);
+    return () => { window.clearTimeout(timer); window.clearTimeout(fitTimer); };
   }, []);
 
   useEffect(() => {
@@ -576,6 +582,8 @@ export function NailStudio() {
 
       cameraStartingRef.current = false;
       cameraProtectionUntilRef.current = Date.now() + 2000;
+      // A contour tied to a photo must not leak into camera manual fallback.
+      setNails(clearPhotoContourFit);
       setMode("camera");
       setPhotoUrl(undefined);
       setBefore(false);
@@ -787,7 +795,8 @@ export function NailStudio() {
       detectionImage.onload = async () => {
         try {
           if (photoRequestId !== photoRequestRef.current) return;
-          const detected = await detectHandNails(detectionImage, naturalLengthRef.current);
+          const detected = photoContour.current ? await detectContourFittedNails(detectionImage, naturalLengthRef.current)
+            : await detectHandNails(detectionImage, naturalLengthRef.current);
           if (photoRequestId !== photoRequestRef.current) return;
           if (detected.length) {
             setNails(detected);
@@ -837,7 +846,8 @@ export function NailStudio() {
         const requestId = ++photoRequestRef.current;
         setLoading(true);
         setStatus("自爪の長さの目安を使って合わせ直しています…");
-        void detectHandNails(image, naturalLengthRef.current).then((detected) => {
+        const detector = photoContour.current ? detectContourFittedNails : detectHandNails;
+        void detector(image, naturalLengthRef.current).then((detected) => {
           if (requestId !== photoRequestRef.current) return;
           if (detected.length) {
             setNails(detected);
@@ -950,7 +960,8 @@ export function NailStudio() {
     const requestId = ++photoRequestRef.current;
     setLoading(true);
     try {
-      const detected = await detectHandNails(image, naturalLengthRef.current);
+      const detected = photoContour.current ? await detectContourFittedNails(image, naturalLengthRef.current)
+        : await detectHandNails(image, naturalLengthRef.current);
       if (requestId !== photoRequestRef.current) return;
       if (!detected.length) {
         notify("爪を認識できませんでした。手動調整をお試しください。");
@@ -958,6 +969,7 @@ export function NailStudio() {
       }
       setNails(detected);
       const visible = detected.some((nail) => (nail.visibility ?? 1) > 0.05);
+      if (visible && photoContour.current) setStatus("写真の爪位置を合わせ直しました。必要なら指ごとに調整できます。");
       if (!visible) setStatus(detected.some((nail) => nail.visibilityState === "uncertain")
         ? "手は検出できましたが、向きをまだ判断できません。写真を変えるか、手動調整をお試しください。"
         : "手を検出しました。爪が見えない指は非表示にしています。手動調整も利用できます。");
@@ -1125,6 +1137,22 @@ export function NailStudio() {
             disabled={loading}
             onChange={(deviceId) => { void selectCamera(deviceId); }}
           />
+          {!editorOpen && (mode === "photo" || mode === "empty" && photoEntry) && <PhotoFitPanel
+            mode={mode} enabled={photoContourEnabled} busy={loading} presets={presets} activePresetId={activePresetId} artworkName={artwork?.name}
+            fitted={nails.filter(nail => nail.visibilityState === "visible" && nail.clipContour).length}
+            onFit={next => { photoContour.current = next; setPhotoContourEnabled(next); if (mode === "photo") void autoFit(); }}
+            onPreset={preset => { selectPreset(preset); setBefore(false); }}
+            onText={patch => { updateDesign({ ...defaultDesign, ...patch, shape: design.shape, length: design.length, naturalNailLength: design.naturalNailLength }); setBefore(false); }}
+            onSaved={selection => {
+              const look = "look" in selection ? selection.look : null;
+              const doc = "document" in selection ? selection.document : parseDocument(look?.artwork);
+              const base = doc?.fingers[0].base ?? documentFromLegacy(look?.design)?.fingers[0].base;
+              if (!base) { notify("デザインを読み込めませんでした。現在の写真と設定は保持しています。"); return; }
+              setArtwork(doc); setDesign({ ...base, naturalNailLength: design.naturalNailLength }); setActivePresetId(undefined);
+              setBefore(false);
+              notify(look?.artwork && !doc ? "手描きを読めなかったため、ベース設定だけを反映しました。" : "現在の写真にデザインを反映しました。");
+            }}
+          />}
           <section className="workshop-launch panel-card">
             <h2>{artwork ? artwork.name : "自分でデザインを作る"}</h2>
             <p className="hint">指ごとに色やパーツを編集できます。カメラを止めずに試せます。</p>

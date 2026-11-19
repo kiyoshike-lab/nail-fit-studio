@@ -47,6 +47,12 @@ export function studioQueryPatch(params: URLSearchParams): Partial<NailDesign> {
   if (shape && ["natural","round","oval","squoval","almond","coffin","square","stiletto"].includes(shape)) patch.shape = shape as NailDesign["shape"];
   if (pattern && ["solid","gradient","french","floral","marble","patterned"].includes(pattern)) patch.pattern = pattern as NailDesign["pattern"];
   if (color && /^#[0-9a-f]{6}$/i.test(color)) patch.color = color;
+  if (params.get("recommendation") === "1") {
+    const finish = params.get("finish"), material = params.get("material"), tipColor = params.get("tipColor");
+    if (finish && ["gloss","sheer","pearl","chrome","sparkle"].includes(finish)) patch.finish = finish as NailDesign["finish"];
+    if (material && ["cream","jelly","glitter","metallic","shimmer","sheer"].includes(material)) patch.material = material as NailDesign["material"];
+    if (tipColor && /^#[0-9a-f]{6}$/i.test(tipColor)) patch.tipColor = tipColor;
+  }
   const length = params.get("length");
   if (length === "short" || length === "medium" || length === "long") patch.length = length === "short" ? .84 : length === "long" ? 1.55 : 1.08;
   const natural = params.get("naturalNailLength");

@@ -82,6 +82,9 @@ export type DiagnosisResult = {
   color: string;
   length: "short" | "medium" | "long";
   pattern: NailPattern;
+  finish?: NailFinish;
+  material?: NailMaterial;
+  tipColor?: string;
   tags: string[];
   completedAt: string;
 };

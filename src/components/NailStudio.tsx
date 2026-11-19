@@ -14,7 +14,7 @@ import { PhotoUploader } from "./PhotoUploader";
 import { PhotoFitPanel } from "./PhotoFitPanel";
 import { SavePanel } from "./SavePanel";
 import { SettingsPanel } from "./SettingsPanel";
-import { defaultDesign, defaultPhotoNails } from "@/lib/defaults";
+import { defaultDesign } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
 import { patchNailDesign } from "@/lib/presetTexture";
 import { clearPhotoContourFit } from "@/lib/photoContourFit";
@@ -46,6 +46,8 @@ import {
 import type { DesignPreset, NailDesign, NailPose, SavedNailLook, SourceMode, TryOnHistory } from "@/lib/types";
 import { createDocument, documentFromLegacy, findWorkshopDocument, parseDocument, patchAllBases, readWorkshopDraft } from "@/lib/workshopData";
 import type { DesignDocument } from "@/lib/workshopTypes";
+import { findShowcase, type ShowcaseExample } from "@/lib/showcaseCatalog";
+import { isShowcaseHand, showcaseHand, withShowcaseMasks } from "@/lib/showcaseHands";
 
 const WorkshopEditor = dynamic(() => import("./workshop/WorkshopEditor"), {
   ssr: false, loading: () => <p role="status">デザインエディターを準備しています…</p>,
@@ -58,6 +60,7 @@ const CALIBRATION_KEY = "nail-fit-studio-next.calibration.v2";
 export function NailStudio() {
   const [mode, setMode] = useState<SourceMode>("empty");
   const [photoUrl, setPhotoUrl] = useState<string | undefined>();
+  const sampleActive = isShowcaseHand(photoUrl);
   const [photoEntry, setPhotoEntry] = useState(false);
   const [photoContourEnabled, setPhotoContourEnabled] = useState(false);
   const photoContour = useRef(false);
@@ -124,6 +127,7 @@ export function NailStudio() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    if (findShowcase(params.get("example"))) return;
     const fitTimer = params.get("photoFit") === "1" ? window.setTimeout(() => setPhotoEntry(true), 0) : undefined;
     if (params.has("artwork") || params.has("draft") || params.has("look")) {
       const timer = window.setTimeout(() => {
@@ -192,7 +196,7 @@ export function NailStudio() {
       d.nails.before = before; d.nails.manual = trackingState === "failed"; d.nails.canvasWidth = width; d.nails.canvasHeight = height;
       d.nails.canvasOpacity = Number(getComputedStyle(canvas).opacity);
     });
-    if (now - lastLightingAtRef.current >= 250 && visibleNails.length) {
+    if (!sampleActive && now - lastLightingAtRef.current >= 250 && visibleNails.length) {
       lastLightingAtRef.current = now;
       const source = mode === "camera" ? videoRef.current : imageRef.current;
       const sourceWidth = mode === "camera" ? videoRef.current?.videoWidth : imageRef.current?.naturalWidth;
@@ -214,7 +218,8 @@ export function NailStudio() {
       }
     }
     if (!before && mode !== "empty") {
-      return drawNails(ctx, width, height, visibleNails, design, {
+      const previewNails = sampleActive ? withShowcaseMasks(photoUrl, visibleNails, visibleNails.map((_, i) => artwork?.fingers[i]?.base.length ?? design.length)) : visibleNails;
+      return drawNails(ctx, width, height, previewNails, design, {
         fingers: artwork?.fingers,
         lightParts: artwork?.detail === "light",
         tolerateArtworkFailure: true,
@@ -228,7 +233,7 @@ export function NailStudio() {
         isCurrent: () => drawId === drawIdRef.current,
         opacity: mode === "camera" && trackingState !== "failed"
           ? (hasTrackingPoseRef.current ? trackingOpacity(now - lastDetectedAtRef.current) : 0) : 1,
-        lighting: lightingRef.current,
+        lighting: sampleActive ? neutralLighting : lightingRef.current,
         waitForTexture: mode !== "camera",
         onPainted: count => {
           if (mode !== "camera") return;
@@ -249,7 +254,7 @@ export function NailStudio() {
       if (mode === "camera") updateTrackingDiagnostics(d => { d.nails.rendered = 0; });
       return true;
     }
-  }, [artwork, before, cameraMirrored, design, mode, nails, trackingState]);
+  }, [artwork, before, cameraMirrored, design, mode, nails, photoUrl, sampleActive, trackingState]);
 
   useEffect(() => {
     drawPreviewRef.current = drawPreview;
@@ -823,17 +828,38 @@ export function NailStudio() {
   );
 
   const loadSample = useCallback(() => {
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100">
-      <rect width="900" height="1100" fill="#f7ede8"/>
-      <path fill="#efc1a6" d="M255 1010c-22-140-20-260 5-356 20-77 47-172 72-273 8-34 22-53 44-53 25 0 39 18 39 52V190c0-32 16-48 39-48 24 0 40 16 40 48v174-211c0-31 17-48 40-48 25 0 41 18 41 48v225-176c0-31 17-47 39-47 24 0 40 17 40 47v216-130c0-31 16-48 39-48 24 0 40 18 40 48v241c0 85-22 161-60 243-36 77-79 155-101 238H255Z"/>
-    </svg>`;
-    // The illustration has no real nail boundary: keep its explicit demo poses,
-    // without treating a saved pose as evidence on an uploaded photograph.
-    loadPhoto(`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`, defaultPhotoNails.map((nail) => ({
-      ...nail, visibility: 1, visibilityState: "manual", clipContour: undefined, clipHoles: undefined,
-    })));
-    setStatus("サンプルの手に仮配置しています。実際の爪認識結果ではありません。指ごとに調整できます。");
+    const hand = showcaseHand("rose");
+    loadPhoto(hand.src, hand.nails);
+    setStatus("生成したサンプル写真に配置しています。自分の手写真は「別の写真を撮る / 選ぶ」から。");
   }, [loadPhoto]);
+
+  const exampleRequest = useRef(0);
+  const applyShowcase = useCallback(async (example: ShowcaseExample, demo: boolean, isCurrent: () => boolean = () => true) => {
+    const revision = photoRequestRef.current, request = ++exampleRequest.current;
+    try {
+      const { createShowcaseDesign } = await import("@/lib/showcaseDesigns");
+      if (!isCurrent() || request !== exampleRequest.current || revision !== photoRequestRef.current) return;
+      const doc = createShowcaseDesign(example);
+      const hand = showcaseHand(example.hand);
+      if (demo) loadPhoto(hand.src, hand.nails);
+      setArtwork(doc);
+      setDesign(doc.fingers[0].base);
+      setActivePresetId(undefined);
+      setBefore(false);
+      if (demo) setStatus("生成した手写真に、作例の5本のデザインを反映しました。自分の写真でも試せます。");
+      else notify("作例の5本のデザインを反映しました。");
+    } catch {
+      if (isCurrent() && request === exampleRequest.current) notify("作例を読み込めませんでした。もう一度お試しください。");
+    }
+  }, [loadPhoto, notify]);
+
+  useEffect(() => {
+    const example = findShowcase(new URLSearchParams(window.location.search).get("example"));
+    if (!example) return;
+    let current = true;
+    const timer = window.setTimeout(() => { void applyShowcase(example, true, () => current); }, 0);
+    return () => { current = false; window.clearTimeout(timer); };
+  }, [applyShowcase]);
 
   const updateDesign = useCallback((patch: Partial<NailDesign>) => {
     setActivePresetId(undefined);
@@ -841,6 +867,7 @@ export function NailStudio() {
     setArtwork(current => current ? patchAllBases(current, patch) : null);
     if (patch.naturalNailLength !== undefined) {
       naturalLengthRef.current = naturalNailLength(patch.naturalNailLength);
+      if (sampleActive) return; // Authored demo placement is not an inference result.
       const image = imageRef.current;
       if (mode === "photo" && image?.naturalWidth) {
         const requestId = ++photoRequestRef.current;
@@ -863,7 +890,7 @@ export function NailStudio() {
         });
       }
     }
-  }, [mode, notify]);
+  }, [mode, notify, sampleActive]);
 
   const selectPreset = useCallback((preset: DesignPreset) => {
     setActivePresetId(preset.id);
@@ -956,6 +983,12 @@ export function NailStudio() {
       return;
     }
     const image = imageRef.current;
+    if (sampleActive) {
+      const hand = showcaseHand(photoUrl === "/assets/showcase/linen-hand-v1.webp" ? "linen" : "rose");
+      setNails(hand.nails);
+      notify("サンプル写真専用の位置に戻しました");
+      return;
+    }
     if (!image?.naturalWidth) { notify("写真の読み込みをお待ちください"); return; }
     const requestId = ++photoRequestRef.current;
     setLoading(true);
@@ -979,7 +1012,7 @@ export function NailStudio() {
     } finally {
       if (requestId === photoRequestRef.current) setLoading(false);
     }
-  }, [mode, notify, retryHandTracking, trackingState]);
+  }, [mode, notify, photoUrl, retryHandTracking, sampleActive, trackingState]);
 
   const capturePhoto = useCallback(async () => {
     const video = videoRef.current;
@@ -1034,11 +1067,12 @@ export function NailStudio() {
     }
     const savedNails = mode === "camera" ? liveNailsRef.current ?? nails : nails;
     try {
-      await drawNails(ctx, canvas.width, canvas.height, savedNails, design, {
+      const exportNails = sampleActive ? withShowcaseMasks(photoUrl, savedNails, savedNails.map((_, i) => artwork?.fingers[i]?.base.length ?? design.length)) : savedNails;
+      await drawNails(ctx, canvas.width, canvas.height, exportNails, design, {
         requireTexture: true,
         fingers: artwork?.fingers,
         lightParts: artwork?.detail === "light",
-        lighting: lightingRef.current,
+        lighting: sampleActive ? neutralLighting : lightingRef.current,
         opacity: mode === "camera" && trackingState !== "failed"
           ? (hasTrackingPoseRef.current ? trackingOpacity(performance.now() - lastDetectedAtRef.current) : 0) : 1,
       });
@@ -1077,7 +1111,7 @@ export function NailStudio() {
       notify(`画像を保存しました${historyNotice}`);
       trackEvent("tryon_saved");
     }, "image/png");
-  }, [addHistory, artwork, cameraMirrored, design, mode, nails, notify, trackingState]);
+  }, [addHistory, artwork, cameraMirrored, design, mode, nails, notify, photoUrl, sampleActive, trackingState]);
 
   const selectCamera = useCallback(async (deviceId: string) => {
     selectedDeviceIdRef.current = deviceId;
@@ -1130,7 +1164,8 @@ export function NailStudio() {
 
       <main className="studio-layout">
         <div className="control-column">
-          <PhotoUploader sourceMode={mode} getSourceRevision={() => photoRequestRef.current} onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} onError={(message) => { setStatus(message); notify(message); }} />
+          <PhotoUploader sourceMode={mode} sampleActive={sampleActive}
+            getSourceRevision={() => photoRequestRef.current} onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} onError={(message) => { setStatus(message); notify(message); }} />
           <CameraDeviceSelector
             devices={cameraDevices}
             selectedDeviceId={selectedDeviceId}
@@ -1138,10 +1173,11 @@ export function NailStudio() {
             onChange={(deviceId) => { void selectCamera(deviceId); }}
           />
           {!editorOpen && (mode === "photo" || mode === "empty" && photoEntry) && <PhotoFitPanel
-            mode={mode} enabled={photoContourEnabled} busy={loading} presets={presets} activePresetId={activePresetId} artworkName={artwork?.name}
+            mode={mode} sampleActive={sampleActive} enabled={photoContourEnabled} busy={loading} presets={presets} activePresetId={activePresetId} artworkName={artwork?.name}
             fitted={nails.filter(nail => nail.visibilityState === "visible" && nail.clipContour).length}
             onFit={next => { photoContour.current = next; setPhotoContourEnabled(next); if (mode === "photo") void autoFit(); }}
             onPreset={preset => { selectPreset(preset); setBefore(false); }}
+            onExample={example => { void applyShowcase(example, false); }}
             onText={patch => { updateDesign({ ...defaultDesign, ...patch, shape: design.shape, length: design.length, naturalNailLength: design.naturalNailLength }); setBefore(false); }}
             onSaved={selection => {
               const look = "look" in selection ? selection.look : null;

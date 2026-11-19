@@ -6,6 +6,7 @@ import type { SourceMode } from "@/lib/types";
 
 type Props = {
   sourceMode?: SourceMode;
+  sampleActive?: boolean;
   onPhoto: (url: string) => void;
   onSample: () => void;
   onCamera: () => void;
@@ -15,7 +16,7 @@ type Props = {
 
 const supportedTypes = ["image/jpeg", "image/png", "image/webp"];
 
-export function PhotoUploader({ sourceMode, onPhoto, onSample, onCamera, onError, getSourceRevision }: Props) {
+export function PhotoUploader({ sourceMode, sampleActive, onPhoto, onSample, onCamera, onError, getSourceRevision }: Props) {
   const request = useRef(0);
   const [preparing, setPreparing] = useState(false);
   const [photoError, setPhotoError] = useState("");
@@ -27,6 +28,7 @@ export function PhotoUploader({ sourceMode, onPhoto, onSample, onCamera, onError
       <div>
         <p className="eyebrow">使い方・3ステップ</p>
         <h2 id="start-title">{sourceMode === "photo" ? "別の写真でも試せます" : "手の写真かカメラで試してみましょう"}</h2>
+        {sampleActive && <p className="hint">表示中：生成した手写真（この写真専用の位置を使用）。実際の施術例・自動認識の精度見本ではありません。</p>}
       </div>
       <label className="upload-button">
         {sourceMode === "photo" ? "別の写真を撮る / 選ぶ" : "写真を撮る / 選ぶ"}

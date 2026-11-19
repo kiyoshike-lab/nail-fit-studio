@@ -80,11 +80,11 @@ try{
  await page.waitForTimeout(300);assert.equal(await pixels(),0,'no-hand photo reused saved manual nails');
  await page.setViewportSize({width:1280,height:844});
  await page.getByRole('button',{name:'サンプル写真で試す',exact:true}).click();
- await page.waitForFunction(()=>document.querySelector('.preview-header')?.textContent.includes('サンプルの手に仮配置'));
- await page.waitForTimeout(500);assert.ok(await pixels()>0,'explicit illustration demo lost its sample poses');
+ await page.waitForFunction(()=>document.querySelector('.preview-header')?.textContent.includes('生成したサンプル写真に配置'));
+ await page.waitForTimeout(500);assert.ok(await pixels()>0,'explicit generated hand demo lost its sample poses');
  assert.deepEqual(errors,[]);
  const report={kind:'headless Chrome static-image UI regression, NOT physical camera or labelled nail accuracy',backPixels,palmPixels,palmStates:palmNails.map(n=>n.visibilityState),errors,
-  passed:['320/390/1280 overflow','dorsal rendering','Before/After tap and hold (desktop pointer)','new palm hides saved poses','explicit manual photo adjustment','auto-fit restores gating','PNG download','no-hand photo stays hidden','illustration demo preserved']};
+  passed:['320/390/1280 overflow','dorsal rendering','Before/After tap and hold (desktop pointer)','new palm hides saved poses','explicit manual photo adjustment','auto-fit restores gating','PNG download','no-hand photo stays hidden','generated hand demo preserved']};
  if(option('--output'))await writeFile(option('--output'),JSON.stringify(report,null,2)+'\n');
  console.log(JSON.stringify(report,null,2));
 }finally{await browser.close();}

@@ -3,7 +3,8 @@ import Link from "next/link";
 import { HOME_TITLE, SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 import { buildWebsiteJsonLd, pageMetadata } from "@/lib/seo";
 import { WorkshopResume } from "@/components/workshop/WorkshopResume";
-import { presetReferencePhotoUrls } from "@/lib/presetTextureMap";
+import { showcaseExamples, showcaseImage, showcaseUrl } from "@/lib/showcaseCatalog";
+import { ShowcaseTiles } from "@/components/ShowcaseTiles";
 
 export const metadata = pageMetadata(HOME_TITLE, SITE_DESCRIPTION, "/");
 
@@ -26,11 +27,13 @@ export default function Home() {
           </div>
           <p className="privacy-note">写真はブラウザ内で処理。サーバーには保存しません。</p>
         </div>
-        <div className="hero-visual" aria-label="ネイルデザインのイメージ">
-          <div className="hero-photo hero-photo-main"><Image src={presetReferencePhotoUrls["005"]} alt="上品なネイルデザイン" fill sizes="(max-width: 720px) 76vw, 420px" priority /></div>
-          <div className="hero-photo hero-photo-sub"><Image src={presetReferencePhotoUrls["024"]} alt="華やかなネイルデザイン" fill sizes="180px" /></div>
-          <span className="hero-sticker">試着は<br />無料</span>
-        </div>
+        <figure className="example-hero">
+          <Link href={showcaseUrl(showcaseExamples[3])} prefetch={false}>
+            <Image src={showcaseImage(showcaseExamples[3])} alt="モーヴのマグネット風ネイル5本の試着作例" width={1122} height={1402}
+              sizes="(max-width: 560px) 86vw, (max-width: 900px) 70vw, 490px" preload />
+          </Link>
+          <figcaption>モーヴベルベット｜生成した手写真での試着作例</figcaption>
+        </figure>
       </section>
 
       <WorkshopResume />
@@ -43,22 +46,13 @@ export default function Home() {
         </ol>
       </section>
 
-      <section className="popular-section page-width" aria-labelledby="popular-title">
+      <section className="popular-section page-width" id="nail-examples" aria-labelledby="popular-title">
         <div className="section-heading row"><div><p className="eyebrow">おすすめのネイルデザイン</p><h2 id="popular-title">今、試したいネイル</h2></div><Link href="/try-on">試着画面へ →</Link></div>
-        <div className="design-showcase">
-          {[
-            ["design_001.jpg", "シアーピンクとリボン", "フェミニン"],
-            ["design_016.jpg", "つややかなレッド", "ワンカラー"],
-            ["design_007.jpg", "ピンクとホワイトのアート", "アート"],
-            ["design_025.jpg", "パープルのきらめき", "きらめき"],
-          ].map(([file, name, tag]) => (
-            <Link href="/try-on" className="design-tile" key={file}>
-              <div><Image src={presetReferencePhotoUrls[file.slice(7,10)]} alt={`${name}のネイル見本`} fill sizes="(max-width: 720px) 46vw, 260px" /></div>
-              <span>{tag}</span><strong>{name}</strong>
-            </Link>
-          ))}
-        </div>
-        <p className="hint">写真はデザイン選びの参考です。試着画面では色・形・長さを調整できます。</p>
+        <p className="example-disclosure">生成した手写真に、サイトの試着描画で重ねた作例です。実際の施術写真ではありません。選んだ作例の配色・質感・パーツを5本分そのまま試せます。</p>
+        <ShowcaseTiles examples={showcaseExamples.slice(0,4)} />
+        <details className="example-more"><summary>ほかの作例を見る（8種類）</summary>
+          <ShowcaseTiles examples={showcaseExamples.slice(4)} />
+        </details>
       </section>
 
       <section className="diagnosis-banner page-width">
@@ -99,7 +93,6 @@ export default function Home() {
         <details><summary>試着結果と実際の仕上がりは同じですか？</summary><p>試着結果は色や形を検討するためのイメージです。照明、爪の状態、サロンで使う素材によって実際の色や質感は異なる場合があります。</p></details>
         <details><summary>スマートフォンでも使えますか？</summary><p>iPhone SafariとAndroid Chromeを中心に設計しています。カメラが使えない場合は、撮影済みの写真を選んで試せます。</p></details>
       </section>
-      <p className="hint page-width">参考写真：Souzanemahin、Lelê Breveglieri、15sophieb、Maria Morri、Romina Campos。サイズ調整を行っています。<a href="/assets/preset-materials-v2.json">写真ごとの出典・作者・ライセンス・変更内容</a></p>
     </main>
   );
 }

@@ -18,11 +18,11 @@ try{
  const result=await p.locator('img[alt="手の写真"]').evaluate(i=>({latestWidthExpected:480,actualWidth:i.naturalWidth,latestSelectionRetained:i.naturalWidth===480}));
  if(args.includes('--assert-fixed'))assert.equal(result.latestSelectionRetained,true);
  await p.locator('input[type=file]').setInputFiles(file(0,'slow.png'));await p.getByRole('button',{name:'サンプル写真で試す',exact:true}).click();await p.waitForTimeout(2200);
- result.sampleNotOverwritten=await p.locator('img[alt="手の写真"]').evaluate(i=>i.src.startsWith('data:image/svg+xml'));
+ result.sampleNotOverwritten=await p.locator('img[alt="手の写真"]').evaluate(i=>new URL(i.src).pathname==='/assets/showcase/rose-hand-v1.webp');
  if(args.includes('--assert-fixed'))assert.equal(result.sampleNotOverwritten,true);
  if(args.includes('--assert-fixed')){
   await p.evaluate(()=>{navigator.mediaDevices.getUserMedia=async()=>{throw new DOMException('QA','NotAllowedError');};});await p.locator('input[type=file]').setInputFiles(file(0,'slow.png'));await p.setViewportSize({width:390,height:844});await p.locator('.bottom-nav').getByRole('button',{name:'カメラ',exact:true}).click();await p.waitForTimeout(2200);
-  result.bottomCameraErrorNotOverwritten=await p.locator('img[alt="手の写真"]').evaluate(i=>i.src.startsWith('data:image/svg+xml')&&i.classList.contains('is-hidden'));assert.equal(result.bottomCameraErrorNotOverwritten,true);
+  result.bottomCameraErrorNotOverwritten=await p.locator('img[alt="手の写真"]').evaluate(i=>new URL(i.src).pathname==='/assets/showcase/rose-hand-v1.webp'&&i.classList.contains('is-hidden'));assert.equal(result.bottomCameraErrorNotOverwritten,true);
   await p.setViewportSize({width:1280,height:900});const initial=await p.evaluate(()=>window.__created.length);await p.locator('input[type=file]').setInputFiles(file(0,'slow.png'));await p.getByRole('link',{name:'Nail Fit Studio ホーム',exact:true}).first().click();await p.waitForURL(base+'/');await p.waitForTimeout(2200);
   result.unmountedPhotoUrlsReleased=await p.evaluate(n=>window.__created.slice(n).length>0&&window.__created.slice(n).every(u=>window.__revoked.includes(u)),initial);assert.equal(result.unmountedPhotoUrlsReleased,true);
  }

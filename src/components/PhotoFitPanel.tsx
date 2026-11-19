@@ -7,12 +7,14 @@ import { readSavedLooks } from "@/lib/storage";
 import { readWorkshopDraft, readWorkshopLibrary } from "@/lib/workshopData";
 import type { DesignDocument } from "@/lib/workshopTypes";
 import type { DesignPreset, NailDesign, SavedNailLook, SourceMode } from "@/lib/types";
+import { findShowcase, showcaseExamples, type ShowcaseExample } from "@/lib/showcaseCatalog";
 
 type Props = {
-  mode: SourceMode; enabled: boolean; busy: boolean; fitted: number;
+  mode: SourceMode; sampleActive: boolean; enabled: boolean; busy: boolean; fitted: number;
   presets: DesignPreset[]; activePresetId?: string; artworkName?: string;
   onFit: (next: boolean) => void;
   onPreset: (preset: DesignPreset) => void;
+  onExample: (example: ShowcaseExample) => void;
   onText: (patch: Partial<NailDesign>) => void;
   onSaved: (selection: { document: DesignDocument } | { look: SavedNailLook }) => void;
 };
@@ -30,22 +32,28 @@ function localChoices(): Entry[] {
   ];
 }
 
-export function PhotoFitPanel({ mode, enabled, busy, fitted, presets, activePresetId, artworkName, onFit, onPreset, onText, onSaved }: Props) {
+export function PhotoFitPanel({ mode, sampleActive, enabled, busy, fitted, presets, activePresetId, artworkName, onFit, onPreset, onExample, onText, onSaved }: Props) {
   const [text, setText] = useState("");
   const [feedback, setFeedback] = useState("");
   const [choices, setChoices] = useState<Entry[]>([]);
   return <section className="panel-card photo-fit-panel" aria-labelledby="photo-fit-title">
     <h2 id="photo-fit-title">手写真でネイルを合わせる</h2>
     {mode === "empty" && <p className="hint">上の「写真を撮る / 選ぶ」で自分の手写真を選ぶと、デザインが反映されます。</p>}
-    <details>
+    {!sampleActive && <details>
       <summary>はみ出しが気になるとき</summary>
       <label className="photo-fit-toggle"><input type="checkbox" checked={enabled} disabled={busy} onChange={event => onFit(event.target.checked)} />自爪の輪郭内に収める</label>
       <p className="hint">明瞭な輪郭だけを使います。はみ出しを抑える代わりに、爪先や一部の模様が欠ける場合があります。オフで通常の試着に戻ります。切り替えると爪位置を再推定します。</p>
       {mode === "photo" && enabled && !busy && <p className="hint">追加の輪郭マスク：{fitted}本。必要に応じて設定の「詳細調整」で1本ずつ微調整できます。</p>}
-    </details>
+    </details>}
     <details className="photo-design-picker" onToggle={event => { if (event.currentTarget.open) setChoices(localChoices()); }}>
       <summary>試すデザインを選ぶ</summary>
       <div className="field-grid">
+        <label>5本の作例から選ぶ<select aria-label="5本の作例から選ぶ" value="" onChange={event => {
+          const example = findShowcase(event.target.value);
+          if (example) { onExample(example); setFeedback(""); }
+        }}><option value="" disabled>現在の写真に作例を反映</option>
+          {showcaseExamples.map(example=><option key={example.id} value={example.id}>{example.name}</option>)}
+        </select></label>
         <label>テンプレートから選ぶ<select aria-label="テンプレートから選ぶ" value={activePresetId ?? ""} onChange={event => {
           const preset = presets.find(v=>v.id===event.target.value);
           if (preset) { onPreset(preset); setFeedback(`${preset.name}を反映しました。`); }

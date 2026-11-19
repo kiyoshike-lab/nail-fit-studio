@@ -7,6 +7,8 @@ import { diagnosisQuestions, diagnosisTryOnUrl, finishNames, patternNames, recom
 import { readDiagnosisResult, STORAGE_KEYS, tryWriteJson } from "@/lib/storage";
 import type { DiagnosisResult } from "@/lib/types";
 import { DiagnosisPhotoReview } from "./DiagnosisPhotoReview";
+import { ShowcaseTiles } from "./ShowcaseTiles";
+import { showcaseExamples } from "@/lib/showcaseCatalog";
 
 export function DiagnosisQuiz() {
   const [answers, setAnswers] = useState<string[]>([]);
@@ -64,6 +66,12 @@ export function DiagnosisQuiz() {
       </div>
     </div>
     <DiagnosisPhotoReview result={result} />
+    <details className="panel-card diagnosis-photo-review">
+      <summary>別のデザインを作例から探す</summary>
+      <p className="hint">診断結果とは別の候補です。生成した手写真での試着作例で、実際の施術写真ではありません。</p>
+      <ShowcaseTiles examples={showcaseExamples.slice(0,2)} compact />
+      <Link href="/#nail-examples">全12種類の作例を見る →</Link>
+    </details>
   </section>;
 
   const question = diagnosisQuestions[step] ?? diagnosisQuestions[0];

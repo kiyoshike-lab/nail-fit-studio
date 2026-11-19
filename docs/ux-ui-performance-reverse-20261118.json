@@ -1,0 +1,24 @@
+[
+  {
+    "scenario": "cached",
+    "beforeP50": 1.400000000372529,
+    "afterP50": 1.5,
+    "beforeP90": 1.5,
+    "afterP90": 1.5,
+    "beforeP99": 1.6000000005587935,
+    "afterP99": 1.599999999627471,
+    "beforeFPS": 153.11981625622053,
+    "afterFPS": 155.60165975103737
+  },
+  {
+    "scenario": "continuous-distance",
+    "beforeP50": 1.400000000372529,
+    "afterP50": 1.400000000372529,
+    "beforeP90": 1.5,
+    "afterP90": 1.5,
+    "beforeP99": 1.599999999627471,
+    "afterP99": 1.6000000005587935,
+    "beforeFPS": 141.09347442680777,
+    "afterFPS": 142.50089063056654
+  }
+]

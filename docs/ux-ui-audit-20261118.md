@@ -87,3 +87,6 @@ PCはCanvasと横設定パネル、スマホはクイック設定と高さを制
 新UX 15 viewport groups、lint/typecheck/npm test/test:ux/build PASS。75画面表示の再監査で横overflow・page error・外部requestは0。保存後の共通nav経由再編集は4→3リンク操作、直接既知のcollectionリンクなら従来どおり2。削除は意図的に1→2操作（確認追加）。写真再選択とPNG download eventも確認。実機／実メール到達は未確認。
 
 新テストの最初の失敗は、既存の初期選択が人差し指なのに親指を仮定したこと、および400ms保存debounceより早い150msでstorageを読んだこと。テストを実仕様に合わせ、選択指を明示し保存値を待機した。製品ロジックやタイミングの閾値は変更しない。
+
+## Phase5完了（2026-11-19）
+最終コード2aad40dで56回帰、217描画条件、写真76組、移動拡縮240フレームを再実行し全成功、画素差0。新UX 15グループ、既存navigation35グループも成功。最終目視で保存・Undoの押出しを解消し、主要操作がheaderと下部navの間に収まる検証を追加した。lint/typecheck/npm test/test:ux/build成功。詳細比較・残存課題・実機チェックは `C:/Users/nlgid/Documents/Codex/2026-05-16/new-chat/nail-fit-studio-ux/docs/ux-ui-final-20261118.md` を参照。初期監査欄の「予定」は当時の状態であり、最終結果はこちらを正とする。実機は未検証、push・PR・デプロイなし。

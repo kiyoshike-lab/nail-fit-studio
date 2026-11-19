@@ -1,0 +1,128 @@
+{
+  "startedDateJst": "2026-11-18",
+  "completedDateJst": "2026-11-19",
+  "branch": "codex/ux-ui-improvements",
+  "testedCodeCommit": "2aad40ddca5ab5afc9b40d05a024583b85804837",
+  "regression": {
+    "planned": 61,
+    "executed": 56,
+    "passed": 56,
+    "failed": 0,
+    "unexecuted": 5
+  },
+  "physicalAndExternalUnexecuted": [
+    {
+      "id": "physical-camera",
+      "reason": "No physical webcam/phone manipulation; real bundled model uses local photographs and captureStream"
+    },
+    {
+      "id": "iphone-safari",
+      "reason": "Desktop responsive/CDP touch tests are not iPhone hardware"
+    },
+    {
+      "id": "android-chrome",
+      "reason": "Desktop responsive/CDP touch tests are not Android hardware"
+    },
+    {
+      "id": "provider-delivery-captcha",
+      "reason": "Formspree/Turnstile are mocked locally; no real emails or third-party attack tests"
+    },
+    {
+      "id": "live-ad-analytics",
+      "reason": "Ad/GA tags are checked; real delivery and overlays are blocked in local browser QA"
+    }
+  ],
+  "pixelComparison": {
+    "cases": 217,
+    "changedChannels": 0,
+    "maxDelta": 0
+  },
+  "photoComparison": {
+    "photos": 2,
+    "pairs": 76,
+    "changedChannels": 0,
+    "photoMaterialsPreserved": 47
+  },
+  "motionComparison": {
+    "frames": 240,
+    "changedChannels": 0,
+    "scope": "exact RGBA at 800x1040; per-finger scale/aspect + XY + rotation; repeated readback, NOT timing or physical camera QA"
+  },
+  "newUxBrowserGroups": 15,
+  "pageErrors": [],
+  "consoleNotes": {
+    "previewUiWarnings": 10,
+    "previewUiWarningsKind": "existing MediaPipe OpenGL/ROI",
+    "earlierProductionUiIntentionallyBlockedGaAdResourceErrors": 80,
+    "unhandledExceptions": 0
+  },
+  "commands": {
+    "lint": "PASS",
+    "typecheck": "PASS",
+    "test": "PASS (38 scripts)",
+    "testUx": "PASS",
+    "buildProductionMode": "PASS",
+    "buildPreviewSafetyMode": "PASS"
+  },
+  "unchangedCriticalFiles": 21,
+  "evidenceRoot": "C:/Users/nlgid/.codex/visualizations/2026/05/16/019e3149-2c2f-7ce2-a154-da042e23465d/ux-audit-20261118",
+  "noPush": true,
+  "noPr": true,
+  "noDeployment": true,
+  "localPreviewHttpSmoke": [
+    {
+      "path": "/",
+      "status": 200,
+      "analyticsScriptAbsent": true,
+      "adsScriptAbsent": true
+    },
+    {
+      "path": "/create",
+      "status": 200,
+      "analyticsScriptAbsent": true,
+      "adsScriptAbsent": true
+    },
+    {
+      "path": "/try-on?diagnostics=1",
+      "status": 200,
+      "analyticsScriptAbsent": true,
+      "adsScriptAbsent": true
+    },
+    {
+      "path": "/collections",
+      "status": 200,
+      "analyticsScriptAbsent": true,
+      "adsScriptAbsent": true
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "analyticsScriptAbsent": true,
+      "adsScriptAbsent": true
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "analyticsScriptAbsent": true,
+      "adsScriptAbsent": true
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "analyticsScriptAbsent": true,
+      "adsScriptAbsent": true
+    },
+    {
+      "path": "/googlef4620872cc6591de.html",
+      "status": 200,
+      "analyticsScriptAbsent": true,
+      "adsScriptAbsent": true
+    },
+    {
+      "path": "/ads.txt",
+      "status": 200,
+      "analyticsScriptAbsent": true,
+      "adsScriptAbsent": true
+    }
+  ]
+}

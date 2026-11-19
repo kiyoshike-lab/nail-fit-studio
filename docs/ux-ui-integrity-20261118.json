@@ -1,0 +1,107 @@
+[
+  {
+    "path": "app/layout.tsx",
+    "unchanged": true,
+    "sha256": "0B13AC3AA466940F81C65270ECC06AACDF3D1F318E22E49174077D935A94AEA9"
+  },
+  {
+    "path": "app/robots.ts",
+    "unchanged": true,
+    "sha256": "9919627577AA0B49A2089416608E07E1041A515187AB7F78F323B3DC6C019061"
+  },
+  {
+    "path": "app/sitemap.ts",
+    "unchanged": true,
+    "sha256": "D14BEE124A4F2C2ECD3B8CDFBF4008FA67ABE517438D0FE5A0A1B8FFE7B660D2"
+  },
+  {
+    "path": "public/googlef4620872cc6591de.html",
+    "unchanged": true,
+    "sha256": "5369A8A49953A460B0623B7CF14EB00872AA1D3858AE449BA6E9B68281AA018F"
+  },
+  {
+    "path": "app/ads.txt/route.ts",
+    "unchanged": true,
+    "sha256": "84B42EF6346A1F7AA6CBDA210E3A9BAABD310EC07DCE4C189FDC336F9A31722D"
+  },
+  {
+    "path": "src/lib/googleConfig.ts",
+    "unchanged": true,
+    "sha256": "13DEE60A229B3F5E916ECE9E2AA0D4FBDF4DD9BC30D6E479CD55BF6B71FED5F6"
+  },
+  {
+    "path": "src/components/GoogleAnalytics.tsx",
+    "unchanged": true,
+    "sha256": "F1A0476512FC53981511446E9A3592DE42F3E01DF53BC0E786D046FB565A52E5"
+  },
+  {
+    "path": "src/lib/handTracking.ts",
+    "unchanged": true,
+    "sha256": "982CFEB7F9ED433BD6C63A4AEF8DA3C514719281F41305D26380B26F4E86A748"
+  },
+  {
+    "path": "src/lib/nailRenderer.ts",
+    "unchanged": true,
+    "sha256": "FCFB7568971435DB66D2A69F6CEB6CAB526FB7ACC39A4E3EEF44C72DC29368BD"
+  },
+  {
+    "path": "src/lib/paintRenderer.ts",
+    "unchanged": true,
+    "sha256": "CCB0A760D90EA806CE47B3B938B633D1EFC0B2CDA6F4C09CE5C36A7BF8ADF1D5"
+  },
+  {
+    "path": "src/lib/paintGeometry.ts",
+    "unchanged": true,
+    "sha256": "59BFF800C01986BA35DB46514E43543E351BAE639DC5F73E007398F5F86C77DA"
+  },
+  {
+    "path": "src/components/workshop/PaintCanvas.tsx",
+    "unchanged": true,
+    "sha256": "D063841C59FFEBC54A8971C33A61B41B888BF95D3155C6682FDFA6E408337844"
+  },
+  {
+    "path": "src/lib/storage.ts",
+    "unchanged": true,
+    "sha256": "64AC33F7B7DFB23F46AE70145CD0B1BCAFA3AD9B5559CB44C9773B301FE4BD69"
+  },
+  {
+    "path": "src/lib/workshopData.ts",
+    "unchanged": true,
+    "sha256": "DB047B1D83FAD6895DD1EFFD12CFE9DC1E4D8AB49D553161D62B7EA52D17A691"
+  },
+  {
+    "path": "src/lib/handPose.ts",
+    "unchanged": true,
+    "sha256": "FF2C395F43F83C32E3F97972B10E43B71D1DD30496E364A3C32172189EBF93B4"
+  },
+  {
+    "path": "src/lib/nailVisibility.ts",
+    "unchanged": true,
+    "sha256": "75BB527AE9315CD23B0514D050BB2869819543D92119645530404E002C779521"
+  },
+  {
+    "path": "src/lib/nailSmoothing.ts",
+    "unchanged": true,
+    "sha256": "1B82792E59BB9EFF7BACAE4926E8D6DB6AD00E0F9ACDE17EFA0280D90B76F4B2"
+  },
+  {
+    "path": "src/lib/nailCalibration.ts",
+    "unchanged": true,
+    "sha256": "6ECDB35FD238B5B8D298A7B590DDF09F28E330FF019971649B36153F19B88762"
+  },
+  {
+    "path": "src/lib/contactConfiguration.ts",
+    "unchanged": true,
+    "sha256": "41894B745B80916066651373827975CC92DC055F5CEFAA28F68D599220CAEECF"
+  },
+  {
+    "path": "src/components/ContactForm.tsx",
+    "unchanged": true,
+    "sha256": "D0A9D09A7405780E07CA9E22D10F59BCEA1FB86265FE195EE22AE13C55B831C7"
+  },
+  {
+    "path": "app/api/contact/route.ts",
+    "unchanged": true,
+    "sha256": "1370B772C385DD525F108B5DD03A728EEC39C7AE492ABABABFAD3EBAFC94C5F4"
+  }
+]

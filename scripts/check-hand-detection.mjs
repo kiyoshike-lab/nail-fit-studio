@@ -21,7 +21,7 @@ assert.ok(trackingSource.includes("failedDetections"));
 assert.ok(trackingSource.includes("context.drawImage(video"));
 assert.ok(trackingSource.includes("landmarker.detectForVideo(input"));
 assert.ok(trackingSource.includes("landmarker.detect(image)"));
-assert.ok(trackingSource.includes('FilesetResolver.forVisionTasks(\n    "/mediapipe"'));
+assert.match(trackingSource, /FilesetResolver\.forVisionTasks\(\s*"\/mediapipe"\s*[,)]/);
 assert.ok(trackingSource.includes('"/mediapipe/hand_landmarker.task"'));
 assert.ok(studio.includes("detectPhotoFit(detectionImage, length)"));
 assert.ok(trackingSource.includes("stabilizer.update(fit.nails, frameTime"));

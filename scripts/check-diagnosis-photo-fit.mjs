@@ -1,11 +1,14 @@
 import assert from 'node:assert/strict';
 import {importTypescript} from './lib/import-typescript.mjs';
 
-const {recommendNails,photoComparison,diagnosisTryOnUrl}=await importTypescript('src/lib/nailDiagnosis.ts');
+const {recommendNails,photoComparison,diagnosisTryOnUrl,diagnosisQuestions,differentDiagnosisPattern}=await importTypescript('src/lib/nailDiagnosis.ts');
 const {designFromText}=await importTypescript('src/lib/designSuggestion.ts');
+const {applyTextDesign}=await importTypescript('src/lib/applyTextDesign.ts');
+const {defaultDesign}=await importTypescript('src/lib/defaults.ts');
+const {createDocument,parseDocument}=await importTypescript('src/lib/workshopData.ts');
 const {studioQueryPatch}=await importTypescript('src/lib/studioSettings.ts');
 const {readDiagnosisResult,STORAGE_KEYS}=await importTypescript('src/lib/storage.ts');
-const {withPhotoContourFit,clearPhotoContourFit}=await importTypescript('src/lib/photoContourFit.ts');
+const {withPhotoContourFit,clearPhotoContourFit,choosePhotoFit}=await importTypescript('src/lib/photoContourFit.ts');
 
 const quiet=recommendNails(['mode','cool','office','bold','long','square','restricted','warm-tone']);
 assert.equal(quiet.length,'short');assert.equal(quiet.shape,'squoval');assert.equal(quiet.color,'#cbb7db','selected shade family must win');
@@ -17,6 +20,27 @@ assert.equal(occasion.length,'long');assert.equal(occasion.finish,'sparkle');ass
 assert.notEqual(occasion.color,occasion.tipColor,'French recommendation needs a distinct tip');
 assert.equal(photoComparison(occasion,{view:'palm',tone:'cool',measuredNails:4,nailRatio:1.8}),null);
 assert.equal(photoComparison(occasion,{view:'back',tone:'neutral',measuredNails:3,nailRatio:1.8}).shape,'oval');
+assert.equal(photoComparison(occasion,{view:'back',tone:'warm',measuredNails:0}),null);
+assert.equal(photoComparison(occasion,{view:'back',tone:'cool',measuredNails:3,nailRatio:1.8}).color,occasion.color);
+assert.notEqual(differentDiagnosisPattern(occasion).pattern,occasion.pattern);
+const variantCounts=new Map();
+let answerCount=0;
+function verifyChoices(path=[]){
+ const q=diagnosisQuestions[path.length];
+ if(q){for(const [,option] of q.options)verifyChoices([...path,option]);return;}
+ const r=recommendNails(path),quiet=path[2]==='office'||path[6]==='restricted';
+ assert.ok(/^#[a-f0-9]{6}$/.test(r.color));
+ if(r.pattern!=='solid')assert.notEqual(r.color,r.tipColor);
+ if(quiet){assert.equal(r.finish,'sheer');assert.equal(r.length,'short');}
+ if(r.finish==='pearl')assert.equal(r.material,'shimmer');
+ if(r.finish==='sparkle')assert.equal(r.material,'glitter');
+ const key=[r.color,r.pattern,r.finish,r.shape,r.length].join('/');
+ variantCounts.set(key,(variantCounts.get(key)||0)+1);
+ answerCount++;
+}
+verifyChoices();
+assert.equal(answerCount,97200);
+assert.ok(Math.max(...variantCounts.values())/answerCount<.15,'one option dominates the combinations');
 const url=new URL(diagnosisTryOnUrl(jelly),'https://example.test');
 assert.equal(url.searchParams.get('photoFit'),'1');
 const patch=studioQueryPatch(url.searchParams);
@@ -37,6 +61,23 @@ assert.equal(french.pattern,'french');assert.equal(french.tipColor,'#201c24');as
 assert.equal(french.material,'glitter');assert.ok(Object.hasOwn(french,'textureUrl'));assert.equal(french.textureUrl,undefined);
 assert.equal(designFromText('ピンクのちゅるん系').patch.material,'jelly');
 for(const text of ['', 'どうしよう', 'ラメなし', 'a'.repeat(160)+'黒']) assert.equal(designFromText(text),null);
+for(const text of ['赤と青','フレンチのグラデーション','親指と小指だけハート','右手の薬指だけマグネット','薬指だけ']) assert.equal(designFromText(text),null);
+assert.equal(designFromText('ピンクベージュのちゅるんネイル').patch.color,'#ce9c9c');
+assert.equal(designFromText('韓国風の上品なネイル').patch.color,'#dfbba9');
+assert.deepEqual(designFromText('白グラデーションに小さいストーン').finger,{index:3,base:{},accent:{kind:'crystal',size:.12}});
+const heart=designFromText('親指だけハートを付けたい');
+const magnet=designFromText('薬指だけマグネットネイル');
+const original=createDocument(defaultDesign);
+const onlyHeart=applyTextDesign(heart,defaultDesign,original).artwork;
+assert.ok(parseDocument(onlyHeart));
+assert.deepEqual(onlyHeart.fingers.map(f=>f.parts.length),[1,0,0,0,0]);
+assert.deepEqual(onlyHeart.fingers.map(f=>f.base),original.fingers.map(f=>f.base));
+const magnetic=applyTextDesign(magnet,defaultDesign,onlyHeart).artwork;
+assert.deepEqual(magnetic.fingers.map(f=>f.surface?.kind??null),[null,null,null,'magnet',null]);
+assert.deepEqual(magnetic.fingers[0],onlyHeart.fingers[0]);
+assert.ok(parseDocument(magnetic));
+assert.equal(applyTextDesign(heart,defaultDesign,onlyHeart).artwork.fingers[0].parts.length,1,'repeated application must not duplicate an accent');
+assert.equal(designFromText('全体はシンプルで1本だけ派手にしたい').finger.index,3);
 
 const nail={x:40,y:55,width:8,height:15,rotation:0,visibility:1,visibilityState:'visible'};
 const contour=[{x:36,y:55},{x:44,y:55},{x:44,y:40},{x:36,y:40}];
@@ -51,4 +92,9 @@ for(const rejected of [{...fit,confidence:.7},{...fit,reason:'chromatic-visible-
  assert.strictEqual(withPhotoContourFit([nail],[rejected],640,480)[0],nail);
 }
 assert.strictEqual(withPhotoContourFit([nail],[fit],30,30)[0],nail);
-console.log('diagnosis/photo-fit: scenarios, recommendation URL allowlist, legacy reads, text rules, safe full masks, partial/hidden protection and fallback passed');
+const snapshot={standard:[nail,hidden,partial],clipped:withPhotoContourFit([nail,hidden,partial],[fit,fit,fit],640,480)};
+const edited={...nail,x:48,visibilityState:'manual'};
+assert.strictEqual(choosePhotoFit(snapshot,true,[edited,hidden,partial])[0],edited);
+assert.strictEqual(choosePhotoFit(snapshot,true,[edited,hidden,partial])[1],hidden);
+assert.strictEqual(choosePhotoFit(snapshot,false,[edited,hidden,partial])[2],partial);
+console.log(JSON.stringify({suite:'diagnosis/photo-fit (includes legacy and per-finger text edits)',answerCount,unique:variantCounts.size,mostCommon:Math.max(...variantCounts.values())}));

@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { designFromText } from "@/lib/designSuggestion";
+import { designFromText, type TextDesignSuggestion } from "@/lib/designSuggestion";
 import { readSavedLooks } from "@/lib/storage";
 import { readWorkshopDraft, readWorkshopLibrary } from "@/lib/workshopData";
 import type { DesignDocument } from "@/lib/workshopTypes";
-import type { DesignPreset, NailDesign, SavedNailLook, SourceMode } from "@/lib/types";
+import type { DesignPreset, SavedNailLook, SourceMode } from "@/lib/types";
 import { findShowcase, showcaseExamples, type ShowcaseExample } from "@/lib/showcaseCatalog";
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
   onFit: (next: boolean) => void;
   onPreset: (preset: DesignPreset) => void;
   onExample: (example: ShowcaseExample) => void;
-  onText: (patch: Partial<NailDesign>) => void;
+  onText: (plan: TextDesignSuggestion) => string | undefined;
   onSaved: (selection: { document: DesignDocument } | { look: SavedNailLook }) => void;
 };
 
@@ -42,10 +42,10 @@ export function PhotoFitPanel({ mode, sampleActive, enabled, busy, fitted, prese
     {!sampleActive && <details>
       <summary>はみ出しが気になるとき</summary>
       <label className="photo-fit-toggle"><input type="checkbox" checked={enabled} disabled={busy} onChange={event => onFit(event.target.checked)} />自爪の輪郭内に収める</label>
-      <p className="hint">明瞭な輪郭だけを使います。はみ出しを抑える代わりに、爪先や一部の模様が欠ける場合があります。オフで通常の試着に戻ります。切り替えると爪位置を再推定します。</p>
+      <p className="hint">明瞭な輪郭だけを使います。はみ出しを抑える代わりに、爪先や一部の模様が欠ける場合があります。手動で調整した指はそのままで、オン・オフを比較できます。</p>
       {mode === "photo" && enabled && !busy && <p className="hint">追加の輪郭マスク：{fitted}本。必要に応じて設定の「詳細調整」で1本ずつ微調整できます。</p>}
     </details>}
-    <details className="photo-design-picker" onToggle={event => { if (event.currentTarget.open) setChoices(localChoices()); }}>
+    <details className="photo-design-picker" id="photo-design-picker" onToggle={event => { if (event.currentTarget.open) setChoices(localChoices()); }}>
       <summary>試すデザインを選ぶ</summary>
       <div className="field-grid">
         <label>5本の作例から選ぶ<select aria-label="5本の作例から選ぶ" value="" onChange={event => {
@@ -72,9 +72,9 @@ export function PhotoFitPanel({ mode, sampleActive, enabled, busy, fitted, prese
       <form onSubmit={event => {
         event.preventDefault();
         const suggestion = designFromText(text);
-        if (!suggestion) { setFeedback("色や質感を短く指定してください。例：ピンクのちゅるん、黒フレンチにラメ。デザインは変更していません。"); return; }
-        onText(suggestion.patch);
-        setFeedback(`反映した要素：${suggestion.matched.join("、")}。認識できる語だけを使った近似です。`);
+        if (!suggestion) { setFeedback("指定を解釈できませんでした。1色・1種類の柄か、指を1本指定してください。例：親指だけハート。デザインは変更していません。"); return; }
+        const error = onText(suggestion);
+        setFeedback(error ?? `反映した要素：${suggestion.matched.join("、")}。対応する語から作った近似です。`);
       }}>
         <label>テキストで指定<input maxLength={160} value={text} placeholder="例：黒フレンチにシルバーラメ" onChange={event=>setText(event.target.value)} /></label>
         <button type="submit" className="secondary">テキスト指定を反映</button>
@@ -82,5 +82,14 @@ export function PhotoFitPanel({ mode, sampleActive, enabled, busy, fitted, prese
       {feedback && <p role="status">{feedback}</p>}
       <p className="hint">自作ネイルはこの画面のエディターで編集できます。<Link href="/create" prefetch={false}>制作画面を開く</Link>と、今の写真は引き継ぎません。</p>
     </details>
+    {mode === "photo" && <button type="button" className="secondary photo-adjust-link" onClick={() => {
+      const details = document.getElementById("finger-position-controls");
+      const summary = details?.querySelector("summary");
+      if (details instanceof HTMLDetailsElement && summary) {
+        details.open = true;
+        summary.focus({preventScroll:true});
+        summary.scrollIntoView({block:"start"});
+      }
+    }}>爪の位置・大きさを調整</button>}
   </section>;
 }

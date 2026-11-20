@@ -10,13 +10,14 @@ type Props = {
   onPhoto: (url: string) => void;
   onSample: () => void;
   onCamera: () => void;
+  onRemove: () => void;
   onError: (message: string) => void;
   getSourceRevision: () => number;
 };
 
 const supportedTypes = ["image/jpeg", "image/png", "image/webp"];
 
-export function PhotoUploader({ sourceMode, sampleActive, onPhoto, onSample, onCamera, onError, getSourceRevision }: Props) {
+export function PhotoUploader({ sourceMode, sampleActive, onPhoto, onSample, onCamera, onRemove, onError, getSourceRevision }: Props) {
   const request = useRef(0);
   const [preparing, setPreparing] = useState(false);
   const [photoError, setPhotoError] = useState("");
@@ -74,6 +75,7 @@ export function PhotoUploader({ sourceMode, sampleActive, onPhoto, onSample, onC
       <button type="button" className="secondary" onClick={() => { cancelPreparation(); onCamera(); }}>
         カメラで試す
       </button>
+      {sourceMode === "photo" && <button type="button" className="secondary" onClick={() => { cancelPreparation(); onRemove(); }}>写真だけ外す</button>}
       <p className="hint">きれいに試すコツ：手全体を写し、指を少し開いて、明るい場所で真上から撮影。</p>
       <p className="hint">写真はJPEG・PNG・WebP、10MBまで。カメラはブラウザの許可が必要です。使えないときも写真から試せます。</p>
     </section>

@@ -16,6 +16,8 @@ export const diagnosisQuestions = [
 export const shapeNames: Record<NailShape,string> = { natural:"ナチュラル", round:"ラウンド", oval:"オーバル", squoval:"スクオバル", almond:"アーモンド", coffin:"バレリーナ", square:"スクエア", stiletto:"スティレット" };
 export const finishNames = { gloss:"ツヤ仕上げ", sheer:"透け感のあるジェル", pearl:"パール仕上げ", sparkle:"ラメ仕上げ", chrome:"メタリック仕上げ" } as const;
 export const patternNames = { solid:"ワンカラー", gradient:"グラデーション", french:"フレンチ", patterned:"アート", floral:"フラワー", marble:"マーブル" } as const;
+const lightMix = (hex: string, part: number) => "#" + [1,3,5].map(i =>
+  Math.round(parseInt(hex.slice(i,i+2),16)*(1-part)+255*part).toString(16).padStart(2,"0")).join("");
 
 export function recommendNails(answers: readonly string[]): DiagnosisResult {
   const [style, preferred, scene, intensity, desiredLength, desiredShape, limits, undertone] = answers;
@@ -33,26 +35,31 @@ export function recommendNails(answers: readonly string[]): DiagnosisResult {
   const shade = quiet || pattern === "french" ? palette.light : palette.color;
   const finish = quiet || style === "korean" ? "sheer" : intensity === "bold" && limits === "free" ? "sparkle"
     : occasion && intensity !== "soft" ? "pearl" : "gloss";
-  const material = finish === "sheer" ? "jelly" : finish === "sparkle" ? "glitter" : "cream";
+  const material = finish === "sheer" ? "jelly" : finish === "sparkle" ? "glitter" : finish === "pearl" ? "shimmer" : "cream";
   const useScene = diagnosisQuestions[2].options.find(([,v])=>v===scene)?.[0] ?? "選んだ場面";
-  const colorReason = preferred === "auto" ? "選んだ雰囲気や、なじむと感じる色から候補を選びました。" : "まずは選んだ色の系統を優先しました。";
+  const colorReason = preferred === "auto"
+    ? undertone === "warm-tone" || undertone === "cool-tone" ? "色はおまかせなので、ご自身がなじむと感じる色味を参考にしました。" : "色はおまかせなので、選んだ雰囲気から提案しました。"
+    : "選んだ色の系統を優先しました。";
   const reason = quiet ? `${useScene}で使いやすいよう、同系色でも淡めにし、短め・控えめな光にまとめました。実際の校則や職場のルールも確認してください。`
-    : `${useScene}に向け、${intensity === "bold" ? "選んだ華やかさを活かし" : "派手さを抑えながら"}、${finishNames[finish]}を合わせました。`;
+    : `${useScene}に向け、${style === "korean" ? "韓国風の透け感を優先し" : finish === "sparkle" ? "目立たせたい好みに合わせ" : "光り方を抑えながら"}、${finishNames[finish]}を合わせました。`;
+  const tipColor = pattern === "gradient" ? quiet ? lightMix(shade, .35) : palette.light
+    : pattern === "french" ? palette.color : shade;
   return { title: `${palette.name} × ${patternNames[pattern]}`, description: `${colorReason}${reason}`,
-    shape, color: shade, length, pattern, finish, material, tipColor: quiet ? palette.light : palette.color,
+    shape, color: shade, length, pattern, finish, material, tipColor,
     tags: [shapeNames[shape], length === "short" ? "短め" : length === "long" ? "長め" : "標準", finishNames[finish]],
     completedAt: new Date().toISOString() };
 }
 
 export function photoComparison(result: DiagnosisResult, photo: HandPhotoObservations): DiagnosisResult | null {
-  if (photo.view !== "back") return null;
-  const shape = photo.nailRatio === undefined ? result.shape : photo.nailRatio >= 1.45 ? "oval" : "squoval";
-  // Preserve the explicitly chosen hue; an exposure-dependent photograph
-  // suggests a lighter comparison, never a compulsory replacement.
-  const mix = (hex: string) => "#" + [1,3,5].map(i => Math.round(parseInt(hex.slice(i,i+2),16)*.8+255*.2).toString(16).padStart(2,"0")).join("");
-  if (!photo.tone && shape === result.shape) return null;
-  return { ...result, shape, color: photo.tone ? mix(result.color) : result.color,
-    tipColor: photo.tone && result.tipColor ? mix(result.tipColor) : result.tipColor };
+  if (photo.view !== "back" || photo.nailRatio === undefined || photo.measuredNails < 2) return null;
+  const shape = photo.nailRatio >= 1.45 ? "oval" : "squoval";
+  // Exposure-dependent color is descriptive, not evidence to change the palette.
+  return shape === result.shape ? null : { ...result, shape };
+}
+
+export function differentDiagnosisPattern(result: DiagnosisResult): DiagnosisResult {
+  const pattern = result.pattern === "solid" ? "gradient" : "solid";
+  return { ...result, pattern, tipColor: pattern === "gradient" ? lightMix(result.color, .35) : result.color };
 }
 
 export function diagnosisTryOnUrl(result: DiagnosisResult): string {

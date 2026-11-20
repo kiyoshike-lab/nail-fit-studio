@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { trackEvent } from "@/lib/analytics";
-import { diagnosisQuestions, diagnosisTryOnUrl, finishNames, patternNames, recommendNails, shapeNames } from "@/lib/nailDiagnosis";
+import { diagnosisQuestions, diagnosisTryOnUrl, differentDiagnosisPattern, finishNames, patternNames, recommendNails, shapeNames } from "@/lib/nailDiagnosis";
 import { readDiagnosisResult, STORAGE_KEYS, tryWriteJson } from "@/lib/storage";
 import type { DiagnosisResult } from "@/lib/types";
 import { DiagnosisPhotoReview } from "./DiagnosisPhotoReview";
@@ -46,7 +46,9 @@ export function DiagnosisQuiz() {
     }
   }
 
-  if (result) return <section aria-labelledby="diagnosis-result-title">
+  if (result) {
+    const alternate = differentDiagnosisPattern(result);
+    return <section aria-labelledby="diagnosis-result-title">
     <div className="diagnosis-result">
       <p className="eyebrow">あなたへのおすすめ</p>
       <h2 id="diagnosis-result-title" ref={heading} tabIndex={-1}>{result.title}</h2>
@@ -65,6 +67,13 @@ export function DiagnosisQuiz() {
         }}>もう一度診断</button>
       </div>
     </div>
+    <div className="panel-card diagnosis-photo-review">
+      <h3>同じ色で、柄だけ変えて比べる</h3>
+      <p className="hint">色・形・長さ・質感はそのまま。診断結果を書き換えずに試せます。</p>
+      <Link className="button ghost" href={diagnosisTryOnUrl(alternate)} prefetch={false}>
+        {patternNames[alternate.pattern]}で試す
+      </Link>
+    </div>
     <DiagnosisPhotoReview result={result} />
     <details className="panel-card diagnosis-photo-review">
       <summary>別のデザインを作例から探す</summary>
@@ -73,6 +82,7 @@ export function DiagnosisQuiz() {
       <Link href="/#nail-examples">全12種類の作例を見る →</Link>
     </details>
   </section>;
+  }
 
   const question = diagnosisQuestions[step] ?? diagnosisQuestions[0];
   return <div className="diagnosis-card">

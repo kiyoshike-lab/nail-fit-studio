@@ -17,7 +17,7 @@ import { SettingsPanel } from "./SettingsPanel";
 import { defaultDesign } from "@/lib/defaults";
 import { drawNails } from "@/lib/nailRenderer";
 import { patchNailDesign } from "@/lib/presetTexture";
-import { clearPhotoContourFit } from "@/lib/photoContourFit";
+import { choosePhotoFit, clearPhotoContourFit, type PhotoFitSnapshot } from "@/lib/photoContourFit";
 import { addPresetAttribution } from "@/lib/presetAttribution";
 import { trackingOpacity } from "@/lib/trackingQuality";
 import { applyCalibration, calibrateNail, defaultCalibration, sanitizeCalibration } from "@/lib/nailCalibration";
@@ -27,7 +27,7 @@ import { naturalNailLength } from "@/lib/naturalNailLength";
 import { assetPath, loadDesignPresets } from "@/lib/presets";
 import { readJson, writeJson } from "@/lib/storage";
 import { DESIGN_KEY, NAILS_KEY, readStudioDesign, readStudioNails, studioQueryPatch } from "@/lib/studioSettings";
-import { detectContourFittedNails, detectHandNails, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
+import { detectPhotoFit, resetHandTrackingEngine, startHandTracking, type HandDetectionState, type HandTracker } from "@/lib/handTracking";
 import { trackEvent } from "@/lib/analytics";
 import { initializeTrackerSafely } from "@/lib/trackingFallback";
 import { createLocalId, readSavedLooks, STORAGE_KEYS, tryWriteJson } from "@/lib/storage";
@@ -48,6 +48,7 @@ import { createDocument, documentFromLegacy, findWorkshopDocument, parseDocument
 import type { DesignDocument } from "@/lib/workshopTypes";
 import { findShowcase, type ShowcaseExample } from "@/lib/showcaseCatalog";
 import { isShowcaseHand, showcaseHand, withShowcaseMasks } from "@/lib/showcaseHands";
+import { applyTextDesign } from "@/lib/applyTextDesign";
 
 const WorkshopEditor = dynamic(() => import("./workshop/WorkshopEditor"), {
   ssr: false, loading: () => <p role="status">デザインエディターを準備しています…</p>,
@@ -63,6 +64,7 @@ export function NailStudio() {
   const sampleActive = isShowcaseHand(photoUrl);
   const [photoEntry, setPhotoEntry] = useState(false);
   const [photoContourEnabled, setPhotoContourEnabled] = useState(false);
+  const [canRestorePhotoFit, setCanRestorePhotoFit] = useState(false);
   const photoContour = useRef(false);
   const [status, setStatus] = useState("写真かカメラを入れると、ここに試着が表示されます。");
   const [design, setDesign] = useState<NailDesign>(readStudioDesign);
@@ -109,6 +111,7 @@ export function NailStudio() {
   const calibrationRef = useRef(initialCalibration);
   const photoRequestRef = useRef(0);
   const naturalLengthRef = useRef(naturalNailLength(design.naturalNailLength));
+  const photoFitRef = useRef<{ url: string; fit: PhotoFitSnapshot; length: typeof naturalLengthRef.current } | null>(null);
   const lightingRef = useRef(neutralLighting);
   const lightingCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const lastLightingAtRef = useRef(0);
@@ -196,7 +199,8 @@ export function NailStudio() {
       d.nails.before = before; d.nails.manual = trackingState === "failed"; d.nails.canvasWidth = width; d.nails.canvasHeight = height;
       d.nails.canvasOpacity = Number(getComputedStyle(canvas).opacity);
     });
-    if (!sampleActive && now - lastLightingAtRef.current >= 250 && visibleNails.length) {
+    if (!sampleActive && now - lastLightingAtRef.current >= 250 && visibleNails.length
+      && (mode === "camera" || mode === "photo" && visibleNails.some(nail => (nail.visibility ?? 1) > .05))) {
       lastLightingAtRef.current = now;
       const source = mode === "camera" ? videoRef.current : imageRef.current;
       const sourceWidth = mode === "camera" ? videoRef.current?.videoWidth : imageRef.current?.naturalWidth;
@@ -589,6 +593,10 @@ export function NailStudio() {
       cameraProtectionUntilRef.current = Date.now() + 2000;
       // A contour tied to a photo must not leak into camera manual fallback.
       setNails(clearPhotoContourFit);
+      photoFitRef.current = null;
+      setCanRestorePhotoFit(false);
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+      objectUrlRef.current = null;
       setMode("camera");
       setPhotoUrl(undefined);
       setBefore(false);
@@ -776,8 +784,12 @@ export function NailStudio() {
     (url: string, fixedNails?: NailPose[]) => {
       stopCamera("カメラを停止しました。", "photo-upload");
       const photoRequestId = ++photoRequestRef.current;
+      photoFitRef.current = null;
+      setCanRestorePhotoFit(false);
+      lightingRef.current = neutralLighting;
+      lastLightingAtRef.current = -Infinity;
       if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
-      if (url.startsWith("blob:")) objectUrlRef.current = url;
+      objectUrlRef.current = url.startsWith("blob:") ? url : null;
       setPhotoUrl(url);
       setMode("photo");
       setBefore(false);
@@ -789,6 +801,8 @@ export function NailStudio() {
       notify("写真を準備しました");
       trackEvent("photo_uploaded");
       if (fixedNails?.length === 5) {
+        photoFitRef.current = { url, length: naturalLengthRef.current, fit: { standard: fixedNails, clipped: fixedNails } };
+        setCanRestorePhotoFit(true);
         setNails(fixedNails);
         setLoading(false);
         setStatus("撮影時の爪位置と指別調整を引き継ぎました。自動補正で認識し直すこともできます。");
@@ -800,9 +814,12 @@ export function NailStudio() {
       detectionImage.onload = async () => {
         try {
           if (photoRequestId !== photoRequestRef.current) return;
-          const detected = photoContour.current ? await detectContourFittedNails(detectionImage, naturalLengthRef.current)
-            : await detectHandNails(detectionImage, naturalLengthRef.current);
+          const length = naturalLengthRef.current;
+          const fit = await detectPhotoFit(detectionImage, length);
           if (photoRequestId !== photoRequestRef.current) return;
+          photoFitRef.current = { url, fit, length };
+          setCanRestorePhotoFit(fit.standard.length === 5);
+          const detected = choosePhotoFit(fit, photoContour.current);
           if (detected.length) {
             setNails(detected);
             const visible = detected.some((nail) => (nail.visibility ?? 1) > 0.05);
@@ -821,7 +838,12 @@ export function NailStudio() {
           if (photoRequestId === photoRequestRef.current) setLoading(false);
         }
       };
-      detectionImage.onerror = () => { if (photoRequestId === photoRequestRef.current) setLoading(false); };
+      detectionImage.onerror = () => {
+        if (photoRequestId === photoRequestRef.current) {
+          setLoading(false);
+          setStatus("写真を読み込めませんでした。別の画像を選んでください。");
+        }
+      };
       detectionImage.src = url;
     },
     [notify, stopCamera],
@@ -871,13 +893,17 @@ export function NailStudio() {
       const image = imageRef.current;
       if (mode === "photo" && image?.naturalWidth) {
         const requestId = ++photoRequestRef.current;
+        setCanRestorePhotoFit(false);
         setLoading(true);
         setStatus("自爪の長さの目安を使って合わせ直しています…");
-        const detector = photoContour.current ? detectContourFittedNails : detectHandNails;
-        void detector(image, naturalLengthRef.current).then((detected) => {
+        const length = naturalLengthRef.current, url = image.getAttribute("src");
+        void detectPhotoFit(image, length).then((fit) => {
           if (requestId !== photoRequestRef.current) return;
+          const detected = choosePhotoFit(fit, photoContour.current);
           if (detected.length) {
-            setNails(detected);
+            if (url) photoFitRef.current = { url, fit, length };
+            setCanRestorePhotoFit(Boolean(url) && fit.standard.length === 5);
+            setNails(current => choosePhotoFit(fit, photoContour.current, current));
             setStatus("自爪の長さを合わせ直しました。根元を動かさず爪先方向へ調整できます。");
             notify("自爪の長さの目安を反映しました");
           } else {
@@ -962,6 +988,37 @@ export function NailStudio() {
     updateNail(selectedFinger, patch);
   }, [selectedFinger, updateNail]);
 
+  const togglePhotoContour = (enabled: boolean) => {
+    photoContour.current = enabled;
+    setPhotoContourEnabled(enabled);
+    const cached = photoFitRef.current;
+    if (mode === "photo" && !sampleActive && cached?.url === photoUrl && cached?.length === naturalLengthRef.current) {
+      if (cached.fit.standard.length) setNails(current => choosePhotoFit(cached.fit, enabled, current));
+    }
+  };
+  const resetPhotoFinger = () => {
+    const cached = photoFitRef.current;
+    if (cached?.url !== photoUrl || !cached || cached.length !== naturalLengthRef.current) return;
+    const original = choosePhotoFit(cached.fit, photoContour.current)[selectedFinger];
+    if (!original) return;
+    setNails(current => current.map((nail, i) => i === selectedFinger ? original : nail));
+    notify("選んだ指だけ、最初の位置に戻しました");
+  };
+  const discardPhoto = () => {
+    ++photoRequestRef.current;
+    photoFitRef.current = null;
+    setCanRestorePhotoFit(false);
+    if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+    objectUrlRef.current = null;
+    setPhotoUrl(undefined);
+    setMode("empty");
+    setLoading(false);
+    setBefore(false);
+    setNails(current => current.map(nail => ({ ...nail, visibility: 0, visibilityState: "uncertain", clipContour: undefined, clipHoles: undefined })));
+    setStatus("写真を外しました。デザインはそのままです。");
+    notify("写真を外しました");
+  };
+
   const autoFit = useCallback(async () => {
     if (mode === "empty") {
       setStatus("先に写真かカメラを入れてください。");
@@ -993,9 +1050,12 @@ export function NailStudio() {
     const requestId = ++photoRequestRef.current;
     setLoading(true);
     try {
-      const detected = photoContour.current ? await detectContourFittedNails(image, naturalLengthRef.current)
-        : await detectHandNails(image, naturalLengthRef.current);
+      const length = naturalLengthRef.current, url = image.getAttribute("src");
+      const fit = await detectPhotoFit(image, length);
       if (requestId !== photoRequestRef.current) return;
+      if (url) photoFitRef.current = { url, fit, length };
+      setCanRestorePhotoFit(Boolean(url) && fit.standard.length === 5);
+      const detected = choosePhotoFit(fit, photoContour.current);
       if (!detected.length) {
         notify("爪を認識できませんでした。手動調整をお試しください。");
         return;
@@ -1165,7 +1225,8 @@ export function NailStudio() {
       <main className="studio-layout">
         <div className="control-column">
           <PhotoUploader sourceMode={mode} sampleActive={sampleActive}
-            getSourceRevision={() => photoRequestRef.current} onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera} onError={(message) => { setStatus(message); notify(message); }} />
+            getSourceRevision={() => photoRequestRef.current} onPhoto={loadPhoto} onSample={loadSample} onCamera={startCamera}
+            onRemove={discardPhoto} onError={(message) => { setStatus(message); notify(message); }} />
           <CameraDeviceSelector
             devices={cameraDevices}
             selectedDeviceId={selectedDeviceId}
@@ -1175,10 +1236,16 @@ export function NailStudio() {
           {!editorOpen && (mode === "photo" || mode === "empty" && photoEntry) && <PhotoFitPanel
             mode={mode} sampleActive={sampleActive} enabled={photoContourEnabled} busy={loading} presets={presets} activePresetId={activePresetId} artworkName={artwork?.name}
             fitted={nails.filter(nail => nail.visibilityState === "visible" && nail.clipContour).length}
-            onFit={next => { photoContour.current = next; setPhotoContourEnabled(next); if (mode === "photo") void autoFit(); }}
+            onFit={togglePhotoContour}
             onPreset={preset => { selectPreset(preset); setBefore(false); }}
             onExample={example => { void applyShowcase(example, false); }}
-            onText={patch => { updateDesign({ ...defaultDesign, ...patch, shape: design.shape, length: design.length, naturalNailLength: design.naturalNailLength }); setBefore(false); }}
+            onText={plan => {
+              const next = applyTextDesign(plan, design, artwork);
+              if ("error" in next) return next.error;
+              ++exampleRequest.current;
+              setActivePresetId(undefined);
+              setDesign(next.design); setArtwork(next.artwork); setBefore(false);
+            }}
             onSaved={selection => {
               const look = "look" in selection ? selection.look : null;
               const doc = "document" in selection ? selection.document : parseDocument(look?.artwork);
@@ -1209,6 +1276,7 @@ export function NailStudio() {
             onDesign={updateDesign}
             onSelectFinger={setSelectedFinger}
             onNail={updateSelectedNail}
+            onResetFinger={mode === "photo" && !loading && canRestorePhotoFit && nails[selectedFinger]?.visibilityState === "manual" ? resetPhotoFinger : undefined}
             onReset={() => { void autoFit(); }}
           />}
           <SavePanel canSave={mode !== "empty"} onSave={saveImage} onCapture={capturePhoto} onAutoFit={autoFit} onFavorite={saveFavorite} isCamera={mode === "camera"} />

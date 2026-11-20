@@ -12,7 +12,7 @@ import { assessNailVisibility, NailVisibilityTracker, withNailVisibility } from 
 import { initializeWithDelegateFallback, withTrackingTimeout, type TrackingDelegate } from "./trackingFallback";
 import { VideoFrameGate } from "./videoFrameGate";
 import { configureDiagnosticEnvironment, diagnosticError, isMobileTrackingEnvironment, recordFrameProfile, resetTrackingDiagnostics, updateTrackingDiagnostics, type TrackingHealth } from "./trackingDiagnostics";
-import { withPhotoContourFit } from "./photoContourFit";
+import { withPhotoContourFit, type PhotoFitSnapshot } from "./photoContourFit";
 import {
   calculateProcessingSize,
   nextHandDetectionState,
@@ -360,9 +360,9 @@ export async function detectHandNails(image: HTMLImageElement, naturalLength: Na
   return (await processHandPhoto(image, naturalLength)).nails;
 }
 
-export async function detectContourFittedNails(image: HTMLImageElement, naturalLength: NaturalNailLength): Promise<NailPose[]> {
+export async function detectPhotoFit(image: HTMLImageElement, naturalLength: NaturalNailLength): Promise<PhotoFitSnapshot> {
   const { nails, fits, width, height } = await processHandPhoto(image, naturalLength);
-  return withPhotoContourFit(nails, fits, width, height);
+  return { standard: nails, clipped: withPhotoContourFit(nails, fits, width, height) };
 }
 
 export async function inspectHandPhoto(image: HTMLImageElement) {

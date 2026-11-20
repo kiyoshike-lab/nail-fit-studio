@@ -11,11 +11,12 @@ type Props = {
   onSelectFinger: (index: number) => void;
   onNail: (patch: Partial<NailPose>) => void;
   onReset?: () => void;
+  onResetFinger?: () => void;
 };
 
 const fingers = ["親指", "人差し指", "中指", "薬指", "小指"];
 
-export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelectFinger, onNail, onReset }: Props) {
+export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelectFinger, onNail, onReset, onResetFinger }: Props) {
   return (
     <section className="panel-card settings-panel" id="settings-panel" aria-labelledby="settings-title">
       <h2 id="settings-title">設定</h2>
@@ -67,7 +68,7 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
         <p className="hint">透明感・艶・サイド影・根元なじみをまとめて調整します。</p>
       </details>
 
-      <details className="setting-block">
+      <details className="setting-block" id="finger-position-controls">
         <summary>詳細調整</summary>
         <p className="hint">調整中：{fingers[selectedFinger]}。ほかの指の位置は変わりません。</p>
         <div className="finger-tabs" role="group" aria-label="指を選択">
@@ -117,6 +118,7 @@ export function SettingsPanel({ design, selectedFinger, nail, onDesign, onSelect
           <EditorNumberField label="爪の角度（度）" value={nail.rotation} min={-180} max={180} onCommit={rotation=>onNail({rotation})}/>
         </div></details>}
         <p className="hint">爪の輪郭は推定です。カメラでの指別調整はこの端末に保存され、手の向きや大きさに合わせて追従します。</p>
+        {onResetFinger && <button type="button" className="secondary" onClick={onResetFinger}>この指だけ元の位置に戻す</button>}
         {onReset && <button type="button" className="secondary" onClick={onReset}>位置を自動で合わせ直す</button>}
       </details>
       <details className="setting-block">

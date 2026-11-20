@@ -4,6 +4,10 @@ import { importTypescript } from "./lib/import-typescript.mjs";
 
 const previousEnv=process.env.NODE_ENV;
 process.env.NODE_ENV="production";
+// RAF times in this test are simulated. Use the same time base for inference
+// budgeting so a busy CI host cannot skip the sole hand-swap test frame.
+let clock=0;
+Object.defineProperty(performance,"now",{configurable:true,value:()=>clock});
 const frames=new Map();
 let frameId=0;
 const logs=[];
@@ -80,6 +84,7 @@ const stream={active:true};
 let naturalLength="auto";
 const tracker=await tracking.startHandTracking(video,(nails,detected)=>updates.push({nails,detected}),false,()=>failed++,undefined,()=>naturalLength);
 function tick(timestamp){
+  clock=timestamp;
   video.currentTime+=.05;
   const callbacks=[...frames.values()];
   frames.clear();
@@ -102,6 +107,12 @@ assert.equal(updates.at(-1).detected,true,"re-detection failed");
 
 const photoNails=await tracking.detectHandNails({naturalWidth:1280,naturalHeight:720});
 assert.equal(photoNails.length,5);
+const imageEngine=instances.find(instance=>instance.options.runningMode==="IMAGE");
+const callsBeforeSnapshot=imageEngine.imageCalls;
+const photoFit=await tracking.detectPhotoFit({naturalWidth:1280,naturalHeight:720},"auto");
+assert.deepEqual(photoFit.standard,photoNails);
+assert.equal(photoFit.clipped.length,5);
+assert.equal(imageEngine.imageCalls,callsBeforeSnapshot+1,"normal and clipped fits must share a single PHOTO inference");
 const longPhotoNails=await tracking.detectHandNails({naturalWidth:1280,naturalHeight:720},"long");
 longPhotoNails.forEach((nail,index)=>{
   assert.equal(nail.x,photoNails[index].x);
